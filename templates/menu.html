@@ -1,0 +1,27 @@
+<div class="main-menu">
+	<header class="header">
+		<a href="{% url 'detection:index' %}" class="logo" style="text-align: left; padding-left: 20px;">FarmVision</a>
+		<button type="button" class="button-close fa fa-times js__menu_close"></button>
+	</header>
+	<div class="content">
+		<div class="navigation">
+			<ul class="menu js__accordion">
+				<li>
+					<a class="waves-effect" href="{% url 'detection:index' %}"><i class="menu-icon fa-solid fa-house"></i><span>Ana Panel</span></a>
+				</li>
+				<li>
+					<a class="waves-effect" href="{% url 'detection:multi_detection_image' %}"><i class="menu-icon fa-solid fa-tree"></i><span>Çoklu Görüntü Sayımı</span></a>
+				</li>
+				<li>
+					<a class="waves-effect" href="{% url 'dron_map:projects' %}"><i class="menu-icon fa-sharp fa-regular fa-tractor"></i><span>Drone Projeleri</span></a>
+				</li>
+				<li>
+					<a class="waves-effect" href="{% url 'reports:list' %}"><i class="menu-icon fa-solid fa-file-text"></i><span>Raporlar</span></a>
+				</li>
+				<li>
+					<a class="waves-effect" href="{% url 'detection:system_monitoring' %}"><i class="menu-icon fa-solid fa-chart-line"></i><span>Sistem İzleme</span></a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

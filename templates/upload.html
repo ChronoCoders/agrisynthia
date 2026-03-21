@@ -1,0 +1,22 @@
+{% load static %}
+<div class="col-lg-6 col-12">
+	<div class="box-content">
+		<h4 class="box-title">Orijinal Görsel</h4>
+		<div class="row">
+			<div class="col-lg-3 col-6">
+				<img src="{% static image %}" alt="Original" style="height: 100%; width: 100%; display: block;">
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="col-lg-6 col-12">
+	<div class="box-content">
+		<h4 class="box-title">Tespit Sonucu</h4>
+		<div class="row">
+			<div class="col-lg-3 col-6">
+				<img src="{% static image_detection %}" alt="Detection Result" style="height: 100%; width: 100%; display: block;">
+			</div>
+		</div>
+	</div>
+</div>

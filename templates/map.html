@@ -1,0 +1,601 @@
+{% extends 'header.html' %}
+{% block body %}
+      {% load static %}
+      {% include 'menu3.html' with picture=projes.picture%}
+      {% include 'navbar.html' with picture=userss.picture  orthophoto=orthophoto static=static images_info=images_info%}
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+      crossorigin=""/>
+      <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+      crossorigin=""></script>
+      
+      <script src="https://unpkg.com/georaster"></script>
+      <script src="https://unpkg.com/proj4"></script>
+      <script src="https://unpkg.com/georaster-layer-for-leaflet"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #27ae60;
+            --danger-color: #c0392b;
+            --warning-color: #f39c12;
+            --light-bg: rgba(255, 255, 255, 0.95);
+        }
+        
+        #map {
+            width: 100%;
+            height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .leaflet-container {
+            width: 100%;
+            height: 90vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .dashboard-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: 300px;
+            background: var(--light-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-content {
+            padding: 15px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--accent-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateX(5px);
+        }
+
+        .stat-card.danger { border-left-color: var(--danger-color); }
+        .stat-card.warning { border-left-color: var(--warning-color); }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background: var(--accent-color);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .action-btn:hover {
+            background: #219150;
+        }
+
+        .chart-container {
+            margin: 15px 0;
+            height: 200px;
+            position: relative;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+    </style>
+        
+    <div id="wrapper">
+        <div class="main-content">
+            {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <strong>Hata!</strong> {{ error }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Kapat">
+                        <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+            {% endif %}
+            
+            <div class="row small-spacing" style="position: relative;">
+                <div id="map"></div>
+                
+                <div class="dashboard-panel">
+                    <div class="dashboard-header">
+                        <span>Arazi Analiz Raporu</span>
+                        <i class="fa fa-chart-pie"></i>
+                    </div>
+                    
+                    <div class="dashboard-content">
+                        <button class="action-btn" onclick="requestDroneReport({{ projes.id }}, ['pdf', 'xlsx'])">
+                            <i class="fa fa-file-pdf-o"></i> Detaylı Rapor Oluştur
+                        </button>
+
+                        <div class="chart-container">
+                            <canvas id="stressChart"></canvas>
+                        </div>
+
+                        <div class="stat-card danger">
+                            <div class="stat-label">Yüksek Stres Alanı</div>
+                            <div class="stat-value"><span id="stress-area-percent">0</span>%</div>
+                            <small class="text-muted"><span id="total-stress-area-ha">0</span> hektar etkilendi</small>
+                        </div>
+
+                        <div class="stat-card warning">
+                            <div class="stat-label">En Büyük Kritik Bölge</div>
+                            <div class="stat-value"><span id="largest-zone-ha">0</span> ha</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-label">Tahmini Verim</div>
+                            <div class="stat-value"><span id="yield-total-kg">-</span> kg</div>
+                            <small class="text-muted"><span id="yield-per-ha-kg">-</span> kg/ha (Güven: <span id="yield-confidence">-</span>)</small>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-label">Önerilen Müdahale</div>
+                            <div class="stat-value"><span id="recommendation-count">0</span> Nokta</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+      
+
+<script >   
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    function requestDroneReport(id, formats) {
+        if (!confirm('Bu proje için rapor oluşturmak istiyor musunuz?')) return;
+        
+        fetch("{% url 'reports:request-drone' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify({
+                project_id: id,
+                formats: formats
+            })
+        })
+        .then(response => {
+            if (response.status === 202) {
+                alert("Rapor oluşturma başlatıldı. Raporlar sayfasından indirebilirsiniz.");
+                // Optional: redirect to reports list or stay here
+                // window.location.href = "{% url 'reports:list' %}";
+            } else {
+                return response.json().then(data => {
+                    throw new Error(data.error || "Bilinmeyen hata");
+                });
+            }
+        })
+        .catch(error => {
+            alert("Hata: " + error.message);
+        });
+    }
+
+var popup = L.popup();
+var map = L.map('map'); //.setView([0, 0], 5)
+
+var densityLayer = null;
+var stressZoneLayer = null;
+var decisionLayer = null;
+
+var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    markerZoomAnimation: true,
+    zoomControl: true,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+})//.addTo(map);
+
+
+var osm2 = L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    maxZoom: 25,
+          attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+      })//.addTo(map);
+
+
+
+
+
+
+
+
+
+googleStreets = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+})//.addTo(map);
+googleHybrid = L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+        maxZoom: 25,
+        subdomains:['mt0','mt1','mt2','mt3']
+}).addTo(map);
+googleSat = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+})//.addTo(map);
+googleTerrain = L.tileLayer('https://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+})//.addTo(map);
+
+
+var baseLayers = {
+    "Uydu Hibrit": googleHybrid
+};
+
+
+var overlayLayers = {};
+
+var layerControl = L.control.layers(baseLayers, overlayLayers).addTo(map);
+
+var projectAreaHa = {{ static.area|default:0 }} / 10000.0;
+
+var url_to_geotiff_file = "{% if orthophoto.path is not None %} {% static orthophoto.path %} {% else %} {% static orthophoto.odm_orthophoto %} {% endif %}";
+
+fetch(url_to_geotiff_file)
+  .then(response => response.arrayBuffer())
+  .then(arrayBuffer => {
+    parseGeoraster(arrayBuffer).then(georaster => {
+      console.log("georaster:", georaster);
+
+      /*
+          GeoRasterLayer is an extension of GridLayer,
+          which means can use GridLayer options like opacity.
+
+          Just make sure to include the georaster option!
+
+          Optionally set the pixelValuesToColorFn function option to customize
+          how values for a pixel are translated to a color.
+
+          https://leafletjs.com/reference.html#gridlayer
+      */
+      var layer = new GeoRasterLayer({
+        georaster: georaster,
+        opacity: 100,
+        resolution: 256
+      });
+      layer.addTo(map);
+
+      map.fitBounds(layer.getBounds());
+
+  });
+});
+
+var projectId = {{ projes.id }};
+
+function loadDensityLayer() {
+  fetch('/api/projects/' + projectId + '/density/')
+    .then(function(response) { return response.json(); })
+    .then(function(data) {
+      if (densityLayer) {
+        map.removeLayer(densityLayer);
+        layerControl.removeLayer(densityLayer);
+      }
+      densityLayer = L.geoJSON(data, {
+        style: function(feature) {
+          var props = feature.properties || {};
+          var label = props.density_label;
+          var color = label === 'yüksek'
+                      ? '#E31A1C'
+                      : label === 'normal'
+                      ? '#FD8D3C'
+                      : '#FFEDA0';
+          return { color: color, weight: 1, fillOpacity: 0.5 };
+        },
+        onEachFeature: function(feature, layer) {
+          var props = feature.properties || {};
+          var count = props.tree_count;
+          var density = props.density_per_ha;
+          var densityText =
+            typeof density === 'number' ? density.toFixed(1) : density;
+          layer.bindPopup(
+            "Ağaç Sayısı: " + count + "<br/>" +
+            "Hektar Başına Yoğunluk: " + densityText
+          );
+        }
+      }).addTo(map);
+      layerControl.addOverlay(densityLayer, "Yoğunluk Haritası");
+    });
+}
+
+    // Stres Analizi Chart.js Entegrasyonu
+    let stressChart = null;
+
+    function updateStressChart(stats) {
+        const ctx = document.getElementById('stressChart').getContext('2d');
+        
+        // Veri hazırlığı
+        const totalArea = stats.toplam_alan || 100;
+        const stressArea = stats.yuksek_stres_alan_ha || 0;
+        const mediumArea = stats.orta_stres_alan_ha || 0;
+        const healthyArea = Math.max(0, totalArea - stressArea - mediumArea);
+
+        const data = {
+            labels: ['Yüksek Stres', 'Orta Stres', 'Sağlıklı'],
+            datasets: [{
+                data: [stressArea, mediumArea, healthyArea],
+                backgroundColor: ['#c0392b', '#f39c12', '#27ae60'],
+                borderWidth: 0,
+                hoverOffset: 4
+            }]
+        };
+
+        if (stressChart) {
+            stressChart.data = data;
+            stressChart.update();
+        } else {
+            stressChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                boxWidth: 12,
+                                font: { size: 10 }
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        }
+    }
+
+    function loadStressZones() {
+      fetch('/api/projects/' + projectId + '/stress-zones/')
+        .then(function(response) { return response.json(); })
+        .then(function(data) {
+          if (stressZoneLayer) {
+            map.removeLayer(stressZoneLayer);
+            layerControl.removeLayer(stressZoneLayer);
+          }
+          stressZoneLayer = L.geoJSON(data, {
+            style: function(feature) {
+              var cls = feature.properties && feature.properties.stress_class;
+              var color = cls === 'high_stress' ? '#d73027' :
+                          cls === 'medium' ? '#fc8d59' :
+                          '#1a9850';
+              return { color: color, weight: 1, fillOpacity: 0.4 };
+            },
+            onEachFeature: function(feature, layer) {
+              var props = feature.properties || {};
+              var zoneId = props.zone_id;
+              var label = props.stress_label;
+              var area = props.area_ha;
+              var areaText = (typeof area === 'number') ? area.toFixed(3) : area;
+              layer.bindPopup(
+                "<strong>Zon Detayı</strong><br/>" +
+                "Zon ID: " + zoneId + "<br/>" +
+                "Durum: " + label + "<br/>" +
+                "Alan: " + areaText + " ha"
+              );
+            }
+          }).addTo(map);
+          layerControl.addOverlay(stressZoneLayer, "Stres Zonları");
+
+          if (data.ozet) {
+            // Panel güncellemeleri
+            if (typeof data.ozet.yuksek_stres_yuzde !== 'undefined') {
+              var v = data.ozet.yuksek_stres_yuzde;
+              document.getElementById('stress-area-percent').textContent = v.toFixed(1);
+            }
+            if (typeof data.ozet.toplam_stres_alani_ha !== 'undefined') {
+              document.getElementById('total-stress-area-ha').textContent =
+                data.ozet.toplam_stres_alani_ha.toFixed(3);
+            }
+            if (typeof data.ozet.en_buyuk_zon_ha !== 'undefined') {
+              document.getElementById('largest-zone-ha').textContent =
+                data.ozet.en_buyuk_zon_ha.toFixed(3);
+            }
+            
+            // Grafik güncelleme
+            updateStressChart({
+                toplam_alan: projectAreaHa,
+                yuksek_stres_alan_ha: data.ozet.toplam_stres_alani_ha,
+                orta_stres_alan_ha: data.ozet.orta_stres_alani_ha || 0
+            });
+          }
+        });
+    }
+
+function loadDecisions() {
+  fetch('/api/projects/' + projectId + '/decisions/')
+    .then(function(response) { return response.json(); })
+    .then(function(data) {
+      if (decisionLayer) {
+        map.removeLayer(decisionLayer);
+        layerControl.removeLayer(decisionLayer);
+      }
+      var features = (data.oneriler || []).map(function(rec) {
+        return {
+          "type": "Feature",
+          "geometry": null,
+          "properties": rec
+        };
+      });
+      decisionLayer = L.featureGroup();
+      features.forEach(function(f) {
+        var p = f.properties || {};
+        var zoneId = p.zone_id;
+        var action = p.aksiyon;
+        var severity = p.oncelik;
+        var area = p.alan_ha;
+
+        var color = severity === 'Kritik' ? '#d73027' :
+                    severity === 'Yüksek' ? '#fc8d59' :
+                    '#fee08b';
+        var badge =
+          '<span style="display:inline-block;padding:2px 6px;border-radius:4px;' +
+          'background:' + color + ';color:#000;font-weight:bold;">' +
+          severity + '</span>';
+
+        var areaText = (typeof area === 'number') ? area.toFixed(3) : area;
+
+        var html =
+          "Zon Detayı<br/>" +
+          "Zon: " + zoneId + "<br/>" +
+          badge + "<br/>" +
+          "Alan: " + areaText + " ha<br/>" +
+          action;
+
+        var marker = L.marker(map.getCenter()).bindPopup(html);
+        decisionLayer.addLayer(marker);
+      });
+      decisionLayer.addTo(map);
+      layerControl.addOverlay(decisionLayer, "Öneriler");
+
+      var recs = data.oneriler || [];
+      var count = recs.length;
+      document.getElementById('recommendation-count').textContent = count;
+
+      var criticalCount = recs.filter(function(r) {
+        return r.oncelik === 'Kritik';
+      }).length;
+      document.getElementById('critical-zone-count').textContent = criticalCount;
+    });
+}
+
+function loadYield() {
+  fetch('/api/projects/' + projectId + '/yield/')
+    .then(function(response) { return response.json(); })
+    .then(function(data) {
+      var total = data.tahmini_verim_kg;
+      var confidence = data.guven_skoru;
+
+      var perHa = null;
+      if (typeof total === 'number' && projectAreaHa > 0) {
+        perHa = total / projectAreaHa;
+      }
+
+      if (typeof total === 'number') {
+        document.getElementById('yield-total-kg').textContent = total.toFixed(1);
+      } else {
+        document.getElementById('yield-total-kg').textContent = '-';
+      }
+
+      if (typeof perHa === 'number') {
+        document.getElementById('yield-per-ha-kg').textContent = perHa.toFixed(1);
+      } else {
+        document.getElementById('yield-per-ha-kg').textContent = '-';
+      }
+
+      if (typeof confidence === 'number') {
+        document.getElementById('yield-confidence').textContent = confidence.toFixed(1) + '%';
+      } else {
+        document.getElementById('yield-confidence').textContent = '-';
+      }
+    });
+}
+
+    // Harita Lejantı
+    var legend = L.control({position: 'bottomright'});
+
+    legend.onAdd = function (map) {
+        var div = L.DomUtil.create('div', 'info legend dashboard-panel');
+        div.style.width = 'auto';
+        div.style.padding = '10px';
+        div.style.bottom = '20px';
+        div.style.right = '20px';
+        div.style.top = 'auto';
+        
+        var content = '<strong>Lejant</strong><br>';
+        
+        // Stres Zonları
+        content += '<div class="legend-item"><div class="legend-color" style="background:#d73027"></div>Yüksek Stres</div>';
+        content += '<div class="legend-item"><div class="legend-color" style="background:#fc8d59"></div>Orta Stres</div>';
+        content += '<div class="legend-item"><div class="legend-color" style="background:#1a9850"></div>Sağlıklı</div>';
+        
+        content += '<hr style="margin:8px 0;border-color:rgba(0,0,0,0.1)">';
+        
+        // Yoğunluk
+        content += '<div class="legend-item"><div class="legend-color" style="background:#E31A1C"></div>Yüksek Yoğunluk</div>';
+        content += '<div class="legend-item"><div class="legend-color" style="background:#FD8D3C"></div>Normal Yoğunluk</div>';
+        content += '<div class="legend-item"><div class="legend-color" style="background:#FFEDA0"></div>Düşük Yoğunluk</div>';
+
+        div.innerHTML = content;
+        return div;
+    };
+
+    legend.addTo(map);
+
+    loadDensityLayer();
+loadStressZones();
+loadDecisions();
+loadYield();
+      </script>
+
+
+{% endblock %}

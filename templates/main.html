@@ -1,0 +1,97 @@
+{% extends 'header.html' %}
+{% block body %}
+      {% load static %}
+      {% include 'menu.html' %}
+      {% include 'navbar.html' with picture=userss.picture %}
+
+
+
+<div id="wrapper">
+      <div class="main-content">
+            {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <strong>Hata!</strong> {{ error }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Kapat">
+                        <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+            {% endif %}
+            <div class="row small-spacing">
+{% include 'form.html' %}
+
+
+{% include 'chart.html' %}
+
+{% if response != None %}
+
+{% include 'upload.html' with  image=response.image %}
+{% include 'footer.html' with  kilo=response.kilo count=response.count toplam_ceki=response.toplam_ceki time=response.time  %}
+
+{% if response.detection_id %}
+<div class="col-lg-12 col-xs-12">
+    <div class="box-content">
+        <h4 class="box-title">Rapor İşlemleri</h4>
+        <button type="button" class="btn btn-primary waves-effect waves-light" onclick="requestDetectionReport({{ response.detection_id }}, ['pdf', 'xlsx'])">
+            <i class="fa fa-file-text-o"></i> Rapor Oluştur (PDF & Excel)
+        </button>
+    </div>
+</div>
+
+<script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    function requestDetectionReport(id, formats) {
+        fetch("{% url 'reports:request-detection' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify({
+                detection_result_id: id,
+                formats: formats
+            })
+        })
+        .then(response => {
+            if (response.status === 202) {
+                alert("Rapor oluşturma başlatıldı. Raporlar sayfasından indirebilirsiniz.");
+                window.location.href = "{% url 'reports:list' %}";
+            } else {
+                return response.json().then(data => {
+                    throw new Error(data.error || "Bilinmeyen hata");
+                });
+            }
+        })
+        .catch(error => {
+            alert("Hata: " + error.message);
+        });
+    }
+</script>
+{% endif %}
+
+{% else %}
+
+
+
+{% include 'footer.html' %}
+</div>
+
+      </div>
+      <!-- /.main-content -->
+</div><!--/#wrapper -->
+{% endif %}
+{% endblock %}

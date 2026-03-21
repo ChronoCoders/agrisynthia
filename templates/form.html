@@ -1,0 +1,109 @@
+<div class="col-lg-6 col-12">
+	<div class="box-content card white">
+		<h4 class="box-title">Giriş Değerleri</h4>
+		<div class="card-content">
+			<form id="upload-file" action="{% url 'detection:index' %}" method="post" enctype="multipart/form-data" onsubmit="handleFormSubmit(event)">
+				{% csrf_token %}
+				<div class="form-group margin-bottom-20">
+					<select name="meyve_grubu" class="form-control" required aria-label="Meyve Grubu Seçin">
+						<option value="">Meyve Grubu</option>
+						<option value="mandalina">Mandalina</option>
+						<option value="elma">Elma</option>
+						<option value="armut">Armut</option>
+						<option value="seftale">Şeftali</option>
+						<option value="nar">Nar</option>
+						<option value="agac">Ağaç</option>
+					</select>
+				</div>
+
+				<div class="input-group margin-bottom-20">
+					<div class="input-group-btn">
+						<label for="agac_sayisi" class="btn btn-default" aria-label="Ağaç Sayısı">
+							<i class="fa-solid fa-tree" aria-hidden="true"></i>
+						</label>
+					</div>
+					<input id="agac_sayisi" type="number" name="agac_sayisi" class="form-control" placeholder="Toplam Ağaç Sayısı" min="1" max="10000" required aria-label="Toplam Ağaç Sayısı">
+				</div>
+
+				<div class="input-group margin-bottom-20">
+					<div class="input-group-btn">
+						<label for="agac_yasi" class="btn btn-default" aria-label="Ağaç Yaşı">
+							<i class="fa-brands fa-pagelines" aria-hidden="true"></i>
+						</label>
+					</div>
+					<input id="agac_yasi" type="number" name="agac_yasi" class="form-control" placeholder="Ağaç Kaç Yaşında" min="1" max="100" required aria-label="Ağaç Yaşı">
+				</div>
+
+				<div class="input-group">
+					<div class="input-group-btn">
+						<label for="ekim_sirasi" class="btn btn-default" aria-label="Ekim Sırası">
+							<i class="fa-regular fa-chart-simple" aria-hidden="true"></i>
+						</label>
+					</div>
+					<input id="ekim_sirasi" type="text" name="ekim_sirasi" class="form-control" placeholder="Ekim Sırası" required pattern="[0-9]+-[0-9]+" title="Ekim sırası formatı: 3-5" aria-label="Ekim Sırası (örn: 3-5)">
+				</div>
+
+				<div class="form-group">
+					<label for="exampleInputFile" class="btn btn-default">Meyve Fotoğrafını Seç <i class="ico fa-solid fa-image" aria-hidden="true"></i></label>
+					<input id="exampleInputFile" style="display: none" type="file" name="file" accept="image/jpeg,image/png,image/tiff" onchange="loadFile(event)" required aria-label="Meyve Fotoğrafı Seç">
+					{% load static %}
+					<div class="col-lg-3 col-6">
+						<a href="#" class="thumbnail">
+							<img id="output" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='14' fill='%23999'%3E%C3%96nizleme%3C/text%3E%3C/svg%3E" alt="Önizleme Görüntüsü" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+						</a>
+					</div>
+				</div>
+				<button id="submitBtn" type="submit" name="success" value="{{csrf_token}}" class="btn btn-primary btn-sm waves-effect waves-light">Gönder</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+function loadFile(event) {
+	if (!event.target.files || !event.target.files[0]) return;
+
+	const file = event.target.files[0];
+	const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+	const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/tiff'];
+
+	// Validate file type
+	if (!ALLOWED_TYPES.includes(file.type)) {
+		alert('Geçersiz dosya formatı. Sadece JPEG, PNG ve TIFF formatları kabul edilir.');
+		event.target.value = ''; // Clear the input
+		return;
+	}
+
+	// Validate file size
+	if (file.size > MAX_FILE_SIZE) {
+		alert('Dosya boyutu çok büyük. Maksimum 10MB yüklenebilir.');
+		event.target.value = ''; // Clear the input
+		return;
+	}
+
+	const reader = new FileReader();
+
+	reader.onload = function(){
+		const output = document.getElementById('output');
+		if (output) output.src = reader.result;
+	};
+
+	reader.onerror = function(error){
+		console.error('Dosya okuma hatası:', error);
+		alert('Dosya yüklenirken bir hata oluştu. Lütfen tekrar deneyin.');
+		event.target.value = ''; // Clear the input
+	};
+
+	reader.readAsDataURL(file);
+}
+
+function handleFormSubmit(event) {
+	const submitBtn = document.getElementById('submitBtn');
+	if (submitBtn) {
+		submitBtn.disabled = true;
+		submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yükleniyor...';
+	}
+	// Form will submit normally
+	return true;
+}
+</script>

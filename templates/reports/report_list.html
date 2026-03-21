@@ -1,0 +1,229 @@
+{% extends 'header.html' %}
+{% load static %}
+
+{% block body %}
+{% include 'menu.html' %}
+{% include 'navbar.html' %}
+
+<div id="wrapper">
+    <div class="main-content">
+        <div class="row small-spacing">
+            
+            <!-- Yeni Rapor Oluştur Kartı -->
+            <div class="col-lg-12 col-xs-12">
+                <div class="box-content card white">
+                    <h4 class="box-title">Yeni Rapor Oluştur</h4>
+                    <div class="card-content">
+                        <form id="createReportForm" onsubmit="return false;">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="detectionId">Tespit ID</label>
+                                        <input type="number" class="form-control" id="detectionId" placeholder="Tespit Sonucu ID">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="projectId">Proje ID</label>
+                                        <input type="number" class="form-control" id="projectId" placeholder="Proje ID">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Formatlar</label>
+                                        <div class="checkbox">
+                                            <input type="checkbox" id="formatPdf" value="pdf" checked>
+                                            <label for="formatPdf">PDF</label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <input type="checkbox" id="formatXlsx" value="xlsx">
+                                            <label for="formatXlsx">Excel (XLSX) - Tablo</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" onclick="submitManualReport()">Oluştur</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rapor Listesi Tablosu -->
+            <div class="col-lg-12 col-xs-12">
+                <div class="box-content">
+                    <h4 class="box-title">Rapor Listesi</h4>
+                    <table class="table table-striped table-bordered display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Tür</th>
+                                <th>Biçim</th>
+                                <th>Durum</th>
+                                <th>İlgili Kayıt</th>
+                                <th>Oluşturma Tarihi</th>
+                                <th>İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for report in reports %}
+                            <tr>
+                                <td>{{ report.id }}</td>
+                                <td>
+                                    {% if report.report_type == 'detection' %}
+                                    <span class="label label-info">Tespit</span>
+                                    {% else %}
+                                    <span class="label label-warning">Drone Analizi</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ report.format|upper }}</td>
+                                <td>
+                                    {% if report.status == 'ready' %}
+                                    <span class="label label-success">Hazır</span>
+                                    {% elif report.status == 'processing' %}
+                                    <span class="label label-warning">İşleniyor</span>
+                                    {% elif report.status == 'failed' %}
+                                    <span class="label label-danger" title="{{ report.error_message }}">Hata</span>
+                                    {% else %}
+                                    <span class="label label-default">{{ report.status }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if report.report_type == 'detection' %}
+                                    Tespit #{{ report.detection_result_id }}
+                                    {% else %}
+                                    Proje #{{ report.project_id }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ report.created_at|date:"d.m.Y H:i" }}</td>
+                                <td>
+                                    {% if report.status == 'ready' %}
+                                    <a href="{% url 'reports:download' report.id %}" class="btn btn-xs btn-success" title="İndir">
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                    {% endif %}
+                                    <button class="btn btn-xs btn-danger" onclick="deleteReport({{ report.id }})" title="Sil">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center">Henüz rapor oluşturulmamış.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        {% include 'footer.html' %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Auto-refresh every 10 seconds if there are processing reports
+    const hasProcessing = {{ reports|length }} > 0 && Array.from(document.querySelectorAll('.label-warning')).some(el => el.textContent.trim() === 'İşleniyor');
+    
+    if (hasProcessing) {
+        setTimeout(function() {
+            window.location.reload();
+        }, 10000);
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    function requestDetectionReport(id, formats) {
+        fetch("{% url 'reports:request-detection' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify({
+                detection_result_id: id,
+                formats: formats
+            })
+        })
+        .then(response => {
+            if (response.status === 202) {
+                alert("Rapor oluşturma başlatıldı. Raporlar sayfasından indirebilirsiniz.");
+                location.reload(); 
+            } else {
+                return response.json().then(data => {
+                    throw new Error(data.error || "Bilinmeyen hata");
+                });
+            }
+        })
+        .catch(error => {
+            alert("Hata: " + error.message);
+        });
+    }
+
+    function requestDroneReport(id, formats) {
+        fetch("{% url 'reports:request-drone' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify({
+                project_id: id,
+                formats: formats
+            })
+        })
+        .then(response => {
+            if (response.status === 202) {
+                alert("Rapor oluşturma başlatıldı. Raporlar sayfasından indirebilirsiniz.");
+                location.reload();
+            } else {
+                return response.json().then(data => {
+                    throw new Error(data.error || "Bilinmeyen hata");
+                });
+            }
+        })
+        .catch(error => {
+            alert("Hata: " + error.message);
+        });
+    }
+
+    function submitManualReport() {
+        const detectionId = document.getElementById('detectionId').value;
+        const projectId = document.getElementById('projectId').value;
+        const formats = [];
+        if (document.getElementById('formatPdf').checked) formats.push('pdf');
+        if (document.getElementById('formatXlsx').checked) formats.push('xlsx');
+
+        if (detectionId) {
+            requestDetectionReport(parseInt(detectionId), formats);
+        } else if (projectId) {
+            requestDroneReport(parseInt(projectId), formats);
+        } else {
+            alert("Lütfen Tespit ID veya Proje ID giriniz.");
+        }
+    }
+</script>
+
+{% endblock %}

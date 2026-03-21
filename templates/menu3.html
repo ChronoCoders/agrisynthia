@@ -1,0 +1,75 @@
+{% load static %}
+
+<div class="main-menu">
+	<header class="header">
+		<a href="{% url 'detection:index' %}" class="logo" style="text-align: left; padding-left: 20px;">FarmVision</a>
+		<button type="button" class="button-close fa fa-times js__menu_close"></button>
+	</header>
+	<div class="content">
+		<form method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="navigation">
+				<ul class="nav nav-tabs" id="myTab" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link" id="home-tab" data-toggle="tab" href="#Imagedetails" role="tab" aria-selected="true"><i class="menu-icon fa-solid fa-leaf"></i></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="profile-tab" data-toggle="tab" href="#Analysis" role="tab" aria-selected="false"><i class="menu-icon fa-solid fa-chart-line"></i></a>
+					</li>
+				</ul>
+				<div class="tab-content card white" id="myTabContent">
+					<div class="tab-pane fade active show" id="Imagedetails" role="tabpanel">
+						<h2>Döşenmiş Bitki Örtüsü İndeksi</h2>
+						<p>
+							<strong style='color:rgb(156, 158, 158);'>Ortalama GSD:</strong><p>{{static.gsd}} cm</p>
+							<strong style='color:rgb(156, 158, 158);'>Alan:</strong><p>{{static.area}} m&sup2;</p>
+							<strong style='color:rgb(156, 158, 158);'>Oluşturulma Tarihi:</strong><p>{{static.date}}</p>
+							<strong style='color:rgb(156, 158, 158);'>Kamera:</strong><p>{{images_info.camera_model}}</p>
+							<strong style='color:rgb(156, 158, 158);'>İrtifa:</strong><p>{{images_info.altitude}}</p>
+							{% if orthophoto.ranges is not None %}
+							<strong style='color:rgb(156, 158, 158);'>Tespit:</strong><p style='color:red;font-weight: bold;'>{{detection}}</p>
+							{% endif %}
+						</p>
+					</div>
+					<div class="tab-pane fade" id="Analysis" role="tabpanel">
+						<label>Histogram Grafiği</label>
+						{% if orthophoto.ranges is not None %}
+						<input type="range" id="myRange" name="range" multiple max="1" min="-1" step="0.001" />
+						<p>Değer: {{orthophoto.ranges}}<span id="demo"></span></p>
+						{% else %}
+						<input type="range" name="range" multiple max="1" min="-1" step="0.001" id="myRange"/>
+						<p>Değer: <span id="demo"></span></p>
+						{% endif %}
+						<p>
+							<label for="base">Algoritma:</label>
+							<select class="form-control" name="health_color" id="base">
+								{% for key,values in algo.items %}
+								{{values|safe}}
+								{% endfor %}
+							</select>
+						</p>
+						<p>
+							<label for="base">Renkler:</label>
+							<select class="form-control" name="cmap">
+								{% for color in colors.items %}
+								{{color|safe}}
+								{% endfor %}
+							</select>
+						</p>
+						<p><button name="checked" type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Kontrol Et</button></p>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script>
+var slider = document.getElementById("myRange");
+var output = document.getElementById("demo");
+output.innerHTML = slider.value;
+
+slider.oninput = function() {
+	output.innerHTML = this.value;
+}
+</script>

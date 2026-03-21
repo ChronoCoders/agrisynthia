@@ -1,0 +1,262 @@
+{% extends 'header.html' %}
+{% block body %}
+{% load static %}
+{% include 'menu.html' %}
+{% include 'navbar.html' with picture=userss.picture %}
+
+<style>
+/* Equal height boxes fix */
+.row.small-spacing {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.row.small-spacing > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+}
+
+.row.small-spacing .box-content.card {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+}
+
+.row.small-spacing .card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+/* Progress bar spacing */
+.progress-wrapper {
+    margin-top: 15px;
+}
+</style>
+
+<div id="wrapper">
+	<div class="main-content">
+		{% if error %}
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			<strong>Hata!</strong> {{ error }}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Kapat">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		{% endif %}
+
+		<div class="row small-spacing">
+			<div class="col-12">
+				<h2 class="page-title">Sistem İzleme</h2>
+			</div>
+		</div>
+
+		<!-- CPU, Memory, Disk, Uptime Cards -->
+		<div class="row small-spacing">
+			<!-- CPU Usage -->
+			<div class="col-lg-3 col-md-6 col-12">
+				<div class="box-content card white">
+					<h4 class="box-title">CPU Kullanımı</h4>
+					<div class="card-content">
+						<div class="clearfix">
+							<div class="number text-center">
+								<h3 class="font-bold no-margin">{{ cpu_percent }}%</h3>
+								<p class="text-muted">{{ cpu_count }} Çekirdek</p>
+								{% if cpu_freq %}
+								<p class="text-muted small">{{ cpu_freq|floatformat:0 }} MHz</p>
+								{% else %}
+								<p class="text-muted small">&nbsp;</p>
+								{% endif %}
+							</div>
+						</div>
+						<div class="progress-wrapper">
+							<div class="progress" style="height: 10px;">
+								<div class="progress-bar {% if cpu_percent > 80 %}bg-danger{% elif cpu_percent > 60 %}bg-warning{% else %}bg-success{% endif %}"
+									role="progressbar"
+									style="width: {% widthratio cpu_percent 1 1 %}%;"
+									aria-valuenow="{% widthratio cpu_percent 1 1 %}"
+									aria-valuemin="0"
+									aria-valuemax="100">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Memory Usage -->
+			<div class="col-lg-3 col-md-6 col-12">
+				<div class="box-content card white">
+					<h4 class="box-title">Bellek Kullanımı</h4>
+					<div class="card-content">
+						<div class="clearfix">
+							<div class="number text-center">
+								<h3 class="font-bold no-margin">{{ memory_percent }}%</h3>
+								<p class="text-muted">{{ memory_used_gb }} GB / {{ memory_total_gb }} GB</p>
+								<p class="text-muted small">{{ memory_available_gb }} GB Boş</p>
+							</div>
+						</div>
+						<div class="progress-wrapper">
+							<div class="progress" style="height: 10px;">
+								<div class="progress-bar {% if memory_percent > 80 %}bg-danger{% elif memory_percent > 60 %}bg-warning{% else %}bg-success{% endif %}"
+									role="progressbar"
+									style="width: {% widthratio memory_percent 1 1 %}%;"
+									aria-valuenow="{% widthratio memory_percent 1 1 %}"
+									aria-valuemin="0"
+									aria-valuemax="100">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Disk Usage -->
+			<div class="col-lg-3 col-md-6 col-12">
+				<div class="box-content card white">
+					<h4 class="box-title">Disk Kullanımı</h4>
+					<div class="card-content">
+						<div class="clearfix">
+							<div class="number text-center">
+								<h3 class="font-bold no-margin">{{ disk_percent }}%</h3>
+								<p class="text-muted">{{ disk_used_gb }} GB / {{ disk_total_gb }} GB</p>
+								<p class="text-muted small">{{ disk_free_gb }} GB Boş</p>
+							</div>
+						</div>
+						<div class="progress-wrapper">
+							<div class="progress" style="height: 10px;">
+								<div class="progress-bar {% if disk_percent > 80 %}bg-danger{% elif disk_percent > 60 %}bg-warning{% else %}bg-success{% endif %}"
+									role="progressbar"
+									style="width: {% widthratio disk_percent 1 1 %}%;"
+									aria-valuenow="{% widthratio disk_percent 1 1 %}"
+									aria-valuemin="0"
+									aria-valuemax="100">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- System Uptime -->
+			<div class="col-lg-3 col-md-6 col-12">
+				<div class="box-content card white">
+					<h4 class="box-title">Sunucu Çalışma Süresi</h4>
+					<div class="card-content">
+						<div class="clearfix">
+							<div class="number text-center">
+								<h3 class="font-bold no-margin" style="font-size: 1.5rem;">{{ uptime_str }}</h3>
+								<p class="text-muted">Başlangıç: {{ boot_time|date:"d.m.Y H:i" }}</p>
+								<p class="text-muted small">30 Günlük Hedef: {{ uptime_days|floatformat:1 }}/30 gün</p>
+							</div>
+						</div>
+						<div class="progress-wrapper">
+							<div class="progress" style="height: 10px;">
+								<div class="progress-bar bg-success"
+									role="progressbar"
+									style="width: {% widthratio uptime_percent 1 1 %}%;"
+									aria-valuenow="{% widthratio uptime_percent 1 1 %}"
+									aria-valuemin="0"
+									aria-valuemax="100">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- System Information & Loaded Models -->
+		<div class="row small-spacing">
+			<div class="col-lg-6 col-12">
+				<div class="box-content card white">
+					<h4 class="box-title">Sistem Bilgisi</h4>
+					<div class="card-content">
+						<table class="table table-striped">
+							<tbody>
+								<tr>
+									<th style="width: 40%;">İşletim Sistemi</th>
+									<td>{{ system_info.platform }} {{ system_info.platform_release }}</td>
+								</tr>
+								<tr>
+									<th>Platform Sürümü</th>
+									<td>{{ system_info.platform_version }}</td>
+								</tr>
+								<tr>
+									<th>Mimari</th>
+									<td>{{ system_info.architecture }}</td>
+								</tr>
+								<tr>
+									<th>İşlemci</th>
+									<td>{{ system_info.processor }}</td>
+								</tr>
+								<tr>
+									<th>Python Sürümü</th>
+									<td>{{ system_info.python_version }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<!-- Loaded Models -->
+			<div class="col-lg-6 col-12">
+				<div class="box-content card white">
+					<h4 class="box-title">Yüklenmiş Modeller</h4>
+					<div class="card-content">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Model Adı</th>
+									<th>Durum</th>
+									<th>Yüklü</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for model in loaded_models %}
+								<tr>
+									<td>{{ model.model_id }}</td>
+									<td>
+										{% if model.is_loaded %}
+										<span class="badge badge-success">Aktif</span>
+										{% else %}
+										<span class="badge badge-secondary">Yüklü Değil</span>
+										{% endif %}
+									</td>
+									<td>
+										{% if model.is_loaded %}
+										<i class="fa fa-check text-success"></i>
+										{% else %}
+										<i class="fa fa-times text-danger"></i>
+										{% endif %}
+									</td>
+								</tr>
+								{% empty %}
+								<tr>
+									<td colspan="3" class="text-center text-muted">Henüz yüklenmiş model yok</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Refresh Button -->
+		<div class="row small-spacing">
+			<div class="col-12 text-center">
+				<button onclick="location.reload();" class="btn btn-primary btn-lg waves-effect waves-light">
+					<i class="fa fa-refresh"></i> Yenile
+				</button>
+			</div>
+		</div>
+
+	</div>
+	<!-- /.main-content -->
+</div><!--/#wrapper -->
+
+{% endblock %}

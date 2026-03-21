@@ -1,0 +1,171 @@
+{% extends 'header.html' %}
+{% block body %}
+{% load static %}
+{% include 'menu.html' %}
+{% include 'navbar.html' with picture=userss.picture %}
+
+<style>
+/* Dropdown menu styling */
+.box-content .dropdown.js__drop_down {
+	position: relative;
+}
+
+.box-content .dropdown.js__drop_down .dropdown-icon {
+	display: inline-block;
+	padding: 8px 12px;
+	font-size: 18px;
+	color: #434343;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.box-content .dropdown.js__drop_down .dropdown-icon:hover {
+	color: #304ffe;
+}
+
+.box-content .dropdown.js__drop_down .sub-menu {
+	display: none;
+	position: absolute;
+	top: 100%;
+	right: 0;
+	min-width: 180px;
+	margin: 5px 0 0 0;
+	padding: 8px 0;
+	list-style: none;
+	background: #ffffff;
+	border: 1px solid rgba(152, 166, 173, 0.15);
+	border-radius: 3px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	z-index: 1000;
+}
+
+.box-content .dropdown.js__drop_down.active .sub-menu {
+	display: block;
+}
+
+.box-content .dropdown.js__drop_down .sub-menu li {
+	margin: 0;
+	padding: 0;
+}
+
+.box-content .dropdown.js__drop_down .sub-menu li a {
+	display: block;
+	padding: 10px 20px;
+	color: #434343;
+	text-decoration: none;
+	transition: all 0.3s ease;
+	font-size: 14px;
+}
+
+.box-content .dropdown.js__drop_down .sub-menu li a:hover {
+	background: #f5f7fa;
+	color: #304ffe;
+}
+</style>
+
+<div id="wrapper">
+	<div class="main-content">
+		{% if error %}
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			<strong>Hata!</strong> {{ error }}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Kapat">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		{% endif %}
+		<div class="row small-spacing">
+			<div class="col-12">
+				<div class="box-content">
+					<div class="d-flex justify-content-between align-items-center mb-3">
+						<h4 class="box-title mb-0">Drone Projeleri</h4>
+						<div class="dropdown js__drop_down">
+							<a href="#" class="dropdown-icon fas fa-ellipsis-v js__drop_down_button"></a>
+							<ul class="sub-menu">
+								<li><a href="{% url 'dron_map:add_projects' slug='add' %}">Yeni Proje Ekle</a></li>
+							</ul>
+						</div>
+					</div>
+					<table class="table table-striped margin-bottom-10">
+						<thead>
+							<tr>
+								<th>Çiftlik</th>
+								<th>Tarla</th>
+								<th>Başlık</th>
+								<th>Durum</th>
+								<th>Tarih</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% if projes != None %}
+							{% for proj in projes %}
+							<tr>
+								<td><a href="{% url 'dron_map:map' proj.id %}">{{proj.Farm}}</a></td>
+								<td>{{proj.Field}}</td>
+								<td>{{proj.Title}}</td>
+								<td>{{proj.State}}</td>
+								<td class="text-success">{{proj.Data_time}}</td>
+                                <td>
+                                    <button class="btn btn-xs btn-primary" onclick="requestDroneReport({{ proj.id }}, ['pdf', 'xlsx'])" title="Rapor Oluştur">
+                                        <i class="fa fa-file-text-o"></i>
+                                    </button>
+                                </td>
+								<td><a href="{% url 'dron_map:add_projects' slug='update' id=proj.id %}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+								<td><a href="{% url 'dron_map:add_projects' slug='delete' id=proj.id %}"><i class="fa-solid fa-eraser"></i></a></td>
+							</tr>
+							{% endfor %}
+							{% endif %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    function requestDroneReport(id, formats) {
+        if (!confirm('Bu proje için rapor oluşturmak istiyor musunuz?')) return;
+        
+        fetch("{% url 'reports:request-drone' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify({
+                project_id: id,
+                formats: formats
+            })
+        })
+        .then(response => {
+            if (response.status === 202) {
+                alert("Rapor oluşturma başlatıldı. Raporlar sayfasından indirebilirsiniz.");
+                window.location.href = "{% url 'reports:list' %}";
+            } else {
+                return response.json().then(data => {
+                    throw new Error(data.error || "Bilinmeyen hata");
+                });
+            }
+        })
+        .catch(error => {
+            alert("Hata: " + error.message);
+        });
+    }
+</script>
+{% endblock %}

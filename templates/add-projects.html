@@ -1,0 +1,123 @@
+{% extends 'header.html' %}
+{% block body %}
+{% load static %}
+{% include 'menu.html' %}
+{% include 'navbar.html' with picture=userss.picture %}
+
+<div id="wrapper">
+	<div class="main-content">
+		{% if error %}
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			<strong>Hata!</strong> {{ error }}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Kapat">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		{% endif %}
+		{% if errors %}
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			<strong>Form Hataları:</strong>
+			<ul>
+			{% for field, error_list in errors.items %}
+				{% for error in error_list %}
+				<li>{{ field }}: {{ error }}</li>
+				{% endfor %}
+			{% endfor %}
+			</ul>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Kapat">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		{% endif %}
+		<div class="row small-spacing">
+			<div class="col-xl-12 col-12">
+				<div class="box-content card white">
+					<h4 class="box-title">Proje Ekle/Düzenle</h4>
+					<div class="card-content">
+						{% if userss != None %}
+						<form method="post" enctype="multipart/form-data" onsubmit="handleProjectFormSubmit(event)">
+							{% csrf_token %}
+							<div class="form-group">
+								<label for="farmInput">Çiftlik</label>
+								<input type="text" id="farmInput" placeholder="Çiftlik Adı" name="Farm" class="form-control" value="{% if projes != None %}{{projes.Farm}}{% endif %}" required maxlength="250" aria-label="Çiftlik Adı">
+							</div>
+							<div class="form-group">
+								<label for="fieldInput">Tarla</label>
+								<input type="text" id="fieldInput" placeholder="Tarla Adı" name="Field" class="form-control" value="{% if projes != None %}{{projes.Field}}{% endif %}" required maxlength="250" aria-label="Tarla Adı">
+								<input type="hidden" name="kat_user" value="{{userss.id}}">
+							</div>
+							<div class="form-group">
+								<label for="titleInput">Başlık</label>
+								<input type="text" id="titleInput" placeholder="Proje Başlığı" name="Title" class="form-control" value="{% if projes != None %}{{projes.Title}}{% endif %}" required maxlength="250" aria-label="Proje Başlığı">
+							</div>
+							<div class="form-group">
+								<label for="stateInput">Durum</label>
+								<input type="text" id="stateInput" placeholder="Proje Durumu" name="State" class="form-control" value="{% if projes != None %}{{projes.State}}{% endif %}" required maxlength="250" aria-label="Proje Durumu">
+							</div>
+							<input type="hidden" id="hashing_path" name="hashing_path" value="0">
+							<div class="form-group">
+								<label for="exampleInputFile" class="btn btn-default">Görsel Seç <i class="ico fa-solid fa-image" aria-hidden="true"></i></label>
+								<input id="exampleInputFile" style="display: none" type="file" name="picture" accept="image/jpeg,image/png,image/tiff" onchange="loadFile(event)" multiple {% if projes == None %}required{% endif %} aria-label="Proje Görseli Seç">
+								<div class="col-lg-3 col-6">
+									<img id="output" src="{% if projes != None %}{% static projes.picture %}{% else %}data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='14' fill='%23999'%3E%C3%96nizleme%3C/text%3E%3C/svg%3E{% endif %}" alt="Proje Görseli" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+								</div>
+							</div>
+							<button id="projectSubmitBtn" type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Kaydet</button>
+						</form>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+function loadFile(event) {
+	if (!event.target.files || !event.target.files[0]) return;
+
+	const file = event.target.files[0];
+	const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+	const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/tiff'];
+
+	// Validate file type
+	if (!ALLOWED_TYPES.includes(file.type)) {
+		alert('Geçersiz dosya formatı. Sadece JPEG, PNG ve TIFF formatları kabul edilir.');
+		event.target.value = ''; // Clear the input
+		return;
+	}
+
+	// Validate file size
+	if (file.size > MAX_FILE_SIZE) {
+		alert('Dosya boyutu çok büyük. Maksimum 10MB yüklenebilir.');
+		event.target.value = ''; // Clear the input
+		return;
+	}
+
+	const reader = new FileReader();
+
+	reader.onload = function(){
+		const output = document.getElementById('output');
+		if (output) output.src = reader.result;
+	};
+
+	reader.onerror = function(error){
+		console.error('Dosya okuma hatası:', error);
+		alert('Dosya yüklenirken bir hata oluştu. Lütfen tekrar deneyin.');
+		event.target.value = ''; // Clear the input
+	};
+
+	reader.readAsDataURL(file);
+}
+
+function handleProjectFormSubmit(event) {
+	const submitBtn = document.getElementById('projectSubmitBtn');
+	if (submitBtn) {
+		submitBtn.disabled = true;
+		submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Kaydediliyor...';
+	}
+	// Form will submit normally
+	return true;
+}
+</script>
+{% endblock %}
