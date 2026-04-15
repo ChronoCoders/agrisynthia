@@ -323,6 +323,7 @@ def index(request: HttpRequest) -> HttpResponse:
                         threshold_used=DETECTION_CONFIDENCE_THRESHOLD,
                         image_path=cached_result["image_path"],
                         bbox_coordinates=cached_result.get("bbox_coordinates"),
+                        created_by=request.user,
                     )
                     response["detection_id"] = detection_instance.pk
                 except Exception as e:
@@ -396,6 +397,7 @@ def index(request: HttpRequest) -> HttpResponse:
                             threshold_used=conf_thres,
                             image_path=f"detected/{unique_id}/{safe_filename}",
                             bbox_coordinates=bbox_centers,
+                            created_by=request.user,
                         )
                         logger.info(
                             f"Detection result saved: {meyve_grubu}, count={count}, confidence={confidence_score:.3f}"
@@ -567,6 +569,7 @@ def multi_detection_image(request: HttpRequest) -> HttpResponse:
                         threshold_used=DETECTION_CONFIDENCE_THRESHOLD,
                         image_path=f"detected/{hass[1]}/",
                         bbox_coordinates=None,
+                        created_by=request.user,
                     )
                     logger.info(
                         "Multi-detection batch saved: %s, trees=%s, age=%s, hash=%s",

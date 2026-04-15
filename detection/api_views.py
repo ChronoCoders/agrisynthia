@@ -41,6 +41,11 @@ class DetectionResultViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         qs = super().get_queryset()
+        # Restrict to records owned by the requesting user
+        if self.request.user.is_authenticated:
+            qs = qs.filter(created_by=self.request.user)
+        else:
+            qs = qs.none()
         # bbox_coordinates can be several MB per row; exclude it from list pages
         # where callers only need summary fields.  Detail / retrieve still loads it.
         if self.action == "list":

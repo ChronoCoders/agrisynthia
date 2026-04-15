@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -24,6 +25,14 @@ class Projects(models.Model):
     )
     hashing_path: models.CharField = models.CharField(
         max_length=250, verbose_name="Hashing Path"
+    )
+    created_by: models.ForeignKey = models.ForeignKey(
+        User,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="projects",
+        db_index=True,
     )
 
     def __str__(self):

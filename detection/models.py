@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
@@ -43,6 +44,14 @@ class DetectionResult(models.Model):
     )
     created_at: models.DateTimeField = models.DateTimeField(
         auto_now_add=True, db_index=True
+    )
+    created_by: models.ForeignKey = models.ForeignKey(
+        User,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="detection_results",
+        db_index=True,
     )
 
     class Meta:

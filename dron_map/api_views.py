@@ -141,6 +141,9 @@ class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Projects.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Projects.objects.filter(created_by=self.request.user)
     filter_backends = [
         DjangoFilterBackend,
         filters.SearchFilter,
@@ -169,7 +172,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
             # Generate unique hash based on title and field
             hashing_result = hashing.add_prefix(filename=f"{title}{field}")
             # hashing_result is (full_path, hash_string)
-            serializer.save(hashing_path=hashing_result[1])
+            serializer.save(hashing_path=hashing_result[1], created_by=self.request.user)
         except Exception as e:
             raise ValidationError(f"Karma yol oluşturulamadı: {str(e)}")
 

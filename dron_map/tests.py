@@ -240,7 +240,8 @@ class ProjectDensityActionTests(APITestCase):
         self.user = User.objects.create_user(username="dmap_user", password="pass")
         self.client.force_authenticate(user=self.user)
         self.project = Projects.objects.create(
-            Farm="Mock Farm", Field="F1", Title="Mock Project", State="Active"
+            Farm="Mock Farm", Field="F1", Title="Mock Project", State="Active",
+            created_by=self.user,
         )
 
     def _url(self):
@@ -281,7 +282,8 @@ class ProjectDecisionsActionTests(APITestCase):
         self.user = User.objects.create_user(username="dec_user", password="pass")
         self.client.force_authenticate(user=self.user)
         self.project = Projects.objects.create(
-            Farm="Dec Farm", Field="F2", Title="Dec Project", State="Active"
+            Farm="Dec Farm", Field="F2", Title="Dec Project", State="Active",
+            created_by=self.user,
         )
 
     def _url(self):
@@ -330,7 +332,8 @@ class ProjectYieldActionTests(APITestCase):
         self.user = User.objects.create_user(username="yield_user", password="pass")
         self.client.force_authenticate(user=self.user)
         self.project = Projects.objects.create(
-            Farm="Yield Farm", Field="F3", Title="Yield Project", State="Active"
+            Farm="Yield Farm", Field="F3", Title="Yield Project", State="Active",
+            created_by=self.user,
         )
 
     def _url(self, **params):
