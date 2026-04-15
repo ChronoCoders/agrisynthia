@@ -72,7 +72,7 @@ def generate_detection_excel(detection_results) -> str:
             detection.confidence_score,
             detection.processing_time,
             detection.model_version,
-            detection.confidence_threshold,
+            detection.threshold_used,
             detection.created_at.replace(tzinfo=None)  # Excel doesn't like timezone aware datetimes sometimes
         ])
     
@@ -163,10 +163,10 @@ def generate_drone_excel(project, analysis_data: dict) -> str:
     ws1 = wb.active
     ws1.title = "Proje Bilgileri"
     ws1.append(["Alan", "Değer"])
-    ws1.append(["Proje Adı", project.name])
-    ws1.append(["Çiftlik", getattr(project, 'farm_name', '—')])
-    ws1.append(["Tarla", getattr(project, 'field_name', '—')])
-    ws1.append(["Durum", project.get_status_display()])
+    ws1.append(["Proje Adı", project.Title])
+    ws1.append(["Çiftlik", project.Farm])
+    ws1.append(["Tarla", project.Field])
+    ws1.append(["Durum", project.State])
     ws1.append(["Algoritma", analysis_data.get('algorithm', '—')])
     ws1.append(["Analiz Tarihi", analysis_data.get('analysis_date', '—')])
 

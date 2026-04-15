@@ -5,8 +5,22 @@
 <h1 class="page-title">Farm Vision Yapay Zeka Sistemi</h1>
 </div>
 <div class="float-right">
-<div class="ico-item">
-<i class="fa fa-user"></i>
+<div class="ico-item" style="display:flex;align-items:center;gap:12px;">
+    {% if user.is_authenticated %}
+    <span style="font-size:13px;color:#555;">
+        <i class="fa fa-user"></i> {{ user.username }}
+    </span>
+    <form method="post" action="{% url 'logout' %}" style="margin:0;">
+        {% csrf_token %}
+        <button type="submit" style="background:none;border:none;color:#c62828;font-size:13px;cursor:pointer;padding:0;">
+            <i class="fa fa-sign-out-alt"></i> Çıkış
+        </button>
+    </form>
+    {% else %}
+    <a href="{% url 'login' %}" style="font-size:13px;color:#2E7D32;">
+        <i class="fa fa-sign-in-alt"></i> Giriş
+    </a>
+    {% endif %}
 </div>
 </div>
 </div>

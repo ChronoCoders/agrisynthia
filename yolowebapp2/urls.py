@@ -39,6 +39,7 @@ urlpatterns = [
         "system-monitoring",
         RedirectView.as_view(url="/detection/system-monitoring/", permanent=False),
     ),
+    path("accounts/", include("accounts.urls")),
     path("api/", include("yolowebapp2.api_urls")),
     path("health/", health_check, name="health-check"),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
