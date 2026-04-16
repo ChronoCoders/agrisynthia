@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.files.storage import FileSystemStorage
 from django.db import transaction
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 from detection.constants import DRONE_ALLOWED_EXTENSIONS, MAX_DRONE_FILE_SIZE
@@ -312,13 +312,20 @@ def add_projects(
                             logger.error("Dosya temizleme hatası: %s", cleanup_error)
                     raise ValidationError("Proje kaydedilemedi")
 
-                # Process task (non-critical, log but don't fail)
-                try:
-                    p = tasknode.Node_processing(str(hashing_result[0]))
-                    p.download_task(f"{BASE_DIR}/static/results/{hashing_result[1]}")
-                except Exception as e:
-                    logger.error("Task processing error: %s", e)
-                    # Don't raise, just log - this is not critical
+                # Dispatch ODM processing as async Celery task
+                from django.conf import settings
+                if settings.ODM_ENABLED:
+                    try:
+                        from dron_map.tasks import process_odm_task
+                        process_odm_task.delay(project.id)
+                        logger.info(
+                            "ODM Celery task gönderildi: proje %s", project.id
+                        )
+                    except Exception as e:
+                        logger.error(
+                            "ODM task gönderilemedi proje %s: %s", project.id, e
+                        )
+                        # Non-critical: project saved, ODM will be skipped
 
                 return redirect("dron_map:projects")
 
@@ -574,3 +581,18 @@ def maping(request: HttpRequest, id: int) -> HttpResponse:
                 "images_info": images_info,
             },
         )
+
+@login_required
+def odm_status(request, project_id: int) -> JsonResponse:
+    """
+    Return current ODM processing status for a project.
+    GET /dron-map/projects/{id}/odm-status/
+    """
+    project = get_object_or_404(Projects, id=project_id, created_by=request.user)
+    return JsonResponse({
+        "project_id": project.id,
+        "odm_status": project.odm_status,
+        "odm_task_id": project.odm_task_id,
+        "odm_error": project.odm_error,
+        "ready": project.odm_status == Projects.ODM_COMPLETED,
+    })

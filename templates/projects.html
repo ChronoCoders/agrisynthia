@@ -85,37 +85,54 @@
 							</ul>
 						</div>
 					</div>
-					<table class="table table-striped margin-bottom-10">
-						<thead>
-							<tr>
-								<th>Çiftlik</th>
-								<th>Tarla</th>
-								<th>Başlık</th>
-								<th>Durum</th>
-								<th>Tarih</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% if projes != None %}
-							{% for proj in projes %}
-							<tr>
-								<td><a href="{% url 'dron_map:map' proj.id %}">{{proj.Farm}}</a></td>
-								<td>{{proj.Field}}</td>
-								<td>{{proj.Title}}</td>
-								<td>{{proj.State}}</td>
-								<td class="text-success">{{proj.Data_time}}</td>
-                                <td>
-                                    <button class="btn btn-xs btn-primary" onclick="requestDroneReport({{ proj.id }}, ['pdf', 'xlsx'])" title="Rapor Oluştur">
-                                        <i class="fa fa-file-text-o"></i>
-                                    </button>
-                                </td>
-								<td><a href="{% url 'dron_map:add_projects' slug='update' id=proj.id %}"><i class="fa-solid fa-pen-to-square"></i></a></td>
-								<td><a href="{% url 'dron_map:add_projects' slug='delete' id=proj.id %}"><i class="fa-solid fa-eraser"></i></a></td>
-							</tr>
-							{% endfor %}
-							{% endif %}
-						</tbody>
-					</table>
+							<table class="table table-striped margin-bottom-10">
+			<thead>
+				<tr>
+					<th>Çiftlik</th>
+					<th>Tarla</th>
+					<th>Başlık</th>
+					<th>Durum</th>
+					<th>ODM</th>
+					<th>Tarih</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% if projes != None %}
+				{% for proj in projes %}
+				<tr>
+					<td><a href="{% url 'dron_map:map' proj.id %}">{{proj.Farm}}</a></td>
+					<td>{{proj.Field}}</td>
+					<td>{{proj.Title}}</td>
+					<td>{{proj.State}}</td>
+					<td id="odm-status-{{ proj.id }}">
+						{% if proj.odm_status == 'completed' %}
+						<span class="badge badge-success">Tamamlandı</span>
+						{% elif proj.odm_status == 'processing' %}
+						<span class="badge badge-warning odm-polling" data-id="{{ proj.id }}">İşleniyor&#8230;</span>
+						{% elif proj.odm_status == 'failed' %}
+						<span class="badge badge-danger" title="{{ proj.odm_error }}">Başarısız</span>
+						{% elif proj.odm_status == 'disabled' %}
+						<span class="badge badge-secondary">Devre Dışı</span>
+						{% else %}
+						<span class="badge badge-info odm-polling" data-id="{{ proj.id }}">Bekliyor</span>
+						{% endif %}
+					</td>
+					<td class="text-success">{{proj.Data_time}}</td>
+					<td>
+						{% if proj.odm_status == 'completed' %}
+						<button class="btn btn-xs btn-primary" onclick="requestDroneReport({{ proj.id }}, ['pdf', 'xlsx'])" title="Rapor Oluştur">
+							<i class="fa fa-file-text-o"></i>
+						</button>
+						{% endif %}
+						<a href="{% url 'dron_map:add_projects' slug='update' id=proj.id %}"><i class="fa-solid fa-pen-to-square"></i></a>
+						<a href="{% url 'dron_map:add_projects' slug='delete' id=proj.id %}"><i class="fa-solid fa-eraser"></i></a>
+					</td>
+				</tr>
+				{% endfor %}
+				{% endif %}
+			</tbody>
+		</table>
 				</div>
 			</div>
 		</div>
@@ -138,6 +155,30 @@
         return cookieValue;
     }
     const csrftoken = getCookie('csrftoken');
+
+
+    // Poll ODM status every 15 seconds for projects still processing/pending
+    function pollOdmStatus() {
+        document.querySelectorAll('.odm-polling').forEach(function(el) {
+            const projectId = el.dataset.id;
+            fetch(`/dron-map/projects/${projectId}/odm-status/`)
+                .then(r => r.json())
+                .then(data => {
+                    const cell = document.getElementById('odm-status-' + projectId);
+                    if (!cell) return;
+                    if (data.ready) {
+                        cell.innerHTML = '<span class="badge badge-success">Tamamlandı</span>';
+                        setTimeout(() => location.reload(), 1000);
+                    } else if (data.odm_status === 'failed') {
+                        cell.innerHTML = `<span class="badge badge-danger" title="${data.odm_error || ''}">Başarısız</span>`;
+                    }
+                })
+                .catch(() => {});
+        });
+    }
+    if (document.querySelector('.odm-polling')) {
+        setInterval(pollOdmStatus, 15000);
+    }
 
     function requestDroneReport(id, formats) {
         if (!confirm('Bu proje için rapor oluşturmak istiyor musunuz?')) return;

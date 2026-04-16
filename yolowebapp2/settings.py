@@ -357,6 +357,34 @@ ALERT_WEBHOOK_URL = os.environ.get("ALERT_WEBHOOK_URL", "")
 # Email recipients for model degradation alerts (comma-separated)
 ALERT_EMAIL_RECIPIENTS = os.environ.get("ALERT_EMAIL_RECIPIENTS", "").split(",")
 
+# ==============================================================================
+# ODM (NodeODM / WebODM)
+# ==============================================================================
+
+ODM_HOST = os.environ.get("ODM_HOST", "localhost")
+ODM_PORT = int(os.environ.get("ODM_PORT", "3000"))
+ODM_TOKEN = os.environ.get("ODM_TOKEN", "")
+# Set to False to disable ODM integration entirely (use pre-processed orthophotos)
+ODM_ENABLED = os.environ.get("ODM_ENABLED", "True") == "True"
+
+# ==============================================================================
+# EMAIL
+# ==============================================================================
+
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "Farm Vision <noreply@farmvision.io>")
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+if IS_DEVELOPMENT:
+    # Print emails to console in development — no SMTP needed
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.gmail.com")
+    EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
+    EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "True") == "True"
+    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
+    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+
 # Alert cooldown in seconds - don't send duplicate alerts within this window
 ALERT_COOLDOWN_SECONDS = int(os.environ.get("ALERT_COOLDOWN_SECONDS", "3600"))
 

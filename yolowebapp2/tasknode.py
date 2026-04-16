@@ -1,20 +1,37 @@
 # -*- coding: utf-8 -*-
+"""
+NodeODM client wrapper.
+
+Thin wrapper around pyodm.Node that reads host/port/token from Django settings
+so connection parameters are configurable via environment variables rather than
+being hardcoded.
+"""
 import glob
 import logging
 import os
 from pathlib import Path
 
+from django.conf import settings
 from pyodm import Node
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 logger = logging.getLogger(__name__)
 
 
+def _get_node() -> Node:
+    """Return a Node client using settings from Django configuration."""
+    return Node(
+        host=settings.ODM_HOST,
+        port=settings.ODM_PORT,
+        token=settings.ODM_TOKEN or None,
+    )
+
+
 class Node_processing:
 
     def __init__(self, image_dir):
         try:
-            self.start_api = Node("localhost", 3000)
+            self.start_api = _get_node()
             self.task = self.create_node_task(image_folder=image_dir)
             self.uuid = self.task.uuid
         except Exception as e:
