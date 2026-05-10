@@ -86,12 +86,14 @@
     <div class="section-tag">Bülten</div>
     <h2 class="section-title">Tarım içgörülerini kaçırmayın</h2>
     <p class="section-sub" style="margin:0 auto 32px;">Aylık NDVI raporları, sezonluk agronomi tavsiyeleri ve ürün güncellemeleri doğrudan e-posta kutunuza.</p>
-    <form onsubmit="handleNewsletter(event)" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;max-width:480px;margin:0 auto;">
-      <input type="email" placeholder="E-posta adresiniz" required
+    <form id="newsletterForm" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;max-width:480px;margin:0 auto;">
+      {% csrf_token %}
+      <input type="email" name="email" placeholder="E-posta adresiniz" required
              style="flex:1;min-width:220px;padding:14px 18px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
       <button type="submit" class="btn btn-primary">Abone Ol</button>
     </form>
     <p id="newsletter-msg" style="margin-top:12px;font-size:13px;color:var(--green);display:none;"><i class="fas fa-check-circle" style="margin-right:4px;"></i>Teşekkürler! Yakında ilk bülteniniz gelecek.</p>
+    <p id="newsletter-dup" style="margin-top:12px;font-size:13px;color:var(--muted);display:none;"><i class="fas fa-info-circle" style="margin-right:4px;"></i>Bu e-posta zaten kayıtlı.</p>
   </div>
 </section>
 
@@ -121,10 +123,22 @@ function filterPosts(cat, btn) {
   });
 }
 
-function handleNewsletter(e) {
+document.getElementById('newsletterForm').addEventListener('submit', function(e) {
   e.preventDefault();
-  document.getElementById('newsletter-msg').style.display = 'block';
-  e.target.reset();
-}
+  const form = e.target;
+  const data = new FormData(form);
+  fetch("{% url 'website:newsletter_subscribe' %}", { method: 'POST', body: data })
+    .then(r => r.json())
+    .then(j => {
+      if (j.ok && j.created) {
+        document.getElementById('newsletter-msg').style.display = 'block';
+        document.getElementById('newsletter-dup').style.display = 'none';
+      } else if (j.ok && !j.created) {
+        document.getElementById('newsletter-dup').style.display = 'block';
+        document.getElementById('newsletter-msg').style.display = 'none';
+      }
+      form.reset();
+    });
+});
 </script>
 {% endblock %}

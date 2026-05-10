@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sayfa Bulunamadı — Agrisynthia</title>
+  <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet">
+  <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #FAFAF7; color: #1A1A1A;
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      padding: 40px 24px;
+    }
+    .brand {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px; font-weight: 800; color: #1A1A1A; margin-bottom: 48px;
+    }
+    .brand span { color: #2E7D32; }
+    .code {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 96px; font-weight: 800; color: #2E7D32;
+      line-height: 1; margin-bottom: 16px; letter-spacing: -4px;
+    }
+    .icon { font-size: 32px; color: #2E7D32; opacity: 0.4; margin-bottom: 16px; }
+    h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 28px; font-weight: 700; margin-bottom: 12px; }
+    p { font-size: 15px; color: #6B7280; max-width: 380px; line-height: 1.7; margin-bottom: 32px; }
+    .btn-home {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #2E7D32; color: #fff;
+      padding: 12px 24px; border-radius: 8px;
+      font-size: 14px; font-weight: 600; text-decoration: none;
+      transition: background .15s;
+    }
+    .btn-home:hover { background: #1B5E20; }
+    .btn-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: #6B7280; font-size: 14px; text-decoration: none; margin-top: 16px;
+    }
+    .btn-back:hover { color: #1A1A1A; }
+  </style>
+</head>
+<body>
+  <div class="brand">Agri<span>synthia</span></div>
+  <div class="icon"><i class="fas fa-map-location-dot"></i></div>
+  <div class="code">404</div>
+  <h1>Sayfa bulunamadı</h1>
+  <p>Aradığınız sayfa taşınmış, silinmiş veya hiç var olmamış olabilir. URL'yi kontrol edin ya da anasayfaya dönün.</p>
+  <a href="/" class="btn-home"><i class="fas fa-house"></i> Anasayfaya Dön</a>
+  <br>
+  <a href="javascript:history.back()" class="btn-back"><i class="fas fa-arrow-left"></i> Önceki Sayfaya Dön</a>
+</body>
+</html>

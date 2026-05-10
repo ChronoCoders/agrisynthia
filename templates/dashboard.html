@@ -67,9 +67,72 @@
     .recent-item:last-child { border-bottom: none; }
 </style>
 
+<style>
+.onboarding-banner {
+    background: linear-gradient(135deg, #E8F5E9, #F1F8E9);
+    border: 1px solid #C8E6C9;
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+.onboarding-banner .ob-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: #2E7D32; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.onboarding-banner .ob-icon i { color: #fff; font-size: 20px; }
+.onboarding-banner h4 { font-size: 16px; font-weight: 700; color: #1B5E20; margin-bottom: 4px; }
+.onboarding-banner p { font-size: 13px; color: #388E3C; margin-bottom: 16px; }
+.ob-steps { display: flex; flex-wrap: wrap; gap: 10px; }
+.ob-step {
+    display: flex; align-items: center; gap: 8px;
+    background: #fff; border: 1px solid #C8E6C9; border-radius: 8px;
+    padding: 8px 14px; font-size: 13px; font-weight: 600; color: #2E7D32;
+    text-decoration: none; transition: box-shadow .15s;
+}
+.ob-step:hover { box-shadow: 0 2px 8px rgba(46,125,50,0.15); color: #1B5E20; }
+.ob-step.done { color: #9E9E9E; border-color: #E0E0E0; pointer-events: none; }
+.ob-step.done i.check { color: #2E7D32; }
+.ob-dismiss {
+    margin-left: auto; background: none; border: none;
+    color: #9E9E9E; font-size: 18px; cursor: pointer; align-self: flex-start; padding: 0;
+}
+.ob-dismiss:hover { color: #555; }
+</style>
+
 <div id="wrapper">
     <div class="main-content">
         <div class="row small-spacing">
+
+            <!-- ── Onboarding banner (first-time users) ──────────── -->
+            {% if total_projects == 0 %}
+            <div class="col-12" id="obBanner">
+                <div class="onboarding-banner">
+                    <div class="ob-icon"><i class="fas fa-seedling"></i></div>
+                    <div style="flex:1;">
+                        <h4>Hoş geldiniz! Başlamak için 3 adım.</h4>
+                        <p>İlk projenizi oluşturun, görüntü yükleyin ve ilk raporunuzu alın.</p>
+                        <div class="ob-steps">
+                            <a href="{% url 'dron_map:add_projects' slug='new' %}" class="ob-step">
+                                <i class="fas fa-circle-plus"></i> Proje Oluştur
+                            </a>
+                            <a href="{% url 'detection:multi_detection_image' %}" class="ob-step">
+                                <i class="fas fa-image"></i> Görüntü Yükle
+                            </a>
+                            <a href="{% url 'reports:list' %}" class="ob-step">
+                                <i class="fas fa-file-chart-column"></i> Rapor Al
+                            </a>
+                        </div>
+                    </div>
+                    <button class="ob-dismiss" onclick="document.getElementById('obBanner').style.display='none'" title="Kapat">
+                        <i class="fas fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+            {% endif %}
 
             <!-- ── Summary cards ─────────────────────────────────── -->
             <div class="col-xl-3 col-md-6 col-12">
