@@ -11,4 +11,8 @@ urlpatterns = [
     path("hakkimizda/", views.about, name="about"),
     path("blog/", views.blog, name="blog"),
     path("blog/<slug:slug>/", views.blog_detail, name="blog_detail"),
+    path("iletisim/", views.contact, name="contact"),
+    path("gizlilik-politikasi/", views.privacy, name="privacy"),
+    path("kullanim-kosullari/", views.terms, name="terms"),
+    path("kvkk/", views.kvkk, name="kvkk"),
 ]

@@ -22,7 +22,7 @@
     {% with posts.0 as featured %}
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:48px;display:grid;grid-template-columns:1fr 1fr;">
       <div style="background:linear-gradient(135deg,#1B5E20,#43A047);display:flex;align-items:center;justify-content:center;min-height:280px;">
-        <i class="fas fa-satellite" style="font-size:56px;color:rgba(255,255,255,0.25);"></i>
+        <i class="fas {{ featured.icon }}" style="font-size:56px;color:rgba(255,255,255,0.25);"></i>
       </div>
       <div style="padding:40px;">
         <div class="blog-cat">{{ featured.category }} · Öne Çıkan</div>
@@ -50,7 +50,7 @@
     <div class="blog-grid" id="blogGrid">
       {% for post in posts %}
       <article class="blog-card" data-cat="{{ post.cat_slug }}">
-        <div class="blog-thumb"><i class="fas fa-leaf" style="font-size:36px;color:var(--green);opacity:0.5;"></i></div>
+        <div class="blog-thumb"><i class="fas {{ post.icon }}" style="font-size:36px;color:var(--green);opacity:0.5;"></i></div>
         <div class="blog-body">
           <div class="blog-cat">{{ post.category }}</div>
           <h3 class="blog-title">{{ post.title }}</h3>
@@ -81,7 +81,7 @@
              style="flex:1;min-width:220px;padding:14px 18px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
       <button type="submit" class="btn btn-primary">Abone Ol</button>
     </form>
-    <p id="newsletter-msg" style="margin-top:12px;font-size:13px;color:var(--green);display:none;">✓ Teşekkürler! Yakında ilk bülteniniz gelecek.</p>
+    <p id="newsletter-msg" style="margin-top:12px;font-size:13px;color:var(--green);display:none;"><i class="fas fa-check-circle" style="margin-right:4px;"></i>Teşekkürler! Yakında ilk bülteniniz gelecek.</p>
   </div>
 </section>
 

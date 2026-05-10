@@ -1,0 +1,88 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block title %}Kullanım Koşulları{% endblock %}
+{% block meta_desc %}Agrisynthia kullanım koşulları — platforma erişim, abonelik, fikri mülkiyet ve sorumluluk sınırlamaları.{% endblock %}
+{% block og_url %}/kullanim-kosullari/{% endblock %}
+{% block canonical_url %}/kullanim-kosullari/{% endblock %}
+
+{% block content %}
+
+<section style="padding:140px 0 64px;background:linear-gradient(160deg,#f0f7f0,var(--bg));border-bottom:1px solid var(--border);text-align:center;">
+  <div class="container">
+    <div class="section-tag">Yasal</div>
+    <h1 class="section-title">Kullanım Koşulları</h1>
+    <p class="section-sub" style="margin:0 auto;">Son güncelleme: 1 Ocak 2026</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" style="max-width:760px;">
+    <div class="blog-content" style="font-size:16px;color:#2d2d2d;line-height:1.85;">
+
+      <p>Bu Kullanım Koşulları, Agrisynthia platformunun kullanımına ilişkin hüküm ve koşulları belirler. Platforma erişerek veya hesap oluşturarak bu koşulları kabul etmiş sayılırsınız.</p>
+
+      <h2>1. Hizmet Kapsamı</h2>
+      <p>Agrisynthia; uydu NDVI analizi, drone görüntü işleme, yapay zeka meyve tespiti ve verim tahmini hizmetlerini bir SaaS (Hizmet Olarak Yazılım) modeli kapsamında sunar. Hizmet özellikleri abonelik planına göre değişir.</p>
+
+      <h2>2. Hesap ve Erişim</h2>
+      <ul>
+        <li>Hesap açmak için 18 yaşında veya üzerinde olmanız gerekir.</li>
+        <li>Hesap bilgilerinizin (şifre dahil) gizliliğinden siz sorumlusunuz.</li>
+        <li>Hesabınızda gerçekleşen tüm işlemler size ait kabul edilir.</li>
+        <li>Ticari amaçlı kullanımda şirkete ait doğru bilgilerin girilmesi zorunludur.</li>
+      </ul>
+
+      <h2>3. Abonelik ve Ödeme</h2>
+      <ul>
+        <li>Aylık planlar, aylık; yıllık planlar yıllık faturalanır.</li>
+        <li>14 günlük ücretsiz deneme süresi dolduğunda seçilen plan otomatik devreye girer.</li>
+        <li>İptal işlemi mevcut fatura döneminin sonunda geçerli olur; kalan süre için iade yapılmaz.</li>
+        <li>Plan yükseltmelerinde fark günlük olarak hesaplanır ve anında uygulanır.</li>
+        <li>Vergi ve harçlar varsa faturaya ayrıca yansıtılır.</li>
+      </ul>
+
+      <h2>4. Kabul Edilemez Kullanım</h2>
+      <p>Aşağıdaki kullanım türleri kesinlikle yasaktır:</p>
+      <ul>
+        <li>Platformun ters mühendisliğini yapmak, kaynak koduna erişmeye çalışmak</li>
+        <li>Otomatik scraping araçlarıyla sistemi aşırı yüklemek</li>
+        <li>Başka kullanıcıların verilerine yetkisiz erişim girişimi</li>
+        <li>Hizmeti yasadışı faaliyetler için kullanmak</li>
+        <li>Abonelik planı dışındaki özellikleri aşmaya çalışmak</li>
+      </ul>
+
+      <h2>5. Fikri Mülkiyet</h2>
+      <p>Platform yazılımı, tasarımı, algoritmaları ve marka unsurları Agrisynthia'ya aittir. Kullanıcılar yüklediği içerikler (drone görüntüleri, tarla verileri) üzerindeki mülkiyet haklarını korur; Agrisynthia'ya yalnızca hizmetin sunulması için gerekli lisans verilmiş olur.</p>
+
+      <h2>6. Hizmet Kesintileri ve Değişiklikler</h2>
+      <p>Planlı bakım dışındaki kesintiler için makul çaba gösterilir. Agrisynthia, özellik değişikliklerini önceden duyurma hakkını saklı tutar. Önemli değişiklikler en az 30 gün önceden e-posta ile bildirilir.</p>
+
+      <h2>7. Sorumluluk Sınırlaması</h2>
+      <p>Agrisynthia'nın sunduğu veriler (NDVI değerleri, verim tahminleri) karar destek amaçlıdır; tarımsal veya finansal tavsiye niteliği taşımaz. Platform çıktılarına dayanarak alınan kararlardan doğan zararlardan Agrisynthia sorumlu tutulamaz. Toplam sorumluluk, son 12 aydaki abonelik bedelini aşamaz.</p>
+
+      <h2>8. Hesap Askıya Alma ve Sonlandırma</h2>
+      <p>Ödeme yapılmaması veya koşullara aykırı kullanım durumunda hesap askıya alınabilir veya sonlandırılabilir. Sonlandırmadan önce e-posta ile uyarı gönderilir (acil güvenlik ihlalleri hariç). Kullanıcı istediği zaman hesabını silebilir.</p>
+
+      <h2>9. Uygulanacak Hukuk</h2>
+      <p>Bu koşullar Türk hukukuna tabidir. Uyuşmazlıklarda İstanbul mahkemeleri yetkilidir.</p>
+
+      <h2>10. İletişim</h2>
+      <p>Kullanım koşullarına ilişkin sorularınız için <a href="mailto:info@agrisynthia.com" style="color:var(--green);font-weight:600;">info@agrisynthia.com</a> adresine yazabilirsiniz.</p>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_head %}
+<style>
+.blog-content h2 { font-size:22px;font-weight:700;margin:36px 0 12px;color:var(--text); }
+.blog-content h3 { font-size:17px;font-weight:700;margin:24px 0 8px;color:var(--text); }
+.blog-content p { margin-bottom:16px; }
+.blog-content ul { padding-left:24px;margin-bottom:16px; }
+.blog-content li { margin-bottom:6px; }
+.blog-content strong { color:var(--text); }
+</style>
+{% endblock %}

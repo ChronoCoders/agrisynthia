@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /detection/
+Disallow: /dron-map/
+Disallow: /reports/
+Disallow: /accounts/
+
+Sitemap: https://agrisynthia.com/sitemap.xml
