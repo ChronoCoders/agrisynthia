@@ -126,3 +126,43 @@ def process_odm_task(self, project_id: int) -> dict:
         project.odm_error = str(e)
         project.save(update_fields=["odm_status", "odm_error"])
         return {"project_id": project_id, "error": str(e)}
+
+
+@shared_task(name="dron_map.watchdog_stuck_odm_tasks")
+def watchdog_stuck_odm_tasks() -> dict:
+    """
+    Periodic watchdog that marks ODM projects stuck in 'processing' as failed.
+
+    A project is considered stuck if it has been in ODM_PROCESSING status for
+    longer than ODM_STUCK_TIMEOUT_MINUTES (default 120 minutes). This covers the
+    case where the Celery worker crashed mid-task and never updated the status.
+    """
+    from datetime import timedelta
+
+    from django.utils import timezone
+
+    from dron_map.models import Projects
+
+    timeout_minutes = getattr(settings, "ODM_STUCK_TIMEOUT_MINUTES", 120)
+    cutoff = timezone.now() - timedelta(minutes=timeout_minutes)
+
+    stuck = Projects.objects.filter(
+        odm_status=Projects.ODM_PROCESSING,
+        updated_at__lt=cutoff,
+    )
+
+    count = stuck.count()
+    if count == 0:
+        logger.info("ODM watchdog: stuck proje yok.")
+        return {"recovered": 0}
+
+    ids = list(stuck.values_list("pk", flat=True))
+    stuck.update(
+        odm_status=Projects.ODM_FAILED,
+        odm_error=f"Watchdog: {timeout_minutes} dakika sonra zaman aşımı.",
+    )
+    logger.warning(
+        "ODM watchdog: %d takılı proje başarısız olarak işaretlendi (pk=%s)",
+        count, ids,
+    )
+    return {"recovered": count, "project_ids": ids}

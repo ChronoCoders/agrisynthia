@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>Farm Vision - Profil</title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+    <link rel="stylesheet" href="{% static 'assets/styles/style.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/styles/custom.css' %}">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet">
+    <style>
+        body { background: #f5f5f5; }
+        .profile-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 48px 16px;
+        }
+        .profile-container { width: 100%; max-width: 560px; }
+        .profile-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+            padding: 32px 36px;
+            margin-bottom: 24px;
+        }
+        .profile-card h5 {
+            color: #2E7D32;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 12px;
+        }
+        .btn-primary-green {
+            background: #2E7D32;
+            border-color: #2E7D32;
+            color: #fff;
+            padding: 8px 24px;
+            border-radius: 4px;
+        }
+        .btn-primary-green:hover { background: #1b5e20; border-color: #1b5e20; color: #fff; }
+        .back-link { font-size: 13px; color: #2E7D32; }
+        .errorlist { color: #c62828; list-style: none; padding: 0; font-size: 13px; }
+    </style>
+</head>
+<body>
+<div class="profile-wrapper">
+    <div class="profile-container">
+        <div style="margin-bottom:16px;">
+            <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Ana Sayfaya Dön</a>
+        </div>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags|default:'info' }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+
+        <!-- Profile info card -->
+        <div class="profile-card">
+            <h5><i class="fas fa-user-circle"></i> Profil Bilgileri</h5>
+            <p style="font-size:13px;color:#757575;margin-bottom:16px;">
+                Kullanıcı adı: <strong>{{ user.username }}</strong>
+            </p>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Ad</label>
+                    {{ profile_form.first_name }}
+                    {% if profile_form.first_name.errors %}
+                    <ul class="errorlist">{% for e in profile_form.first_name.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label>Soyad</label>
+                    {{ profile_form.last_name }}
+                    {% if profile_form.last_name.errors %}
+                    <ul class="errorlist">{% for e in profile_form.last_name.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label>E-posta</label>
+                    {{ profile_form.email }}
+                    {% if profile_form.email.errors %}
+                    <ul class="errorlist">{% for e in profile_form.email.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+                    {% endif %}
+                </div>
+                <button type="submit" name="update_profile" class="btn btn-primary-green">
+                    <i class="fas fa-save"></i> Kaydet
+                </button>
+            </form>
+        </div>
+
+        <!-- Password change card -->
+        <div class="profile-card">
+            <h5><i class="fas fa-lock"></i> Şifre Değiştir</h5>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Mevcut Şifre</label>
+                    <input type="password" name="old_password" class="form-control"
+                           autocomplete="current-password" required>
+                    {% if password_form.old_password.errors %}
+                    <ul class="errorlist">{% for e in password_form.old_password.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label>Yeni Şifre</label>
+                    <input type="password" name="new_password1" class="form-control"
+                           autocomplete="new-password" required>
+                    {% if password_form.new_password1.errors %}
+                    <ul class="errorlist">{% for e in password_form.new_password1.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label>Yeni Şifre (Tekrar)</label>
+                    <input type="password" name="new_password2" class="form-control"
+                           autocomplete="new-password" required>
+                    {% if password_form.new_password2.errors %}
+                    <ul class="errorlist">{% for e in password_form.new_password2.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+                    {% endif %}
+                </div>
+                {% if password_form.non_field_errors %}
+                <div class="alert alert-danger" style="font-size:13px;">
+                    {% for e in password_form.non_field_errors %}{{ e }}{% endfor %}
+                </div>
+                {% endif %}
+                <button type="submit" name="change_password" class="btn btn-primary-green">
+                    <i class="fas fa-key"></i> Şifreyi Güncelle
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="{% static 'assets/scripts/jquery.min.js' %}"></script>
+<script src="{% static 'assets/plugin/bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+</html>
