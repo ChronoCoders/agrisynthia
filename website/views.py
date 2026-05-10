@@ -37,7 +37,7 @@ BLOG_POSTS = [
         "date": "2 Mayıs 2026",
         "read_time": 8,
         "icon": "fa-helicopter",
-        "image": "https://images.unsplash.com/photo-1474302770737-173ee21bab63?w=800&q=80&fit=crop",
+        "image": "https://images.unsplash.com/photo-1657093114835-031e7cf9520c?w=800&q=80&fit=crop",
         "content": """
 <p>Ortofoto, drone görüntülerinin geometrik olarak düzeltilip tek bir üstten bakış görüntüsünde birleştirilmesidir. Açık kaynak NodeODM motoru ve Agrisynthia entegrasyonu bu süreci ücretsiz ve otomatik hale getirir.</p>
 <h2>1. Uçuş planlaması</h2>
@@ -60,7 +60,7 @@ BLOG_POSTS = [
         "date": "25 Nisan 2026",
         "read_time": 7,
         "icon": "fa-microchip",
-        "image": "https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?w=800&q=80&fit=crop",
+        "image": "https://images.unsplash.com/photo-1638445728705-c5cebce48a72?w=800&q=80&fit=crop",
         "content": """
 <p>Meyve sayımı, hasat planlaması ve verim tahmini için kritik bir girdi olmakla birlikte, geleneksel yöntemlerle yapıldığında %20-40 hata payı taşır. Agrisynthia'nın YOLOv7 tabanlı tespit motoru bu hata payını %6'nın altına indirir.</p>
 <h2>YOLOv7 neden seçildi?</h2>
