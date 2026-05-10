@@ -20,6 +20,9 @@ class Projects(models.Model):
     Data_time: models.DateTimeField = models.DateTimeField(
         auto_now_add=True, db_index=True
     )
+    updated_at: models.DateTimeField = models.DateTimeField(
+        auto_now=True, db_index=True
+    )
     picture: models.FileField = models.FileField(
         upload_to="assets/images", blank=True, null=True, verbose_name="image"
     )

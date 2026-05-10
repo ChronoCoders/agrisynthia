@@ -481,6 +481,10 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": 86400.0,
         "kwargs": {"days_old": int(os.environ.get("RESULT_RETENTION_DAYS", 30))},
     },
+    "odm-watchdog-hourly": {
+        "task": "dron_map.watchdog_stuck_odm_tasks",
+        "schedule": 3600.0,  # Every hour
+    },
 }
 
 # Redis connection pool settings
