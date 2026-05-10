@@ -145,12 +145,9 @@ img { max-width: 100%; display: block; }
 .hero-card-header span { color: rgba(255,255,255,0.7); font-size: 12px; font-weight: 600; }
 .ndvi-map {
   width: 100%; aspect-ratio: 16/10;
-  background: linear-gradient(135deg,
-    #1B5E20 0%, #2E7D32 15%, #43A047 25%,
-    #F9A825 40%, #EF6C00 55%,
-    #C62828 70%, #B71C1C 85%,
-    #2E7D32 100%);
+  background: #1B5E20;
   position: relative; display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
 }
 .ndvi-overlay {
   position: absolute; inset: 0;
