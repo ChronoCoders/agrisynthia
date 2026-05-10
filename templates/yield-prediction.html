@@ -63,7 +63,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row" style="align-items:flex-end;">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Tespit Edilen Meyve Sayısı</label>
@@ -74,7 +74,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Ort. NDVI (opsiyonel)</label>
+                                <label>Ort. NDVI <span class="text-muted" style="font-weight:400;">(opsiyonel)</span></label>
                                 <input type="number" name="avg_ndvi" min="0" max="1" step="0.001"
                                        class="form-control"
                                        value="{{ estimate.avg_ndvi|default:'' }}" placeholder="ör. 0.55">
