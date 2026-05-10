@@ -21,7 +21,7 @@
   <div class="container">
     <div class="pillar">
       <div class="pillar-text">
-        <div class="pillar-tag">🛰️ Uydu İzleme</div>
+        <div class="pillar-tag"><i class="fas fa-satellite"></i> Uydu İzleme</div>
         <h2>Bitki sağlığını haftadan haftaya takip edin</h2>
         <div class="outcome-stat">
           <div class="num">%31</div>
@@ -45,18 +45,17 @@
           </div>
           <div style="height:60px;display:flex;align-items:flex-end;gap:3px;">
             {% for v in ""|ljust:20 %}
-            <div style="flex:1;background:var(--green);opacity:0.3;border-radius:2px 2px 0 0;" class="bar-anim"></div>
+            <div style="flex:1;background:var(--green);opacity:0.5;border-radius:2px 2px 0 0;" class="bar-anim"></div>
             {% endfor %}
           </div>
           <style>
-            .bar-anim { height: calc(30% + var(--h,0%)); }
-            .bar-anim:nth-child(1){--h:10%} .bar-anim:nth-child(2){--h:20%} .bar-anim:nth-child(3){--h:35%}
-            .bar-anim:nth-child(4){--h:50%} .bar-anim:nth-child(5){--h:60%} .bar-anim:nth-child(6){--h:55%}
-            .bar-anim:nth-child(7){--h:65%} .bar-anim:nth-child(8){--h:70%} .bar-anim:nth-child(9){--h:60%}
-            .bar-anim:nth-child(10){--h:40%} .bar-anim:nth-child(11){--h:30%} .bar-anim:nth-child(12){--h:20%}
-            .bar-anim:nth-child(13){--h:15%} .bar-anim:nth-child(14){--h:25%} .bar-anim:nth-child(15){--h:35%}
-            .bar-anim:nth-child(16){--h:50%} .bar-anim:nth-child(17){--h:60%} .bar-anim:nth-child(18){--h:65%}
-            .bar-anim:nth-child(19){--h:55%} .bar-anim:nth-child(20){--h:60%}
+            .bar-anim:nth-child(1){height:40%} .bar-anim:nth-child(2){height:50%} .bar-anim:nth-child(3){height:65%}
+            .bar-anim:nth-child(4){height:80%} .bar-anim:nth-child(5){height:90%} .bar-anim:nth-child(6){height:85%}
+            .bar-anim:nth-child(7){height:95%} .bar-anim:nth-child(8){height:100%} .bar-anim:nth-child(9){height:90%}
+            .bar-anim:nth-child(10){height:70%} .bar-anim:nth-child(11){height:60%} .bar-anim:nth-child(12){height:50%}
+            .bar-anim:nth-child(13){height:45%} .bar-anim:nth-child(14){height:55%} .bar-anim:nth-child(15){height:65%}
+            .bar-anim:nth-child(16){height:80%} .bar-anim:nth-child(17){height:90%} .bar-anim:nth-child(18){height:95%}
+            .bar-anim:nth-child(19){height:85%} .bar-anim:nth-child(20){height:90%}
           </style>
           <div style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center;">5 Aylık NDVI Trendi</div>
         </div>
@@ -66,13 +65,13 @@
     <!-- Pillar 2: Drone -->
     <div class="pillar reverse">
       <div class="pillar-text">
-        <div class="pillar-tag">🚁 Drone Analizi</div>
+        <div class="pillar-tag"><i class="fas fa-plane-up"></i> Drone Analizi</div>
         <h2>Drone görüntülerinizi ortofotoya dönüştürün</h2>
         <div class="outcome-stat">
-          <div class="num">20dk</div>
+          <div class="num">20 dk</div>
           <div class="desc">Görüntü yükleme &rarr;<br>tam analiz süresi</div>
         </div>
-        <p>NodeODM motoru ile drone görüntüleriniz otomatik olarak dikdörtgenleştirilir, birleştirilir ve 14 farklı bitki sağlığı algoritmasından (NDVI, EVI, SAVI, vb.) geçirilir. Sonucu harita üzerinde katman olarak görün, indirin veya paylaşın.</p>
+        <p>NodeODM motoru ile drone görüntüleriniz otomatik olarak dikdörtgenleştirilir, birleştirilir ve 14 farklı bitki sağlığı algoritmasından geçirilir. Sonucu harita üzerinde katman olarak görün, indirin veya paylaşın.</p>
         <ul class="check-list">
           <li>Çoklu görüntü yükleme — sürükle ve bırak</li>
           <li>14 sağlık algoritması (NDVI, EVI, GNDVI, SAVI…)</li>
@@ -82,13 +81,13 @@
       </div>
       <div class="pillar-visual">
         <div style="padding:24px;">
-          <div style="background:#1A1A1A;border-radius:8px;padding:12px;font-family:monospace;font-size:12px;color:#81C784;line-height:1.8;">
-            <div style="color:#9E9E9E;">// ODM işleme durumu</div>
-            <div>✓ 48 görüntü yüklendi</div>
-            <div>✓ Özellik eşleştirme tamamlandı</div>
-            <div>✓ Nokta bulutu oluşturuldu</div>
-            <div style="color:#F9A825;">⟳ Ortofoto işleniyor… %74</div>
-            <div style="color:#9E9E9E;">○ Sağlık haritası bekliyor</div>
+          <div style="background:#1A1A1A;border-radius:8px;padding:16px;font-family:monospace;font-size:12px;color:#81C784;line-height:2;">
+            <div style="color:#6B7280;margin-bottom:4px;">// ODM işleme durumu</div>
+            <div><i class="fas fa-check" style="color:#81C784;margin-right:8px;"></i>48 görüntü yüklendi</div>
+            <div><i class="fas fa-check" style="color:#81C784;margin-right:8px;"></i>Özellik eşleştirme tamamlandı</div>
+            <div><i class="fas fa-check" style="color:#81C784;margin-right:8px;"></i>Nokta bulutu oluşturuldu</div>
+            <div style="color:#F9A825;"><i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i>Ortofoto işleniyor… %74</div>
+            <div style="color:#6B7280;"><i class="fas fa-circle" style="margin-right:8px;font-size:8px;vertical-align:middle;"></i>Sağlık haritası bekliyor</div>
           </div>
           <div style="margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
             <div style="background:var(--green-light);border-radius:6px;padding:10px;text-align:center;">
@@ -96,11 +95,11 @@
               <div style="font-size:11px;color:var(--muted);">Görüntü</div>
             </div>
             <div style="background:var(--green-light);border-radius:6px;padding:10px;text-align:center;">
-              <div style="font-weight:700;color:var(--green);">4.2ha</div>
+              <div style="font-weight:700;color:var(--green);">4.2 ha</div>
               <div style="font-size:11px;color:var(--muted);">Alan</div>
             </div>
             <div style="background:var(--green-light);border-radius:6px;padding:10px;text-align:center;">
-              <div style="font-weight:700;color:var(--green);">2cm</div>
+              <div style="font-weight:700;color:var(--green);">2 cm</div>
               <div style="font-size:11px;color:var(--muted);">Çözünürlük</div>
             </div>
           </div>
@@ -111,7 +110,7 @@
     <!-- Pillar 3: Detection -->
     <div class="pillar">
       <div class="pillar-text">
-        <div class="pillar-tag">🍊 YZ Meyve Tespiti</div>
+        <div class="pillar-tag"><i class="fas fa-magnifying-glass"></i> YZ Meyve Tespiti</div>
         <h2>Hasattan önce meyvenizi sayın</h2>
         <div class="outcome-stat">
           <div class="num">%94+</div>
@@ -129,10 +128,9 @@
         <div style="background:#111;border-radius:8px;overflow:hidden;">
           <div style="position:relative;height:180px;background:linear-gradient(135deg,#1a2e1a,#2d4a2d);display:flex;align-items:center;justify-content:center;">
             <div style="text-align:center;">
-              <div style="font-size:48px;margin-bottom:8px;">🍊</div>
-              <div style="font-size:11px;color:#81C784;font-weight:600;">YOLOv7 · 0.12s · conf: 0.94</div>
+              <i class="fas fa-tree" style="font-size:48px;color:#4CAF50;margin-bottom:8px;display:block;"></i>
+              <div style="font-size:11px;color:#81C784;font-weight:600;letter-spacing:0.5px;">YOLOv7 · 0.12s · conf: 0.94</div>
             </div>
-            <!-- Bounding box indicators -->
             <div style="position:absolute;top:30px;left:40px;width:50px;height:50px;border:2px solid #81C784;border-radius:4px;"></div>
             <div style="position:absolute;top:80px;right:50px;width:40px;height:40px;border:2px solid #81C784;border-radius:4px;"></div>
             <div style="position:absolute;bottom:30px;left:90px;width:45px;height:45px;border:2px solid #F9A825;border-radius:4px;"></div>
@@ -147,7 +145,7 @@
               <div style="font-size:11px;color:#9E9E9E;">Tahmini Ağırlık</div>
             </div>
             <div style="text-align:center;">
-              <div style="font-size:22px;font-weight:800;color:#81C784;">61t</div>
+              <div style="font-size:22px;font-weight:800;color:#81C784;">61 t</div>
               <div style="font-size:11px;color:#9E9E9E;">Tonaj Tahmini</div>
             </div>
           </div>
