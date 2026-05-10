@@ -489,10 +489,19 @@ CELERY_BEAT_SCHEDULE = {
         "task": "dron_map.refresh_all_sentinel2_ndvi",
         "schedule": 604800.0,  # Every 7 days
     },
+    "ndvi-stress-alerts-weekly": {
+        "task": "dron_map.send_ndvi_stress_alerts",
+        "schedule": 604800.0,  # Every 7 days
+    },
 }
 
 # Sentinel-2 / Earth Search settings
 SENTINEL2_CLOUD_MAX = int(os.environ.get("SENTINEL2_CLOUD_MAX", 30))  # % cloud cover threshold
+
+# NDVI stress alert thresholds
+NDVI_STRESS_THRESHOLD  = float(os.environ.get("NDVI_STRESS_THRESHOLD", "0.3"))
+NDVI_WARN_THRESHOLD    = float(os.environ.get("NDVI_WARN_THRESHOLD", "0.5"))
+NDVI_ALERT_COOLDOWN_DAYS = int(os.environ.get("NDVI_ALERT_COOLDOWN_DAYS", "7"))
 
 # Redis connection pool settings
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
