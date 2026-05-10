@@ -1,0 +1,127 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block title %}Hakkımızda{% endblock %}
+{% block meta_desc %}Agrisynthia — Türk tarımını dijital dönüşüme taşıyan yapay zeka platformu. Hikayemiz, misyonumuz ve değerlerimiz.{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<section class="about-hero">
+  <div class="container">
+    <div class="section-tag">Hakkımızda</div>
+    <p class="about-mission">
+      Türkiye'nin <span class="accent">her tarlasının</span> uydu gözü ve yapay zeka aklıyla izlenmesi gerektiğine inanıyoruz.
+      Agrisynthia, üreticilerin veri temelli kararlar almasını <span class="accent">mümkün kılmak</span> için kuruldu.
+    </p>
+  </div>
+</section>
+
+<!-- Story -->
+<section class="section" style="background:#fff;border-top:1px solid var(--border);">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;">
+      <div>
+        <div class="section-tag">Hikayemiz</div>
+        <h2 class="section-title">Hasadın kaybedildiği andan doğdu</h2>
+        <p style="font-size:16px;color:var(--muted);line-height:1.8;margin-bottom:20px;">
+          2024 yılında Antalya'da bir mandalina bahçesinde yaptığımız saha ziyaretinde gördük: üretici, NDVI grafiğinde haftalarca gerileyen bir tarlanın farkında bile değildi. Hasat geldiğinde verim %30 düşmüştü.
+        </p>
+        <p style="font-size:16px;color:var(--muted);line-height:1.8;margin-bottom:20px;">
+          O gün Agrisynthia'nın temelini attık. Uydu verisini, yapay zekayı ve drone teknolojisini bir araya getiren; Türk üreticisine anlık karar desteği sunan bir platform.
+        </p>
+        <p style="font-size:16px;color:var(--muted);line-height:1.8;">
+          Bugün 2.400'den fazla tarla ve 340+ kooperatif, hasatlarını Agrisynthia ile planlıyor.
+        </p>
+      </div>
+      <div style="background:var(--green-light);border-radius:16px;padding:40px;text-align:center;">
+        <div style="font-size:64px;margin-bottom:16px;">🌱</div>
+        <div style="font-size:13px;color:var(--muted);font-weight:600;margin-bottom:24px;">2024'ten bu yana</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div style="background:#fff;border-radius:8px;padding:16px;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:800;color:var(--green);">2,400+</div>
+            <div style="font-size:12px;color:var(--muted);">Tarla</div>
+          </div>
+          <div style="background:#fff;border-radius:8px;padding:16px;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:800;color:var(--green);">340+</div>
+            <div style="font-size:12px;color:var(--muted);">Kooperatif</div>
+          </div>
+          <div style="background:#fff;border-radius:8px;padding:16px;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:800;color:var(--green);">%23</div>
+            <div style="font-size:12px;color:var(--muted);">Ort. Verim Artışı</div>
+          </div>
+          <div style="background:#fff;border-radius:8px;padding:16px;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:800;color:var(--green);">18M+</div>
+            <div style="font-size:12px;color:var(--muted);">Görüntü Analizi</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Values -->
+<section class="section">
+  <div class="container">
+    <div class="section-header centered">
+      <div class="section-tag">Değerlerimiz</div>
+      <h2 class="section-title">Neye inandığımız</h2>
+    </div>
+    <div class="value-grid">
+      <div class="value-card">
+        <div style="font-size:28px;margin-bottom:12px;">🎯</div>
+        <h3>Üretici Önce Gelir</h3>
+        <p>Her özellik, sahada üreticinin işini nasıl kolaylaştırdığı sorusuyla başlar. Teknoloji araçtır, amaç değil.</p>
+      </div>
+      <div class="value-card">
+        <div style="font-size:28px;margin-bottom:12px;">🔬</div>
+        <h3>Veri Asla Yanlış Söylemez</h3>
+        <p>Kararlarımız ve önerilerimiz bilimsel agronomi ve gerçek ölçüm verilerine dayanır. Tahmin belirsizliklerini her zaman açıkça belirtiriz.</p>
+      </div>
+      <div class="value-card">
+        <div style="font-size:28px;margin-bottom:12px;">🌍</div>
+        <h3>Sürdürülebilir Tarım</h3>
+        <p>Verimlilik artışı, su ve gübre tasarrufu anlamına gelir. Agrisynthia, çevresel ayak izini küçülten kararları destekler.</p>
+      </div>
+      <div class="value-card">
+        <div style="font-size:28px;margin-bottom:12px;">🔒</div>
+        <h3>Veri Gizliliği</h3>
+        <p>Tarlanızın verisi sizindir. Üçüncü taraflarla paylaşmaz, reklam amaçlı kullanmayız. KVKK ve GDPR tam uyumlu.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Technology -->
+<section class="section" style="background:#fff;border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="section-header centered">
+      <div class="section-tag">Teknoloji</div>
+      <h2 class="section-title">Altında yatan güç</h2>
+      <p class="section-sub">Agrisynthia, kanıtlanmış açık kaynak ve sektör standardı teknolojilerin üzerine inşa edilmiştir.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center;">
+      {% for tech in techs %}
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+        <div style="font-size:28px;margin-bottom:10px;">{{ tech.icon }}</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:6px;">{{ tech.name }}</div>
+        <div style="font-size:12px;color:var(--muted);">{{ tech.desc }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band">
+  <div class="container">
+    <h2>Birlikte büyüyelim</h2>
+    <p>Agrisynthia'nın bir parçası olmak ister misiniz?</p>
+    <div class="btn-row">
+      <a href="mailto:info@agrisynthia.com" class="btn btn-white btn-lg">Bize Ulaşın</a>
+      <a href="{% url 'website:pricing' %}" class="btn btn-lg" style="background:rgba(255,255,255,0.15);color:#fff;border:1.5px solid rgba(255,255,255,0.4);">Platformu Deneyin</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

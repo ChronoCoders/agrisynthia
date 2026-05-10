@@ -94,6 +94,7 @@ INSTALLED_APPS = [
     "detection.apps.DetectionConfig",
     "dron_map.apps.DronMapConfig",
     "reports",
+    "website",
 ]   
 
 

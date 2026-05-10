@@ -1,0 +1,194 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block title %}Ana Sayfa{% endblock %}
+{% block meta_desc %}Agrisynthia ile tarlanızı uydu ve drone görüntülerinden yapay zeka ile analiz edin. NDVI izleme, meyve tespiti ve verim tahmini tek platformda.{% endblock %}
+
+{% block content %}
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;">
+      <div class="hero-content">
+        <div class="hero-eyebrow">Türkiye'nin Akıllı Tarım Platformu</div>
+        <h1>Tarlanızı <span class="highlight">gerçek zamanlı</span> görün. Hasadınızı önceden planlayın.</h1>
+        <p>Uydu NDVI analizi, drone görüntü işleme ve yapay zeka meyve tespiti ile hasadınızı artırın, kayıplarınızı azaltın.</p>
+        <div class="hero-actions">
+          <a href="{% url 'website:pricing' %}" class="btn btn-primary btn-lg">Ücretsiz Başlayın</a>
+          <a href="{% url 'website:product' %}" class="btn btn-outline btn-lg">Nasıl Çalışır?</a>
+        </div>
+        <p class="hero-note">Kredi kartı gerekmez &nbsp;·&nbsp; 14 gün ücretsiz deneme</p>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <span>🛰️ &nbsp;Uydu NDVI Haritası — Antalya, Mandalina Bahçesi</span>
+          </div>
+          <div class="ndvi-map">
+            <div class="ndvi-overlay"></div>
+            <div class="ndvi-badge">NDVI · Canlı</div>
+          </div>
+          <div class="hero-stats-row">
+            <div class="hero-stat"><div class="val">0.62</div><div class="lbl">Ort. NDVI</div></div>
+            <div class="hero-stat"><div class="val">%87</div><div class="lbl">Sağlıklı Alan</div></div>
+            <div class="hero-stat"><div class="val">+%14</div><div class="lbl">Verim Artışı</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Stats Bar ── -->
+<div class="stats-bar">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="number">2,400+</div>
+        <div class="label">İzlenen Tarla</div>
+      </div>
+      <div class="stat-item">
+        <div class="number">18M+</div>
+        <div class="label">Analiz Edilen Görüntü</div>
+      </div>
+      <div class="stat-item">
+        <div class="number">%23</div>
+        <div class="label">Ortalama Verim Artışı</div>
+      </div>
+      <div class="stat-item">
+        <div class="number">340+</div>
+        <div class="label">Kooperatif & Çiftlik</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Features ── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header centered">
+      <div class="section-tag">Özellikler</div>
+      <h2 class="section-title">Tarımsal zeka, tek platformda</h2>
+      <p class="section-sub">Drone'dan uyduya, tespetten tahmine — tüm süreç otomatik.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🛰️</div>
+        <h3>Uydu NDVI İzleme</h3>
+        <p>Sentinel-2 uydu görüntülerinden haftalık NDVI haritası. Bitki stresini hasat öncesi fark edin.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🚁</div>
+        <h3>Drone Ortofoto İşleme</h3>
+        <p>NodeODM entegrasyonu ile drone görüntülerinizden otomatik ortofoto ve sağlık haritası oluşturun.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🍊</div>
+        <h3>YZ Meyve Tespiti</h3>
+        <p>YOLOv7 tabanlı modelimiz mandalina, elma, armut, şeftali ve nar için %94+ doğrulukla meyve sayar.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h3>Verim Tahmini</h3>
+        <p>Tespit verileri ve NDVI'yı birleştiren agronomi modelimiz hasadı ±%25 hassasiyetle öngörür.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🗺️</div>
+        <h3>Çoklu Alan Haritası</h3>
+        <p>Tüm tarlalarınızı tek haritada görün. NDVI sağlık durumuna göre renklendirilmiş poligon izleme.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📧</div>
+        <h3>Otomatik Raporlama</h3>
+        <p>Günlük, haftalık veya aylık PDF/Excel raporları otomatik olarak e-posta ile iletin.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── How it works ── -->
+<section class="section" style="background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="section-header centered">
+      <div class="section-tag">Nasıl Çalışır?</div>
+      <h2 class="section-title">3 adımda akıllı tarım</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:40px;text-align:center;">
+      <div>
+        <div style="width:64px;height:64px;border-radius:50%;background:var(--green);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">1</div>
+        <h3 style="font-size:18px;margin-bottom:10px;">Tarlalarınızı tanımlayın</h3>
+        <p style="font-size:14px;color:var(--muted);">Harita üzerinde tarla sınırlarınızı çizin. Uydu NDVI izleme otomatik başlar.</p>
+      </div>
+      <div>
+        <div style="width:64px;height:64px;border-radius:50%;background:var(--green);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">2</div>
+        <h3 style="font-size:18px;margin-bottom:10px;">Görüntü yükleyin</h3>
+        <p style="font-size:14px;color:var(--muted);">Drone görüntüleri veya tek fotoğraf yükleyin. YZ modelimiz meyveleri otomatik sayar.</p>
+      </div>
+      <div>
+        <div style="width:64px;height:64px;border-radius:50%;background:var(--green);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">3</div>
+        <h3 style="font-size:18px;margin-bottom:10px;">Raporunuzu alın</h3>
+        <p style="font-size:14px;color:var(--muted);">Verim tahmini, NDVI trendi ve stres uyarıları ile hasat planınızı erkenden yapın.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Testimonials ── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header centered">
+      <div class="section-tag">Müşteri Yorumları</div>
+      <h2 class="section-title">Üreticiler ne diyor?</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">Mandalina bahçemde daha hasat gelmeden NDVI düşüşünü gördük. Zamanında müdahale ettik ve o sezon kayıplarımız yarı yarıya azaldı.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">MK</div>
+          <div>
+            <div class="testimonial-name">Mehmet Kaya</div>
+            <div class="testimonial-role">Mandalina Üreticisi, Antalya</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">Kooperatifimizin 120 üyesinin tarlalarını tek panelden takip ediyoruz. Raporları otomatik alıyoruz, sahaya çıkma sıklığımız %40 azaldı.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">FA</div>
+          <div>
+            <div class="testimonial-name">Fatma Arslan</div>
+            <div class="testimonial-role">Kooperatif Müdürü, İzmir</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">Drone görüntülerimizi yükleyip otomatik meyve sayımı yaptırıyoruz. Eskiden 3 kişi 2 günde yapardı, şimdi 20 dakika.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">AY</div>
+          <div>
+            <div class="testimonial-name">Ali Yıldız</div>
+            <div class="testimonial-role">Elma Bahçesi İşletmecisi, Isparta</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<div class="cta-band">
+  <div class="container">
+    <h2>Tarlanızı bugün izlemeye başlayın</h2>
+    <p>14 gün ücretsiz. Kredi kartı gerekmez. İstediğiniz zaman iptal edin.</p>
+    <div class="btn-row">
+      <a href="{% url 'website:pricing' %}" class="btn btn-white btn-lg">Ücretsiz Deneyin</a>
+      <a href="{% url 'website:product' %}" class="btn btn-lg" style="background:rgba(255,255,255,0.15);color:#fff;border:1.5px solid rgba(255,255,255,0.4);">Daha Fazla Bilgi</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

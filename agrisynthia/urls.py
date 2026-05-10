@@ -14,7 +14,7 @@ from drf_spectacular.views import (
 from agrisynthia.api_views import health_check
 
 urlpatterns = [
-    path("", RedirectView.as_view(url="/detection/", permanent=False)),
+    path("", include("website.urls", namespace="website")),
     path("admin/", admin.site.urls),
     path("detection/", include("detection.urls")),
     path("dron-map/", include("dron_map.urls")),
