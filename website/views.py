@@ -163,7 +163,14 @@ def product(request):
 
 
 def pricing(request):
-    return render(request, "website/pricing.html")
+    included_items = [
+        "14 gün ücretsiz deneme",
+        "SSL güvenlik",
+        "KVKK uyumlu veri saklama",
+        "Türkçe destek",
+        "İstediğiniz zaman iptal",
+    ]
+    return render(request, "website/pricing.html", {"included_items": included_items})
 
 
 def about(request):

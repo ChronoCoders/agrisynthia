@@ -100,8 +100,8 @@
     <div style="text-align:center;margin-top:56px;">
       <p style="font-size:14px;color:var(--muted);margin-bottom:20px;font-weight:600;">Tüm planlarda dahil:</p>
       <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:16px;">
-        {% for item in "14 gün ücretsiz deneme,SSL güvenlik,KVKK uyumlu veri saklama,Türkçe destek,İstediğiniz zaman iptal"|split:"," %}
-        <span style="background:var(--green-light);color:var(--green);font-size:13px;font-weight:600;padding:6px 14px;border-radius:100px;">✓ {{ item }}</span>
+        {% for item in included_items %}
+        <span style="background:var(--green-light);color:var(--green);font-size:13px;font-weight:600;padding:6px 14px;border-radius:100px;"><i class="fas fa-check" style="margin-right:6px;"></i>{{ item }}</span>
         {% endfor %}
       </div>
     </div>
