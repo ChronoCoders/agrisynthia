@@ -11,6 +11,7 @@ BLOG_POSTS = [
         "date": "8 Mayıs 2026",
         "read_time": 6,
         "icon": "fa-satellite",
+        "image": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80&fit=crop",
         "content": """
 <p>NDVI (Normalize Edilmiş Bitki Örtüsü İndeksi), kırmızı ve yakın kızılötesi ışık bantlarının farkından hesaplanan bir sayısal değerdir. Değer -1 ile +1 arasında değişir; 0,5 ve üzeri sağlıklı ve yoğun bitkisel aktiviteyi, 0,3'ün altı ise stres ya da seyrek örtüyü gösterir.</p>
 <h2>Neden önemli?</h2>
@@ -36,6 +37,7 @@ BLOG_POSTS = [
         "date": "2 Mayıs 2026",
         "read_time": 8,
         "icon": "fa-helicopter",
+        "image": "https://images.unsplash.com/photo-1474302770737-173ee21bab63?w=800&q=80&fit=crop",
         "content": """
 <p>Ortofoto, drone görüntülerinin geometrik olarak düzeltilip tek bir üstten bakış görüntüsünde birleştirilmesidir. Açık kaynak NodeODM motoru ve Agrisynthia entegrasyonu bu süreci ücretsiz ve otomatik hale getirir.</p>
 <h2>1. Uçuş planlaması</h2>
@@ -58,6 +60,7 @@ BLOG_POSTS = [
         "date": "25 Nisan 2026",
         "read_time": 7,
         "icon": "fa-microchip",
+        "image": "https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?w=800&q=80&fit=crop",
         "content": """
 <p>Meyve sayımı, hasat planlaması ve verim tahmini için kritik bir girdi olmakla birlikte, geleneksel yöntemlerle yapıldığında %20-40 hata payı taşır. Agrisynthia'nın YOLOv7 tabanlı tespit motoru bu hata payını %6'nın altına indirir.</p>
 <h2>YOLOv7 neden seçildi?</h2>
@@ -89,6 +92,7 @@ BLOG_POSTS = [
         "date": "18 Nisan 2026",
         "read_time": 9,
         "icon": "fa-chart-line",
+        "image": "https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?w=800&q=80&fit=crop",
         "content": """
 <p>Agrisynthia'nın verim tahmin motoru, üç bağımsız veri kaynağını birleştiren çok etkenli bir agronomi modelidir: görüntü bazlı meyve yoğunluğu, uydu NDVI verisi ve ağaç biyolojik parametreleri.</p>
 <h2>Model bileşenleri</h2>
@@ -110,6 +114,7 @@ BLOG_POSTS = [
         "date": "10 Nisan 2026",
         "read_time": 10,
         "icon": "fa-seedling",
+        "image": "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&q=80&fit=crop",
         "content": """
 <p>Türkiye, yaklaşık 19 milyon hektar tarım arazisi ve dünya meyve ihracatında önemli bir pay ile küresel gıda sisteminde kritik bir aktördür. Buna karşın tarım sektörünün dijital teknoloji kullanım oranı, AB ortalamasının önemli ölçüde gerisinde kalmaktadır.</p>
 <h2>Mevcut tablo</h2>
@@ -133,6 +138,7 @@ BLOG_POSTS = [
         "date": "3 Nisan 2026",
         "read_time": 7,
         "icon": "fa-globe",
+        "image": "https://images.unsplash.com/photo-1536183922588-166604504d5e?w=800&q=80&fit=crop",
         "content": """
 <p>Sentinel-2, ESA tarafından işletilen ve verileri tamamen ücretsiz olarak kamuoyuna açık olan bir uydu çiftidir. 13 spektral bant ve 10 metrelik yersel çözünürlük ile tarımsal izleme için ideal bir kaynak sunar.</p>
 <h2>Neden tarımcılar için değerli?</h2>
