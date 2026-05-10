@@ -60,7 +60,7 @@ BLOG_POSTS = [
         "date": "25 Nisan 2026",
         "read_time": 7,
         "icon": "fa-microchip",
-        "image": "https://images.unsplash.com/photo-1638445728705-c5cebce48a72?w=800&q=80&fit=crop",
+        "image": "https://images.unsplash.com/photo-1507598641400-ec3536ba81bc?w=800&q=80&fit=crop",
         "content": """
 <p>Meyve sayımı, hasat planlaması ve verim tahmini için kritik bir girdi olmakla birlikte, geleneksel yöntemlerle yapıldığında %20-40 hata payı taşır. Agrisynthia'nın YOLOv7 tabanlı tespit motoru bu hata payını %6'nın altına indirir.</p>
 <h2>YOLOv7 neden seçildi?</h2>
