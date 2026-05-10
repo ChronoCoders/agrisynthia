@@ -605,6 +605,146 @@ def maping(request: HttpRequest, id: int) -> HttpResponse:
         )
 
 @login_required
+def dashboard(request: HttpRequest) -> HttpResponse:
+    """
+    Field monitoring dashboard — aggregates NDVI trends and detection history
+    for the current user's projects.
+    """
+    import json as _json
+    from datetime import date, timedelta
+
+    from django.db.models import Count, Sum
+    from django.db.models.functions import TruncDate
+
+    from detection.models import DetectionResult
+    from dron_map.models import SatelliteNDVI
+
+    projects = list(Projects.objects.filter(created_by=request.user).order_by("Farm", "Field"))
+    detections_qs = DetectionResult.objects.filter(created_by=request.user)
+
+    # ── Summary cards ────────────────────────────────────────────────────────
+    total_projects = len(projects)
+    total_detections = detections_qs.count()
+
+    latest_ndvis = []
+    for p in projects:
+        last = p.ndvi_readings.order_by("-date").values("mean_ndvi").first()
+        if last:
+            latest_ndvis.append(last["mean_ndvi"])
+
+    avg_ndvi = round(sum(latest_ndvis) / len(latest_ndvis), 3) if latest_ndvis else None
+    healthy_count = sum(1 for v in latest_ndvis if v >= 0.5)
+    stressed_count = sum(1 for v in latest_ndvis if v < 0.3)
+
+    # ── Field health table ───────────────────────────────────────────────────
+    field_rows = []
+    for p in projects:
+        readings = list(p.ndvi_readings.order_by("date").values("date", "mean_ndvi"))
+        latest_ndvi = readings[-1]["mean_ndvi"] if readings else None
+        prev_ndvi = readings[-2]["mean_ndvi"] if len(readings) >= 2 else None
+
+        if latest_ndvi is not None and prev_ndvi is not None:
+            diff = latest_ndvi - prev_ndvi
+            trend = "up" if diff > 0.02 else ("down" if diff < -0.02 else "stable")
+        else:
+            trend = None
+
+        last_det = (
+            detections_qs.order_by("-created_at").values("fruit_type", "created_at").first()
+        )
+
+        field_rows.append({
+            "project": p,
+            "latest_ndvi": round(latest_ndvi, 3) if latest_ndvi is not None else None,
+            "trend": trend,
+            "last_detection": last_det,
+            "ndvi_count": len(readings),
+        })
+
+    # ── NDVI multi-line chart data ───────────────────────────────────────────
+    ndvi_datasets = []
+    colors = [
+        "#2E7D32", "#1565C0", "#E65100", "#6A1B9A",
+        "#00838F", "#AD1457", "#F9A825", "#4E342E",
+    ]
+    for i, p in enumerate(projects):
+        readings = list(
+            p.ndvi_readings.order_by("date").values("date", "mean_ndvi")
+        )
+        if not readings:
+            continue
+        color = colors[i % len(colors)]
+        ndvi_datasets.append({
+            "label": f"{p.Farm} / {p.Field}",
+            "data": [{"x": r["date"].isoformat(), "y": round(r["mean_ndvi"], 3)} for r in readings],
+            "borderColor": color,
+            "backgroundColor": color + "22",
+            "borderWidth": 2,
+            "pointRadius": 3,
+            "tension": 0.3,
+            "fill": False,
+        })
+
+    # ── Detection history bar chart (last 60 days, by fruit type) ───────────
+    cutoff = date.today() - timedelta(days=60)
+    fruit_colors = {
+        "mandalina": "#FF8C00", "elma": "#C62828", "armut": "#F9A825",
+        "seftale": "#E91E63", "nar": "#880E4F",
+    }
+
+    det_by_date_fruit = (
+        detections_qs
+        .filter(created_at__date__gte=cutoff)
+        .annotate(day=TruncDate("created_at"))
+        .values("day", "fruit_type")
+        .annotate(total=Sum("detected_count"))
+        .order_by("day")
+    )
+
+    # Build label list (all days in range) and datasets per fruit type
+    all_days = [(date.today() - timedelta(days=d)).isoformat() for d in range(59, -1, -1)]
+    fruit_totals: dict[str, dict[str, int]] = {}
+    for row in det_by_date_fruit:
+        ft = row["fruit_type"]
+        day = row["day"].isoformat()
+        fruit_totals.setdefault(ft, {})
+        fruit_totals[ft][day] = row["total"]
+
+    det_datasets = []
+    for ft, day_map in fruit_totals.items():
+        color = fruit_colors.get(ft, "#607D8B")
+        det_datasets.append({
+            "label": ft.capitalize(),
+            "data": [day_map.get(d, 0) for d in all_days],
+            "backgroundColor": color + "CC",
+            "borderColor": color,
+            "borderWidth": 1,
+        })
+
+    # ── Recent detections (last 10) ──────────────────────────────────────────
+    recent_detections = list(
+        detections_qs.order_by("-created_at")
+        .values("fruit_type", "detected_count", "confidence_score", "created_at")[:10]
+    )
+    for r in recent_detections:
+        r["created_at"] = r["created_at"].strftime("%d.%m.%Y %H:%M")
+
+    return render(request, "dashboard.html", {
+        "userss": request.user,
+        "total_projects": total_projects,
+        "total_detections": total_detections,
+        "avg_ndvi": avg_ndvi,
+        "healthy_count": healthy_count,
+        "stressed_count": stressed_count,
+        "field_rows": field_rows,
+        "ndvi_chart_json": _json.dumps({"datasets": ndvi_datasets}),
+        "det_labels_json": _json.dumps(all_days),
+        "det_datasets_json": _json.dumps(det_datasets),
+        "recent_detections": recent_detections,
+    })
+
+
+@login_required
 def ndvi_data(request, project_id: int) -> JsonResponse:
     """
     Return Sentinel-2 NDVI time series for a project as JSON.

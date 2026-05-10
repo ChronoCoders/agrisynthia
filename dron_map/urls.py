@@ -6,6 +6,7 @@ from . import views
 app_name = "dron_map"
 
 urlpatterns = [
+    path("dashboard/", views.dashboard, name="dashboard"),
     path("projects/", views.projects, name="projects"),
     path("projects/<slug:slug>/", views.add_projects, name="add_projects"),
     path("projects/<slug:slug>/<int:project_id>/", views.add_projects, name="edit_project"),

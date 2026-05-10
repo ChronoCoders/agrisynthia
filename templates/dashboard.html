@@ -1,0 +1,323 @@
+{% extends 'header.html' %}
+{% block body %}
+{% load static %}
+{% include 'menu.html' %}
+{% include 'navbar.html' with picture=userss.picture %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+<style>
+    .dash-card {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        padding: 20px 24px;
+        margin-bottom: 20px;
+    }
+    .dash-card h5 {
+        color: #2E7D32;
+        font-weight: 700;
+        margin-bottom: 16px;
+        border-bottom: 1px solid #f0f0f0;
+        padding-bottom: 10px;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .stat-box {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+        border-top: 4px solid #2E7D32;
+    }
+    .stat-box.warn  { border-top-color: #F9A825; }
+    .stat-box.danger { border-top-color: #C62828; }
+    .stat-box.info  { border-top-color: #1565C0; }
+    .stat-box .val  { font-size: 2rem; font-weight: 700; color: #2c3e50; }
+    .stat-box .lbl  { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+    .ndvi-badge {
+        display: inline-block;
+        padding: 2px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    .ndvi-healthy { background: #E8F5E9; color: #2E7D32; }
+    .ndvi-moderate { background: #FFF8E1; color: #F57F17; }
+    .ndvi-stressed { background: #FFEBEE; color: #C62828; }
+    .ndvi-none { background: #F5F5F5; color: #9E9E9E; }
+    .trend-up   { color: #2E7D32; }
+    .trend-down { color: #C62828; }
+    .trend-stable { color: #888; }
+    .chart-box { position: relative; height: 260px; }
+    .table th { font-size: 12px; text-transform: uppercase; color: #888; font-weight: 600; }
+    .table td { font-size: 13px; vertical-align: middle; }
+    .recent-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #f5f5f5;
+        font-size: 13px;
+    }
+    .recent-item:last-child { border-bottom: none; }
+</style>
+
+<div id="wrapper">
+    <div class="main-content">
+        <div class="row small-spacing">
+
+            <!-- ── Summary cards ─────────────────────────────────── -->
+            <div class="col-xl-3 col-md-6 col-12">
+                <div class="stat-box">
+                    <div class="val">{{ total_projects }}</div>
+                    <div class="lbl">Toplam Proje</div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 col-12">
+                <div class="stat-box info">
+                    <div class="val">{{ total_detections }}</div>
+                    <div class="lbl">Toplam Tespit</div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 col-12">
+                <div class="stat-box{% if avg_ndvi and avg_ndvi >= 0.5 %}{% elif avg_ndvi and avg_ndvi < 0.3 %} danger{% else %} warn{% endif %}">
+                    <div class="val">{% if avg_ndvi %}{{ avg_ndvi }}{% else %}—{% endif %}</div>
+                    <div class="lbl">Ort. NDVI (tüm tarlalar)</div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 col-12">
+                <div class="stat-box{% if stressed_count > 0 %} danger{% endif %}">
+                    <div class="val">{{ healthy_count }} / {{ stressed_count }}</div>
+                    <div class="lbl">Sağlıklı / Stresli Tarla</div>
+                </div>
+            </div>
+
+            <!-- ── NDVI trend chart ──────────────────────────────── -->
+            <div class="col-xl-8 col-12">
+                <div class="dash-card">
+                    <h5><i class="fa fa-chart-line"></i> Sentinel-2 NDVI Trendleri</h5>
+                    {% if field_rows %}
+                    <div class="chart-box">
+                        <canvas id="ndviTrendChart"></canvas>
+                    </div>
+                    <div style="margin-top:8px;font-size:11px;color:#aaa;">
+                        Veri kaynağı: Sentinel-2 L2A (Element84 Earth Search) · Her tarla için ayrı çizgi
+                    </div>
+                    {% else %}
+                    <p class="text-muted" style="font-size:13px;">
+                        Henüz proje yok. <a href="{% url 'dron_map:add_projects' slug='add' %}">İlk projeyi oluşturun.</a>
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- ── Recent detections ─────────────────────────────── -->
+            <div class="col-xl-4 col-12">
+                <div class="dash-card" style="height:calc(100% - 20px);">
+                    <h5><i class="fa fa-history"></i> Son Tespitler</h5>
+                    {% if recent_detections %}
+                    {% for det in recent_detections %}
+                    <div class="recent-item">
+                        <span>
+                            <strong>{{ det.fruit_type|capfirst }}</strong>
+                            &nbsp;·&nbsp; {{ det.detected_count }} adet
+                        </span>
+                        <span style="color:#aaa;font-size:11px;">{{ det.created_at }}</span>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p class="text-muted" style="font-size:13px;">Henüz tespit kaydı yok.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- ── Detection history bar chart ──────────────────── -->
+            <div class="col-xl-8 col-12">
+                <div class="dash-card">
+                    <h5><i class="fa fa-bar-chart"></i> Günlük Tespit Geçmişi (Son 60 Gün)</h5>
+                    {% if recent_detections %}
+                    <div class="chart-box">
+                        <canvas id="detHistChart"></canvas>
+                    </div>
+                    {% else %}
+                    <p class="text-muted" style="font-size:13px;">Bu dönemde tespit verisi yok.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- ── Field health table ────────────────────────────── -->
+            <div class="col-12">
+                <div class="dash-card">
+                    <h5><i class="fa fa-table"></i> Tarla Sağlık Durumu</h5>
+                    {% if field_rows %}
+                    <div class="table-responsive">
+                        <table class="table table-hover" style="margin-bottom:0;">
+                            <thead>
+                                <tr>
+                                    <th>Çiftlik</th>
+                                    <th>Tarla</th>
+                                    <th>Başlık</th>
+                                    <th>Son NDVI</th>
+                                    <th>Trend</th>
+                                    <th>NDVI Okuma</th>
+                                    <th>ODM Durumu</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for row in field_rows %}
+                            <tr>
+                                <td>{{ row.project.Farm }}</td>
+                                <td>{{ row.project.Field }}</td>
+                                <td>{{ row.project.Title }}</td>
+                                <td>
+                                    {% if row.latest_ndvi is not None %}
+                                        {% if row.latest_ndvi >= 0.5 %}
+                                            <span class="ndvi-badge ndvi-healthy">{{ row.latest_ndvi }}</span>
+                                        {% elif row.latest_ndvi >= 0.3 %}
+                                            <span class="ndvi-badge ndvi-moderate">{{ row.latest_ndvi }}</span>
+                                        {% else %}
+                                            <span class="ndvi-badge ndvi-stressed">{{ row.latest_ndvi }}</span>
+                                        {% endif %}
+                                    {% else %}
+                                        <span class="ndvi-badge ndvi-none">—</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if row.trend == 'up' %}
+                                        <span class="trend-up"><i class="fa fa-arrow-up"></i> Artıyor</span>
+                                    {% elif row.trend == 'down' %}
+                                        <span class="trend-down"><i class="fa fa-arrow-down"></i> Azalıyor</span>
+                                    {% elif row.trend == 'stable' %}
+                                        <span class="trend-stable"><i class="fa fa-minus"></i> Stabil</span>
+                                    {% else %}
+                                        <span class="text-muted">—</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ row.ndvi_count }}</td>
+                                <td>
+                                    {% if row.project.odm_status == 'completed' %}
+                                        <span class="badge badge-success">Tamamlandı</span>
+                                    {% elif row.project.odm_status == 'processing' %}
+                                        <span class="badge badge-warning">İşleniyor</span>
+                                    {% elif row.project.odm_status == 'failed' %}
+                                        <span class="badge badge-danger">Başarısız</span>
+                                    {% else %}
+                                        <span class="badge badge-secondary">{{ row.project.odm_status }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'dron_map:map' id=row.project.id %}" class="btn btn-xs btn-default">
+                                        <i class="fa fa-map"></i> Harita
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="text-muted" style="font-size:13px;">
+                        Henüz proje yok. <a href="{% url 'dron_map:add_projects' slug='add' %}">Proje ekle</a>
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div><!-- /row -->
+    </div><!-- /main-content -->
+</div><!-- /wrapper -->
+
+{% block scripts %}
+<script>
+(function() {
+    // ── NDVI multi-line time-series chart ──────────────────────────────────
+    var ndviData = {{ ndvi_chart_json|safe }};
+    if (ndviData.datasets && ndviData.datasets.length > 0) {
+        new Chart(document.getElementById('ndviTrendChart'), {
+            type: 'line',
+            data: ndviData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: { font: { size: 11 }, boxWidth: 12 }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(ctx) {
+                                return ctx.dataset.label + ': ' + ctx.parsed.y;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: { unit: 'week', displayFormats: { week: 'MMM d' } },
+                        ticks: { font: { size: 11 } },
+                        grid: { display: false }
+                    },
+                    y: {
+                        min: 0, max: 1,
+                        ticks: { font: { size: 11 }, stepSize: 0.2 },
+                        title: { display: true, text: 'NDVI', font: { size: 11 } }
+                    }
+                }
+            }
+        });
+    } else {
+        var c = document.getElementById('ndviTrendChart');
+        if (c) c.parentElement.innerHTML = '<p style="color:#aaa;font-size:13px;padding:20px 0;">Tarla sınırı tanımlanmış proje olmadığı için NDVI verisi yok.</p>';
+    }
+
+    // ── Detection history stacked bar chart ───────────────────────────────
+    var detLabels   = {{ det_labels_json|safe }};
+    var detDatasets = {{ det_datasets_json|safe }};
+    if (detDatasets.length > 0 && document.getElementById('detHistChart')) {
+        new Chart(document.getElementById('detHistChart'), {
+            type: 'bar',
+            data: { labels: detLabels, datasets: detDatasets },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: { font: { size: 11 }, boxWidth: 12 }
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: true,
+                        ticks: {
+                            font: { size: 10 },
+                            maxTicksLimit: 12,
+                            maxRotation: 0
+                        },
+                        grid: { display: false }
+                    },
+                    y: {
+                        stacked: true,
+                        ticks: { font: { size: 11 } },
+                        title: { display: true, text: 'Tespit Sayısı', font: { size: 11 } }
+                    }
+                }
+            }
+        });
+    }
+})();
+</script>
+{% endblock %}
+{% endblock %}
