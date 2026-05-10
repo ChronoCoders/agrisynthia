@@ -1,0 +1,101 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block title %}Gizlilik Politikası{% endblock %}
+{% block meta_desc %}Agrisynthia gizlilik politikası — kişisel verilerinizi nasıl topladığımız, işlediğimiz ve koruduğumuz hakkında bilgi.{% endblock %}
+{% block og_url %}/gizlilik-politikasi/{% endblock %}
+{% block canonical_url %}/gizlilik-politikasi/{% endblock %}
+
+{% block content %}
+
+<section style="padding:140px 0 64px;background:linear-gradient(160deg,#f0f7f0,var(--bg));border-bottom:1px solid var(--border);text-align:center;">
+  <div class="container">
+    <div class="section-tag">Yasal</div>
+    <h1 class="section-title">Gizlilik Politikası</h1>
+    <p class="section-sub" style="margin:0 auto;">Son güncelleme: 1 Ocak 2026</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" style="max-width:760px;">
+    <div class="blog-content" style="font-size:16px;color:#2d2d2d;line-height:1.85;">
+
+      <p>Agrisynthia ("biz", "şirket"), kullanıcılarımızın gizliliğine saygı duyar ve kişisel verilerinizin korunmasını ciddiye alır. Bu politika, hizmetlerimizi kullanırken hangi verileri topladığımızı, bunları nasıl kullandığımızı ve haklarınızı açıklar.</p>
+
+      <h2>1. Topladığımız Veriler</h2>
+      <h3>a. Doğrudan verdiğiniz bilgiler</h3>
+      <ul>
+        <li>Ad, soyad, e-posta adresi (kayıt sırasında)</li>
+        <li>Firma adı ve iletişim bilgileri (iletişim formu)</li>
+        <li>Ödeme bilgileri (ödeme altyapı sağlayıcısına güvenli iletilir; kartınız tarafımızda saklanmaz)</li>
+      </ul>
+      <h3>b. Otomatik toplanan veriler</h3>
+      <ul>
+        <li>IP adresi ve tarayıcı türü</li>
+        <li>Kullandığınız sayfa ve özellikler (analitik amacıyla)</li>
+        <li>Oturum çerezleri (kimlik doğrulama için zorunlu)</li>
+      </ul>
+      <h3>c. Yüklediğiniz içerikler</h3>
+      <ul>
+        <li>Drone görüntüleri ve koordinat verileri</li>
+        <li>Tarla/proje bilgileri (GeoJSON sınırları dahil)</li>
+      </ul>
+
+      <h2>2. Verileri Nasıl Kullanırız</h2>
+      <ul>
+        <li>Hizmetin sunulması ve geliştirilmesi</li>
+        <li>Hesap yönetimi ve kimlik doğrulama</li>
+        <li>E-posta uyarıları ve raporların gönderilmesi</li>
+        <li>Teknik destek ve müşteri hizmetleri</li>
+        <li>Yasal yükümlülüklerin yerine getirilmesi</li>
+      </ul>
+
+      <h2>3. Veri Paylaşımı</h2>
+      <p>Kişisel verilerinizi üçüncü taraflara satmayız. Veriler yalnızca şu durumlarda paylaşılır:</p>
+      <ul>
+        <li><strong>Altyapı sağlayıcıları:</strong> Sunucu, depolama ve e-posta hizmetleri (GDPR/KVKK uyumlu sözleşmeler kapsamında)</li>
+        <li><strong>Yasal zorunluluk:</strong> Mahkeme kararı veya yetkili kurum talebi</li>
+        <li><strong>Şirket devrinde:</strong> Birleşme veya satın alma durumunda — bu politika geçerliliğini korur</li>
+      </ul>
+
+      <h2>4. Veri Güvenliği</h2>
+      <p>Tüm veri iletimi TLS/SSL şifrelemesi ile korunur. Sunucularımız Türkiye veya AB'de barındırılmaktadır. Hassas veriler rest-at-encryption ile depolanır.</p>
+
+      <h2>5. Çerezler</h2>
+      <p>Yalnızca oturum yönetimi için zorunlu çerezler kullanılır. Üçüncü taraf reklam çerezi kullanılmaz. Tarayıcınızdan çerezleri devre dışı bırakabilirsiniz; ancak giriş yapma işlevselliği etkilenebilir.</p>
+
+      <h2>6. Haklarınız (KVKK Madde 11)</h2>
+      <ul>
+        <li>Verilerinize erişim talep etme</li>
+        <li>Yanlış verilerin düzeltilmesini isteme</li>
+        <li>Verilerinizin silinmesini talep etme</li>
+        <li>İşlemeye itiraz etme</li>
+        <li>Veri taşınabilirliği</li>
+      </ul>
+      <p>Bu haklarınızı kullanmak için <a href="mailto:info@agrisynthia.com" style="color:var(--green);font-weight:600;">info@agrisynthia.com</a> adresine e-posta gönderebilirsiniz. 30 gün içinde yanıt veririz.</p>
+
+      <h2>7. Saklama Süresi</h2>
+      <p>Hesap verileri hesabınız aktif olduğu sürece saklanır. Hesap silme talebiniz sonrasında verileriniz 30 gün içinde kalıcı olarak silinir. Yasal yükümlülük gerektiren veriler ilgili mevzuatta belirtilen süre boyunca saklanır.</p>
+
+      <h2>8. Politika Değişiklikleri</h2>
+      <p>Bu politikada önemli değişiklikler yapıldığında kayıtlı e-posta adresinize bildirim gönderilir. Değişiklik tarihinden itibaren hizmeti kullanmaya devam etmeniz güncel politikayı kabul ettiğiniz anlamına gelir.</p>
+
+      <h2>9. İletişim</h2>
+      <p>Gizlilik konularında <a href="mailto:info@agrisynthia.com" style="color:var(--green);font-weight:600;">info@agrisynthia.com</a> veya <a href="{% url 'website:contact' %}" style="color:var(--green);font-weight:600;">iletişim formumuz</a> aracılığıyla bize ulaşabilirsiniz.</p>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_head %}
+<style>
+.blog-content h2 { font-size:22px;font-weight:700;margin:36px 0 12px;color:var(--text); }
+.blog-content h3 { font-size:17px;font-weight:700;margin:24px 0 8px;color:var(--text); }
+.blog-content p { margin-bottom:16px; }
+.blog-content ul { padding-left:24px;margin-bottom:16px; }
+.blog-content li { margin-bottom:6px; }
+.blog-content strong { color:var(--text); }
+</style>
+{% endblock %}

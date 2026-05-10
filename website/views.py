@@ -10,7 +10,7 @@ BLOG_POSTS = [
         "cat_slug": "ndvi",
         "date": "8 Mayıs 2026",
         "read_time": 6,
-        "emoji": "🛰️",
+        "icon": "fa-satellite",
         "content": """
 <p>NDVI (Normalize Edilmiş Bitki Örtüsü İndeksi), kırmızı ve yakın kızılötesi ışık bantlarının farkından hesaplanan bir sayısal değerdir. Değer -1 ile +1 arasında değişir; 0,5 ve üzeri sağlıklı ve yoğun bitkisel aktiviteyi, 0,3'ün altı ise stres ya da seyrek örtüyü gösterir.</p>
 <h2>Neden önemli?</h2>
@@ -35,7 +35,7 @@ BLOG_POSTS = [
         "cat_slug": "drone",
         "date": "2 Mayıs 2026",
         "read_time": 8,
-        "emoji": "🚁",
+        "icon": "fa-helicopter",
         "content": """
 <p>Ortofoto, drone görüntülerinin geometrik olarak düzeltilip tek bir üstten bakış görüntüsünde birleştirilmesidir. Açık kaynak NodeODM motoru ve Agrisynthia entegrasyonu bu süreci ücretsiz ve otomatik hale getirir.</p>
 <h2>1. Uçuş planlaması</h2>
@@ -57,7 +57,7 @@ BLOG_POSTS = [
         "cat_slug": "tech",
         "date": "25 Nisan 2026",
         "read_time": 7,
-        "emoji": "🍊",
+        "icon": "fa-microchip",
         "content": """
 <p>Meyve sayımı, hasat planlaması ve verim tahmini için kritik bir girdi olmakla birlikte, geleneksel yöntemlerle yapıldığında %20-40 hata payı taşır. Agrisynthia'nın YOLOv7 tabanlı tespit motoru bu hata payını %6'nın altına indirir.</p>
 <h2>YOLOv7 neden seçildi?</h2>
@@ -88,7 +88,7 @@ BLOG_POSTS = [
         "cat_slug": "agronomy",
         "date": "18 Nisan 2026",
         "read_time": 9,
-        "emoji": "📈",
+        "icon": "fa-chart-line",
         "content": """
 <p>Agrisynthia'nın verim tahmin motoru, üç bağımsız veri kaynağını birleştiren çok etkenli bir agronomi modelidir: görüntü bazlı meyve yoğunluğu, uydu NDVI verisi ve ağaç biyolojik parametreleri.</p>
 <h2>Model bileşenleri</h2>
@@ -109,7 +109,7 @@ BLOG_POSTS = [
         "cat_slug": "agronomy",
         "date": "10 Nisan 2026",
         "read_time": 10,
-        "emoji": "🌱",
+        "icon": "fa-seedling",
         "content": """
 <p>Türkiye, yaklaşık 19 milyon hektar tarım arazisi ve dünya meyve ihracatında önemli bir pay ile küresel gıda sisteminde kritik bir aktördür. Buna karşın tarım sektörünün dijital teknoloji kullanım oranı, AB ortalamasının önemli ölçüde gerisinde kalmaktadır.</p>
 <h2>Mevcut tablo</h2>
@@ -132,7 +132,7 @@ BLOG_POSTS = [
         "cat_slug": "ndvi",
         "date": "3 Nisan 2026",
         "read_time": 7,
-        "emoji": "🌍",
+        "icon": "fa-globe",
         "content": """
 <p>Sentinel-2, ESA tarafından işletilen ve verileri tamamen ücretsiz olarak kamuoyuna açık olan bir uydu çiftidir. 13 spektral bant ve 10 metrelik yersel çözünürlük ile tarımsal izleme için ideal bir kaynak sunar.</p>
 <h2>Neden tarımcılar için değerli?</h2>
@@ -175,14 +175,14 @@ def pricing(request):
 
 def about(request):
     techs = [
-        {"icon": "🛰️", "name": "Sentinel-2", "desc": "ESA ücretsiz uydu verisi, 5 günde güncelleme"},
-        {"icon": "🤖", "name": "YOLOv7", "desc": "Gerçek zamanlı nesne tespiti, %94+ doğruluk"},
-        {"icon": "🗺️", "name": "NodeODM", "desc": "Açık kaynak drone ortofoto motoru"},
-        {"icon": "☁️", "name": "Celery + Redis", "desc": "Asenkron işleme ve gerçek zamanlı durum"},
-        {"icon": "🌿", "name": "rio-tiler", "desc": "Cloud-optimized GeoTIFF ve NDVI hesaplama"},
-        {"icon": "🗺️", "name": "Leaflet.js", "desc": "Etkileşimli harita görüntüleme"},
-        {"icon": "🐘", "name": "PostgreSQL", "desc": "Güvenilir ilişkisel veritabanı"},
-        {"icon": "🐍", "name": "Django 4.2", "desc": "Güvenli ve ölçeklenebilir web çatısı"},
+        {"icon": "fa-satellite", "name": "Sentinel-2", "desc": "ESA ücretsiz uydu verisi, 5 günde güncelleme"},
+        {"icon": "fa-robot", "name": "YOLOv7", "desc": "Gerçek zamanlı nesne tespiti, %94+ doğruluk"},
+        {"icon": "fa-helicopter", "name": "NodeODM", "desc": "Açık kaynak drone ortofoto motoru"},
+        {"icon": "fa-cloud", "name": "Celery + Redis", "desc": "Asenkron işleme ve gerçek zamanlı durum"},
+        {"icon": "fa-map", "name": "rio-tiler", "desc": "Cloud-optimized GeoTIFF ve NDVI hesaplama"},
+        {"icon": "fa-location-dot", "name": "Leaflet.js", "desc": "Etkileşimli harita görüntüleme"},
+        {"icon": "fa-database", "name": "PostgreSQL", "desc": "Güvenilir ilişkisel veritabanı"},
+        {"icon": "fa-server", "name": "Django 4.2", "desc": "Güvenli ve ölçeklenebilir web çatısı"},
     ]
     return render(request, "website/about.html", {"techs": techs})
 
@@ -198,3 +198,41 @@ def blog_detail(request, slug):
         raise Http404("Yazı bulunamadı")
     related = [p for p in BLOG_POSTS if p["slug"] != slug][:3]
     return render(request, "website/blog_detail.html", {"post": post, "related": related})
+
+
+def contact(request):
+    success = False
+    if request.method == "POST":
+        from django.core.mail import send_mail
+        from django.conf import settings
+        name = request.POST.get("name", "").strip()
+        company = request.POST.get("company", "").strip()
+        email = request.POST.get("email", "").strip()
+        subject = request.POST.get("subject", "").strip()
+        message = request.POST.get("message", "").strip()
+        if name and email and subject and message:
+            body = f"Ad Soyad: {name}\nFirma: {company}\nE-posta: {email}\n\n{message}"
+            try:
+                send_mail(
+                    f"[Agrisynthia İletişim] {subject}",
+                    body,
+                    settings.DEFAULT_FROM_EMAIL,
+                    ["info@agrisynthia.com"],
+                    fail_silently=True,
+                )
+            except Exception:
+                pass
+            success = True
+    return render(request, "website/contact.html", {"success": success})
+
+
+def privacy(request):
+    return render(request, "website/privacy.html")
+
+
+def terms(request):
+    return render(request, "website/terms.html")
+
+
+def kvkk(request):
+    return render(request, "website/kvkk.html")

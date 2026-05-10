@@ -1,0 +1,124 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block title %}İletişim{% endblock %}
+{% block meta_desc %}Agrisynthia ile iletişime geçin. Demo talebi, teknik destek veya kurumsal görüşme için bize ulaşın.{% endblock %}
+{% block og_url %}/iletisim/{% endblock %}
+{% block canonical_url %}/iletisim/{% endblock %}
+{% block nav_contact %}nav-active{% endblock %}
+
+{% block content %}
+
+<section style="padding:140px 0 80px;background:linear-gradient(160deg,#f0f7f0,var(--bg));border-bottom:1px solid var(--border);text-align:center;">
+  <div class="container">
+    <div class="section-tag">İletişim</div>
+    <h1 class="section-title">Birlikte çalışalım</h1>
+    <p class="section-sub" style="margin:0 auto;">Demo talebi, fiyat görüşmesi veya teknik sorularınız için formu doldurun. En geç 1 iş günü içinde dönüş yaparız.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;">
+
+      <!-- Form -->
+      <div>
+        <h2 style="font-size:22px;font-weight:700;margin-bottom:24px;">Mesaj Gönderin</h2>
+
+        {% if success %}
+        <div style="background:var(--green-light);border:1px solid #C8E6C9;border-radius:var(--radius-sm);padding:16px 20px;margin-bottom:24px;color:var(--green-dark);font-size:14px;font-weight:600;">
+          <i class="fas fa-check-circle" style="margin-right:8px;"></i>Mesajınız iletildi. En kısa sürede size dönüş yapacağız.
+        </div>
+        {% endif %}
+
+        <form method="post" style="display:flex;flex-direction:column;gap:18px;">
+          {% csrf_token %}
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div>
+              <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;color:var(--text);">Ad Soyad <span style="color:#C62828;">*</span></label>
+              <input type="text" name="name" required placeholder="Ahmet Yılmaz"
+                     style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .15s;"
+                     onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+            </div>
+            <div>
+              <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;color:var(--text);">Firma / Kooperatif</label>
+              <input type="text" name="company" placeholder="Ege Tarım Koop."
+                     style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .15s;"
+                     onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+            </div>
+          </div>
+          <div>
+            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;color:var(--text);">E-posta <span style="color:#C62828;">*</span></label>
+            <input type="email" name="email" required placeholder="ahmet@firma.com"
+                   style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .15s;"
+                   onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+          </div>
+          <div>
+            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;color:var(--text);">Konu <span style="color:#C62828;">*</span></label>
+            <select name="subject" required
+                    style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-family:'Inter',sans-serif;outline:none;background:#fff;transition:border-color .15s;"
+                    onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+              <option value="">— Seçin —</option>
+              <option value="demo">Demo Talebi</option>
+              <option value="enterprise">Kurumsal / Kooperatif Görüşme</option>
+              <option value="support">Teknik Destek</option>
+              <option value="pricing">Fiyat Bilgisi</option>
+              <option value="other">Diğer</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;color:var(--text);">Mesajınız <span style="color:#C62828;">*</span></label>
+            <textarea name="message" required rows="5" placeholder="Projeniz veya ihtiyaçlarınız hakkında kısaca bilgi verin..."
+                      style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-family:'Inter',sans-serif;outline:none;resize:vertical;transition:border-color .15s;"
+                      onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="align-self:flex-start;">
+            <i class="fas fa-paper-plane"></i> Gönder
+          </button>
+        </form>
+      </div>
+
+      <!-- Info -->
+      <div>
+        <h2 style="font-size:22px;font-weight:700;margin-bottom:24px;">İletişim Bilgileri</h2>
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <div style="display:flex;align-items:flex-start;gap:16px;">
+            <div style="width:44px;height:44px;border-radius:10px;background:var(--green-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <i class="fas fa-envelope" style="color:var(--green);font-size:16px;"></i>
+            </div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:4px;">E-posta</div>
+              <a href="mailto:info@agrisynthia.com" style="font-size:15px;color:var(--text);font-weight:500;">info@agrisynthia.com</a>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:16px;">
+            <div style="width:44px;height:44px;border-radius:10px;background:var(--green-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <i class="fas fa-clock" style="color:var(--green);font-size:16px;"></i>
+            </div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:4px;">Yanıt Süresi</div>
+              <div style="font-size:15px;color:var(--text);font-weight:500;">En geç 1 iş günü</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:16px;">
+            <div style="width:44px;height:44px;border-radius:10px;background:var(--green-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <i class="fas fa-headset" style="color:var(--green);font-size:16px;"></i>
+            </div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:4px;">Destek Saatleri</div>
+              <div style="font-size:15px;color:var(--text);font-weight:500;">Hafta içi 09:00 – 18:00</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:40px;background:var(--green);border-radius:var(--radius);padding:28px;">
+          <h3 style="font-size:17px;font-weight:700;color:#fff;margin-bottom:10px;">Demo İsteyin</h3>
+          <p style="font-size:14px;color:rgba(255,255,255,0.8);line-height:1.65;margin-bottom:0;">Ekibimiz, ihtiyaçlarınıza özel 30 dakikalık canlı demo sunabilir. Yukarıdaki formu doldurmanız yeterli.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}
