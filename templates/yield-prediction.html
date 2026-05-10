@@ -1,0 +1,197 @@
+{% extends 'header.html' %}
+{% load static %}
+
+{% block body %}
+{% include 'menu.html' %}
+{% include 'navbar.html' %}
+
+<div id="wrapper">
+<div class="main-content">
+<div class="row small-spacing">
+
+    <!-- Form Card -->
+    <div class="col-lg-5 col-xs-12">
+        <div class="box-content card white">
+            <h4 class="box-title"><i class="fa-solid fa-wheat-awn"></i> Verim Tahmini</h4>
+            <div class="card-content">
+                {% if error %}
+                <div class="alert alert-danger" style="font-size:13px;">{{ error }}</div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label>Proje (opsiyonel)</label>
+                        <select name="project_id" class="form-control" onchange="fillFromProject(this)">
+                            <option value="">— Manuel giriş —</option>
+                            {% for p in projects %}
+                            <option value="{{ p.id }}" {% if selected_project and selected_project.id == p.id %}selected{% endif %}>
+                                {{ p.Farm }} – {{ p.Field }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <small class="text-muted">Proje seçilirse NDVI otomatik kullanılır.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Meyve Türü</label>
+                        <select name="fruit_type" class="form-control" required>
+                            <option value="">— Seçin —</option>
+                            {% for ft in fruit_types %}
+                            <option value="{{ ft }}" {% if estimate and estimate.fruit_type == ft %}selected{% endif %}>
+                                {{ ft|capfirst }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Ağaç Sayısı</label>
+                                <input type="number" name="tree_count" min="1" class="form-control"
+                                       value="{{ estimate.tree_count|default:'' }}" placeholder="ör. 500" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Ağaç Yaşı (yıl)</label>
+                                <input type="number" name="tree_age" min="0" class="form-control"
+                                       value="{{ estimate.tree_age|default:'' }}" placeholder="ör. 8">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Tespit Edilen Meyve Sayısı</label>
+                                <input type="number" name="detected_count" min="0" class="form-control"
+                                       value="{{ estimate.detected_count|default:'' }}" placeholder="ör. 1200">
+                                <small class="text-muted">Görüntü analizinden</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Ort. NDVI (opsiyonel)</label>
+                                <input type="number" name="avg_ndvi" min="0" max="1" step="0.001"
+                                       class="form-control"
+                                       value="{{ estimate.avg_ndvi|default:'' }}" placeholder="ör. 0.55">
+                                <small class="text-muted">Boş bırakılırsa projeden alınır</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary waves-effect waves-light">
+                        <i class="fa fa-calculator"></i> Tahmin Et
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Card -->
+    <div class="col-lg-7 col-xs-12">
+        {% if estimate %}
+        <div class="box-content card white">
+            <h4 class="box-title"><i class="fa-solid fa-chart-bar"></i> Tahmin Sonucu — {{ estimate.species_label }}</h4>
+            <div class="card-content">
+
+                <!-- Main number -->
+                <div style="text-align:center;padding:24px 0 16px;">
+                    <div style="font-size:13px;color:#757575;margin-bottom:6px;">Tahmini Hasat</div>
+                    <div style="font-size:48px;font-weight:700;color:#2E7D32;line-height:1;">
+                        {{ estimate.predicted_yield_ton }} <span style="font-size:22px;">ton</span>
+                    </div>
+                    <div style="font-size:15px;color:#424242;margin-top:4px;">
+                        {{ estimate.predicted_yield_kg }} kg
+                    </div>
+                    <div style="font-size:12px;color:#9E9E9E;margin-top:8px;">
+                        Güven aralığı: {{ estimate.yield_low_kg }} – {{ estimate.yield_high_kg }} kg (%25 payda)
+                    </div>
+                </div>
+
+                <!-- Factor bars -->
+                <div style="margin:16px 0;">
+                    <div style="font-size:12px;font-weight:600;color:#424242;margin-bottom:10px;">Faktörler</div>
+
+                    <div style="margin-bottom:10px;">
+                        <div style="display:flex;justify-content:space-between;font-size:12px;color:#424242;margin-bottom:3px;">
+                            <span>NDVI Sağlık Faktörü</span>
+                            <strong>{{ estimate.ndvi_factor }}</strong>
+                        </div>
+                        <div style="background:#e0e0e0;border-radius:4px;height:8px;">
+                            <div style="width:{% widthratio estimate.ndvi_factor 1 100 %}%;background:{% if estimate.ndvi_factor >= 0.7 %}#2E7D32{% elif estimate.ndvi_factor >= 0.5 %}#F9A825{% else %}#C62828{% endif %};height:8px;border-radius:4px;"></div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom:10px;">
+                        <div style="display:flex;justify-content:space-between;font-size:12px;color:#424242;margin-bottom:3px;">
+                            <span>Yaş Faktörü</span>
+                            <strong>{{ estimate.age_factor }}</strong>
+                        </div>
+                        <div style="background:#e0e0e0;border-radius:4px;height:8px;">
+                            <div style="width:{% widthratio estimate.age_factor 1 100 %}%;background:#1565C0;height:8px;border-radius:4px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats table -->
+                <table class="table table-bordered" style="font-size:13px;">
+                    <tbody>
+                        <tr><th>Ağaç sayısı</th><td>{{ estimate.tree_count }}</td></tr>
+                        <tr><th>Ağaç yaşı</th><td>{{ estimate.tree_age }} yıl</td></tr>
+                        <tr><th>Görüntüden tespit</th><td>{{ estimate.detected_count }} meyve</td></tr>
+                        <tr><th>Ağaç başına tahmini</th><td>{{ estimate.fruits_per_tree }} meyve</td></tr>
+                        <tr><th>Toplam meyve (tahmini)</th><td>{{ estimate.predicted_fruits_total }}</td></tr>
+                        <tr><th>Ortalama meyve ağırlığı</th><td>{{ estimate.avg_weight_kg }} kg</td></tr>
+                        <tr><th>NDVI (ortalama)</th><td>{% if estimate.avg_ndvi %}{{ estimate.avg_ndvi }}{% else %}—{% endif %}</td></tr>
+                    </tbody>
+                </table>
+
+                <!-- Explanation -->
+                <div style="background:#f5f5f5;border-radius:6px;padding:12px;font-size:12px;color:#616161;">
+                    <strong>Hesaplama Adımları:</strong>
+                    <ul style="margin:6px 0 0;padding-left:18px;">
+                        {% for line in estimate.explanation %}
+                        <li>{{ line }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Disclaimer -->
+                <p style="font-size:11px;color:#9E9E9E;margin-top:12px;">
+                    Bu tahmin, mevcut tespit verileri ve uydu NDVI ölçümlerine dayalı agronomi modelidir.
+                    Gerçek hasat; hava koşulları, sulama ve bakım uygulamalarına göre farklılık gösterebilir.
+                </p>
+            </div>
+        </div>
+        {% else %}
+        <div class="box-content card white">
+            <div class="card-content" style="text-align:center;padding:48px;color:#9E9E9E;">
+                <i class="fa-solid fa-wheat-awn" style="font-size:48px;margin-bottom:16px;display:block;color:#e0e0e0;"></i>
+                <p>Formu doldurup <strong>Tahmin Et</strong> butonuna tıklayın.</p>
+                <p style="font-size:12px;">Sistemde kayıtlı tespitleriniz ve uydu NDVI verileriniz otomatik olarak kullanılır.</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+{% include 'footer.html' %}
+</div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+function fillFromProject(sel) {
+    // When a project is picked, clear manual NDVI so server auto-fills from DB
+    if (sel.value) {
+        document.querySelector('[name=avg_ndvi]').value = '';
+    }
+}
+</script>
+{% endblock %}

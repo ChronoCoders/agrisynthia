@@ -493,6 +493,10 @@ CELERY_BEAT_SCHEDULE = {
         "task": "dron_map.send_ndvi_stress_alerts",
         "schedule": 604800.0,  # Every 7 days
     },
+    "scheduled-reports-hourly": {
+        "task": "reports.tasks.send_scheduled_reports",
+        "schedule": 3600.0,  # Every hour — catches daily/weekly/monthly schedules
+    },
 }
 
 # Sentinel-2 / Earth Search settings
