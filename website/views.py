@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 
 BLOG_POSTS = [
     {
@@ -242,3 +244,13 @@ def terms(request):
 
 def kvkk(request):
     return render(request, "website/kvkk.html")
+
+
+@require_POST
+def newsletter_subscribe(request):
+    from .models import NewsletterSubscriber
+    email = request.POST.get("email", "").strip().lower()
+    if not email:
+        return JsonResponse({"ok": False, "error": "E-posta adresi gerekli."}, status=400)
+    _, created = NewsletterSubscriber.objects.get_or_create(email=email)
+    return JsonResponse({"ok": True, "created": created})

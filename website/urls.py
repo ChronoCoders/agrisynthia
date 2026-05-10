@@ -15,4 +15,5 @@ urlpatterns = [
     path("gizlilik-politikasi/", views.privacy, name="privacy"),
     path("kullanim-kosullari/", views.terms, name="terms"),
     path("kvkk/", views.kvkk, name="kvkk"),
+    path("newsletter/subscribe/", views.newsletter_subscribe, name="newsletter_subscribe"),
 ]
