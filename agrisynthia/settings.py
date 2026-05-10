@@ -390,6 +390,14 @@ else:
 ALERT_COOLDOWN_SECONDS = int(os.environ.get("ALERT_COOLDOWN_SECONDS", "3600"))
 
 
+# ==============================================================================
+# AUTH
+# ==============================================================================
+
+LOGIN_URL = "/accounts/login/"
+LOGIN_REDIRECT_URL = "/dron-map/dashboard/"
+LOGOUT_REDIRECT_URL = "/"
+
 # CORS Configuration
 # Always use whitelist - never allow all origins even in development
 cors_origins = os.environ.get("CORS_ALLOWED_ORIGINS", "")
