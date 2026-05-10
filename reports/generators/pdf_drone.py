@@ -73,7 +73,7 @@ def generate_drone_pdf(project, analysis_data: dict) -> str:
     story = []
 
     # Title Section
-    story.append(Paragraph("FarmVision — Drone Analiz Raporu", styles["title"]))
+    story.append(Paragraph("Agrisynthia — Drone Analiz Raporu", styles["title"]))
     story.append(Paragraph(f"Oluşturulma: {datetime.now().strftime('%d.%m.%Y %H:%M')}", styles["subtitle"]))
     story.append(HRFlowable(width="100%", thickness=1, color=COLOR_GREEN, spaceAfter=12))
 
@@ -231,7 +231,7 @@ def generate_drone_pdf(project, analysis_data: dict) -> str:
     story.append(Spacer(1, 1*cm))
     story.append(HRFlowable(width="100%", thickness=0.5, color=COLOR_GREY))
     story.append(Paragraph(
-        "Bu rapor FarmVision AI Sistemi tarafından otomatik olarak oluşturulmuştur.",
+        "Bu rapor Agrisynthia AI Sistemi tarafından otomatik olarak oluşturulmuştur.",
         styles["small"]
     ))
 

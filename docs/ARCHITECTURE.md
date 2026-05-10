@@ -1,8 +1,8 @@
-# FarmVision Architecture
+# Agrisynthia Architecture
 
 ## Overview
 
-FarmVision is a modular agricultural analysis platform built on Django and PyTorch. It combines fruit detection on tree imagery with drone orthophoto analysis for yield estimation and health monitoring.
+Agrisynthia is a modular agricultural analysis platform built on Django and PyTorch. It combines fruit detection on tree imagery with drone orthophoto analysis for yield estimation and health monitoring.
 
 ## Core Components
 

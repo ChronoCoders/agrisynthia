@@ -13,8 +13,8 @@ from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 from detection.constants import DRONE_ALLOWED_EXTENSIONS, MAX_DRONE_FILE_SIZE
-from yolowebapp2 import hashing, options, predict_tree, tasknode
-from yolowebapp2 import histogram as hs
+from agrisynthia import hashing, options, predict_tree, tasknode
+from agrisynthia import histogram as hs
 
 from .forms import Projects_Form
 from .models import Projects

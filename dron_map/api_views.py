@@ -29,8 +29,8 @@ from spatial_analysis.density import DetectionPoint, generate_density_grid, pixe
 from spatial_analysis.stress_zones import generate_stress_zones
 from decision_engine.service import generate_recommendations
 from yield_prediction.service import predict_yield
-from yolowebapp2.histogram import algos
-from yolowebapp2 import predict_tree
+from agrisynthia.histogram import algos
+from agrisynthia import predict_tree
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -162,7 +162,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         """Generate hashing_path on creation"""
-        from yolowebapp2 import hashing
+        from agrisynthia import hashing
         from rest_framework.exceptions import ValidationError
 
         title = serializer.validated_data.get("Title", "")

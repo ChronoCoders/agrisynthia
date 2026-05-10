@@ -54,7 +54,7 @@ def generate_detection_pdf(detection_result) -> str:
     styles = _styles()
     story = []
 
-    story.append(Paragraph("FarmVision", styles["title"]))
+    story.append(Paragraph("Agrisynthia", styles["title"]))
     story.append(Paragraph("Meyve Tespit Raporu", styles["subtitle"]))
     story.append(Paragraph(f"Oluşturulma: {datetime.now().strftime('%d.%m.%Y %H:%M')}", styles["subtitle"]))
     story.append(HRFlowable(width="100%", thickness=1, color=COLOR_GREEN, spaceAfter=12))
@@ -122,7 +122,7 @@ def generate_detection_pdf(detection_result) -> str:
     story.append(Spacer(1, 1*cm))
     story.append(HRFlowable(width="100%", thickness=0.5, color=COLOR_GREY))
     story.append(Paragraph(
-        "Bu rapor FarmVision AI Sistemi tarafından otomatik olarak oluşturulmuştur.",
+        "Bu rapor Agrisynthia AI Sistemi tarafından otomatik olarak oluşturulmuştur.",
         styles["small"]
     ))
 

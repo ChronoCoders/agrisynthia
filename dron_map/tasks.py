@@ -393,7 +393,7 @@ def send_ndvi_stress_alerts() -> dict:
     warn_threshold   = getattr(settings, "NDVI_WARN_THRESHOLD", 0.5)
     cooldown_days    = getattr(settings, "NDVI_ALERT_COOLDOWN_DAYS", 7)
     cooldown_secs    = cooldown_days * 86400
-    from_email       = getattr(settings, "DEFAULT_FROM_EMAIL", "noreply@farmvision.io")
+    from_email       = getattr(settings, "DEFAULT_FROM_EMAIL", "noreply@agrisynthia.io")
 
     # Collect latest NDVI per project, grouped by owner
     alerts_by_user: dict[int, list[dict]] = defaultdict(list)
@@ -426,7 +426,7 @@ def send_ndvi_stress_alerts() -> dict:
     fields_flagged = 0
 
     for user_id, field_alerts in alerts_by_user.items():
-        cache_key = f"farmvision:alert:ndvi:{user_id}"
+        cache_key = f"agrisynthia:alert:ndvi:{user_id}"
         if cache.get(cache_key):
             logger.info("NDVI uyarı cooldown aktif, kullanıcı %s atlandı.", user_id)
             continue
@@ -460,14 +460,14 @@ def send_ndvi_stress_alerts() -> dict:
                               f" — NDVI: {f['ndvi']}  [{f['date']}]")
 
         lines += [
-            "\nDaha fazla bilgi için Farm Vision kontrol panelini ziyaret edin.",
-            "\n— Farm Vision Otomatik İzleme Sistemi",
+            "\nDaha fazla bilgi için Agrisynthia kontrol panelini ziyaret edin.",
+            "\n— Agrisynthia Otomatik İzleme Sistemi",
         ]
 
         subject = (
-            "[Farm Vision] Tarla Stres Uyarısı"
+            "[Agrisynthia] Tarla Stres Uyarısı"
             if stressed
-            else "[Farm Vision] Tarla NDVI Uyarısı"
+            else "[Agrisynthia] Tarla NDVI Uyarısı"
         )
 
         try:

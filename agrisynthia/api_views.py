@@ -18,7 +18,7 @@ class HealthCheckResponseSerializer(serializers.Serializer):
 
 @extend_schema(
     summary="Health Check",
-    description="Check the health status of the FarmVision API and database connectivity.",
+    description="Check the health status of the Agrisynthia API and database connectivity.",
     responses={
         200: OpenApiResponse(
             response=HealthCheckResponseSerializer, description="Service is healthy"

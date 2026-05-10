@@ -11,7 +11,7 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 
-from yolowebapp2.api_views import health_check
+from agrisynthia.api_views import health_check
 
 urlpatterns = [
     path("", RedirectView.as_view(url="/detection/", permanent=False)),
@@ -40,7 +40,7 @@ urlpatterns = [
         RedirectView.as_view(url="/detection/system-monitoring/", permanent=False),
     ),
     path("accounts/", include("accounts.urls")),
-    path("api/", include("yolowebapp2.api_urls")),
+    path("api/", include("agrisynthia.api_urls")),
     path("health/", health_check, name="health-check"),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
