@@ -21,8 +21,15 @@
     {% if posts %}
     {% with posts.0 as featured %}
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:48px;display:grid;grid-template-columns:1fr 1fr;">
-      <div style="background:linear-gradient(135deg,#1B5E20,#43A047);display:flex;align-items:center;justify-content:center;min-height:280px;">
-        <i class="fas {{ featured.icon }}" style="font-size:56px;color:rgba(255,255,255,0.25);"></i>
+      <div style="position:relative;min-height:280px;overflow:hidden;">
+        {% if featured.image %}
+        <img src="{{ featured.image }}" alt="{{ featured.title }}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(27,94,32,0.6),rgba(67,160,71,0.4));"></div>
+        {% else %}
+        <div style="background:linear-gradient(135deg,#1B5E20,#43A047);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+          <i class="fas {{ featured.icon }}" style="font-size:56px;color:rgba(255,255,255,0.25);"></i>
+        </div>
+        {% endif %}
       </div>
       <div style="padding:40px;">
         <div class="blog-cat">{{ featured.category }} · Öne Çıkan</div>
@@ -50,7 +57,10 @@
     <div class="blog-grid" id="blogGrid">
       {% for post in posts %}
       <article class="blog-card" data-cat="{{ post.cat_slug }}">
-        <div class="blog-thumb"><i class="fas {{ post.icon }}" style="font-size:36px;color:var(--green);opacity:0.5;"></i></div>
+        <div class="blog-thumb">
+          {% if post.image %}<img src="{{ post.image }}" alt="{{ post.title }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          {% else %}<i class="fas {{ post.icon }}" style="font-size:36px;color:var(--green);opacity:0.5;"></i>{% endif %}
+        </div>
         <div class="blog-body">
           <div class="blog-cat">{{ post.category }}</div>
           <h3 class="blog-title">{{ post.title }}</h3>

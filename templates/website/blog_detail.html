@@ -12,15 +12,23 @@
     <div class="blog-cat">{{ post.category }}</div>
     <h1 style="font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-1px;line-height:1.2;margin-bottom:20px;">{{ post.title }}</h1>
     <div class="blog-meta" style="font-size:13px;">
-      <span>📅 {{ post.date }}</span>
-      <span>⏱ {{ post.read_time }} dk okuma</span>
+      <span><i class="fas fa-calendar-alt" style="margin-right:4px;"></i>{{ post.date }}</span>
+      <span><i class="fas fa-clock" style="margin-right:4px;"></i>{{ post.read_time }} dk okuma</span>
     </div>
   </div>
 </section>
 
+{% if post.image %}
+<div style="width:100%;max-height:440px;overflow:hidden;">
+  <img src="{{ post.image }}" alt="{{ post.title }}" style="width:100%;max-height:440px;object-fit:cover;display:block;">
+</div>
+{% endif %}
+
 <section class="section">
   <div class="container" style="max-width:760px;">
+    {% if not post.image %}
     <div style="text-align:center;margin-bottom:40px;"><i class="fas {{ post.icon }}" style="font-size:48px;color:var(--green);opacity:0.3;"></i></div>
+    {% endif %}
     <div class="blog-content" style="font-size:16px;color:#2d2d2d;line-height:1.85;">
       {{ post.content|safe }}
     </div>
@@ -40,7 +48,10 @@
     <div class="blog-grid" style="grid-template-columns:repeat(3,1fr);">
       {% for r in related %}
       <article class="blog-card">
-        <div class="blog-thumb"><i class="fas {{ r.icon }}" style="font-size:36px;color:var(--green);opacity:0.5;"></i></div>
+        <div class="blog-thumb">
+          {% if r.image %}<img src="{{ r.image }}" alt="{{ r.title }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          {% else %}<i class="fas {{ r.icon }}" style="font-size:36px;color:var(--green);opacity:0.5;"></i>{% endif %}
+        </div>
         <div class="blog-body">
           <div class="blog-cat">{{ r.category }}</div>
           <h3 class="blog-title">{{ r.title }}</h3>
