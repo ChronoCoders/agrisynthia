@@ -262,13 +262,14 @@ img { max-width: 100%; display: block; }
 .pricing-features li.disabled .ico { color: var(--muted); }
 
 /* ── Testimonials ── */
-.testimonials-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+.testimonials-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; align-items: stretch; }
 .testimonial-card {
   background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 28px;
+  display: flex; flex-direction: column;
 }
 .testimonial-quote { font-size: 32px; color: var(--green); line-height: 1; margin-bottom: 12px; }
-.testimonial-text { font-size: 15px; color: var(--text); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+.testimonial-text { font-size: 15px; color: var(--text); line-height: 1.7; margin-bottom: 20px; font-style: italic; flex: 1; }
 .testimonial-author { display: flex; align-items: center; gap: 12px; }
 .testimonial-avatar {
   width: 40px; height: 40px; border-radius: 50%;
