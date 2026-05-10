@@ -39,28 +39,47 @@
 							{% csrf_token %}
 							<div class="form-group">
 								<label for="farmInput">Çiftlik</label>
-								<input type="text" id="farmInput" placeholder="Çiftlik Adı" name="Farm" class="form-control" value="{% if projes != None %}{{projes.Farm}}{% endif %}" required maxlength="250" aria-label="Çiftlik Adı">
+								<input type="text" id="farmInput" placeholder="Çiftlik Adı" name="Farm" class="form-control" style="height:46px;" value="{% if projes != None %}{{projes.Farm}}{% endif %}" required maxlength="250" aria-label="Çiftlik Adı" autocomplete="organization">
 							</div>
 							<div class="form-group">
 								<label for="fieldInput">Tarla</label>
-								<input type="text" id="fieldInput" placeholder="Tarla Adı" name="Field" class="form-control" value="{% if projes != None %}{{projes.Field}}{% endif %}" required maxlength="250" aria-label="Tarla Adı">
+								<input type="text" id="fieldInput" placeholder="Tarla Adı" name="Field" class="form-control" style="height:46px;" value="{% if projes != None %}{{projes.Field}}{% endif %}" required maxlength="250" aria-label="Tarla Adı">
 								<input type="hidden" name="kat_user" value="{{userss.id}}">
 							</div>
 							<div class="form-group">
 								<label for="titleInput">Başlık</label>
-								<input type="text" id="titleInput" placeholder="Proje Başlığı" name="Title" class="form-control" value="{% if projes != None %}{{projes.Title}}{% endif %}" required maxlength="250" aria-label="Proje Başlığı">
+								<input type="text" id="titleInput" placeholder="Proje Başlığı" name="Title" class="form-control" style="height:46px;" value="{% if projes != None %}{{projes.Title}}{% endif %}" required maxlength="250" aria-label="Proje Başlığı">
 							</div>
 							<div class="form-group">
 								<label for="stateInput">Durum</label>
-								<input type="text" id="stateInput" placeholder="Proje Durumu" name="State" class="form-control" value="{% if projes != None %}{{projes.State}}{% endif %}" required maxlength="250" aria-label="Proje Durumu">
+								<input type="text" id="stateInput" placeholder="Proje Durumu" name="State" class="form-control" style="height:46px;" value="{% if projes != None %}{{projes.State}}{% endif %}" required maxlength="250" aria-label="Proje Durumu">
 							</div>
 							<input type="hidden" id="hashing_path" name="hashing_path" value="0">
 							<div class="form-group">
-								<label for="exampleInputFile" class="btn btn-default">Görsel Seç <i class="ico fa-solid fa-image" aria-hidden="true"></i></label>
-								<input id="exampleInputFile" style="display: none" type="file" name="picture" accept="image/jpeg,image/png,image/tiff" onchange="loadFile(event)" multiple {% if projes == None %}required{% endif %} aria-label="Proje Görseli Seç">
-								<div class="col-lg-3 col-6">
-									<img id="output" src="{% if projes != None %}{% static projes.picture %}{% else %}data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='14' fill='%23999'%3E%C3%96nizleme%3C/text%3E%3C/svg%3E{% endif %}" alt="Proje Görseli" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+								<label style="display:block;margin-bottom:6px;">Drone Görselleri {% if projes == None %}<span class="text-danger">*</span>{% endif %}</label>
+								<div id="droneUploadZone" style="border:2px dashed #b0bec5;border-radius:10px;padding:24px 16px;text-align:center;background:#fafafa;cursor:pointer;position:relative;transition:border-color 0.2s,background 0.2s;">
+									<input id="exampleInputFile"
+										   style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;"
+										   type="file"
+										   name="picture"
+										   accept="image/jpeg,image/png,image/tiff,image/*"
+										   capture="environment"
+										   onchange="loadFile(event)"
+										   multiple
+										   {% if projes == None %}required{% endif %}
+										   aria-label="Drone Görseli Seç">
+									<div style="font-size:2rem;color:#b0bec5;margin-bottom:8px;pointer-events:none;">
+										<i class="fa-solid fa-images"></i>
+									</div>
+									<div style="font-size:14px;color:#555;pointer-events:none;">Görselleri seçin veya sürükleyin</div>
+									<div style="font-size:12px;color:#aaa;margin-top:4px;pointer-events:none;">JPEG · PNG · TIFF — birden fazla dosya seçilebilir</div>
 								</div>
+								<div id="drone-preview-row" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
+									{% if projes != None %}
+									<img src="{% static projes.picture %}" alt="Mevcut Görsel" style="height:72px;width:72px;object-fit:cover;border-radius:6px;border:1px solid #ddd;">
+									{% endif %}
+								</div>
+								<div id="drone-file-count" style="font-size:12px;color:#777;margin-top:4px;"></div>
 							</div>
 							<!-- Field polygon draw -->
 							<div class="form-group">
@@ -71,7 +90,9 @@
 								<div id="polygon-coords" class="text-success" style="font-size:12px;margin-top:4px;"></div>
 							</div>
 
-							<button id="projectSubmitBtn" type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Kaydet</button>
+							<button id="projectSubmitBtn" type="submit" class="btn btn-primary waves-effect waves-light" style="width:100%;height:50px;font-size:15px;font-weight:600;border-radius:8px;touch-action:manipulation;margin-top:8px;">
+								<i class="fa-solid fa-floppy-disk"></i> Kaydet
+							</button>
 						</form>
 						{% endif %}
 					</div>
@@ -145,40 +166,44 @@
 
 <script>
 function loadFile(event) {
-	if (!event.target.files || !event.target.files[0]) return;
+	const files = event.target.files;
+	if (!files || !files.length) return;
 
-	const file = event.target.files[0];
-	const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
-	const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/tiff'];
+	const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB per drone image
+	const preview = document.getElementById('drone-preview-row');
+	const count   = document.getElementById('drone-file-count');
+	const zone    = document.getElementById('droneUploadZone');
 
-	// Validate file type
-	if (!ALLOWED_TYPES.includes(file.type)) {
-		alert('Geçersiz dosya formatı. Sadece JPEG, PNG ve TIFF formatları kabul edilir.');
-		event.target.value = ''; // Clear the input
-		return;
+	if (preview) preview.innerHTML = '';
+
+	let valid = 0;
+	for (let i = 0; i < files.length; i++) {
+		const file = files[i];
+		if (file.size > MAX_FILE_SIZE) {
+			alert('Dosya çok büyük (maks 50 MB): ' + file.name);
+			event.target.value = '';
+			return;
+		}
+		valid++;
+
+		// Show up to 6 thumbnails
+		if (preview && i < 6) {
+			const reader = new FileReader();
+			reader.onload = (function(idx) {
+				return function(e) {
+					const img = document.createElement('img');
+					img.src = e.target.result;
+					img.alt = 'Önizleme ' + (idx + 1);
+					img.style.cssText = 'height:72px;width:72px;object-fit:cover;border-radius:6px;border:1px solid #ddd;';
+					preview.appendChild(img);
+				};
+			})(i);
+			reader.readAsDataURL(file);
+		}
 	}
 
-	// Validate file size
-	if (file.size > MAX_FILE_SIZE) {
-		alert('Dosya boyutu çok büyük. Maksimum 10MB yüklenebilir.');
-		event.target.value = ''; // Clear the input
-		return;
-	}
-
-	const reader = new FileReader();
-
-	reader.onload = function(){
-		const output = document.getElementById('output');
-		if (output) output.src = reader.result;
-	};
-
-	reader.onerror = function(error){
-		console.error('Dosya okuma hatası:', error);
-		alert('Dosya yüklenirken bir hata oluştu. Lütfen tekrar deneyin.');
-		event.target.value = ''; // Clear the input
-	};
-
-	reader.readAsDataURL(file);
+	if (zone) { zone.style.borderColor = '#2E7D32'; zone.style.background = '#E8F5E9'; }
+	if (count) count.textContent = valid + ' dosya seçildi.';
 }
 
 function handleProjectFormSubmit(event) {
