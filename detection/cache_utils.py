@@ -150,9 +150,9 @@ def invalidate_all_predictions(fruit_type: Optional[str] = None) -> int:
     """
     try:
         if fruit_type:
-            pattern = f"farmvision:prediction:*:{fruit_type}"
+            pattern = f"agrisynthia:prediction:*:{fruit_type}"
         else:
-            pattern = "farmvision:prediction:*"
+            pattern = "agrisynthia:prediction:*"
 
         # Get all matching keys using SCAN (non-blocking alternative to KEYS)
         from django_redis import get_redis_connection
@@ -209,7 +209,7 @@ def get_cache_statistics() -> Dict[str, Any]:
         cursor = 0
         while True:
             cursor, keys = redis_conn.scan(
-                cursor, match="farmvision:prediction:*", count=100
+                cursor, match="agrisynthia:prediction:*", count=100
             )
             prediction_keys.extend(keys)
             if cursor == 0:

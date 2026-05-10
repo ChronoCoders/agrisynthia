@@ -83,8 +83,8 @@ MAX_TREE_AGE = 150
 # ==============================================================================
 
 # Cache key prefixes
-CACHE_PREFIX_PREDICTION = "farmvision:prediction"
-CACHE_PREFIX_TASK = "farmvision:task"
+CACHE_PREFIX_PREDICTION = "agrisynthia:prediction"
+CACHE_PREFIX_TASK = "agrisynthia:task"
 
 # Cache timeouts (in seconds)
 CACHE_TIMEOUT_PREDICTION = 86400  # 24 hours

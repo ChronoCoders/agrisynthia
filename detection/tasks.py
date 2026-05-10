@@ -16,7 +16,7 @@ from typing import Any, Dict, Optional
 from celery import shared_task
 
 from detection.models import DetectionResult
-from yolowebapp2 import predict_tree
+from agrisynthia import predict_tree
 
 from detection.constants import (
     DETECTION_CONFIDENCE_THRESHOLD,
@@ -44,7 +44,7 @@ def _send_degradation_alert(alerts: list) -> None:
         return
 
     # Check cooldown — don't spam alerts
-    cache_key = "farmvision:alert:model_degradation"
+    cache_key = "agrisynthia:alert:model_degradation"
     if cache.get(cache_key):
         logger.info("Alert cooldown active, skipping alert dispatch")
         return
@@ -60,8 +60,8 @@ def _send_degradation_alert(alerts: list) -> None:
     if webhook_url:
         try:
             payload = {
-                "text": f"*FarmVision Model Degradation Alert*\n{alert_text}",
-                "username": "FarmVision Monitor",
+                "text": f"*Agrisynthia Model Degradation Alert*\n{alert_text}",
+                "username": "Agrisynthia Monitor",
             }
             data = json.dumps(payload).encode("utf-8")
             req = urllib.request.Request(
@@ -87,10 +87,10 @@ def _send_degradation_alert(alerts: list) -> None:
             from django.conf import settings as django_settings
 
             send_mail(
-                subject="[FarmVision] Model Degradation Detected",
+                subject="[Agrisynthia] Model Degradation Detected",
                 message=f"Model degradation alerts:\n\n{alert_text}",
                 from_email=getattr(
-                    django_settings, "DEFAULT_FROM_EMAIL", "noreply@farmvision.local"
+                    django_settings, "DEFAULT_FROM_EMAIL", "noreply@agrisynthia.local"
                 ),
                 recipient_list=recipients,
                 fail_silently=False,

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Celery configuration for FarmVision project.
+Celery configuration for Agrisynthia project.
 
 This module initializes the Celery application and configures it
 to work with Django settings.
@@ -10,10 +10,10 @@ import os
 from celery import Celery
 
 # Set default Django settings module for Celery
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "yolowebapp2.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "agrisynthia.settings")
 
 # Create Celery application
-app = Celery("farmvision")
+app = Celery("agrisynthia")
 
 # Load Celery configuration from Django settings
 # Using 'CELERY_' as prefix for all Celery-related settings

@@ -2,7 +2,7 @@
 
 ## Overview
 
-FarmVision provides a RESTful API for all platform functionality. The API follows OpenAPI (Swagger) specifications.
+Agrisynthia provides a RESTful API for all platform functionality. The API follows OpenAPI (Swagger) specifications.
 
 ### Interactive Documentation
 

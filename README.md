@@ -1,4 +1,4 @@
-# FarmVision
+# Agrisynthia
 
 AI-powered fruit detection and agricultural analysis platform. Detects fruit on trees from drone and field imagery using YOLO-based models, estimates yield, and generates field health reports from multispectral orthophotos.
 
@@ -25,8 +25,8 @@ AI-powered fruit detection and agricultural analysis platform. Detects fruit on 
 
 **1. Clone and configure environment**
 ```bash
-git clone https://github.com/ChronoCoders/farmvision.git
-cd farmvision
+git clone https://github.com/ChronoCoders/agrisynthia.git
+cd agrisynthia
 cp .env.example .env
 ```
 
@@ -111,8 +111,8 @@ All variables are read from `.env` in the project root. See `.env.example` for t
 | `DJANGO_ENVIRONMENT` | Yes | `production` | `production` or `development` |
 | `DJANGO_DEBUG` | No | `False` | Set `True` only in development. |
 | `DJANGO_ALLOWED_HOSTS` | Yes | `localhost` | Comma-separated list of allowed hostnames. |
-| `DATABASE_NAME` | No | `farmvision` | PostgreSQL database name. |
-| `DATABASE_USER` | No | `farmvision_user` | PostgreSQL username. |
+| `DATABASE_NAME` | No | `agrisynthia` | PostgreSQL database name. |
+| `DATABASE_USER` | No | `agrisynthia_user` | PostgreSQL username. |
 | `DATABASE_PASSWORD` | Yes | — | PostgreSQL password. |
 | `DATABASE_HOST` | No | `db` | Database host (Docker service name). |
 | `DATABASE_PORT` | No | `5432` | Database port. |
@@ -267,10 +267,10 @@ docker compose exec web tail -f /app/logs/django.log
 ## Backup
 ```bash
 # Database backup
-docker compose exec db pg_dump -U farmvision_user farmvision > backup_$(date +%Y%m%d).sql
+docker compose exec db pg_dump -U agrisynthia_user agrisynthia > backup_$(date +%Y%m%d).sql
 
 # Restore
-docker compose exec -T db psql -U farmvision_user farmvision < backup_20240101.sql
+docker compose exec -T db psql -U agrisynthia_user agrisynthia < backup_20240101.sql
 ```
 
 ## Updating

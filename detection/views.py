@@ -34,7 +34,7 @@ from detection.constants import (
     MAX_DETECTION_FILE_SIZE,
 )
 from detection.tasks import process_image_detection
-from yolowebapp2 import hashing, predict_tree
+from agrisynthia import hashing, predict_tree
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
