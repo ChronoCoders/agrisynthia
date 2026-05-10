@@ -361,3 +361,135 @@ def refresh_all_sentinel2_ndvi() -> dict:
 
     logger.info("refresh_all_sentinel2_ndvi: %d proje için task gönderildi.", len(ids))
     return {"dispatched": len(ids)}
+
+
+# ---------------------------------------------------------------------------
+# NDVI stress alert task
+# ---------------------------------------------------------------------------
+
+@shared_task(name="dron_map.send_ndvi_stress_alerts")
+def send_ndvi_stress_alerts() -> dict:
+    """
+    Weekly task: email each user a summary of their stressed/warning fields.
+
+    Thresholds (configurable via settings):
+      NDVI_STRESS_THRESHOLD  < value → stressed  (default 0.3)
+      NDVI_WARN_THRESHOLD    < value → warning   (default 0.5)
+
+    A per-user cache key prevents duplicate emails within
+    NDVI_ALERT_COOLDOWN_DAYS (default 7 days).
+    """
+    from collections import defaultdict
+
+    from django.contrib.auth import get_user_model
+    from django.core.cache import cache
+    from django.core.mail import send_mail
+
+    from dron_map.models import Projects
+
+    User = get_user_model()
+
+    stress_threshold = getattr(settings, "NDVI_STRESS_THRESHOLD", 0.3)
+    warn_threshold   = getattr(settings, "NDVI_WARN_THRESHOLD", 0.5)
+    cooldown_days    = getattr(settings, "NDVI_ALERT_COOLDOWN_DAYS", 7)
+    cooldown_secs    = cooldown_days * 86400
+    from_email       = getattr(settings, "DEFAULT_FROM_EMAIL", "noreply@farmvision.io")
+
+    # Collect latest NDVI per project, grouped by owner
+    alerts_by_user: dict[int, list[dict]] = defaultdict(list)
+
+    projects = Projects.objects.exclude(created_by__isnull=True).select_related("created_by")
+    for project in projects:
+        latest = project.ndvi_readings.order_by("-date").values("date", "mean_ndvi").first()
+        if latest is None:
+            continue
+
+        ndvi = latest["mean_ndvi"]
+        if ndvi >= warn_threshold:
+            continue  # healthy — no alert needed
+
+        level = "stressed" if ndvi < stress_threshold else "warning"
+        alerts_by_user[project.created_by_id].append({
+            "farm":  project.Farm,
+            "field": project.Field,
+            "title": project.Title,
+            "ndvi":  round(ndvi, 3),
+            "date":  latest["date"].isoformat(),
+            "level": level,
+        })
+
+    if not alerts_by_user:
+        logger.info("send_ndvi_stress_alerts: uyarı gerektiren tarla yok.")
+        return {"users_alerted": 0, "fields_flagged": 0}
+
+    users_alerted = 0
+    fields_flagged = 0
+
+    for user_id, field_alerts in alerts_by_user.items():
+        cache_key = f"farmvision:alert:ndvi:{user_id}"
+        if cache.get(cache_key):
+            logger.info("NDVI uyarı cooldown aktif, kullanıcı %s atlandı.", user_id)
+            continue
+
+        try:
+            user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            continue
+
+        recipient = user.email
+        if not recipient:
+            logger.info("Kullanıcı %s e-posta adresi yok, atlandı.", user_id)
+            continue
+
+        stressed = [f for f in field_alerts if f["level"] == "stressed"]
+        warning  = [f for f in field_alerts if f["level"] == "warning"]
+
+        lines = ["Merhaba,\n",
+                 "Aşağıdaki tarlalarınızda Sentinel-2 NDVI değerleri düşük seviyede.\n"]
+
+        if stressed:
+            lines.append("🔴 STRESLİ TARLALAR (NDVI < {:.1f}):".format(stress_threshold))
+            for f in stressed:
+                lines.append(f"  • {f['farm']} / {f['field']} ({f['title']})"
+                              f" — NDVI: {f['ndvi']}  [{f['date']}]")
+
+        if warning:
+            lines.append("\n🟡 UYARI (NDVI {:.1f}–{:.1f}):".format(stress_threshold, warn_threshold))
+            for f in warning:
+                lines.append(f"  • {f['farm']} / {f['field']} ({f['title']})"
+                              f" — NDVI: {f['ndvi']}  [{f['date']}]")
+
+        lines += [
+            "\nDaha fazla bilgi için Farm Vision kontrol panelini ziyaret edin.",
+            "\n— Farm Vision Otomatik İzleme Sistemi",
+        ]
+
+        subject = (
+            "[Farm Vision] Tarla Stres Uyarısı"
+            if stressed
+            else "[Farm Vision] Tarla NDVI Uyarısı"
+        )
+
+        try:
+            send_mail(
+                subject=subject,
+                message="\n".join(lines),
+                from_email=from_email,
+                recipient_list=[recipient],
+                fail_silently=False,
+            )
+            cache.set(cache_key, True, timeout=cooldown_secs)
+            users_alerted += 1
+            fields_flagged += len(field_alerts)
+            logger.info(
+                "NDVI uyarı e-postası gönderildi: %s (%d tarla)",
+                recipient, len(field_alerts),
+            )
+        except Exception as e:
+            logger.error("NDVI uyarı e-postası gönderilemedi %s: %s", recipient, e)
+
+    logger.info(
+        "send_ndvi_stress_alerts tamamlandı: %d kullanıcı uyarıldı, %d tarla işaretlendi.",
+        users_alerted, fields_flagged,
+    )
+    return {"users_alerted": users_alerted, "fields_flagged": fields_flagged}
