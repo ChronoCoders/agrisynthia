@@ -6,7 +6,7 @@
 
 {% block content %}
 
-<!-- ── Hero ── -->
+<!-- Hero -->
 <section class="hero">
   <div class="container">
     <div class="hero-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;">
@@ -23,7 +23,8 @@
       <div class="hero-visual">
         <div class="hero-card">
           <div class="hero-card-header">
-            <span>🛰️ &nbsp;Uydu NDVI Haritası — Antalya, Mandalina Bahçesi</span>
+            <i class="fas fa-satellite" style="color:rgba(255,255,255,0.8);font-size:13px;"></i>
+            <span>Uydu NDVI Haritası — Antalya, Mandalina Bahçesi</span>
           </div>
           <div class="ndvi-map">
             <div class="ndvi-overlay"></div>
@@ -40,31 +41,19 @@
   </div>
 </section>
 
-<!-- ── Stats Bar ── -->
+<!-- Stats Bar -->
 <div class="stats-bar">
   <div class="container">
     <div class="stats-grid">
-      <div class="stat-item">
-        <div class="number">2,400+</div>
-        <div class="label">İzlenen Tarla</div>
-      </div>
-      <div class="stat-item">
-        <div class="number">18M+</div>
-        <div class="label">Analiz Edilen Görüntü</div>
-      </div>
-      <div class="stat-item">
-        <div class="number">%23</div>
-        <div class="label">Ortalama Verim Artışı</div>
-      </div>
-      <div class="stat-item">
-        <div class="number">340+</div>
-        <div class="label">Kooperatif & Çiftlik</div>
-      </div>
+      <div class="stat-item"><div class="number">2,400+</div><div class="label">İzlenen Tarla</div></div>
+      <div class="stat-item"><div class="number">18M+</div><div class="label">Analiz Edilen Görüntü</div></div>
+      <div class="stat-item"><div class="number">%23</div><div class="label">Ortalama Verim Artışı</div></div>
+      <div class="stat-item"><div class="number">340+</div><div class="label">Kooperatif & Çiftlik</div></div>
     </div>
   </div>
 </div>
 
-<!-- ── Features ── -->
+<!-- Features -->
 <section class="section">
   <div class="container">
     <div class="section-header centered">
@@ -74,32 +63,32 @@
     </div>
     <div class="features-grid">
       <div class="feature-card">
-        <div class="feature-icon">🛰️</div>
+        <div class="feature-icon"><i class="fas fa-satellite"></i></div>
         <h3>Uydu NDVI İzleme</h3>
         <p>Sentinel-2 uydu görüntülerinden haftalık NDVI haritası. Bitki stresini hasat öncesi fark edin.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🚁</div>
+        <div class="feature-icon"><i class="fas fa-drone-alt" style="font-size:20px;"></i><i class="fas fa-helicopter" style="display:none;"></i><i class="fas fa-plane-up"></i></div>
         <h3>Drone Ortofoto İşleme</h3>
         <p>NodeODM entegrasyonu ile drone görüntülerinizden otomatik ortofoto ve sağlık haritası oluşturun.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🍊</div>
+        <div class="feature-icon"><i class="fas fa-seedling"></i></div>
         <h3>YZ Meyve Tespiti</h3>
         <p>YOLOv7 tabanlı modelimiz mandalina, elma, armut, şeftali ve nar için %94+ doğrulukla meyve sayar.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">📈</div>
+        <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
         <h3>Verim Tahmini</h3>
         <p>Tespit verileri ve NDVI'yı birleştiren agronomi modelimiz hasadı ±%25 hassasiyetle öngörür.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🗺️</div>
+        <div class="feature-icon"><i class="fas fa-map-marked-alt"></i></div>
         <h3>Çoklu Alan Haritası</h3>
         <p>Tüm tarlalarınızı tek haritada görün. NDVI sağlık durumuna göre renklendirilmiş poligon izleme.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">📧</div>
+        <div class="feature-icon"><i class="fas fa-file-chart-column"></i></div>
         <h3>Otomatik Raporlama</h3>
         <p>Günlük, haftalık veya aylık PDF/Excel raporları otomatik olarak e-posta ile iletin.</p>
       </div>
@@ -107,7 +96,7 @@
   </div>
 </section>
 
-<!-- ── How it works ── -->
+<!-- How it works -->
 <section class="section" style="background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
   <div class="container">
     <div class="section-header centered">
@@ -134,7 +123,7 @@
   </div>
 </section>
 
-<!-- ── Testimonials ── -->
+<!-- Testimonials -->
 <section class="section">
   <div class="container">
     <div class="section-header centered">
@@ -179,7 +168,7 @@
   </div>
 </section>
 
-<!-- ── CTA ── -->
+<!-- CTA -->
 <div class="cta-band">
   <div class="container">
     <h2>Tarlanızı bugün izlemeye başlayın</h2>

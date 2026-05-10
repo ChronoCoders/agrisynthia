@@ -21,16 +21,16 @@
     {% if posts %}
     {% with posts.0 as featured %}
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:48px;display:grid;grid-template-columns:1fr 1fr;">
-      <div style="background:linear-gradient(135deg,#1B5E20,#43A047);display:flex;align-items:center;justify-content:center;font-size:80px;min-height:280px;">
-        {{ featured.emoji }}
+      <div style="background:linear-gradient(135deg,#1B5E20,#43A047);display:flex;align-items:center;justify-content:center;min-height:280px;">
+        <i class="fas fa-satellite" style="font-size:56px;color:rgba(255,255,255,0.25);"></i>
       </div>
       <div style="padding:40px;">
         <div class="blog-cat">{{ featured.category }} · Öne Çıkan</div>
         <h2 style="font-size:24px;font-weight:800;line-height:1.3;margin-bottom:14px;">{{ featured.title }}</h2>
         <p style="font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:24px;">{{ featured.excerpt }}</p>
         <div class="blog-meta">
-          <span>📅 {{ featured.date }}</span>
-          <span>⏱ {{ featured.read_time }} dk okuma</span>
+          <span><i class="fas fa-calendar-alt" style="margin-right:4px;"></i>{{ featured.date }}</span>
+          <span><i class="fas fa-clock" style="margin-right:4px;"></i>{{ featured.read_time }} dk okuma</span>
         </div>
         <a href="{% url 'website:blog_detail' featured.slug %}" class="blog-read-more" style="margin-top:20px;">Devamını Oku →</a>
       </div>
@@ -50,14 +50,14 @@
     <div class="blog-grid" id="blogGrid">
       {% for post in posts %}
       <article class="blog-card" data-cat="{{ post.cat_slug }}">
-        <div class="blog-thumb">{{ post.emoji }}</div>
+        <div class="blog-thumb"><i class="fas fa-leaf" style="font-size:36px;color:var(--green);opacity:0.5;"></i></div>
         <div class="blog-body">
           <div class="blog-cat">{{ post.category }}</div>
           <h3 class="blog-title">{{ post.title }}</h3>
           <p class="blog-excerpt">{{ post.excerpt }}</p>
           <div class="blog-meta">
-            <span>📅 {{ post.date }}</span>
-            <span>⏱ {{ post.read_time }} dk</span>
+            <span><i class="fas fa-calendar-alt" style="margin-right:4px;"></i>{{ post.date }}</span>
+            <span><i class="fas fa-clock" style="margin-right:4px;"></i>{{ post.read_time }} dk</span>
           </div>
           <a href="{% url 'website:blog_detail' post.slug %}" class="blog-read-more">Devamını Oku →</a>
         </div>

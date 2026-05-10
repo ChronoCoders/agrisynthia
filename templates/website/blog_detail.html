@@ -20,7 +20,7 @@
 
 <section class="section">
   <div class="container" style="max-width:760px;">
-    <div style="font-size:64px;text-align:center;margin-bottom:40px;">{{ post.emoji }}</div>
+    <div style="text-align:center;margin-bottom:40px;"><i class="fas fa-leaf" style="font-size:48px;color:var(--green);opacity:0.3;"></i></div>
     <div class="blog-content" style="font-size:16px;color:#2d2d2d;line-height:1.85;">
       {{ post.content|safe }}
     </div>
@@ -40,7 +40,7 @@
     <div class="blog-grid" style="grid-template-columns:repeat(3,1fr);">
       {% for r in related %}
       <article class="blog-card">
-        <div class="blog-thumb">{{ r.emoji }}</div>
+        <div class="blog-thumb"><i class="fas fa-leaf" style="font-size:36px;color:var(--green);opacity:0.5;"></i></div>
         <div class="blog-body">
           <div class="blog-cat">{{ r.category }}</div>
           <h3 class="blog-title">{{ r.title }}</h3>
