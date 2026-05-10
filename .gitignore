@@ -18,7 +18,7 @@ media/
 staticfiles/
 
 # Claude Code
-.claude/agents/
+.claude/
 
 # IDE
 .vscode/
