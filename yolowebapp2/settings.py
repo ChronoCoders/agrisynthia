@@ -485,7 +485,14 @@ CELERY_BEAT_SCHEDULE = {
         "task": "dron_map.watchdog_stuck_odm_tasks",
         "schedule": 3600.0,  # Every hour
     },
+    "sentinel2-ndvi-weekly": {
+        "task": "dron_map.refresh_all_sentinel2_ndvi",
+        "schedule": 604800.0,  # Every 7 days
+    },
 }
+
+# Sentinel-2 / Earth Search settings
+SENTINEL2_CLOUD_MAX = int(os.environ.get("SENTINEL2_CLOUD_MAX", 30))  # % cloud cover threshold
 
 # Redis connection pool settings
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True

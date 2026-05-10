@@ -292,10 +292,23 @@ def add_projects(
                             logger.error("Dosya temizleme hatası: %s", cleanup_error)
                     raise ValidationError(f"Dosyalar kaydedilemedi: {str(e)}")
 
+                # Parse optional field polygon from form
+                import json as _json
+                raw_polygon = request.POST.get("field_polygon_json", "").strip()
+                parsed_polygon = None
+                if raw_polygon:
+                    try:
+                        parsed_polygon = _json.loads(raw_polygon)
+                    except _json.JSONDecodeError:
+                        logger.warning("Geçersiz field_polygon JSON, atlandı.")
+
                 # Save project to database with transaction
                 try:
                     with transaction.atomic():
                         form.instance.hashing_path = hashing_result[1]
+                        form.instance.created_by = request.user
+                        if parsed_polygon is not None:
+                            form.instance.field_polygon = parsed_polygon
                         project = form.save()
                         logger.info("Proje veritabanına kaydedildi: %s", project.id)
                 except Exception as e:
@@ -326,6 +339,15 @@ def add_projects(
                             "ODM task gönderilemedi proje %s: %s", project.id, e
                         )
                         # Non-critical: project saved, ODM will be skipped
+
+                # Dispatch Sentinel-2 NDVI fetch if polygon was provided
+                if parsed_polygon:
+                    try:
+                        from dron_map.tasks import fetch_sentinel2_ndvi
+                        fetch_sentinel2_ndvi.delay(project.id, days_back=90)
+                        logger.info("Sentinel-2 NDVI task gönderildi: proje %s", project.id)
+                    except Exception as e:
+                        logger.error("Sentinel-2 task gönderilemedi proje %s: %s", project.id, e)
 
                 return redirect("dron_map:projects")
 
@@ -581,6 +603,32 @@ def maping(request: HttpRequest, id: int) -> HttpResponse:
                 "images_info": images_info,
             },
         )
+
+@login_required
+def ndvi_data(request, project_id: int) -> JsonResponse:
+    """
+    Return Sentinel-2 NDVI time series for a project as JSON.
+    GET /dron-map/projects/<id>/ndvi/
+    """
+    from dron_map.models import SatelliteNDVI
+
+    project = get_object_or_404(Projects, id=project_id, created_by=request.user)
+    readings = list(
+        SatelliteNDVI.objects.filter(project=project)
+        .order_by("date")
+        .values("date", "mean_ndvi", "min_ndvi", "max_ndvi", "cloud_cover")
+    )
+    # Convert date objects to ISO strings for JSON
+    for r in readings:
+        r["date"] = r["date"].isoformat()
+
+    has_polygon = bool(project.field_polygon)
+    return JsonResponse({
+        "project_id": project_id,
+        "has_polygon": has_polygon,
+        "readings": readings,
+    })
+
 
 @login_required
 def odm_status(request, project_id: int) -> JsonResponse:

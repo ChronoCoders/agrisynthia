@@ -70,5 +70,34 @@ class Projects(models.Model):
         help_text="Error message if ODM processing failed",
     )
 
+    field_polygon = models.JSONField(
+        null=True,
+        blank=True,
+        help_text="GeoJSON polygon ring [[lng, lat], ...] defining the field boundary",
+    )
+
     def __str__(self):
         return self.Farm
+
+
+class SatelliteNDVI(models.Model):
+    """One Sentinel-2 NDVI reading per project per scene date."""
+
+    project = models.ForeignKey(
+        Projects, on_delete=models.CASCADE, related_name="ndvi_readings"
+    )
+    date = models.DateField(db_index=True)
+    mean_ndvi = models.FloatField()
+    min_ndvi = models.FloatField()
+    max_ndvi = models.FloatField()
+    std_ndvi = models.FloatField()
+    cloud_cover = models.FloatField(null=True, blank=True)
+    scene_id = models.CharField(max_length=120, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = [("project", "date")]
+        ordering = ["date"]
+
+    def __str__(self):
+        return f"{self.project} – {self.date} NDVI={self.mean_ndvi:.3f}"

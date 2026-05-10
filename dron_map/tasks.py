@@ -1,25 +1,105 @@
 # -*- coding: utf-8 -*-
 """
-Celery tasks for ODM (NodeODM) processing.
+Celery tasks for ODM (NodeODM) processing and Sentinel-2 NDVI fetching.
 
-Flow:
+ODM flow:
   1. User uploads drone images via the add-project form.
   2. Images are saved to disk synchronously.
   3. process_odm_task is dispatched as a Celery task (async).
   4. The task creates a NodeODM task, polls for completion, then downloads
      the output assets into static/results/{hashing_path}/.
   5. Project.odm_status is updated at each step so the frontend can poll.
+
+Sentinel-2 flow:
+  1. User draws a field polygon when creating/editing a project.
+  2. fetch_sentinel2_ndvi(project_id) queries Element84 Earth Search STAC,
+     reads B04/B08 COG bands via rio-tiler, computes NDVI statistics, and
+     stores one SatelliteNDVI row per scene date.
+  3. refresh_all_sentinel2_ndvi() dispatches fetch_sentinel2_ndvi for every
+     project that has a polygon. Run weekly via Celery Beat.
 """
 import logging
 import os
 from pathlib import Path
 
+import numpy as np
+import requests as http_requests
 from celery import shared_task
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
 BASE_DIR = Path(settings.BASE_DIR)
+
+# ---------------------------------------------------------------------------
+# Sentinel-2 helpers
+# ---------------------------------------------------------------------------
+
+_STAC_ENDPOINT = "https://earth-search.aws.element84.com/v1"
+_STAC_COLLECTION = "sentinel-2-l2a"
+# Asset key candidates for red (B04) and NIR (B08) across catalog versions
+_RED_KEYS = ("red",)
+_NIR_KEYS = ("nir", "nir08", "B08")
+
+
+def _polygon_bbox(coords: list) -> list:
+    """Return [min_lng, min_lat, max_lng, max_lat] from a GeoJSON ring."""
+    lngs = [c[0] for c in coords]
+    lats = [c[1] for c in coords]
+    return [min(lngs), min(lats), max(lngs), max(lats)]
+
+
+def _search_scenes(bbox: list, start: str, end: str, cloud_max: int = 30) -> list:
+    resp = http_requests.post(
+        f"{_STAC_ENDPOINT}/search",
+        json={
+            "collections": [_STAC_COLLECTION],
+            "bbox": bbox,
+            "datetime": f"{start}/{end}",
+            "query": {"eo:cloud_cover": {"lt": cloud_max}},
+            "sortby": [{"field": "datetime", "direction": "asc"}],
+            "limit": 100,
+        },
+        timeout=30,
+    )
+    resp.raise_for_status()
+    return resp.json().get("features", [])
+
+
+def _get_asset_href(assets: dict, keys: tuple) -> str | None:
+    for k in keys:
+        href = assets.get(k, {}).get("href")
+        if href:
+            return href
+    return None
+
+
+def _compute_ndvi(red_href: str, nir_href: str, bbox: list) -> dict | None:
+    """Read COG bands for bbox and return NDVI statistics, or None if too few pixels."""
+    from rio_tiler.io import Reader
+
+    with Reader(red_href) as r:
+        red_img = r.part(bbox)
+    with Reader(nir_href) as r:
+        nir_img = r.part(bbox)
+
+    red = red_img.data[0].astype(float)
+    nir = nir_img.data[0].astype(float)
+
+    denom = nir + red
+    with np.errstate(invalid="ignore", divide="ignore"):
+        ndvi = np.where(denom > 0, (nir - red) / denom, np.nan)
+
+    valid = ndvi[~np.isnan(ndvi)]
+    if valid.size < 10:
+        return None
+
+    return {
+        "mean": float(np.nanmean(valid)),
+        "min": float(np.nanmin(valid)),
+        "max": float(np.nanmax(valid)),
+        "std": float(np.nanstd(valid)),
+    }
 
 
 @shared_task(bind=True, max_retries=0, name="dron_map.process_odm_task")
@@ -166,3 +246,118 @@ def watchdog_stuck_odm_tasks() -> dict:
         count, ids,
     )
     return {"recovered": count, "project_ids": ids}
+
+
+# ---------------------------------------------------------------------------
+# Sentinel-2 NDVI tasks
+# ---------------------------------------------------------------------------
+
+@shared_task(name="dron_map.fetch_sentinel2_ndvi")
+def fetch_sentinel2_ndvi(project_id: int, days_back: int = 90) -> dict:
+    """
+    Fetch Sentinel-2 NDVI time series for a single project.
+
+    Queries Element84 Earth Search (free, no auth) for sentinel-2-l2a scenes
+    that intersect the project's field_polygon, reads B04/B08 COG bands via
+    rio-tiler, computes NDVI statistics, and upserts SatelliteNDVI rows.
+    Already-stored dates are skipped to avoid redundant downloads.
+
+    Args:
+        project_id: PK of the dron_map.Projects instance.
+        days_back: How many days back from today to search.
+    """
+    from datetime import date, timedelta
+
+    from dron_map.models import Projects, SatelliteNDVI
+
+    try:
+        project = Projects.objects.get(pk=project_id)
+    except Projects.DoesNotExist:
+        logger.error("fetch_sentinel2_ndvi: proje bulunamadı pk=%s", project_id)
+        return {"error": f"Proje bulunamadı: {project_id}"}
+
+    if not project.field_polygon:
+        logger.info("fetch_sentinel2_ndvi: proje %s için polygon tanımlanmamış, atlandı.", project_id)
+        return {"project_id": project_id, "skipped": "polygon yok"}
+
+    bbox = _polygon_bbox(project.field_polygon)
+    end_date = date.today()
+    start_date = end_date - timedelta(days=days_back)
+    cloud_max = getattr(settings, "SENTINEL2_CLOUD_MAX", 30)
+
+    logger.info(
+        "Sentinel-2 NDVI fetch — proje %s, bbox=%s, %s→%s, cloud<%s%%",
+        project_id, bbox, start_date, end_date, cloud_max,
+    )
+
+    try:
+        scenes = _search_scenes(bbox, start_date.isoformat(), end_date.isoformat(), cloud_max)
+    except Exception as e:
+        logger.error("STAC arama hatası proje %s: %s", project_id, e)
+        return {"project_id": project_id, "error": str(e)}
+
+    saved = 0
+    skipped = 0
+    for scene in scenes:
+        scene_date_str = scene["properties"]["datetime"][:10]
+        assets = scene.get("assets", {})
+
+        red_href = _get_asset_href(assets, _RED_KEYS)
+        nir_href = _get_asset_href(assets, _NIR_KEYS)
+
+        if not red_href or not nir_href:
+            logger.debug("STAC sahne %s: kırmızı/NIR asset bulunamadı, atlandı.", scene.get("id"))
+            skipped += 1
+            continue
+
+        if SatelliteNDVI.objects.filter(project=project, date=scene_date_str).exists():
+            skipped += 1
+            continue
+
+        try:
+            stats = _compute_ndvi(red_href, nir_href, bbox)
+            if stats is None:
+                logger.debug("STAC sahne %s: geçerli piksel yetersiz, atlandı.", scene.get("id"))
+                skipped += 1
+                continue
+
+            SatelliteNDVI.objects.create(
+                project=project,
+                date=scene_date_str,
+                mean_ndvi=stats["mean"],
+                min_ndvi=stats["min"],
+                max_ndvi=stats["max"],
+                std_ndvi=stats["std"],
+                cloud_cover=scene["properties"].get("eo:cloud_cover"),
+                scene_id=scene.get("id", ""),
+            )
+            saved += 1
+            logger.info("NDVI kaydedildi: proje %s, tarih=%s, mean=%.3f", project_id, scene_date_str, stats["mean"])
+
+        except Exception as e:
+            logger.warning("NDVI hesaplama hatası sahne %s: %s", scene.get("id"), e)
+            skipped += 1
+
+    logger.info(
+        "fetch_sentinel2_ndvi tamamlandı — proje %s: %d sahne, %d kaydedildi, %d atlandı",
+        project_id, len(scenes), saved, skipped,
+    )
+    return {"project_id": project_id, "scenes": len(scenes), "saved": saved, "skipped": skipped}
+
+
+@shared_task(name="dron_map.refresh_all_sentinel2_ndvi")
+def refresh_all_sentinel2_ndvi() -> dict:
+    """
+    Dispatch fetch_sentinel2_ndvi for all projects that have a field polygon.
+    Run weekly via Celery Beat to keep NDVI time series current.
+    """
+    from dron_map.models import Projects
+
+    ids = list(
+        Projects.objects.exclude(field_polygon__isnull=True).values_list("pk", flat=True)
+    )
+    for pk in ids:
+        fetch_sentinel2_ndvi.delay(pk, days_back=14)
+
+    logger.info("refresh_all_sentinel2_ndvi: %d proje için task gönderildi.", len(ids))
+    return {"dispatched": len(ids)}
