@@ -102,7 +102,7 @@ img { max-width: 100%; display: block; }
 .hero {
   min-height: 100vh;
   display: flex; align-items: center;
-  padding-top: 68px;
+  padding-top: 100px;
   background: linear-gradient(160deg, #f0f7f0 0%, var(--bg) 50%, #fef9ec 100%);
   position: relative; overflow: hidden;
 }
