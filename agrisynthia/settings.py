@@ -506,6 +506,10 @@ CELERY_BEAT_SCHEDULE = {
         "task": "reports.tasks.send_scheduled_reports",
         "schedule": 3600.0,  # Every hour — catches daily/weekly/monthly schedules
     },
+    "ndvi-hero-monthly": {
+        "task": "website.tasks.refresh_ndvi_hero",
+        "schedule": 2592000.0,  # Every 30 days
+    },
 }
 
 # Sentinel-2 / Earth Search settings
