@@ -605,6 +605,71 @@ def maping(request: HttpRequest, id: int) -> HttpResponse:
         )
 
 @login_required
+def field_overview(request: HttpRequest) -> HttpResponse:
+    """
+    Full-screen map showing all of the user's fields as colored polygons.
+    Color indicates NDVI health: green ≥ 0.5, yellow 0.3–0.5, red < 0.3, grey = no data.
+    """
+    import json as _json
+
+    projects = Projects.objects.filter(created_by=request.user)
+
+    features = []
+    for p in projects:
+        latest = p.ndvi_readings.order_by("-date").values("date", "mean_ndvi").first()
+
+        if latest:
+            ndvi = latest["mean_ndvi"]
+            if ndvi >= 0.5:
+                color = "#2E7D32"
+                health = "Sağlıklı"
+            elif ndvi >= 0.3:
+                color = "#F9A825"
+                health = "Uyarı"
+            else:
+                color = "#C62828"
+                health = "Stresli"
+            ndvi_display = round(ndvi, 3)
+            ndvi_date = latest["date"].isoformat()
+        else:
+            color = "#9E9E9E"
+            health = "Veri yok"
+            ndvi_display = None
+            ndvi_date = None
+
+        if p.field_polygon:
+            geometry = {"type": "Polygon", "coordinates": [p.field_polygon]}
+        else:
+            geometry = None
+
+        features.append({
+            "type": "Feature",
+            "geometry": geometry,
+            "properties": {
+                "id": p.id,
+                "farm": p.Farm,
+                "field": p.Field,
+                "title": p.Title,
+                "odm_status": p.odm_status,
+                "ndvi": ndvi_display,
+                "ndvi_date": ndvi_date,
+                "health": health,
+                "color": color,
+                "has_polygon": bool(p.field_polygon),
+                "map_url": f"/dron-map/map/{p.id}/",
+            },
+        })
+
+    geojson = _json.dumps({"type": "FeatureCollection", "features": features})
+    return render(request, "field-overview.html", {
+        "userss": request.user,
+        "geojson": geojson,
+        "total": len(features),
+        "with_polygon": sum(1 for f in features if f["properties"]["has_polygon"]),
+    })
+
+
+@login_required
 def dashboard(request: HttpRequest) -> HttpResponse:
     """
     Field monitoring dashboard — aggregates NDVI trends and detection history
@@ -767,6 +832,75 @@ def ndvi_data(request, project_id: int) -> JsonResponse:
         "project_id": project_id,
         "has_polygon": has_polygon,
         "readings": readings,
+    })
+
+
+@login_required
+def yield_prediction(request: HttpRequest) -> HttpResponse:
+    """
+    Yield prediction page: lets the user pick a project and see an estimate
+    built from detection data + Sentinel-2 NDVI via the yield_predictor module.
+    Also accepts a manual form so users can override tree_count / tree_age.
+    """
+    from detection.models import DetectionResult
+    from .yield_predictor import YieldEstimate, _SPECIES_PARAMS
+
+    projects = list(Projects.objects.filter(created_by=request.user).order_by("Farm", "Field"))
+
+    estimate_dict = None
+    selected_project = None
+    error = None
+
+    if request.method == "POST":
+        try:
+            project_id = request.POST.get("project_id")
+            fruit_type = request.POST.get("fruit_type", "").strip()
+            tree_count = int(request.POST.get("tree_count") or 0)
+            tree_age = int(request.POST.get("tree_age") or 0)
+            detected_count = int(request.POST.get("detected_count") or 0)
+            avg_ndvi_raw = request.POST.get("avg_ndvi") or None
+            avg_ndvi = float(avg_ndvi_raw) if avg_ndvi_raw else None
+
+            if project_id:
+                selected_project = get_object_or_404(Projects, pk=project_id, created_by=request.user)
+                # Pull NDVI from DB if not manually provided
+                if avg_ndvi is None:
+                    qs = selected_project.ndvi_readings.order_by("-date").values_list("mean_ndvi", flat=True)[:6]
+                    avg_ndvi = (sum(qs) / len(qs)) if qs else None
+                # Pull detection if not manually provided
+                if not detected_count or not fruit_type:
+                    det = DetectionResult.objects.filter(created_by=request.user).order_by("-created_at").first()
+                    if det:
+                        fruit_type = fruit_type or det.fruit_type
+                        tree_count = tree_count or det.tree_count or 1
+                        tree_age = tree_age or det.tree_age or 0
+                        detected_count = detected_count or det.detected_count or 0
+
+            if not fruit_type:
+                error = "Meyve türü seçilmedi."
+            elif not tree_count:
+                error = "Ağaç sayısı girilmedi."
+            else:
+                est = YieldEstimate(
+                    fruit_type=fruit_type,
+                    tree_count=tree_count,
+                    tree_age=tree_age,
+                    detected_count=detected_count,
+                    avg_ndvi=avg_ndvi,
+                )
+                estimate_dict = est.as_dict()
+        except Exception as exc:
+            logger.error("Verim tahmini hatası: %s", exc)
+            error = "Hesaplama sırasında hata oluştu."
+
+    fruit_types = list(_SPECIES_PARAMS.keys())
+    return render(request, "yield-prediction.html", {
+        "userss": request.user,
+        "projects": projects,
+        "selected_project": selected_project,
+        "estimate": estimate_dict,
+        "error": error,
+        "fruit_types": fruit_types,
     })
 
 

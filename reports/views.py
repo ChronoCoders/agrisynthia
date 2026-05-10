@@ -2,15 +2,18 @@
 import json
 import logging
 import os
-import mimetypes
+from datetime import timedelta
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse, FileResponse, Http404
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
 from django.views.decorators.http import require_POST, require_GET
 from django.conf import settings
 
-from .models import GeneratedReport
+from dron_map.models import Projects
+from .models import GeneratedReport, ScheduledReport
 from .tasks import generate_detection_report, generate_drone_report
 from analysis_logger.service import get_latest_analysis_data
 
@@ -20,13 +23,14 @@ logger = logging.getLogger(__name__)
 @login_required
 @require_GET
 def report_list(request):
-    """
-    Kullanıcıya ait GeneratedReport kayıtlarını listele.
-    """
-    reports = GeneratedReport.objects.filter(
-        created_by=request.user
-    ).order_by("-created_at")
-    return render(request, "reports/report_list.html", {"reports": reports})
+    reports = GeneratedReport.objects.filter(created_by=request.user).order_by("-created_at")
+    schedules = ScheduledReport.objects.filter(user=request.user).order_by("next_run")
+    projects = Projects.objects.filter(created_by=request.user).order_by("Farm", "Field")
+    return render(request, "reports/report_list.html", {
+        "reports": reports,
+        "schedules": schedules,
+        "projects": projects,
+    })
 
 
 @login_required
@@ -135,9 +139,6 @@ def download_report(request, report_id):
 @login_required
 @require_POST
 def delete_report(request, report_id):
-    """
-    Kullanıcıya ait raporu ve dosyasını sil.
-    """
     report = get_object_or_404(GeneratedReport, id=report_id, created_by=request.user)
 
     if report.file_path:
@@ -154,3 +155,60 @@ def delete_report(request, report_id):
 
     report.delete()
     return JsonResponse({"message": "Rapor başarıyla silindi."}, status=200)
+
+
+@login_required
+@require_POST
+def create_schedule(request):
+    report_type = request.POST.get("report_type")
+    fmt = request.POST.get("format")
+    frequency = request.POST.get("frequency")
+    project_id = request.POST.get("project_id") or None
+
+    valid_types = {"detection", "drone"}
+    valid_formats = {"pdf", "xlsx"}
+    valid_freqs = {"daily", "weekly", "monthly"}
+
+    if report_type not in valid_types or fmt not in valid_formats or frequency not in valid_freqs:
+        messages.error(request, "Geçersiz zamanlama parametresi.")
+        return redirect("reports:list")
+
+    project = None
+    if project_id:
+        project = get_object_or_404(Projects, pk=project_id, created_by=request.user)
+
+    now = timezone.now()
+    if frequency == "daily":
+        next_run = now + timedelta(days=1)
+    elif frequency == "weekly":
+        next_run = now + timedelta(weeks=1)
+    else:
+        next_run = now + timedelta(days=30)
+
+    ScheduledReport.objects.create(
+        user=request.user,
+        report_type=report_type,
+        format=fmt,
+        frequency=frequency,
+        project=project,
+        next_run=next_run,
+    )
+    messages.success(request, "Zamanlama oluşturuldu.")
+    return redirect("reports:list")
+
+
+@login_required
+@require_POST
+def delete_schedule(request, schedule_id):
+    schedule = get_object_or_404(ScheduledReport, pk=schedule_id, user=request.user)
+    schedule.delete()
+    return JsonResponse({"message": "Zamanlama silindi."}, status=200)
+
+
+@login_required
+@require_POST
+def toggle_schedule(request, schedule_id):
+    schedule = get_object_or_404(ScheduledReport, pk=schedule_id, user=request.user)
+    schedule.is_active = not schedule.is_active
+    schedule.save(update_fields=["is_active"])
+    return JsonResponse({"is_active": schedule.is_active}, status=200)

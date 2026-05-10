@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>Agrisynthia - Alan Haritası</title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+    <link rel="stylesheet" href="{% static 'assets/styles/style.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/styles/custom.css' %}">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <style>
+        html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
+        #map { position: absolute; top: 56px; left: 0; right: 0; bottom: 0; z-index: 1; }
+        .map-sidebar {
+            position: absolute;
+            top: 72px;
+            right: 12px;
+            z-index: 1000;
+            width: 270px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+            padding: 16px;
+            max-height: calc(100vh - 90px);
+            overflow-y: auto;
+        }
+        .map-sidebar h6 { font-weight: 700; color: #2E7D32; margin-bottom: 12px; font-size: 14px; }
+        .stat-row { display: flex; gap: 8px; margin-bottom: 12px; }
+        .stat-box {
+            flex: 1; background: #f5f5f5; border-radius: 6px;
+            padding: 10px 8px; text-align: center;
+        }
+        .stat-box .val { font-size: 22px; font-weight: 700; color: #2E7D32; }
+        .stat-box .lbl { font-size: 11px; color: #757575; }
+        .legend { margin-top: 8px; }
+        .legend-title { font-size: 12px; font-weight: 600; color: #424242; margin-bottom: 6px; }
+        .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 12px; color: #424242; }
+        .legend-dot { width: 16px; height: 16px; border-radius: 3px; flex-shrink: 0; }
+        .field-list { margin-top: 12px; }
+        .field-item {
+            border: 1px solid #e0e0e0; border-radius: 6px;
+            padding: 8px 10px; margin-bottom: 6px; cursor: pointer;
+            transition: border-color .15s;
+        }
+        .field-item:hover { border-color: #2E7D32; }
+        .field-item .fname { font-size: 13px; font-weight: 600; color: #212121; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .field-item .fndvi { font-size: 12px; color: #757575; }
+        .health-badge {
+            display: inline-block; font-size: 10px; font-weight: 700;
+            padding: 2px 7px; border-radius: 10px; color: #fff; margin-left: 4px;
+        }
+        .leaflet-popup-content { font-size: 13px; min-width: 180px; }
+        .leaflet-popup-content strong { color: #2E7D32; }
+        .popup-link {
+            display: inline-block; margin-top: 8px; padding: 4px 12px;
+            background: #2E7D32; color: #fff !important; border-radius: 4px;
+            font-size: 12px; text-decoration: none;
+        }
+        .popup-link:hover { background: #1b5e20; }
+    </style>
+</head>
+<body>
+{% include "navbar.html" %}
+
+<div id="map"></div>
+
+<div class="map-sidebar">
+    <h6><i class="fas fa-map-marked-alt"></i> Alan Haritası</h6>
+    <div class="stat-row">
+        <div class="stat-box">
+            <div class="val">{{ total }}</div>
+            <div class="lbl">Toplam Alan</div>
+        </div>
+        <div class="stat-box">
+            <div class="val">{{ with_polygon }}</div>
+            <div class="lbl">Poligon Var</div>
+        </div>
+    </div>
+
+    <div class="legend">
+        <div class="legend-title">NDVI Sağlık Durumu</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#2E7D32;"></div> Sağlıklı (≥0.5)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#F9A825;"></div> Uyarı (0.3–0.5)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#C62828;"></div> Stresli (&lt;0.3)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#9E9E9E;"></div> Veri Yok</div>
+    </div>
+
+    <div class="field-list" id="fieldList">
+        <div class="legend-title" style="margin-top:10px;">Alanlar</div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="{% static 'assets/scripts/jquery.min.js' %}"></script>
+<script>
+const geojsonData = {{ geojson|safe }};
+
+const map = L.map('map', { zoomControl: true }).setView([39.0, 35.0], 6);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap contributors'
+}).addTo(map);
+
+const boundsArr = [];
+const fieldList = document.getElementById('fieldList');
+const layerMap = {};
+
+geojsonData.features.forEach(function(feature) {
+    const p = feature.properties;
+    const color = p.color || '#9E9E9E';
+
+    // Sidebar entry
+    const item = document.createElement('div');
+    item.className = 'field-item';
+    item.innerHTML = `
+        <div class="fname">${p.farm || ''} – ${p.field || p.title || ''}</div>
+        <div class="fndvi">
+            NDVI: ${p.ndvi !== null ? p.ndvi : '—'}
+            <span class="health-badge" style="background:${color};">${p.health}</span>
+        </div>`;
+    fieldList.appendChild(item);
+
+    if (!feature.geometry) {
+        // No polygon — skip map layer but still add sidebar
+        item.style.opacity = '0.5';
+        item.title = 'Poligon tanımlanmamış';
+        return;
+    }
+
+    const layer = L.geoJSON(feature, {
+        style: {
+            color: color,
+            fillColor: color,
+            fillOpacity: 0.35,
+            weight: 2,
+        }
+    }).addTo(map);
+
+    const ndviLine = p.ndvi !== null
+        ? `<br>NDVI: <strong>${p.ndvi}</strong> <em style="color:#757575;font-size:11px;">(${p.ndvi_date || ''})</em>`
+        : '<br><em style="color:#9E9E9E;">NDVI verisi yok</em>';
+
+    layer.bindPopup(`
+        <strong>${p.farm || 'Çiftlik'}</strong><br>
+        ${p.field ? 'Tarla: ' + p.field + '<br>' : ''}
+        ${p.title ? p.title + '<br>' : ''}
+        ${ndviLine}
+        <br>Durum: <span style="color:${color};font-weight:600;">${p.health}</span>
+        <br><a class="popup-link" href="${p.map_url}">
+            <i class="fas fa-eye"></i> Haritayı Aç
+        </a>
+    `);
+
+    layerMap[p.id] = layer;
+
+    try {
+        const b = layer.getBounds();
+        boundsArr.push(b);
+    } catch(e) {}
+
+    item.addEventListener('click', function() {
+        layer.openPopup();
+        map.fitBounds(layer.getBounds(), { padding: [40, 40] });
+    });
+});
+
+if (boundsArr.length > 0) {
+    let combined = boundsArr[0];
+    for (let i = 1; i < boundsArr.length; i++) combined = combined.extend(boundsArr[i]);
+    map.fitBounds(combined, { padding: [60, 60] });
+}
+</script>
+</body>
+</html>
