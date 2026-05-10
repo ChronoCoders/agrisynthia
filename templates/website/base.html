@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{% block meta_desc %}Agrisynthia — Yapay zeka destekli tarımsal izleme, uydu NDVI analizi ve verim tahmini platformu.{% endblock %}">
+  <title>{% block title %}Agrisynthia{% endblock %} | Akıllı Tarım Platformu</title>
+  <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}">
+  <link rel="stylesheet" href="{% static 'website/css/site.css' %}">
+  <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet">
+  <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<!-- ── Navbar ── -->
+<nav class="site-nav">
+  <div class="container">
+    <a href="{% url 'website:home' %}" class="nav-logo">Agri<span>synthia</span></a>
+    <ul class="nav-links">
+      <li><a href="{% url 'website:product' %}">Ürün</a></li>
+      <li><a href="{% url 'website:pricing' %}">Fiyatlandırma</a></li>
+      <li><a href="{% url 'website:blog' %}">Blog</a></li>
+      <li><a href="{% url 'website:about' %}">Hakkımızda</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="{% url 'login' %}" class="btn btn-outline btn-sm">Giriş Yap</a>
+      <a href="{% url 'website:pricing' %}" class="btn btn-primary btn-sm">Ücretsiz Deneyin</a>
+    </div>
+    <button class="nav-mobile-toggle" id="navToggle" aria-label="Menüyü aç">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile drawer -->
+<div class="nav-drawer" id="navDrawer">
+  <div class="nav-drawer-header">
+    <a href="{% url 'website:home' %}" class="nav-logo">Agri<span>synthia</span></a>
+    <button onclick="closeDrawer()" style="background:none;border:none;font-size:24px;cursor:pointer;">✕</button>
+  </div>
+  <ul>
+    <li><a href="{% url 'website:product' %}" onclick="closeDrawer()">Ürün</a></li>
+    <li><a href="{% url 'website:pricing' %}" onclick="closeDrawer()">Fiyatlandırma</a></li>
+    <li><a href="{% url 'website:blog' %}" onclick="closeDrawer()">Blog</a></li>
+    <li><a href="{% url 'website:about' %}" onclick="closeDrawer()">Hakkımızda</a></li>
+  </ul>
+  <div class="nav-drawer-actions">
+    <a href="{% url 'login' %}" class="btn btn-outline">Giriş Yap</a>
+    <a href="{% url 'website:pricing' %}" class="btn btn-primary">Ücretsiz Deneyin</a>
+  </div>
+</div>
+
+{% block content %}{% endblock %}
+
+<!-- ── Footer ── -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">Agri<span>synthia</span></div>
+        <p>Yapay zeka ve uydu görüntüleri ile tarlanızı gerçek zamanlı izleyin, hasadınızı önceden planlayın.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Ürün</h4>
+        <ul>
+          <li><a href="{% url 'website:product' %}">Özellikler</a></li>
+          <li><a href="{% url 'website:pricing' %}">Fiyatlandırma</a></li>
+          <li><a href="{% url 'login' %}">Giriş Yap</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Şirket</h4>
+        <ul>
+          <li><a href="{% url 'website:about' %}">Hakkımızda</a></li>
+          <li><a href="{% url 'website:blog' %}">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>İletişim</h4>
+        <ul>
+          <li><a href="mailto:info@agrisynthia.com">info@agrisynthia.com</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Twitter/X</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Agrisynthia. Tüm hakları saklıdır.</span>
+      <div style="display:flex;gap:20px;">
+        <a href="#">Gizlilik Politikası</a>
+        <a href="#">Kullanım Koşulları</a>
+        <a href="#">KVKK</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const toggle = document.getElementById('navToggle');
+  const drawer = document.getElementById('navDrawer');
+  toggle.addEventListener('click', () => drawer.classList.add('open'));
+  function closeDrawer() { drawer.classList.remove('open'); }
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const answer = item.querySelector('.faq-answer');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-answer').style.maxHeight = '0';
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+</script>
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,203 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block title %}Ürün{% endblock %}
+{% block meta_desc %}Agrisynthia ürün özellikleri — Sentinel-2 NDVI, drone analizi, YZ meyve tespiti ve verim tahmini.{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<section style="padding:140px 0 80px;background:linear-gradient(160deg,#f0f7f0,var(--bg));border-bottom:1px solid var(--border);">
+  <div class="container" style="text-align:center;">
+    <div class="section-tag">Platform</div>
+    <h1 class="section-title" style="max-width:640px;margin:0 auto 20px;">Tarımsal verinin tüm gücü, tek çatı altında</h1>
+    <p class="section-sub" style="margin:0 auto 40px;">Uydudan drone'a, sahadan ofise — Agrisynthia her veri kaynağını birleştirerek size eyleme geçilebilir içgörüler sunar.</p>
+    <a href="{% url 'website:pricing' %}" class="btn btn-primary btn-lg">Ücretsiz Deneyin</a>
+  </div>
+</section>
+
+<!-- Pillar 1: Satellite NDVI -->
+<section class="section">
+  <div class="container">
+    <div class="pillar">
+      <div class="pillar-text">
+        <div class="pillar-tag">🛰️ Uydu İzleme</div>
+        <h2>Bitki sağlığını haftadan haftaya takip edin</h2>
+        <div class="outcome-stat">
+          <div class="num">%31</div>
+          <div class="desc">Ortalama stres tespitinde<br>önceden müdahale oranı</div>
+        </div>
+        <p>Sentinel-2 uydusu, her 5 günde bir Türkiye'nin tamamını tarar. Agrisynthia bu verileri otomatik olarak işler ve tarlanızın NDVI değerini hesaplar. Kuraklık, hastalık veya gübre eksikliğini görüntüde renk değişimi olarak görürsünüz — hasat kaybı yaşamadan önce.</p>
+        <ul class="check-list">
+          <li>Haftalık otomatik NDVI güncelleme</li>
+          <li>Zaman serisi grafiği ile mevsimsel karşılaştırma</li>
+          <li>Stres eşiği aşıldığında e-posta uyarısı</li>
+          <li>%30'dan fazla bulut örtüsünde otomatik atlama</li>
+        </ul>
+      </div>
+      <div class="pillar-visual">
+        <div style="background:linear-gradient(135deg,#1B5E20 0%,#2E7D32 20%,#43A047 35%,#F9A825 55%,#EF6C00 70%,#C62828 100%);height:240px;display:flex;align-items:center;justify-content:center;">
+          <span style="background:rgba(0,0,0,0.5);color:#fff;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;backdrop-filter:blur(4px);">NDVI: 0.62 — Sağlıklı</span>
+        </div>
+        <div class="pillar-visual-inner">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:8px;color:var(--muted);">
+            <span>Ekim</span><span>Kasım</span><span>Aralık</span><span>Ocak</span><span>Şubat</span>
+          </div>
+          <div style="height:60px;display:flex;align-items:flex-end;gap:3px;">
+            {% for v in ""|ljust:20 %}
+            <div style="flex:1;background:var(--green);opacity:0.3;border-radius:2px 2px 0 0;" class="bar-anim"></div>
+            {% endfor %}
+          </div>
+          <style>
+            .bar-anim { height: calc(30% + var(--h,0%)); }
+            .bar-anim:nth-child(1){--h:10%} .bar-anim:nth-child(2){--h:20%} .bar-anim:nth-child(3){--h:35%}
+            .bar-anim:nth-child(4){--h:50%} .bar-anim:nth-child(5){--h:60%} .bar-anim:nth-child(6){--h:55%}
+            .bar-anim:nth-child(7){--h:65%} .bar-anim:nth-child(8){--h:70%} .bar-anim:nth-child(9){--h:60%}
+            .bar-anim:nth-child(10){--h:40%} .bar-anim:nth-child(11){--h:30%} .bar-anim:nth-child(12){--h:20%}
+            .bar-anim:nth-child(13){--h:15%} .bar-anim:nth-child(14){--h:25%} .bar-anim:nth-child(15){--h:35%}
+            .bar-anim:nth-child(16){--h:50%} .bar-anim:nth-child(17){--h:60%} .bar-anim:nth-child(18){--h:65%}
+            .bar-anim:nth-child(19){--h:55%} .bar-anim:nth-child(20){--h:60%}
+          </style>
+          <div style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center;">5 Aylık NDVI Trendi</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pillar 2: Drone -->
+    <div class="pillar reverse">
+      <div class="pillar-text">
+        <div class="pillar-tag">🚁 Drone Analizi</div>
+        <h2>Drone görüntülerinizi ortofotoya dönüştürün</h2>
+        <div class="outcome-stat">
+          <div class="num">20dk</div>
+          <div class="desc">Görüntü yükleme &rarr;<br>tam analiz süresi</div>
+        </div>
+        <p>NodeODM motoru ile drone görüntüleriniz otomatik olarak dikdörtgenleştirilir, birleştirilir ve 14 farklı bitki sağlığı algoritmasından (NDVI, EVI, SAVI, vb.) geçirilir. Sonucu harita üzerinde katman olarak görün, indirin veya paylaşın.</p>
+        <ul class="check-list">
+          <li>Çoklu görüntü yükleme — sürükle ve bırak</li>
+          <li>14 sağlık algoritması (NDVI, EVI, GNDVI, SAVI…)</li>
+          <li>Gerçek zamanlı işleme durumu takibi</li>
+          <li>Mobil cihazdan doğrudan kamera ile yükleme</li>
+        </ul>
+      </div>
+      <div class="pillar-visual">
+        <div style="padding:24px;">
+          <div style="background:#1A1A1A;border-radius:8px;padding:12px;font-family:monospace;font-size:12px;color:#81C784;line-height:1.8;">
+            <div style="color:#9E9E9E;">// ODM işleme durumu</div>
+            <div>✓ 48 görüntü yüklendi</div>
+            <div>✓ Özellik eşleştirme tamamlandı</div>
+            <div>✓ Nokta bulutu oluşturuldu</div>
+            <div style="color:#F9A825;">⟳ Ortofoto işleniyor… %74</div>
+            <div style="color:#9E9E9E;">○ Sağlık haritası bekliyor</div>
+          </div>
+          <div style="margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+            <div style="background:var(--green-light);border-radius:6px;padding:10px;text-align:center;">
+              <div style="font-weight:700;color:var(--green);">48</div>
+              <div style="font-size:11px;color:var(--muted);">Görüntü</div>
+            </div>
+            <div style="background:var(--green-light);border-radius:6px;padding:10px;text-align:center;">
+              <div style="font-weight:700;color:var(--green);">4.2ha</div>
+              <div style="font-size:11px;color:var(--muted);">Alan</div>
+            </div>
+            <div style="background:var(--green-light);border-radius:6px;padding:10px;text-align:center;">
+              <div style="font-weight:700;color:var(--green);">2cm</div>
+              <div style="font-size:11px;color:var(--muted);">Çözünürlük</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pillar 3: Detection -->
+    <div class="pillar">
+      <div class="pillar-text">
+        <div class="pillar-tag">🍊 YZ Meyve Tespiti</div>
+        <h2>Hasattan önce meyvenizi sayın</h2>
+        <div class="outcome-stat">
+          <div class="num">%94+</div>
+          <div class="desc">YOLOv7 tespit<br>doğruluğu</div>
+        </div>
+        <p>YOLOv7 tabanlı modellerimiz 5 meyve türü için ayrı ayrı eğitilmiştir. Tek bir fotoğraftan ağaç başına meyve sayısını, toplam ağırlığı ve tahmini tonajı saniyeler içinde hesaplar.</p>
+        <ul class="check-list">
+          <li>Mandalina, elma, armut, şeftali, nar</li>
+          <li>Ağaç sayısı ve yaşına göre kalibrasyon</li>
+          <li>Güven skoru ile her tespit etiketli</li>
+          <li>PDF ve Excel raporu tek tıkla</li>
+        </ul>
+      </div>
+      <div class="pillar-visual">
+        <div style="background:#111;border-radius:8px;overflow:hidden;">
+          <div style="position:relative;height:180px;background:linear-gradient(135deg,#1a2e1a,#2d4a2d);display:flex;align-items:center;justify-content:center;">
+            <div style="text-align:center;">
+              <div style="font-size:48px;margin-bottom:8px;">🍊</div>
+              <div style="font-size:11px;color:#81C784;font-weight:600;">YOLOv7 · 0.12s · conf: 0.94</div>
+            </div>
+            <!-- Bounding box indicators -->
+            <div style="position:absolute;top:30px;left:40px;width:50px;height:50px;border:2px solid #81C784;border-radius:4px;"></div>
+            <div style="position:absolute;top:80px;right:50px;width:40px;height:40px;border:2px solid #81C784;border-radius:4px;"></div>
+            <div style="position:absolute;bottom:30px;left:90px;width:45px;height:45px;border:2px solid #F9A825;border-radius:4px;"></div>
+          </div>
+          <div style="padding:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#1a1a1a;">
+            <div style="text-align:center;">
+              <div style="font-size:22px;font-weight:800;color:#81C784;">1,847</div>
+              <div style="font-size:11px;color:#9E9E9E;">Tespit</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:22px;font-weight:800;color:#81C784;">203 kg</div>
+              <div style="font-size:11px;color:#9E9E9E;">Tahmini Ağırlık</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:22px;font-weight:800;color:#81C784;">61t</div>
+              <div style="font-size:11px;color:#9E9E9E;">Tonaj Tahmini</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" style="background:#fff;border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="section-header centered">
+      <div class="section-tag">SSS</div>
+      <h2 class="section-title">Sıkça Sorulan Sorular</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question">İnternet bağlantısı olmadan çalışır mı? <span class="icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Görüntü analizi için internet bağlantısı gereklidir. Ancak önceden indirilmiş NDVI haritaları ve raporlar çevrimdışı erişilebilir.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Hangi drone modelleri destekleniyor? <span class="icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">JPEG ve TIFF formatında görüntü çıktısı veren tüm drone modelleri desteklenmektedir. DJI, Parrot ve Autel başta olmak üzere 50'den fazla model ile test edilmiştir.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Uydu verileri ne sıklıkla güncelleniyor? <span class="icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Sentinel-2 her 5 günde bir aynı konumu tekrar çeker. Bulut örtüsü %30'un altındaki geçişler otomatik işlenerek NDVI tablonuza eklenir.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Verilerim güvende mi? <span class="icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Tüm görüntüler ve analizler yalnızca sizin hesabınızda saklanır, üçüncü taraflarla paylaşılmaz. Veri işleme KVKK ve GDPR uyumludur.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Kooperatif için toplu hesap açılabilir mi? <span class="icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Evet. Kooperatif planımız birden fazla üreticiyi tek yönetim paneliyle takip etmenizi sağlar. Detaylar için bizimle iletişime geçin.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band">
+  <div class="container">
+    <h2>Ücretsiz denemeye başlayın</h2>
+    <p>Kredi kartı gerekmez. 14 gün sonra istediğiniz planı seçin.</p>
+    <div class="btn-row">
+      <a href="{% url 'website:pricing' %}" class="btn btn-white btn-lg">Planları Görün</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

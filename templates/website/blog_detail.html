@@ -1,0 +1,74 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }}{% endblock %}
+{% block meta_desc %}{{ post.excerpt }}{% endblock %}
+
+{% block content %}
+
+<section style="padding:140px 0 48px;background:linear-gradient(160deg,#f0f7f0,var(--bg));border-bottom:1px solid var(--border);">
+  <div class="container" style="max-width:760px;">
+    <a href="{% url 'website:blog' %}" style="font-size:13px;color:var(--green);font-weight:600;display:inline-flex;align-items:center;gap:6px;margin-bottom:24px;">← Blog'a Dön</a>
+    <div class="blog-cat">{{ post.category }}</div>
+    <h1 style="font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-1px;line-height:1.2;margin-bottom:20px;">{{ post.title }}</h1>
+    <div class="blog-meta" style="font-size:13px;">
+      <span>📅 {{ post.date }}</span>
+      <span>⏱ {{ post.read_time }} dk okuma</span>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" style="max-width:760px;">
+    <div style="font-size:64px;text-align:center;margin-bottom:40px;">{{ post.emoji }}</div>
+    <div class="blog-content" style="font-size:16px;color:#2d2d2d;line-height:1.85;">
+      {{ post.content|safe }}
+    </div>
+
+    <div style="margin-top:48px;padding-top:32px;border-top:1px solid var(--border);">
+      <p style="font-size:13px;color:var(--muted);">Bu içerik faydalı oldu mu? Agrisynthia'yı tarlanızda deneyin.</p>
+      <a href="{% url 'website:pricing' %}" class="btn btn-primary" style="margin-top:12px;">Ücretsiz Başlayın</a>
+    </div>
+  </div>
+</section>
+
+<!-- Related posts -->
+{% if related %}
+<section class="section-sm" style="background:#fff;border-top:1px solid var(--border);">
+  <div class="container">
+    <h3 style="font-size:20px;font-weight:700;margin-bottom:24px;">İlgili Yazılar</h3>
+    <div class="blog-grid" style="grid-template-columns:repeat(3,1fr);">
+      {% for r in related %}
+      <article class="blog-card">
+        <div class="blog-thumb">{{ r.emoji }}</div>
+        <div class="blog-body">
+          <div class="blog-cat">{{ r.category }}</div>
+          <h3 class="blog-title">{{ r.title }}</h3>
+          <p class="blog-excerpt">{{ r.excerpt }}</p>
+          <a href="{% url 'website:blog_detail' r.slug %}" class="blog-read-more">Devamını Oku →</a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_head %}
+<style>
+.blog-content h2 { font-size:24px;font-weight:700;margin:36px 0 14px;color:var(--text); }
+.blog-content h3 { font-size:19px;font-weight:700;margin:28px 0 10px;color:var(--text); }
+.blog-content p { margin-bottom:18px; }
+.blog-content ul, .blog-content ol { padding-left:24px;margin-bottom:18px; }
+.blog-content li { margin-bottom:8px; }
+.blog-content strong { color:var(--text); }
+.blog-content blockquote {
+  border-left:4px solid var(--green);
+  margin:24px 0;padding:12px 20px;
+  background:var(--green-light);border-radius:0 8px 8px 0;
+  font-style:italic;color:var(--green-dark);
+}
+</style>
+{% endblock %}
