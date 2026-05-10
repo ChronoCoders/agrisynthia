@@ -187,6 +187,25 @@
                             <div class="stat-label">Önerilen Müdahale</div>
                             <div class="stat-value"><span id="recommendation-count">0</span> Nokta</div>
                         </div>
+
+                        <!-- Sentinel-2 NDVI trend -->
+                        <div id="ndvi-panel">
+                            <div class="stat-label" style="margin-top:12px;margin-bottom:6px;">
+                                Sentinel-2 NDVI Trendi
+                                <span id="ndvi-loading" style="font-size:11px;color:#999;"> yükleniyor…</span>
+                            </div>
+                            <div id="ndvi-no-polygon" style="display:none;font-size:12px;color:#999;margin-bottom:8px;">
+                                Tarla sınırı tanımlanmamış.
+                                <a href="{% url 'dron_map:add_projects' slug='update' project_id=projes.id %}" style="color:#2E7D32;">Düzenle</a>
+                            </div>
+                            <div id="ndvi-no-data" style="display:none;font-size:12px;color:#999;margin-bottom:8px;">
+                                Henüz NDVI verisi yok — ilk okuma arka planda işleniyor.
+                            </div>
+                            <div class="chart-container" id="ndvi-chart-container" style="display:none;height:160px;">
+                                <canvas id="ndviChart"></canvas>
+                            </div>
+                            <div id="ndvi-latest" style="display:none;font-size:12px;color:#555;margin-top:4px;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -194,7 +213,105 @@
     </div>
       
 
-<script >   
+<script>
+// ── Sentinel-2 NDVI chart ──────────────────────────────────────────────────
+(function() {
+    var ndviUrl = "{% url 'dron_map:ndvi_data' project_id=projes.id %}";
+    fetch(ndviUrl, {credentials: 'same-origin'})
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            document.getElementById('ndvi-loading').style.display = 'none';
+            if (!data.has_polygon) {
+                document.getElementById('ndvi-no-polygon').style.display = 'block';
+                return;
+            }
+            if (!data.readings || data.readings.length === 0) {
+                document.getElementById('ndvi-no-data').style.display = 'block';
+                return;
+            }
+            var readings = data.readings;
+            var labels = readings.map(function(r) { return r.date; });
+            var means  = readings.map(function(r) { return r.mean_ndvi.toFixed(3); });
+            var mins   = readings.map(function(r) { return r.min_ndvi.toFixed(3); });
+            var maxs   = readings.map(function(r) { return r.max_ndvi.toFixed(3); });
+
+            document.getElementById('ndvi-chart-container').style.display = 'block';
+            new Chart(document.getElementById('ndviChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Maks NDVI',
+                            data: maxs,
+                            borderColor: 'rgba(46,125,50,0.4)',
+                            backgroundColor: 'rgba(46,125,50,0.08)',
+                            borderDash: [4,3],
+                            pointRadius: 0,
+                            fill: false,
+                            tension: 0.3,
+                        },
+                        {
+                            label: 'Ort NDVI',
+                            data: means,
+                            borderColor: '#2E7D32',
+                            backgroundColor: 'rgba(46,125,50,0.15)',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            fill: true,
+                            tension: 0.3,
+                        },
+                        {
+                            label: 'Min NDVI',
+                            data: mins,
+                            borderColor: 'rgba(198,40,40,0.4)',
+                            backgroundColor: 'transparent',
+                            borderDash: [4,3],
+                            pointRadius: 0,
+                            fill: false,
+                            tension: 0.3,
+                        },
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(ctx) {
+                                    return ctx.dataset.label + ': ' + ctx.parsed.y;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { maxTicksLimit: 5, font: { size: 10 } },
+                            grid: { display: false }
+                        },
+                        y: {
+                            min: -0.1, max: 1.0,
+                            ticks: { font: { size: 10 }, stepSize: 0.2 },
+                            title: { display: true, text: 'NDVI', font: { size: 10 } }
+                        }
+                    }
+                }
+            });
+
+            var last = readings[readings.length - 1];
+            var latestEl = document.getElementById('ndvi-latest');
+            latestEl.style.display = 'block';
+            latestEl.textContent = 'Son okuma ' + last.date + ': ' + parseFloat(last.mean_ndvi).toFixed(3);
+        })
+        .catch(function() {
+            document.getElementById('ndvi-loading').textContent = 'NDVI verisi yüklenemedi.';
+        });
+})();
+</script>
+
+<script>
 
     function getCookie(name) {
         let cookieValue = null;
