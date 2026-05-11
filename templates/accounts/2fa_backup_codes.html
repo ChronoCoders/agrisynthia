@@ -1,0 +1,26 @@
+{% extends 'registration/auth_base.html' %}
+{% load static %}
+
+{% block title %}Yedek Kodlar — Agrisynthia{% endblock %}
+
+{% block form_content %}
+<h1 class="form-heading">Yedek Kodlarınız</h1>
+<p class="form-sub">Bu kodları güvenli bir yere kaydedin. Her kod yalnızca bir kez kullanılabilir.</p>
+
+<div style="background:#FFF8E1;border:1px solid #FFE082;border-radius:8px;padding:14px 16px;margin-bottom:20px;">
+    <p style="font-size:13px;color:#F57F17;margin:0;">
+        <i class="fas fa-exclamation-triangle"></i>
+        <strong>Uyarı:</strong> Bu kodlar bir daha gösterilmeyecek. Lütfen hemen kaydedin.
+    </p>
+</div>
+
+<div style="background:#f5f5f5;border-radius:8px;padding:16px;margin-bottom:20px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+    {% for code in backup_codes %}
+    <code style="font-size:16px;font-weight:700;letter-spacing:2px;color:#1A1A1A;">{{ code }}</code>
+    {% endfor %}
+</div>
+
+<a href="{% url 'account_settings' %}?tab=guvenlik" class="btn-auth" style="display:block;text-align:center;text-decoration:none;">
+    <i class="fas fa-check"></i> Kodları Kaydettim, Devam Et
+</a>
+{% endblock %}
