@@ -1,5 +1,12 @@
 from django.contrib import admin
-from .models import NewsletterSubscriber
+from .models import ChatLead, NewsletterSubscriber
+
+
+@admin.register(ChatLead)
+class ChatLeadAdmin(admin.ModelAdmin):
+    list_display = ("full_name", "email", "phone", "created_at")
+    search_fields = ("full_name", "email", "phone")
+    readonly_fields = ("created_at",)
 
 
 @admin.register(NewsletterSubscriber)
