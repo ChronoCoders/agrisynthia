@@ -87,6 +87,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.gis",
     "corsheaders",
     "rest_framework",
     "drf_spectacular",
@@ -149,7 +150,7 @@ DB_PORT = os.environ.get("DATABASE_PORT")
 if all([DB_NAME, DB_USER, DB_PASSWORD, DB_HOST]):
     DATABASES = {
         "default": {
-            "ENGINE": "django.db.backends.postgresql",
+            "ENGINE": "django.contrib.gis.db.backends.postgis",
             "NAME": DB_NAME,
             "USER": DB_USER,
             "PASSWORD": DB_PASSWORD,
@@ -160,10 +161,20 @@ if all([DB_NAME, DB_USER, DB_PASSWORD, DB_HOST]):
 else:
     DATABASES = {
         "default": {
-            "ENGINE": "django.db.backends.sqlite3",
+            "ENGINE": "django.contrib.gis.db.backends.spatialite",
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
+
+# GeoDjango — Windows requires explicit DLL paths.
+# Set GDAL_LIBRARY_PATH and GEOS_LIBRARY_PATH in .env if using Windows.
+# Linux/Docker: leave unset; GeoDjango finds system-installed libraries automatically.
+_GDAL_LIBRARY_PATH = os.environ.get("GDAL_LIBRARY_PATH", "")
+_GEOS_LIBRARY_PATH = os.environ.get("GEOS_LIBRARY_PATH", "")
+if _GDAL_LIBRARY_PATH:
+    GDAL_LIBRARY_PATH = _GDAL_LIBRARY_PATH
+if _GEOS_LIBRARY_PATH:
+    GEOS_LIBRARY_PATH = _GEOS_LIBRARY_PATH
 
 AUTH_PASSWORD_VALIDATORS = [
     {
