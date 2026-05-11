@@ -43,8 +43,13 @@ _NIR_KEYS = ("nir", "nir08", "B08")
 
 
 def _polygon_bbox(geom) -> list:
-    """Return [min_lng, min_lat, max_lng, max_lat] from a GEOSGeometry Polygon."""
-    # .extent returns (xmin, ymin, xmax, ymax) which maps to (min_lng, min_lat, max_lng, max_lat)
+    """Return [min_lng, min_lat, max_lng, max_lat] from either a GEOSGeometry or a [[lng,lat],...] ring."""
+    if isinstance(geom, list):
+        # Legacy JSONField path: list of [lng, lat] pairs
+        lngs = [c[0] for c in geom]
+        lats = [c[1] for c in geom]
+        return [min(lngs), min(lats), max(lngs), max(lats)]
+    # GeoDjango PolygonField path: .extent = (xmin, ymin, xmax, ymax)
     ext = geom.extent
     return [ext[0], ext[1], ext[2], ext[3]]
 
