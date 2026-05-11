@@ -209,7 +209,9 @@ def process_odm_task(self, project_id: int) -> dict:
             "output_path": str(output_dir),
         }
 
-    except Exception as e:
+    except (TaskFailedError, ValueError) as e:
+        # ODM task failed or bad input — permanent failure, do not retry.
+        # Network/DB errors are not caught here and propagate to autoretry.
         logger.error(
             "ODM işleme hatası proje %s: %s", project_id, e, exc_info=True
         )
@@ -306,11 +308,9 @@ def fetch_sentinel2_ndvi(project_id: int, days_back: int = 90) -> dict:
         project_id, bbox, start_date, end_date, cloud_max,
     )
 
-    try:
-        scenes = _search_scenes(bbox, start_date.isoformat(), end_date.isoformat(), cloud_max)
-    except Exception as e:
-        logger.error("STAC arama hatası proje %s: %s", project_id, e)
-        return {"project_id": project_id, "error": str(e)}
+    # STAC search exceptions propagate to autoretry_for — transient API failures
+    # should trigger a retry rather than silently returning an error dict.
+    scenes = _search_scenes(bbox, start_date.isoformat(), end_date.isoformat(), cloud_max)
 
     saved = 0
     skipped = 0
