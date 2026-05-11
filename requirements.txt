@@ -1,3 +1,4 @@
+anthropic==0.84.0
 amqp==5.3.1
 annotated-types==0.7.0
 anyio==4.11.0
@@ -94,3 +95,4 @@ zope.event==6.0
 zope.interface==8.0.1
 reportlab==4.1.0
 chardet<6.0.0
+django-ratelimit==4.1.0
