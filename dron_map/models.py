@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
-from django.db import models
+from django.contrib.gis.db import models
 
 
 class Projects(models.Model):
@@ -70,10 +70,11 @@ class Projects(models.Model):
         help_text="Error message if ODM processing failed",
     )
 
-    field_polygon = models.JSONField(
+    field_polygon = models.PolygonField(
         null=True,
         blank=True,
-        help_text="GeoJSON polygon ring [[lng, lat], ...] defining the field boundary",
+        srid=4326,
+        help_text="WGS-84 polygon defining the field boundary",
     )
 
     def __str__(self):

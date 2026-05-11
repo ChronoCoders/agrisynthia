@@ -42,11 +42,11 @@ _RED_KEYS = ("red",)
 _NIR_KEYS = ("nir", "nir08", "B08")
 
 
-def _polygon_bbox(coords: list) -> list:
-    """Return [min_lng, min_lat, max_lng, max_lat] from a GeoJSON ring."""
-    lngs = [c[0] for c in coords]
-    lats = [c[1] for c in coords]
-    return [min(lngs), min(lats), max(lngs), max(lats)]
+def _polygon_bbox(geom) -> list:
+    """Return [min_lng, min_lat, max_lng, max_lat] from a GEOSGeometry Polygon."""
+    # .extent returns (xmin, ymin, xmax, ymax) which maps to (min_lng, min_lat, max_lng, max_lat)
+    ext = geom.extent
+    return [ext[0], ext[1], ext[2], ext[3]]
 
 
 def _search_scenes(bbox: list, start: str, end: str, cloud_max: int = 30) -> list:
