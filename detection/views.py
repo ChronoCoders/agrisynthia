@@ -33,6 +33,7 @@ from detection.constants import (
     FRUIT_WEIGHTS,
     MAX_DETECTION_FILE_SIZE,
 )
+from detection.models import ModelVersion
 from detection.tasks import process_image_detection
 from agrisynthia import hashing, predict_tree
 
@@ -309,7 +310,11 @@ def index(request: HttpRequest) -> HttpResponse:
 
                 # Create DetectionResult even for cached results to enable reporting
                 try:
-                    model_path = FRUIT_MODELS[meyve_grubu]
+                    try:
+                        _mv = ModelVersion.get_active(meyve_grubu)
+                        _model_version_label = f"{meyve_grubu}:{_mv.version}"
+                    except LookupError:
+                        _model_version_label = meyve_grubu
                     detection_instance = DetectionResult.objects.create(
                         fruit_type=meyve_grubu,
                         tree_count=agac_sayisi_int,
@@ -319,7 +324,7 @@ def index(request: HttpRequest) -> HttpResponse:
                         total_weight=response["toplam_agirlik"],
                         processing_time=0.0,
                         confidence_score=cached_result["confidence_score"],
-                        model_version=Path(model_path).name,
+                        model_version=_model_version_label,
                         threshold_used=DETECTION_CONFIDENCE_THRESHOLD,
                         image_path=cached_result["image_path"],
                         bbox_coordinates=cached_result.get("bbox_coordinates"),
@@ -349,11 +354,10 @@ def index(request: HttpRequest) -> HttpResponse:
                 start_time = time.time()
 
                 try:
-                    model_path = FRUIT_MODELS[meyve_grubu]
                     conf_thres = DETECTION_CONFIDENCE_THRESHOLD
                     detec, unique_id, confidence_score, bbox_centers = (
                         predict_tree.predict(
-                            path_to_weights=model_path,
+                            fruit_type=meyve_grubu,
                             path_to_source=str(tmp_path),
                             return_boxes=True,
                         )
@@ -382,6 +386,12 @@ def index(request: HttpRequest) -> HttpResponse:
                     }
                     set_cached_prediction(image_hash, meyve_grubu, cache_data)
 
+                    try:
+                        _mv = ModelVersion.get_active(meyve_grubu)
+                        _model_version_label = f"{meyve_grubu}:{_mv.version}"
+                    except LookupError:
+                        _model_version_label = meyve_grubu
+
                     # Save detection result to database
                     try:
                         detection_instance = DetectionResult.objects.create(
@@ -393,7 +403,7 @@ def index(request: HttpRequest) -> HttpResponse:
                             total_weight=response["toplam_agirlik"],
                             processing_time=processing_time,
                             confidence_score=confidence_score,
-                            model_version=Path(model_path).name,
+                            model_version=_model_version_label,
                             threshold_used=conf_thres,
                             image_path=f"detected/{unique_id}/{safe_filename}",
                             bbox_coordinates=bbox_centers,
@@ -541,10 +551,8 @@ def multi_detection_image(request: HttpRequest) -> HttpResponse:
 
             # Run multi prediction
             try:
-                weight_file = FRUIT_MODELS[meyve_grubu]
-
                 _, total_count = predict_tree.multi_predictor(
-                    path_to_weights=weight_file,
+                    fruit_type=meyve_grubu,
                     path_to_source=hass[0],
                     ekim_sirasi=ekim_sirasi,
                     hashing=hass[1],
@@ -552,7 +560,11 @@ def multi_detection_image(request: HttpRequest) -> HttpResponse:
 
                 # DB Kayıt
                 try:
-                    from detection.models import DetectionResult
+                    try:
+                        _mv = ModelVersion.get_active(meyve_grubu)
+                        _model_version_label = f"{meyve_grubu}:{_mv.version}"
+                    except LookupError:
+                        _model_version_label = meyve_grubu
 
                     weight_per_fruit = FRUIT_WEIGHTS.get(meyve_grubu, 0.125)
                     weight = total_count * weight_per_fruit
@@ -567,7 +579,7 @@ def multi_detection_image(request: HttpRequest) -> HttpResponse:
                         total_weight=total_weight,
                         processing_time=0.0,
                         confidence_score=0.0,
-                        model_version=Path(weight_file).name,
+                        model_version=_model_version_label,
                         threshold_used=DETECTION_CONFIDENCE_THRESHOLD,
                         image_path=f"detected/{hass[1]}/",
                         bbox_coordinates=None,

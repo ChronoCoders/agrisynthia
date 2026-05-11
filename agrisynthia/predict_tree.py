@@ -27,7 +27,7 @@ from utils.general import non_max_suppression, scale_coords  # noqa: E402
 from utils.plots import plot_one_box  # noqa: E402
 from utils.torch_utils import select_device  # noqa: E402
 
-_model_cache = {}
+_model_cache: Dict[str, Any] = {}
 _device = None
 _lock = threading.RLock()
 
@@ -45,43 +45,75 @@ def get_device() -> torch.device:
         return _device
 
 
-def get_model(model_name: str) -> Any:
+def evict_model_cache(fruit_type: str) -> None:
+    """Remove all cache entries for fruit_type (called from ModelVersion.save())."""
     with _lock:
-        if model_name not in _model_cache:
+        keys_to_drop = [k for k in _model_cache if k.startswith(f"{fruit_type}:")]
+        for k in keys_to_drop:
+            del _model_cache[k]
+            logger.info("Model cache evicted: %s", k)
+
+
+def get_model(fruit_type: str) -> Any:
+    """Load (or return cached) the active YOLO model for the given fruit_type.
+
+    Cache key is '<fruit_type>:<version>' so activating a new ModelVersion
+    naturally invalidates the previous entry.
+    """
+    from detection.models import ModelVersion
+
+    try:
+        mv = ModelVersion.get_active(fruit_type)
+    except LookupError as exc:
+        raise LookupError(f"Cannot load model for '{fruit_type}': {exc}") from exc
+
+    cache_key = f"{fruit_type}:{mv.version}"
+
+    with _lock:
+        if cache_key not in _model_cache:
+            model_path = BASE_DIR / mv.weights_path
+
+            if not model_path.exists():
+                # Fall back to legacy flat path models/<fruit_type>.pt
+                legacy = BASE_DIR / "models" / f"{fruit_type}.pt"
+                if legacy.exists():
+                    model_path = legacy
+                    logger.warning(
+                        "Versioned weights not found at %s — falling back to %s",
+                        BASE_DIR / mv.weights_path,
+                        legacy,
+                    )
+                else:
+                    raise FileNotFoundError(
+                        f"Model weights not found for '{fruit_type}' "
+                        f"(tried {BASE_DIR / mv.weights_path} and {legacy})"
+                    )
+
             try:
                 device = get_device()
-                model_path = Path(model_name)
-
-                if not model_path.exists():
-                    logger.error("Model dosyası bulunamadı: %s", model_path)
-                    raise FileNotFoundError(f"Model bulunamadı: {model_path}")
-
-                logger.info("Model yükleniyor: %s", model_name)
+                logger.info("Model yükleniyor: %s (%s)", fruit_type, mv.version)
                 model = attempt_load(str(model_path), map_location=device)
                 model.eval()
-
                 if device.type != "cpu":
                     model.half()
-
-                _model_cache[model_name] = model
-                logger.info("Model başarıyla yüklendi: %s", model_name)
-
+                _model_cache[cache_key] = model
+                logger.info("Model başarıyla yüklendi: %s (%s)", fruit_type, mv.version)
             except FileNotFoundError:
                 raise
             except Exception as e:
-                logger.error("Model yükleme hatası %s: %s", model_name, e)
-                raise RuntimeError(f"Model yüklenemedi {model_name}: {e}")
+                logger.error("Model yükleme hatası %s: %s", fruit_type, e)
+                raise RuntimeError(f"Model yüklenemedi '{fruit_type}': {e}")
 
-        return _model_cache[model_name]
+        return _model_cache[cache_key]
 
 
 def predict(
-    path_to_weights: str, path_to_source: str, return_boxes: bool = False
+    fruit_type: str, path_to_source: str, return_boxes: bool = False
 ) -> Tuple[bytes, str, float] | Tuple[bytes, str, float, List[Dict[str, int]]]:
     unique_id = str(uuid.uuid4())
 
     try:
-        model = get_model(path_to_weights)
+        model = get_model(fruit_type)
         device = get_device()
 
         img_size = 640
@@ -175,7 +207,7 @@ def predict(
 
 
 def multi_predictor(
-    path_to_weights: str, path_to_source: str, ekim_sirasi: str, hashing: str
+    fruit_type: str, path_to_source: str, ekim_sirasi: str, hashing: str
 ) -> str:
     try:
         try:
@@ -195,7 +227,7 @@ def multi_predictor(
             logger.error("Görüntü listesi oluşturma hatası: %s", e)
             raise
 
-        model = get_model(path_to_weights)
+        model = get_model(fruit_type)
         device = get_device()
 
         img_size = 640

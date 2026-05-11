@@ -15,19 +15,15 @@ from typing import Any, Dict, Optional
 
 from celery import shared_task
 
-from detection.models import DetectionResult
+from detection.models import DetectionResult, ModelVersion
 from agrisynthia import predict_tree
 
 from detection.constants import (
     DETECTION_CONFIDENCE_THRESHOLD,
-    FRUIT_MODEL_PATHS,
     FRUIT_WEIGHTS,
 )
 
 logger = logging.getLogger(__name__)
-
-# Use constants from central configuration
-FRUIT_MODELS = {k: str(v) for k, v in FRUIT_MODEL_PATHS.items()}
 
 
 def _send_degradation_alert(alerts: list) -> None:
@@ -140,10 +136,11 @@ def process_image_detection(
             state="PROCESSING", meta={"status": "Görüntü işleniyor...", "progress": 10}
         )
 
-        if fruit_type not in FRUIT_MODELS:
-            raise ValueError(f"Geçersiz meyve grubu: {fruit_type}")
+        try:
+            ModelVersion.get_active(fruit_type)
+        except LookupError as exc:
+            raise ValueError(f"Geçersiz veya aktif versiyonu olmayan meyve grubu: {fruit_type}") from exc
 
-        model_path = FRUIT_MODELS[fruit_type]
         conf_thres = DETECTION_CONFIDENCE_THRESHOLD
 
         logger.info(
@@ -167,7 +164,7 @@ def process_image_detection(
                 confidence_score,
                 bbox_centers,
             ) = predict_tree.predict(
-                path_to_weights=model_path,
+                fruit_type=fruit_type,
                 path_to_source=image_path,
                 return_boxes=True,
             )
@@ -196,6 +193,12 @@ def process_image_detection(
             meta={"status": "Veritabanına kaydediliyor...", "progress": 90},
         )
 
+        try:
+            _mv = ModelVersion.get_active(fruit_type)
+            _model_version_label = f"{fruit_type}:{_mv.version}"
+        except LookupError:
+            _model_version_label = fruit_type
+
         detection_result = DetectionResult.objects.create(
             fruit_type=fruit_type,
             tree_count=tree_count,
@@ -205,7 +208,7 @@ def process_image_detection(
             total_weight=total_weight,
             processing_time=processing_time,
             confidence_score=confidence_score,
-            model_version=Path(model_path).name,
+            model_version=_model_version_label,
             threshold_used=conf_thres,
             image_path=f"detected/{unique_id}/{Path(image_path).name}",
             task_id=self.request.id,
@@ -283,11 +286,12 @@ def check_model_health() -> Dict[str, Any]:
     """
     logger.info("Starting model health check...")
 
-    fruits = ["mandalina", "elma", "armut", "seftale", "nar"]
+    active_versions = ModelVersion.objects.filter(is_active=True).order_by("fruit_type")
     results = {}
     alerts = []
 
-    for fruit in fruits:
+    for mv in active_versions:
+        fruit = mv.fruit_type
         try:
             status = DetectionResult.check_model_degradation(
                 fruit_type=fruit, days=7, threshold=0.7
@@ -297,7 +301,7 @@ def check_model_health() -> Dict[str, Any]:
 
             if status["is_degraded"]:
                 alert_msg = (
-                    f"⚠️ Model Degradation Alert: {fruit} "
+                    f"⚠️ Model Degradation Alert: {fruit} ({mv.version}) "
                     f"confidence={status['avg_confidence']:.3f} "
                     f"(threshold=0.7, samples={status['sample_count']})"
                 )
@@ -305,13 +309,13 @@ def check_model_health() -> Dict[str, Any]:
                 alerts.append(alert_msg)
             else:
                 logger.info(
-                    f"✅ {fruit}: OK "
+                    f"✅ {fruit} ({mv.version}): OK "
                     f"(confidence={status['avg_confidence']:.3f}, "
                     f"samples={status['sample_count']})"
                 )
 
         except Exception as e:
-            logger.error("Health check failed for %s: %s", fruit, e)
+            logger.error("Health check failed for %s (%s): %s", fruit, mv.version, e)
             results[fruit] = {"error": str(e)}
 
     if alerts:
