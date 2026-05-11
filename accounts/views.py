@@ -31,9 +31,8 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
             logger.info("New user registered: %s", user.username)
-            return redirect("/")
+            return redirect("login")
         else:
             logger.warning("Registration failed for: %s", request.POST.get("username"))
     else:
