@@ -6,8 +6,12 @@ This module initializes the Celery application and configures it
 to work with Django settings.
 """
 import os
+import warnings
 
 from celery import Celery
+
+# Billiard soft timeouts require SIGUSR1 which is unavailable on Windows
+warnings.filterwarnings("ignore", message="Soft timeouts are not supported", category=UserWarning, module="billiard")
 
 # Set default Django settings module for Celery
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "agrisynthia.settings")

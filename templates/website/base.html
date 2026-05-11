@@ -21,7 +21,7 @@
   <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet">
   {% block extra_head %}{% endblock %}
   <!-- Analytics (production only) -->
-  {% if request.META.HTTP_HOST != 'localhost' and not '127.0.0.1' in request.META.HTTP_HOST %}
+  {% if 'localhost' not in request.META.HTTP_HOST and '127.0.0.1' not in request.META.HTTP_HOST %}
   <script defer data-domain="agrisynthia.com" src="https://plausible.io/js/script.js"></script>
   {% endif %}
 </head>
