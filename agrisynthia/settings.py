@@ -274,6 +274,35 @@ if not DEBUG and not IS_DEVELOPMENT:
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
+# ==============================================================================
+# CLOUDFLARE R2 STORAGE
+# ==============================================================================
+
+USE_R2 = os.environ.get("USE_R2", "False") == "True"
+
+if USE_R2:
+    _r2_account_id = os.environ.get("R2_ACCOUNT_ID", "")
+    _r2_bucket = os.environ.get("R2_BUCKET_NAME", "")
+    _r2_custom_domain = os.environ.get("R2_CUSTOM_DOMAIN", "")
+
+    AWS_ACCESS_KEY_ID = os.environ.get("R2_ACCESS_KEY_ID", "")
+    AWS_SECRET_ACCESS_KEY = os.environ.get("R2_SECRET_ACCESS_KEY", "")
+    AWS_STORAGE_BUCKET_NAME = _r2_bucket
+    AWS_S3_ENDPOINT_URL = f"https://{_r2_account_id}.r2.cloudflarestorage.com"
+    AWS_S3_REGION_NAME = "auto"
+    AWS_S3_SIGNATURE_VERSION = "s3v4"
+    AWS_DEFAULT_ACL = None          # R2 does not support ACLs
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_QUERYSTRING_AUTH = True     # Generate presigned URLs
+    AWS_QUERYSTRING_EXPIRE = 3600   # Presigned URL TTL: 1 hour
+
+    DEFAULT_FILE_STORAGE = "agrisynthia.storage.R2MediaStorage"
+
+    if _r2_custom_domain:
+        MEDIA_URL = f"https://{_r2_custom_domain}/"
+    else:
+        MEDIA_URL = f"https://{_r2_account_id}.r2.cloudflarestorage.com/{_r2_bucket}/"
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
