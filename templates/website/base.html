@@ -82,7 +82,7 @@
         <ul>
           <li><a href="{% url 'website:product' %}">Özellikler</a></li>
           <li><a href="{% url 'website:pricing' %}">Fiyatlandırma</a></li>
-          <li><a href="{% url 'login' %}">Giriş Yap</a></li>
+          <li><a href="{% url 'website:product' %}#sss">Sık Sorulan Sorular</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -104,11 +104,7 @@
     </div>
     <div class="footer-bottom">
       <span>© 2026 Agrisynthia. Tüm hakları saklıdır.</span>
-      <div style="display:flex;gap:20px;">
-        <a href="{% url 'website:privacy' %}">Gizlilik Politikası</a>
-        <a href="{% url 'website:terms' %}">Kullanım Koşulları</a>
-        <a href="{% url 'website:kvkk' %}">KVKK</a>
-      </div>
+      <span style="color:var(--muted);font-size:13px;">Tohumdan hasada, veriden karara.</span>
     </div>
   </div>
 </footer>
@@ -143,5 +139,156 @@
   });
 </script>
 {% block extra_scripts %}{% endblock %}
+
+<!-- Chatbot bubble -->
+<style>
+#chat-bubble{position:fixed;bottom:28px;right:28px;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;gap:12px;}
+#chat-toggle{width:56px;height:56px;border-radius:50%;background:var(--green);border:none;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center;transition:transform .2s;}
+#chat-toggle:hover{transform:scale(1.08);}
+#chat-toggle svg{width:26px;height:26px;fill:#fff;}
+#chat-window{width:340px;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.15);display:none;flex-direction:column;overflow:hidden;border:1px solid var(--border);}
+#chat-window.open{display:flex;}
+#chat-header{background:var(--green);color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+#chat-header span{font-weight:700;font-size:14px;}
+#chat-close{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;line-height:1;padding:0;}
+/* Lead form */
+#chat-lead-panel{padding:20px;display:flex;flex-direction:column;gap:10px;}
+#chat-lead-panel p{font-size:13px;color:var(--muted);margin:0 0 4px;}
+.chat-lead-field{width:100%;border:1px solid var(--border);border-radius:8px;padding:9px 11px;font-size:13px;font-family:inherit;outline:none;box-sizing:border-box;}
+.chat-lead-field:focus{border-color:var(--green);}
+#chat-lead-error{font-size:12px;color:#c62828;display:none;}
+#chat-lead-submit{background:var(--green);color:#fff;border:none;border-radius:8px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;width:100%;}
+#chat-lead-submit:disabled{opacity:.5;cursor:default;}
+/* Chat messages */
+#chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;max-height:340px;}
+.chat-msg{max-width:85%;padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;white-space:pre-wrap;word-break:break-word;}
+.chat-msg.bot{background:#f0f7f0;color:var(--text);align-self:flex-start;border-bottom-left-radius:4px;}
+.chat-msg.user{background:var(--green);color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
+.chat-msg.typing{opacity:.6;font-style:italic;}
+#chat-form{display:flex;border-top:1px solid var(--border);padding:10px 12px;gap:8px;flex-shrink:0;}
+#chat-input{flex:1;border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit;outline:none;resize:none;}
+#chat-input:focus{border-color:var(--green);}
+#chat-send{background:var(--green);color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px;font-weight:600;}
+#chat-send:disabled{opacity:.5;cursor:default;}
+</style>
+
+<div id="chat-bubble">
+  <div id="chat-window">
+    <div id="chat-header">
+      <span>Agrisynthia Asistan</span>
+      <button id="chat-close" aria-label="Kapat">&#x2715;</button>
+    </div>
+
+    <!-- Step 1: Lead form -->
+    <div id="chat-lead-panel">
+      <p>Sizi daha iyi tanımak ve destek verebilmek için lütfen bilgilerinizi paylaşın.</p>
+      <input id="lead-name" class="chat-lead-field" type="text" placeholder="Ad Soyad" maxlength="100">
+      <input id="lead-email" class="chat-lead-field" type="email" placeholder="E-posta adresi" maxlength="200">
+      <input id="lead-phone" class="chat-lead-field" type="tel" placeholder="Telefon numarası" maxlength="30">
+      <div id="chat-lead-error"></div>
+      <button id="chat-lead-submit">Başlayın &rarr;</button>
+    </div>
+
+    <!-- Step 2: Chat (hidden until lead submitted) -->
+    <div id="chat-messages" style="display:none;"></div>
+    <form id="chat-form" autocomplete="off" style="display:none;">
+      {% csrf_token %}
+      <textarea id="chat-input" rows="1" placeholder="Mesajınızı yazın..." maxlength="500"></textarea>
+      <button type="submit" id="chat-send">Gönder</button>
+    </form>
+  </div>
+  <button id="chat-toggle" aria-label="Asistan">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>
+  </button>
+</div>
+
+<script>
+(function(){
+  const win = document.getElementById('chat-window');
+  const toggle = document.getElementById('chat-toggle');
+  const closeBtn = document.getElementById('chat-close');
+  const leadPanel = document.getElementById('chat-lead-panel');
+  const leadSubmit = document.getElementById('chat-lead-submit');
+  const leadError = document.getElementById('chat-lead-error');
+  const form = document.getElementById('chat-form');
+  const input = document.getElementById('chat-input');
+  const send = document.getElementById('chat-send');
+  const msgs = document.getElementById('chat-messages');
+  const csrfToken = document.querySelector('#chat-form [name=csrfmiddlewaretoken]').value;
+  let history = [];
+  let leadName = '';
+
+  toggle.addEventListener('click', () => win.classList.toggle('open'));
+  closeBtn.addEventListener('click', () => win.classList.remove('open'));
+
+  // Lead form submit
+  leadSubmit.addEventListener('click', async () => {
+    const name = document.getElementById('lead-name').value.trim();
+    const email = document.getElementById('lead-email').value.trim();
+    const phone = document.getElementById('lead-phone').value.trim();
+    if (!name || !email || !phone) {
+      leadError.textContent = 'Lütfen tüm alanları doldurun.';
+      leadError.style.display = 'block';
+      return;
+    }
+    leadError.style.display = 'none';
+    leadSubmit.disabled = true;
+    try {
+      await fetch('{% url "website:chat_lead" %}', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'X-CSRFToken': csrfToken},
+        body: JSON.stringify({full_name: name, email: email, phone: phone}),
+      });
+    } catch {}
+    leadName = name.split(' ')[0];
+    leadPanel.style.display = 'none';
+    msgs.style.display = 'flex';
+    form.style.display = 'flex';
+    addMsg('Merhaba ' + leadName + '! Agrisynthia hakkında sorularınızı yanıtlamaktan memnuniyet duyarım.', 'bot');
+    input.focus();
+  });
+
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); form.dispatchEvent(new Event('submit')); }
+  });
+
+  function addMsg(text, cls) {
+    const d = document.createElement('div');
+    d.className = 'chat-msg ' + cls;
+    d.textContent = text;
+    msgs.appendChild(d);
+    msgs.scrollTop = msgs.scrollHeight;
+    return d;
+  }
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    send.disabled = true;
+    addMsg(text, 'user');
+    history.push({role: 'user', content: text});
+    const typing = addMsg('Yazıyor...', 'bot typing');
+    try {
+      const res = await fetch('{% url "website:chatbot_chat" %}', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'X-CSRFToken': csrfToken},
+        body: JSON.stringify({message: text, history: history.slice(0, -1)}),
+      });
+      const data = await res.json();
+      typing.remove();
+      const reply = data.ok ? data.reply : (data.error || 'Bir hata olustu.');
+      addMsg(reply, 'bot');
+      if (data.ok) history.push({role: 'assistant', content: reply});
+    } catch {
+      typing.remove();
+      addMsg('Baglanti hatasi. Lutfen tekrar deneyin.', 'bot');
+    }
+    send.disabled = false;
+    input.focus();
+  });
+})();
+</script>
 </body>
 </html>
