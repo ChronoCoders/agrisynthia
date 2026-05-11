@@ -103,19 +103,94 @@
     .input-icon-group select {
         padding-left: 38px;
     }
+    #detection-status-box {
+        display: none;
+        margin-top: 16px;
+        border-radius: 10px;
+        padding: 14px 16px;
+        background: #f1f8e9;
+        border: 1px solid #c8e6c9;
+    }
+    #detection-status-box.error {
+        background: #fce4ec;
+        border-color: #f48fb1;
+    }
+    #detection-status-msg {
+        font-size: 14px;
+        color: #388E3C;
+        margin-bottom: 8px;
+        font-weight: 500;
+    }
+    #detection-status-box.error #detection-status-msg {
+        color: #c62828;
+    }
+    #detection-progress-bar {
+        height: 8px;
+        border-radius: 4px;
+        background: #a5d6a7;
+        transition: width 0.4s ease;
+        width: 0%;
+    }
+    #detection-progress-track {
+        background: #e0e0e0;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+    #detection-result-card {
+        display: none;
+        margin-top: 16px;
+        border-radius: 10px;
+        border: 1px solid #c8e6c9;
+        background: #fff;
+        overflow: hidden;
+    }
+    #detection-result-card .result-header {
+        background: #2E7D32;
+        color: #fff;
+        padding: 10px 16px;
+        font-weight: 600;
+        font-size: 15px;
+    }
+    #detection-result-card .result-body {
+        padding: 14px 16px;
+    }
+    #detection-result-card .result-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
+        border-bottom: 1px solid #f5f5f5;
+        font-size: 14px;
+        color: #333;
+    }
+    #detection-result-card .result-row:last-child { border-bottom: none; }
+    #detection-result-card .result-row .label { color: #757575; }
+    #detection-result-card .result-row .value { font-weight: 600; }
+    #detection-result-img {
+        width: 100%;
+        border-top: 1px solid #e0e0e0;
+        display: none;
+    }
+    #detection-result-img img {
+        width: 100%;
+        max-height: 300px;
+        object-fit: contain;
+        display: block;
+        background: #f5f5f5;
+    }
 </style>
 
 <div class="col-lg-6 col-12">
     <div class="box-content card white">
         <h4 class="box-title">Meyve Tespiti</h4>
         <div class="card-content">
-            <form id="upload-file" action="{% url 'detection:index' %}" method="post" enctype="multipart/form-data" onsubmit="handleFormSubmit(event)" novalidate>
+            <form id="upload-file" method="post" enctype="multipart/form-data" novalidate>
                 {% csrf_token %}
 
                 <!-- Fruit type -->
                 <div class="form-group input-icon-group" style="margin-bottom:14px;">
                     <i class="fa-solid fa-seedling input-icon"></i>
-                    <select name="meyve_grubu" class="form-control form-control-touch" required aria-label="Meyve Grubu">
+                    <select name="meyve_grubu" id="meyve_grubu" class="form-control form-control-touch" aria-label="Meyve Grubu">
                         <option value="">Meyve Grubu Seçin</option>
                         <option value="mandalina">Mandalina</option>
                         <option value="elma">Elma</option>
@@ -129,25 +204,25 @@
                 <!-- Tree count -->
                 <div class="form-group input-icon-group" style="margin-bottom:14px;">
                     <i class="fa-solid fa-tree input-icon"></i>
-                    <input type="number" name="agac_sayisi" class="form-control form-control-touch"
+                    <input type="number" name="agac_sayisi" id="agac_sayisi" class="form-control form-control-touch"
                            placeholder="Toplam Ağaç Sayısı" min="1" max="10000"
-                           required aria-label="Ağaç Sayısı" inputmode="numeric">
+                           aria-label="Ağaç Sayısı" inputmode="numeric">
                 </div>
 
                 <!-- Tree age -->
                 <div class="form-group input-icon-group" style="margin-bottom:14px;">
                     <i class="fa-brands fa-pagelines input-icon"></i>
-                    <input type="number" name="agac_yasi" class="form-control form-control-touch"
+                    <input type="number" name="agac_yasi" id="agac_yasi" class="form-control form-control-touch"
                            placeholder="Ağaç Yaşı" min="1" max="100"
-                           required aria-label="Ağaç Yaşı" inputmode="numeric">
+                           aria-label="Ağaç Yaşı" inputmode="numeric">
                 </div>
 
                 <!-- Row pattern -->
                 <div class="form-group input-icon-group" style="margin-bottom:14px;">
                     <i class="fa-regular fa-chart-simple input-icon"></i>
-                    <input type="text" name="ekim_sirasi" class="form-control form-control-touch"
+                    <input type="text" name="ekim_sirasi" id="ekim_sirasi" class="form-control form-control-touch"
                            placeholder="Ekim Sırası (örn: 3-5)"
-                           required pattern="[0-9]+-[0-9]+"
+                           pattern="[0-9]+-[0-9]+"
                            title="Ekim sırası formatı: 3-5"
                            aria-label="Ekim Sırası" inputmode="text">
                 </div>
@@ -160,7 +235,6 @@
                                name="file"
                                accept="image/jpeg,image/png,image/tiff,image/*"
                                capture="environment"
-                               required
                                aria-label="Meyve Fotoğrafı Seç"
                                onchange="handleFileSelect(event)">
                         <div class="upload-icon"><i class="fa-solid fa-camera-retro"></i></div>
@@ -173,24 +247,37 @@
                     </div>
                 </div>
 
-                <button id="submitBtn" type="submit" class="btn btn-submit-mobile">
+                <button id="submitBtn" type="button" class="btn btn-submit-mobile" onclick="handleFormSubmit()">
                     <i class="fa-solid fa-magnifying-glass"></i> Tespit Başlat
                 </button>
             </form>
+
+            <!-- Status / progress -->
+            <div id="detection-status-box">
+                <div id="detection-status-msg">İşleniyor...</div>
+                <div id="detection-progress-track">
+                    <div id="detection-progress-bar"></div>
+                </div>
+            </div>
+
+            <!-- Result card -->
+            <div id="detection-result-card">
+                <div class="result-header"><i class="fa-solid fa-check-circle"></i> Tespit Sonuçları</div>
+                <div class="result-body" id="detection-result-body"></div>
+                <div id="detection-result-img"><img id="detection-result-image" src="" alt="Tespit Görüntüsü"></div>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
-const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/tiff'];
 
 function handleFileSelect(event) {
     const file = event.target.files && event.target.files[0];
     if (!file) return;
 
-    // Accept image/* from camera even if MIME type differs
-    if (ALLOWED_TYPES.length && !file.type.startsWith('image/')) {
+    if (!file.type.startsWith('image/')) {
         alert('Geçersiz dosya formatı. Lütfen bir görsel seçin.');
         event.target.value = '';
         return;
@@ -218,34 +305,181 @@ function handleFileSelect(event) {
     reader.readAsDataURL(file);
 }
 
-function handleFormSubmit(event) {
-    const file = document.getElementById('exampleInputFile');
-    if (!file || !file.files || !file.files[0]) {
-        alert('Lütfen bir görsel seçin.');
-        event.preventDefault();
-        return false;
-    }
+function handleFormSubmit() {
+    const meyve = document.getElementById('meyve_grubu').value;
+    const agacSayisi = document.getElementById('agac_sayisi').value;
+    const agacYasi = document.getElementById('agac_yasi').value;
+    const fileInput = document.getElementById('exampleInputFile');
+
+    if (!meyve) { alert('Lütfen meyve grubu seçin.'); return; }
+    if (!agacSayisi || parseInt(agacSayisi) < 1) { alert('Lütfen geçerli bir ağaç sayısı girin.'); return; }
+    if (!agacYasi || parseInt(agacYasi) < 1) { alert('Lütfen geçerli bir ağaç yaşı girin.'); return; }
+    if (!fileInput || !fileInput.files || !fileInput.files[0]) { alert('Lütfen bir görsel seçin.'); return; }
+
     const btn = document.getElementById('submitBtn');
-    if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Analiz ediliyor…';
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Analiz ediliyor…';
+
+    _resetStatus();
+    _showStatus('Görüntü yükleniyor...', 5);
+
+    const formData = new FormData(document.getElementById('upload-file'));
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    fetch('/detection/async-detection/', {
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrfToken },
+        body: formData,
+    })
+    .then(function(response) {
+        return response.json().then(function(data) {
+            return { status: response.status, data: data };
+        });
+    })
+    .then(function(obj) {
+        const data = obj.data;
+
+        if (obj.status === 200 && data.status === 'SUCCESS') {
+            // Cache hit — show result immediately
+            _showStatus('Önbellekten döndürüldü', 100);
+            _renderResult(data.result, true);
+            _resetBtn();
+            return;
+        }
+
+        if (obj.status === 202 && data.task_id && data.stream_url) {
+            // Start SSE stream
+            _showStatus('Görev kuyruğa alındı, işlem başlıyor...', 10);
+            _openStream(data.stream_url);
+            return;
+        }
+
+        // Unexpected response
+        _showError(data.error || 'Beklenmeyen sunucu yanıtı.');
+        _resetBtn();
+    })
+    .catch(function(err) {
+        _showError('Sunucuya bağlanılamadı: ' + err.message);
+        _resetBtn();
+    });
+}
+
+var _activeSource = null;
+
+function _openStream(streamUrl) {
+    if (_activeSource) { _activeSource.close(); }
+
+    var es = new EventSource(streamUrl);
+    _activeSource = es;
+
+    es.onmessage = function(event) {
+        var payload;
+        try { payload = JSON.parse(event.data); } catch(e) { return; }
+
+        if (payload.status === 'done') {
+            es.close();
+            _activeSource = null;
+            return;
+        }
+
+        if (payload.status === 'SUCCESS') {
+            _showStatus('Tespit tamamlandı', 100);
+            _renderResult(payload.result, false);
+            _resetBtn();
+            return;
+        }
+
+        if (payload.status === 'FAILURE') {
+            _showError(payload.error || 'İşlem başarısız oldu.');
+            _resetBtn();
+            return;
+        }
+
+        if (payload.status === 'TIMEOUT') {
+            _showError('İstek zaman aşımına uğradı. Lütfen tekrar deneyin.');
+            _resetBtn();
+            return;
+        }
+
+        // PENDING / PROCESSING
+        _showStatus(payload.message || 'İşleniyor...', payload.progress || 10);
+    };
+
+    es.onerror = function() {
+        if (es.readyState === EventSource.CLOSED) return;
+        es.close();
+        _activeSource = null;
+        _showError('Bağlantı kesildi. Lütfen tekrar deneyin.');
+        _resetBtn();
+    };
+}
+
+function _showStatus(msg, progress) {
+    var box = document.getElementById('detection-status-box');
+    box.style.display = 'block';
+    box.classList.remove('error');
+    document.getElementById('detection-status-msg').textContent = msg;
+    document.getElementById('detection-progress-bar').style.width = (progress || 0) + '%';
+}
+
+function _showError(msg) {
+    var box = document.getElementById('detection-status-box');
+    box.style.display = 'block';
+    box.classList.add('error');
+    document.getElementById('detection-status-msg').textContent = msg;
+    document.getElementById('detection-progress-bar').style.width = '0%';
+}
+
+function _resetStatus() {
+    var box = document.getElementById('detection-status-box');
+    box.style.display = 'none';
+    box.classList.remove('error');
+    document.getElementById('detection-result-card').style.display = 'none';
+    document.getElementById('detection-result-img').style.display = 'none';
+}
+
+function _resetBtn() {
+    var btn = document.getElementById('submitBtn');
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Tespit Başlat';
+}
+
+function _renderResult(result, fromCache) {
+    if (!result) return;
+
+    var rows = [
+        { label: 'Tespit Sayısı', value: result.detected_count + ' adet' },
+        { label: 'Meyve Ağırlığı (ağaç başı)', value: result.weight ? result.weight.toFixed(2) + ' kg' : '-' },
+        { label: 'Toplam Ağırlık', value: result.total_weight ? result.total_weight.toFixed(2) + ' kg' : '-' },
+        { label: 'Güven Skoru', value: result.confidence_score ? (result.confidence_score * 100).toFixed(1) + '%' : '-' },
+        { label: 'İşlem Süresi', value: fromCache ? 'Önbellekten' : (result.processing_time ? result.processing_time.toFixed(2) + ' sn' : '-') },
+    ];
+
+    var html = rows.map(function(r) {
+        return '<div class="result-row"><span class="label">' + r.label + '</span><span class="value">' + r.value + '</span></div>';
+    }).join('');
+    document.getElementById('detection-result-body').innerHTML = html;
+    document.getElementById('detection-result-card').style.display = 'block';
+
+    if (result.image_path) {
+        var imgEl = document.getElementById('detection-result-image');
+        imgEl.src = '/static/' + result.image_path;
+        document.getElementById('detection-result-img').style.display = 'block';
     }
-    return true;
 }
 
 // Drag-and-drop on desktop
 (function() {
-    const zone = document.getElementById('uploadZone');
+    var zone = document.getElementById('uploadZone');
     if (!zone) return;
     zone.addEventListener('dragover',  function(e) { e.preventDefault(); zone.classList.add('dragover'); });
     zone.addEventListener('dragleave', function()  { zone.classList.remove('dragover'); });
     zone.addEventListener('drop',      function(e) {
         e.preventDefault();
         zone.classList.remove('dragover');
-        const input = document.getElementById('exampleInputFile');
+        var input = document.getElementById('exampleInputFile');
         if (e.dataTransfer.files.length && input) {
-            // Assign dropped file to the input
-            const dt = new DataTransfer();
+            var dt = new DataTransfer();
             dt.items.add(e.dataTransfer.files[0]);
             input.files = dt.files;
             input.dispatchEvent(new Event('change'));

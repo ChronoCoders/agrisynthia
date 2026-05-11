@@ -13,7 +13,7 @@ from celery.result import AsyncResult
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import UploadedFile
-from django.http import FileResponse, HttpRequest, HttpResponse, JsonResponse
+from django.http import FileResponse, HttpRequest, HttpResponse, JsonResponse, StreamingHttpResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
 
@@ -873,6 +873,7 @@ def async_detection(request: HttpRequest) -> JsonResponse:
                 "status": "PENDING",
                 "message": "Görüntü işleme kuyruğa eklendi",
                 "from_cache": False,
+                "stream_url": f"/detection/task-stream/{task.id}/",
             },
             status=202,
         )
@@ -888,19 +889,9 @@ def async_detection(request: HttpRequest) -> JsonResponse:
 @require_http_methods(["GET"])
 def task_status(request: HttpRequest, task_id: str) -> JsonResponse:
     """
-    Check status of a Celery task.
+    DEPRECATED — no frontend consumer; use detection_task_stream (SSE) instead.
 
-    URL Parameters:
-        task_id: Celery task ID
-
-    Returns:
-        JSON: {
-            'task_id': str,
-            'status': str (PENDING, PROCESSING, SUCCESS, FAILURE),
-            'result': dict (if SUCCESS),
-            'error': str (if FAILURE),
-            'progress': int (0-100)
-        }
+    Kept for backward compatibility with any direct API callers.
     """
     try:
         result = AsyncResult(task_id)
@@ -950,6 +941,80 @@ def task_status(request: HttpRequest, task_id: str) -> JsonResponse:
             },
             status=500,
         )
+
+
+@login_required
+@require_http_methods(["GET"])
+def detection_task_stream(request: HttpRequest, task_id: str) -> StreamingHttpResponse:
+    """
+    SSE endpoint — streams Celery task progress events to the browser.
+
+    Each event is a JSON payload:  data: {...}\n\n
+    Terminates on SUCCESS, FAILURE, or after 10 minutes (600 polls × 1 s).
+    """
+    import json
+
+    def _event_stream():
+        for _ in range(600):
+            try:
+                result = AsyncResult(task_id)
+                state = result.state
+
+                if state == "PENDING":
+                    payload = {"status": "PENDING", "progress": 0, "message": "Görev bekleniyor..."}
+
+                elif state == "PROCESSING":
+                    info = result.info or {}
+                    payload = {
+                        "status": "PROCESSING",
+                        "progress": info.get("progress", 10),
+                        "message": info.get("status", "İşleniyor..."),
+                    }
+
+                elif state == "SUCCESS":
+                    payload = {
+                        "status": "SUCCESS",
+                        "progress": 100,
+                        "message": "İşlem tamamlandı",
+                        "result": result.result,
+                    }
+                    yield f"data: {json.dumps(payload)}\n\n"
+                    yield f"data: {json.dumps({'status': 'done'})}\n\n"
+                    return
+
+                elif state == "FAILURE":
+                    error_msg = str(result.info) if result.info else "Bilinmeyen hata"
+                    payload = {
+                        "status": "FAILURE",
+                        "progress": 0,
+                        "message": "İşlem başarısız",
+                        "error": error_msg,
+                    }
+                    yield f"data: {json.dumps(payload)}\n\n"
+                    yield f"data: {json.dumps({'status': 'done'})}\n\n"
+                    return
+
+                else:
+                    payload = {"status": state, "progress": 0, "message": f"Durum: {state}"}
+
+                yield f"data: {json.dumps(payload)}\n\n"
+
+            except Exception as e:
+                logger.error("SSE stream hatası task=%s: %s", task_id, e)
+                yield f"data: {json.dumps({'status': 'FAILURE', 'error': str(e)})}\n\n"
+                yield f"data: {json.dumps({'status': 'done'})}\n\n"
+                return
+
+            time.sleep(1)
+
+        # Timeout — 10 minutes elapsed
+        yield f"data: {json.dumps({'status': 'TIMEOUT', 'message': 'İstek zaman aşımına uğradı'})}\n\n"
+        yield f"data: {json.dumps({'status': 'done'})}\n\n"
+
+    response = StreamingHttpResponse(_event_stream(), content_type="text/event-stream")
+    response["Cache-Control"] = "no-cache"
+    response["X-Accel-Buffering"] = "no"
+    return response
 
 
 @login_required
