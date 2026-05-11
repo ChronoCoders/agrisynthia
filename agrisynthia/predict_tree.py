@@ -74,20 +74,11 @@ def get_model(fruit_type: str) -> Any:
             model_path = BASE_DIR / mv.weights_path
 
             if not model_path.exists():
-                # Fall back to legacy flat path models/<fruit_type>.pt
-                legacy = BASE_DIR / "models" / f"{fruit_type}.pt"
-                if legacy.exists():
-                    model_path = legacy
-                    logger.warning(
-                        "Versioned weights not found at %s — falling back to %s",
-                        BASE_DIR / mv.weights_path,
-                        legacy,
-                    )
-                else:
-                    raise FileNotFoundError(
-                        f"Model weights not found for '{fruit_type}' "
-                        f"(tried {BASE_DIR / mv.weights_path} and {legacy})"
-                    )
+                raise FileNotFoundError(
+                    f"Model weights not found for '{fruit_type}' {mv.version} "
+                    f"at {model_path}. Run 'python manage.py migrate_model_files' "
+                    f"or update ModelVersion.weights_path in the admin."
+                )
 
             try:
                 device = get_device()
