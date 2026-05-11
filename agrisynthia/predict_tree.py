@@ -310,7 +310,7 @@ def multi_predictor(
             logger.error("ZIP oluşturma hatası: %s", e)
             raise IOError(f"ZIP dosyası oluşturulamadı: {e}")
 
-        return hashing
+        return hashing, sum(detection_counts)
 
     except (FileNotFoundError, ValueError, IOError, RuntimeError):
         raise

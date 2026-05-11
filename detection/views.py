@@ -543,7 +543,7 @@ def multi_detection_image(request: HttpRequest) -> HttpResponse:
             try:
                 weight_file = FRUIT_MODELS[meyve_grubu]
 
-                predict_tree.multi_predictor(
+                _, total_count = predict_tree.multi_predictor(
                     path_to_weights=weight_file,
                     path_to_source=hass[0],
                     ekim_sirasi=ekim_sirasi,
@@ -555,14 +555,16 @@ def multi_detection_image(request: HttpRequest) -> HttpResponse:
                     from detection.models import DetectionResult
 
                     weight_per_fruit = FRUIT_WEIGHTS.get(meyve_grubu, 0.125)
+                    weight = total_count * weight_per_fruit
+                    total_weight = agac_sayisi_int * weight
 
                     DetectionResult.objects.create(
                         fruit_type=meyve_grubu,
                         tree_count=agac_sayisi_int,
                         tree_age=agac_yasi_int,
-                        detected_count=0,          # multi_predictor does not return count
-                        weight=0.0,
-                        total_weight=0.0,
+                        detected_count=total_count,
+                        weight=weight,
+                        total_weight=total_weight,
                         processing_time=0.0,
                         confidence_score=0.0,
                         model_version=Path(weight_file).name,
