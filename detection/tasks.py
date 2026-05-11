@@ -102,7 +102,13 @@ def _send_degradation_alert(alerts: list) -> None:
             logger.error("Failed to send email alert: %s", email_error)
 
 
-@shared_task(bind=True, name="detection.tasks.process_image_detection")
+@shared_task(
+    bind=True,
+    name="detection.tasks.process_image_detection",
+    autoretry_for=(Exception,),
+    max_retries=3,
+    default_retry_delay=60,
+)
 def process_image_detection(
     self,
     image_path: str,
