@@ -2,8 +2,80 @@
 from datetime import timedelta
 
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
+
+FRUIT_TYPES = ["mandalina", "elma", "armut", "seftale", "nar", "agac"]
+
+
+class ModelVersion(models.Model):
+    fruit_type = models.CharField(max_length=50, db_index=True)
+    version = models.CharField(max_length=20)
+    weights_path = models.CharField(
+        max_length=500,
+        help_text="Relative path from project root, e.g. models/mandalina/v1/weights.pt",
+    )
+    framework = models.CharField(max_length=20, default="YOLOv7")
+    is_active = models.BooleanField(default=False, db_index=True)
+    checksum_sha256 = models.CharField(max_length=64, blank=True)
+    notes = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "detection_model_versions"
+        unique_together = [("fruit_type", "version")]
+        ordering = ["fruit_type", "-created_at"]
+
+    def __str__(self):
+        active_marker = " [ACTIVE]" if self.is_active else ""
+        return f"{self.fruit_type} {self.version}{active_marker}"
+
+    def clean(self):
+        if self.is_active:
+            conflict_qs = ModelVersion.objects.filter(
+                fruit_type=self.fruit_type, is_active=True
+            )
+            if self.pk:
+                conflict_qs = conflict_qs.exclude(pk=self.pk)
+            if conflict_qs.exists():
+                raise ValidationError(
+                    f"Another active ModelVersion already exists for fruit_type='{self.fruit_type}'. "
+                    "Deactivate it before activating this version."
+                )
+
+    def save(self, *args, **kwargs):
+        # Detect is_active transition to True so cache can be cleared
+        _was_active_before = False
+        if self.pk:
+            try:
+                prev = ModelVersion.objects.get(pk=self.pk)
+                _was_active_before = prev.is_active
+            except ModelVersion.DoesNotExist:
+                pass
+
+        super().save(*args, **kwargs)
+
+        # Clear the in-process model cache when a version becomes active
+        if self.is_active and not _was_active_before:
+            try:
+                from agrisynthia.predict_tree import evict_model_cache
+                evict_model_cache(self.fruit_type)
+            except Exception:
+                pass
+
+    @classmethod
+    def get_active(cls, fruit_type: str) -> "ModelVersion":
+        try:
+            return cls.objects.get(fruit_type=fruit_type, is_active=True)
+        except cls.DoesNotExist:
+            raise LookupError(
+                f"No active ModelVersion found for fruit_type='{fruit_type}'. "
+                "Create one via the admin or seed the DB."
+            )
+        except cls.MultipleObjectsReturned:
+            # Should never happen given clean(), but degrade gracefully
+            return cls.objects.filter(fruit_type=fruit_type, is_active=True).latest("created_at")
 
 
 class DetectionResult(models.Model):
