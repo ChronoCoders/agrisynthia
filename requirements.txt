@@ -96,3 +96,4 @@ zope.interface==8.0.1
 reportlab==4.1.0
 chardet<6.0.0
 django-ratelimit==4.1.0
+sentry-sdk[django]==2.29.1

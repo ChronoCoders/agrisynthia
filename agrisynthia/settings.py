@@ -560,3 +560,20 @@ CACHES = {
 # Cache key format for predictions
 PREDICTION_CACHE_KEY_FORMAT = "prediction:{image_hash}:{fruit_type}"
 PREDICTION_CACHE_TIMEOUT = 86400  # 24 hours
+
+# ==============================================================================
+# SENTRY ERROR TRACKING
+# ==============================================================================
+
+_SENTRY_DSN = os.environ.get("SENTRY_DSN", "")
+if _SENTRY_DSN:
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn=_SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=0.1,
+        environment=ENVIRONMENT,
+        send_default_pii=False,
+    )
