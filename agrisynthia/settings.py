@@ -85,6 +85,7 @@ ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").sp
 GEODJANGO_ENABLED = os.environ.get("GEODJANGO_ENABLED", "True") == "True"
 
 _BASE_INSTALLED_APPS = [
+    "django_prometheus",
     "agrisynthia",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -110,6 +111,7 @@ INSTALLED_APPS = (
 
 
 MIDDLEWARE = [
+    "django_prometheus.middleware.PrometheusBeforeMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "csp.middleware.CSPMiddleware",
     "corsheaders.middleware.CorsMiddleware",
@@ -119,6 +121,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_prometheus.middleware.PrometheusAfterMiddleware",
 ]
 
 PASSWORD_HASHERS = [

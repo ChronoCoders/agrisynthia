@@ -1,0 +1,32 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    project: agrisynthia
+
+scrape_configs:
+  - job_name: prometheus
+    scrape_interval: 60s
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: django
+    scrape_interval: 15s
+    metrics_path: /metrics/
+    static_configs:
+      - targets: ['web:8000']
+
+  - job_name: redis
+    scrape_interval: 15s
+    static_configs:
+      - targets: ['redis_exporter:9121']
+
+  - job_name: postgres
+    scrape_interval: 15s
+    static_configs:
+      - targets: ['postgres_exporter:9187']
+
+  - job_name: celery
+    scrape_interval: 15s
+    static_configs:
+      - targets: ['celery_exporter:9808']
