@@ -32,8 +32,8 @@ BLOG_POSTS = [
     },
     {
         "slug": "drone-ortofoto-nasil-olusturulur",
-        "title": "Drone Görüntülerinden Ortofoto Oluşturma: Adım Adım Rehber",
-        "excerpt": "NodeODM ile drone görüntülerinizi tarla haritasına dönüştürmek artık yazılım uzmanlığı gerektirmiyor. Agrisynthia'da nasıl çalıştığını anlattık.",
+        "title": "Drone ile Tarla Haritası Çıkarma: 4 Adımda Anlattık",
+        "excerpt": "Drone'unuzla çektiğiniz fotoğraflar, tarlanızın detaylı bir sağlık haritasına dönüşebilir. Yazılım bilgisi gerekmez — sadece fotoğraf yükleyin.",
         "category": "Drone",
         "cat_slug": "drone",
         "date": "2 Mayıs 2026",
@@ -41,22 +41,22 @@ BLOG_POSTS = [
         "icon": "fa-helicopter",
         "image": "https://images.unsplash.com/photo-1657093114835-031e7cf9520c?w=800&q=80&fit=crop",
         "content": """
-<p>Ortofoto, drone görüntülerinin geometrik olarak düzeltilip tek bir üstten bakış görüntüsünde birleştirilmesidir. Açık kaynak NodeODM motoru ve Agrisynthia entegrasyonu bu süreci ücretsiz ve otomatik hale getirir.</p>
-<h2>1. Uçuş planlaması</h2>
-<p>İdeal ortofoto için drone'u sabit irtifada, %70-80 örtüşme oranıyla ızgara şeklinde uçurun. DJI GO 4, Litchi veya Mission Planner bu uçuş planlarını otomatik oluşturabilir.</p>
-<h2>2. Görüntü yükleme</h2>
-<p>Agrisynthia'da "Drone Projeleri" bölümünden yeni proje oluşturun. Tüm görüntüleri (JPEG veya TIFF) sürükle-bırak ile yükleyin. Sistem otomatik olarak EXIF GPS verilerini okur.</p>
-<h2>3. NodeODM işleme</h2>
-<p>Yükleme tamamlandıktan sonra işleme otomatik başlar. Ortalama süre görüntü sayısına göre 10-40 dakikadır. İşleme sırasında sayfayı kapatabilirsiniz — tamamlandığında e-posta bildirimi gönderilir.</p>
-<h2>4. Sağlık haritası analizi</h2>
-<p>Ortofoto hazır olunca 14 farklı algoritma seçeneği sunar: NDVI, EVI, GNDVI, SAVI ve daha fazlası.</p>
-<blockquote>İpucu: Mandalina ve narenciye bahçeleri için GNDVI, elma bahçeleri için EVI genellikle daha yüksek ayrım gücü sağlar.</blockquote>
+<p>Drone ile çekilen fotoğraflar tek başına bir anlam taşımaz. Asıl değer, bu fotoğrafların birleştirilerek tarlanızın yukarıdan eksiksiz bir görüntüsünün oluşturulmasıyla ortaya çıkar. Agrisynthia bu işlemi sizin için tamamen otomatik yapar — hiçbir teknik bilgi gerekmez.</p>
+<h2>1. Drone'u doğru uçurun</h2>
+<p>En iyi sonuç için drone'u sabit yükseklikte, tarla üzerinde ızgara çizerek uçurun. Fotoğrafların birbiriyle örtüşmesi önemlidir — modern drone uygulamalarının çoğu bu uçuş planını otomatik oluşturabilir.</p>
+<h2>2. Fotoğrafları yükleyin</h2>
+<p>Agrisynthia'da "Drone Projeleri" bölümünden yeni proje oluşturun. Tüm fotoğrafları sürükleyip bırakın. Sistem konum bilgilerini fotoğraflardan otomatik okur, sizin bir şey yapmanıza gerek kalmaz.</p>
+<h2>3. Bekleyin — sistem çalışıyor</h2>
+<p>Yükleme tamamlanınca işleme otomatik başlar. Fotoğraf sayısına göre 10-40 dakika sürer. Sayfayı kapatabilirsiniz, iş bitince e-posta ile haber verilir.</p>
+<h2>4. Sağlık haritanızı inceleyin</h2>
+<p>Harita hazır olduğunda tarlanızın hangi bölümlerinin sağlıklı, hangilerinin stresli olduğunu renk renk görebilirsiniz. Sorunlu alanları yakınlaştırın, haritayı indirin ya da ekibinizle paylaşın.</p>
+<blockquote>İpucu: Sabah erken veya öğleden sonra geç saatlerde çekilen fotoğraflar, sert gölge olmadığı için çok daha net sonuç verir.</blockquote>
 """,
     },
     {
         "slug": "meyve-tespitinde-yapay-zeka",
-        "title": "Yapay Zeka ile Meyve Sayımı: YOLOv7 Tarımda Nasıl Kullanılır?",
-        "excerpt": "Elle sayılan meyveler, yüzlerce ağaçlık bahçelerde hata ve zaman kaybına yol açar. YOLOv7 tabanlı tespit modeli bu sorunu nasıl çözüyor?",
+        "title": "Yapay Zeka ile Meyve Sayımı: Hasattan Önce Ne Kadar Ürün Var?",
+        "excerpt": "Elle saymak hem zaman alır hem de yanıltır. Telefonunuzla çektiğiniz birkaç fotoğraf, bahçenizdeki toplam meyveyi dakikalar içinde hesaplayabilir.",
         "category": "Teknoloji",
         "cat_slug": "tech",
         "date": "25 Nisan 2026",
@@ -64,25 +64,25 @@ BLOG_POSTS = [
         "icon": "fa-microchip",
         "image": "https://images.unsplash.com/photo-1507598641400-ec3536ba81bc?w=800&q=80&fit=crop",
         "content": """
-<p>Meyve sayımı, hasat planlaması ve verim tahmini için kritik bir girdi olmakla birlikte, geleneksel yöntemlerle yapıldığında %20-40 hata payı taşır. Agrisynthia'nın YOLOv7 tabanlı tespit motoru bu hata payını %6'nın altına indirir.</p>
-<h2>YOLOv7 neden seçildi?</h2>
-<p>YOLO (You Only Look Once) ailesi, gerçek zamanlı nesne tespitinde benchmark kabul edilmektedir. YOLOv7, özellikle yüksek çözünürlüklü tarımsal görüntülerde küçük nesneleri tespit etmede önceki sürümlere göre %12 daha yüksek mAP skoru sağlar.</p>
-<h2>Hangi türler destekleniyor?</h2>
+<p>Yüzlerce ağaçlık bir bahçede meyve saymak, hem zaman hem de emek ister. Geleneksel yöntemlerle yapılan tahminlerin hata payı %20-40 arasında değişir. Bu, fazla işçi çağırmak ya da alıcıya yanlış fiyat vermek anlamına gelebilir. Agrisynthia'nın yapay zeka destekli sayım özelliği bu hata payını %6'nın altına indirir.</p>
+<h2>Nasıl çalışır?</h2>
+<p>Bahçenizden birkaç fotoğraf çekin ve Agrisynthia'ya yükleyin. Sistem her fotoğraftaki meyveleri tek tek tanır, işaretler ve sayar. Ağaç başına düşen ortalama meyve sayısını, tahmini toplam ağırlığı ve beklenen tonajı dakikalar içinde görürsünüz.</p>
+<h2>Hangi meyveler destekleniyor?</h2>
 <ul>
-<li>Mandalina (narenciye dahil)</li>
+<li>Mandalina ve narenciye</li>
 <li>Elma (kırmızı ve yeşil çeşitler)</li>
 <li>Armut</li>
 <li>Şeftali</li>
 <li>Nar</li>
 </ul>
-<h2>Doğruluğu etkileyen faktörler</h2>
+<h2>İyi sonuç için ne yapmalısınız?</h2>
 <ul>
-<li>En az 12 MP çözünürlük</li>
-<li>Doğal gün ışığı (sert gölge olmaksızın)</li>
-<li>Ağaç ile kamera arası 2-5 metre</li>
-<li>Görüntü başına en az 20-30 meyve</li>
+<li>Güneşli bir günde, gölge az olduğunda çekin</li>
+<li>Ağaca 2-5 metre mesafeden fotoğraflayın</li>
+<li>Her fotoğrafda en az 20-30 meyve görünür olsun</li>
+<li>Telefonunuzun fotoğraf kalitesi yeterliyse özel ekipman gerekmez</li>
 </ul>
-<blockquote>Agrisynthia'nın tespit sonuçları her zaman güven skoru ile birlikte sunulur. Düşük güven (%70 altı) durumunda sistem sizi bilgilendirir.</blockquote>
+<blockquote>Sistem size sadece sayıyı değil, ne kadar emin olduğunu da gösterir. Belirsiz görüntülerde sizi uyarır, o kareleri yeniden çekmenizi önerir.</blockquote>
 """,
     },
     {
@@ -133,8 +133,8 @@ BLOG_POSTS = [
     },
     {
         "slug": "sentinel-2-ucretsiz-uydu-verisi",
-        "title": "Sentinel-2: Tarımcılar İçin Ücretsiz Uydu Verisi Rehberi",
-        "excerpt": "Avrupa Uzay Ajansı'nın Sentinel-2 uydusu her 5 günde bir Türkiye'yi tarıyor. Bu veriyi nasıl değerlendirirsiniz?",
+        "title": "Tarlanız Her 5 Günde Bir Uydudan İzleniyor — Bunu Biliyor muydunuz?",
+        "excerpt": "Avrupa'nın tarım uydusu Türkiye'yi düzenli olarak tarıyor ve bu veriler herkese ücretsiz açık. Agrisynthia bu veriyi sizin için anlamlı hale getiriyor.",
         "category": "NDVI & Uydu",
         "cat_slug": "ndvi",
         "date": "3 Nisan 2026",
@@ -142,17 +142,18 @@ BLOG_POSTS = [
         "icon": "fa-globe",
         "image": "https://images.unsplash.com/photo-1536183922588-166604504d5e?w=800&q=80&fit=crop",
         "content": """
-<p>Sentinel-2, ESA tarafından işletilen ve verileri tamamen ücretsiz olarak kamuoyuna açık olan bir uydu çiftidir. 13 spektral bant ve 10 metrelik yersel çözünürlük ile tarımsal izleme için ideal bir kaynak sunar.</p>
-<h2>Neden tarımcılar için değerli?</h2>
-<p>Kırmızı kenar (red-edge) bandı, diğer uyduların büyük çoğunluğunda bulunmaz. Bu band, klorofil içeriğini doğrudan ölçer ve bitki stresini NDVI'dan daha erken tespit eder.</p>
-<h2>Agrisynthia ile entegrasyon</h2>
-<p>Agrisynthia, Element84 Earth Search STAC API üzerinden Sentinel-2 L2A ürünlerine erişir. Cloud-Optimized GeoTIFF formatındaki dosyaları doğrudan buluttan okur — işleme süresini %80 azaltır.</p>
-<h2>Sınırlamalar</h2>
+<p>Avrupa Uzay Ajansı'nın işlettiği bir uydu, her 5 günde bir Türkiye'nin tamamını görüntüler. Bu görüntüler herkese açık ve ücretsizdir — ama ham haliyle yorumlanmaları uzmanlık gerektirir. Agrisynthia bu yorumu sizin için otomatik yapar ve tarlanızın sağlık durumunu sade bir renkli haritaya dönüştürür.</p>
+<h2>Bu uydu tarlanız için ne yapabilir?</h2>
+<p>Uydu, bitkilerinizin yaydığı ışığı ölçer. Sağlıklı bitkiler bu ölçümde canlı ve yoğun görünürken, stres altındaki ya da kuruyan bitkiler soluk görünür. Bu sayede tarlada gezip görmeden önce sorunlu alanları tespit etmek mümkün olur.</p>
+<h2>Ne zaman işe yarar, ne zaman yaramaz?</h2>
 <ul>
-<li>Bulut örtüsü veride karanlık bölgeler oluşturur. Agrisynthia yalnızca %30 altı bulut örtülü geçişleri işler.</li>
-<li>10 metre çözünürlük, tek ağaç bazında analiz için yeterli değildir — bunun için drone verileri gerekir.</li>
+<li><strong>İşe yarar:</strong> Büyük alanlarda genel sağlık takibi, mevsimsel karşılaştırma, erken uyarı</li>
+<li><strong>Yetersiz kalır:</strong> Tek bir ağacı veya küçük bir lekeyi incelemek için — bunun için drone gerekir</li>
+<li><strong>Bulutlu havalarda:</strong> Sistem bulut geçen günleri atlar, bir sonraki açık günü bekler</li>
 </ul>
-<blockquote>Uydu verisi ücretsizdir, ancak yorumlanması uzmanlık gerektirir. Agrisynthia bu yorumu sizin için otomatik yapar.</blockquote>
+<h2>Agrisynthia olmadan kullanabilir misiniz?</h2>
+<p>Teorik olarak evet, ama pratik olarak çok zordur. Ham uydu verisi indirmek, işlemek ve yorumlamak saatler alır ve teknik bilgi gerektirir. Agrisynthia tüm bu adımları arka planda halleder; siz sadece haritanıza bakarsınız.</p>
+<blockquote>Tarlanız 5 günde bir uydudan geçiyor. Bu bilgiyi değerlendirmek artık sadece büyük çiftliklerin ayrıcalığı değil.</blockquote>
 """,
     },
 ]
@@ -183,14 +184,14 @@ def pricing(request):
 
 def about(request):
     techs = [
-        {"icon": "fa-satellite", "name": "Sentinel-2", "desc": "ESA ücretsiz uydu verisi, 5 günde güncelleme"},
-        {"icon": "fa-robot", "name": "YOLOv7", "desc": "Gerçek zamanlı nesne tespiti, %94+ doğruluk"},
-        {"icon": "fa-helicopter", "name": "NodeODM", "desc": "Açık kaynak drone ortofoto motoru"},
-        {"icon": "fa-cloud", "name": "Celery + Redis", "desc": "Asenkron işleme ve gerçek zamanlı durum"},
-        {"icon": "fa-map", "name": "rio-tiler", "desc": "Cloud-optimized GeoTIFF ve NDVI hesaplama"},
-        {"icon": "fa-location-dot", "name": "Leaflet.js", "desc": "Etkileşimli harita görüntüleme"},
-        {"icon": "fa-database", "name": "PostgreSQL", "desc": "Güvenilir ilişkisel veritabanı"},
-        {"icon": "fa-server", "name": "Django 4.2", "desc": "Güvenli ve ölçeklenebilir web çatısı"},
+        {"icon": "fa-satellite", "name": "Uydu Görüntüleme", "desc": "Her 5 günde güncellenen uydu verileriyle tarlanızı sürekli takip edin."},
+        {"icon": "fa-robot", "name": "Yapay Zeka Tespiti", "desc": "Görüntülerden meyve ve mahsulü %94+ doğrulukla otomatik sayar."},
+        {"icon": "fa-helicopter", "name": "Drone Haritalama", "desc": "Drone görüntülerinizi yükleyin, platformumuz detaylı alan haritasını oluşturur."},
+        {"icon": "fa-bolt", "name": "Anlık İşleme", "desc": "Yüklediğiniz veriler arka planda işlenir; sonuçlar hazır olunca sizi bildirir."},
+        {"icon": "fa-leaf", "name": "NDVI Analizi", "desc": "Bitkilerinizin sağlığını renkli haritalarla görün, sorunlu alanları anında fark edin."},
+        {"icon": "fa-map-location-dot", "name": "Etkileşimli Harita", "desc": "Tüm tarlalarınızı tek ekranda izleyin, alanlara tıklayarak detay görün."},
+        {"icon": "fa-shield-halved", "name": "Güvenli Depolama", "desc": "Verileriniz Türkiye'de güvenli sunucularda saklanır, başkasıyla paylaşılmaz."},
+        {"icon": "fa-file-alt", "name": "Otomatik Raporlar", "desc": "PDF ve Excel raporları belirlediğiniz sıklıkta e-posta kutunuza iletilir."},
     ]
     return render(request, "website/about.html", {"techs": techs})
 
@@ -254,3 +255,167 @@ def newsletter_subscribe(request):
         return JsonResponse({"ok": False, "error": "E-posta adresi gerekli."}, status=400)
     _, created = NewsletterSubscriber.objects.get_or_create(email=email)
     return JsonResponse({"ok": True, "created": created})
+
+
+@require_POST
+def chat_lead(request):
+    import json
+    try:
+        data = json.loads(request.body)
+    except (json.JSONDecodeError, ValueError):
+        return JsonResponse({"ok": False}, status=400)
+    from .models import ChatLead
+    full_name = (data.get("full_name") or "").strip()
+    email = (data.get("email") or "").strip()
+    phone = (data.get("phone") or "").strip()
+    if not (full_name and email and phone):
+        return JsonResponse({"ok": False, "error": "Tüm alanlar zorunludur."}, status=400)
+    ChatLead.objects.create(full_name=full_name, email=email, phone=phone)
+    return JsonResponse({"ok": True})
+
+
+_CHATBOT_SYSTEM = """Sen Agrisynthia'nın yardımcı asistanısın. Agrisynthia, Türkiye'deki çiftçiler ve tarım işletmeleri için yapay zeka destekli bir tarım platformudur.
+
+Platform özellikleri:
+- Uydu NDVI analizi (Sentinel-2 verileriyle bitki sağlığı izleme)
+- Drone görüntü işleme ve ortofoto oluşturma
+- YOLOv7 tabanlı yapay zeka meyve/mahsul tespiti
+- Verim tahmini (NDVI + ağaç yaşı + tespit verileri)
+- Proje ve tarla yönetimi
+- PDF/Excel raporlama ve e-posta uyarıları
+
+Fiyat planları:
+- Bireysel: 890 TL/ay (3 tarla, aylık 50 görüntü, haftalık NDVI)
+- Kooperatif: 2.490 TL/ay (25 tarla, sınırsız görüntü, günlük NDVI) - En Popüler
+- Kurumsal: Teklif alın (sınırsız, API erişimi, SLA, öncelikli destek)
+- Tüm planlar 14 gün ücretsiz deneme ile başlar, kredi kartı gerekmez.
+
+İletişim: info@agrisynthia.com
+Web: agrisynthia.com
+
+Sık sorulan sorular ve doğru cevaplar:
+
+NDVI & Uydu:
+S: NDVI değerim 0.3 çıktı, bu iyi mi?
+C: 0.3 zayıf bitki örtüsüne işaret eder. 0.5 ve üzeri sağlıklı, 0.7 ve üzeri mükemmel kabul edilir. Sulama veya gübreleme ihtiyacı olabilir.
+
+S: NDVI ne sıklıkla güncelleniyor?
+C: Bireysel planda haftada bir, Kooperatif planda günlük, Kurumsal planda gerçek zamanlı güncellenir.
+
+S: Bulutlu havalarda NDVI doğru çıkar mı?
+C: Bulut örtüsü yüksekse Sentinel-2 uydusu o geçişi atlar ve bir sonraki net görüntüyü bekler. Sistem otomatik olarak en düşük bulut oranına sahip sahneyi seçer.
+
+Drone & Görüntü:
+S: Drone görüntüsünü nasıl yüklerim?
+C: Dashboard'dan Projeler → Drone Analizi menüsüne girin, yeni proje oluşturun ve JPG/TIFF formatındaki görüntülerinizi sürükleyip bırakın.
+
+S: Hangi drone modelleri destekleniyor?
+C: Herhangi bir drone ile çekilmiş JPEG veya TIFF görüntüleri kabul edilir. DJI, Parrot ve diğer tüm markalar çalışır; markaya özel bir kısıt yoktur.
+
+S: Ortofoto oluşturma ne kadar sürer?
+C: Görüntü sayısına ve çözünürlüğe bağlı olarak 10 dakika ile 1 saat arasında değişir. İşlem tamamlandığında e-posta ile bildirim alırsınız.
+
+Meyve Tespiti & Verim:
+S: Sistem hangi meyveleri tanıyabilir?
+C: Şu anda mandalina, portakal, limon, elma, nar ve zeytin desteklenmektedir. Yeni türler sürekli eklenmektedir.
+
+S: Verim tahmini ne kadar doğru?
+C: Model, NDVI, ağaç yaşı ve görüntüden tespit edilen meyve sayısını birleştirerek tahmin yapar. Ortalama sapma %15-25 arasındadır; gerçek hasat hava koşulları ve bakıma göre farklılık gösterebilir.
+
+S: Meyve tespiti için kaç görüntü gerekir?
+C: En az 1 görüntü yeterlidir ancak birden fazla açıdan çekilmiş görüntüler doğruluğu artırır.
+
+Hesap & Plan:
+S: Ücretsiz deneme süresi bittikten sonra ne olur?
+C: 14 günlük deneme sonunda size bir hatırlatma e-postası gönderilir. Ücretli plana geçmezseniz hesabınız salt okunur moda geçer, verileriniz silinmez.
+
+S: Plan değiştirmek istiyorum, ne yapmalıyım?
+C: Hesap Ayarları → Abonelik bölümünden istediğiniz plana geçebilirsiniz. Ücret farkı gün bazında hesaplanır.
+
+S: Birden fazla kullanıcı aynı hesabı kullanabilir mi?
+C: Kooperatif ve Kurumsal planlarda çoklu kullanıcı desteği mevcuttur. Bireysel plan tek kullanıcı içindir.
+
+Teknik & Destek:
+S: Verilerim güvende mi?
+C: Tüm veriler Türkiye'deki sunucularda şifreli olarak saklanır. KVKK kapsamında kişisel verileriniz üçüncü taraflarla paylaşılmaz.
+
+S: Mobil cihazdan kullanabilir miyim?
+C: Evet, platform tüm modern tarayıcılarda çalışır. Ayrıca mobil uyumlu arayüzü sayesinde telefon ve tabletten de rahatça kullanılabilir.
+
+S: Teknik bir sorunum var, nasıl destek alabilirim?
+C: info@agrisynthia.com adresine e-posta gönderebilirsiniz. Kooperatif planında 24 saat, Kurumsal planda SLA garantili öncelikli destek sunulmaktadır.
+
+Kurallar:
+- Sadece Agrisynthia ve tarım ile ilgili sorulara cevap ver.
+- Kısa, net ve samimi cevaplar ver. Madde listesi kullanabilirsin.
+- Fiyat veya teknik destek için kullanıcıyı info@agrisynthia.com adresine yönlendir.
+- Türkçe konuş; kullanıcı başka dilde yazarsa o dilde yanıtla.
+"""
+
+
+@require_POST
+def chatbot_chat(request):
+    import json
+    import os
+    import anthropic
+    from django_ratelimit.core import is_ratelimited
+
+    # 10 req/min per IP for anonymous users, 30 req/min per user for authenticated
+    if request.user.is_authenticated:
+        limited = is_ratelimited(
+            request,
+            group="chatbot_auth",
+            key="user",
+            rate="30/m",
+            method="POST",
+            increment=True,
+        )
+    else:
+        limited = is_ratelimited(
+            request,
+            group="chatbot_anon",
+            key="ip",
+            rate="10/m",
+            method="POST",
+            increment=True,
+        )
+
+    if limited:
+        return JsonResponse(
+            {"ok": False, "error": "Çok fazla istek. Lütfen bir dakika bekleyin."},
+            status=429,
+        )
+
+    try:
+        data = json.loads(request.body)
+    except (json.JSONDecodeError, ValueError):
+        return JsonResponse({"ok": False, "error": "Gecersiz istek."}, status=400)
+
+    user_message = (data.get("message") or "").strip()
+    history = data.get("history") or []
+
+    if not user_message:
+        return JsonResponse({"ok": False, "error": "Mesaj bos olamaz."}, status=400)
+
+    messages = []
+    for turn in history[-10:]:
+        role = turn.get("role")
+        content = turn.get("content", "")
+        if role in ("user", "assistant") and content:
+            messages.append({"role": role, "content": content})
+    messages.append({"role": "user", "content": user_message})
+
+    try:
+        client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+        response = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=512,
+            system=_CHATBOT_SYSTEM,
+            messages=messages,
+        )
+        reply = response.content[0].text
+        return JsonResponse({"ok": True, "reply": reply})
+    except anthropic.AuthenticationError:
+        return JsonResponse({"ok": False, "error": "API anahtari yapilandirilmamis."}, status=500)
+    except Exception as exc:
+        return JsonResponse({"ok": False, "error": str(exc)}, status=500)
