@@ -102,7 +102,13 @@ def _compute_ndvi(red_href: str, nir_href: str, bbox: list) -> dict | None:
     }
 
 
-@shared_task(bind=True, max_retries=0, name="dron_map.process_odm_task")
+@shared_task(
+    bind=True,
+    name="dron_map.process_odm_task",
+    autoretry_for=(Exception,),
+    max_retries=3,
+    default_retry_delay=60,
+)
 def process_odm_task(self, project_id: int) -> dict:
     """
     Run NodeODM processing for a project.
@@ -252,7 +258,12 @@ def watchdog_stuck_odm_tasks() -> dict:
 # Sentinel-2 NDVI tasks
 # ---------------------------------------------------------------------------
 
-@shared_task(name="dron_map.fetch_sentinel2_ndvi")
+@shared_task(
+    name="dron_map.fetch_sentinel2_ndvi",
+    autoretry_for=(Exception, http_requests.exceptions.RequestException),
+    max_retries=3,
+    default_retry_delay=60,
+)
 def fetch_sentinel2_ndvi(project_id: int, days_back: int = 90) -> dict:
     """
     Fetch Sentinel-2 NDVI time series for a single project.
