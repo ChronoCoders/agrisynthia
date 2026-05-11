@@ -1,6 +1,16 @@
 # -*- coding: utf-8 -*-
+import os
+
 from django.contrib.auth.models import User
-from django.contrib.gis.db import models
+
+# Use GeoDjango models when GDAL is available; fall back to plain Django otherwise.
+# Set GEODJANGO_ENABLED=False in .env on Windows without OSGeo4W.
+if os.environ.get("GEODJANGO_ENABLED", "True") == "True":
+    from django.contrib.gis.db import models
+    _USE_GIS = True
+else:
+    from django.db import models
+    _USE_GIS = False
 
 
 class Projects(models.Model):
@@ -70,11 +80,19 @@ class Projects(models.Model):
         help_text="Error message if ODM processing failed",
     )
 
-    field_polygon = models.PolygonField(
-        null=True,
-        blank=True,
-        srid=4326,
-        help_text="WGS-84 polygon defining the field boundary",
+    field_polygon = (
+        models.PolygonField(
+            null=True,
+            blank=True,
+            srid=4326,
+            help_text="WGS-84 polygon defining the field boundary",
+        )
+        if _USE_GIS
+        else models.JSONField(
+            null=True,
+            blank=True,
+            help_text="GeoJSON polygon ring [[lng, lat], ...] defining the field boundary",
+        )
     )
 
     def __str__(self):
