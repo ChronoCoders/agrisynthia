@@ -98,3 +98,4 @@ chardet<6.0.0
 django-prometheus==2.3.1
 django-ratelimit==4.1.0
 sentry-sdk[django]==2.29.1
+django-storages[s3]==1.14.4
