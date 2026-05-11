@@ -294,14 +294,18 @@ def add_projects(
 
                 # Parse optional field polygon from form
                 import json as _json
-                from django.contrib.gis.geos import GEOSGeometry as _GEOSGeometry
+                import os as _os
                 raw_polygon = request.POST.get("field_polygon_json", "").strip()
                 parsed_polygon = None
                 if raw_polygon:
                     try:
                         ring = _json.loads(raw_polygon)
-                        geojson = _json.dumps({"type": "Polygon", "coordinates": [ring]})
-                        parsed_polygon = _GEOSGeometry(geojson, srid=4326)
+                        if _os.environ.get("GEODJANGO_ENABLED", "True") == "True":
+                            from django.contrib.gis.geos import GEOSGeometry as _GEOSGeometry
+                            geojson = _json.dumps({"type": "Polygon", "coordinates": [ring]})
+                            parsed_polygon = _GEOSGeometry(geojson, srid=4326)
+                        else:
+                            parsed_polygon = ring
                     except Exception:
                         logger.warning("Geçersiz field_polygon JSON, atlandı.")
 
@@ -642,7 +646,12 @@ def field_overview(request: HttpRequest) -> HttpResponse:
 
         if p.field_polygon:
             import json as _json
-            geometry = _json.loads(p.field_polygon.geojson)
+            if hasattr(p.field_polygon, "geojson"):
+                # GeoDjango PolygonField
+                geometry = _json.loads(p.field_polygon.geojson)
+            else:
+                # Legacy JSONField ring [[lng, lat], ...]
+                geometry = {"type": "Polygon", "coordinates": [p.field_polygon]}
         else:
             geometry = None
 

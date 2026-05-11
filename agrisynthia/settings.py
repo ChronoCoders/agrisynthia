@@ -79,7 +79,12 @@ if not SECRET_KEY:
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
-INSTALLED_APPS = [
+# GEODJANGO_ENABLED requires GDAL/GEOS installed on the host.
+# On Linux/Docker with PostGIS this is always True.
+# On Windows without OSGeo4W, set GEODJANGO_ENABLED=False in .env to use JSON fallback.
+GEODJANGO_ENABLED = os.environ.get("GEODJANGO_ENABLED", "True") == "True"
+
+_BASE_INSTALLED_APPS = [
     "agrisynthia",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -87,7 +92,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django.contrib.gis",
     "corsheaders",
     "rest_framework",
     "drf_spectacular",
@@ -96,7 +100,13 @@ INSTALLED_APPS = [
     "dron_map.apps.DronMapConfig",
     "reports",
     "website",
-]   
+]
+
+INSTALLED_APPS = (
+    ["django.contrib.gis"] + _BASE_INSTALLED_APPS
+    if GEODJANGO_ENABLED
+    else _BASE_INSTALLED_APPS
+)   
 
 
 MIDDLEWARE = [
@@ -148,9 +158,14 @@ DB_HOST = os.environ.get("DATABASE_HOST")
 DB_PORT = os.environ.get("DATABASE_PORT")
 
 if all([DB_NAME, DB_USER, DB_PASSWORD, DB_HOST]):
+    _pg_engine = (
+        "django.contrib.gis.db.backends.postgis"
+        if GEODJANGO_ENABLED
+        else "django.db.backends.postgresql"
+    )
     DATABASES = {
         "default": {
-            "ENGINE": "django.contrib.gis.db.backends.postgis",
+            "ENGINE": _pg_engine,
             "NAME": DB_NAME,
             "USER": DB_USER,
             "PASSWORD": DB_PASSWORD,
@@ -159,9 +174,14 @@ if all([DB_NAME, DB_USER, DB_PASSWORD, DB_HOST]):
         }
     }
 else:
+    _sqlite_engine = (
+        "django.contrib.gis.db.backends.spatialite"
+        if GEODJANGO_ENABLED
+        else "django.db.backends.sqlite3"
+    )
     DATABASES = {
         "default": {
-            "ENGINE": "django.contrib.gis.db.backends.spatialite",
+            "ENGINE": _sqlite_engine,
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
