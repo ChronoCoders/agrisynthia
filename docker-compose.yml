@@ -4,28 +4,28 @@ services:
   # PostgreSQL Database
   db:
     image: postgis/postgis:15-3.4
-    container_name: farmvision_db
+    container_name: agrisynthia_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: ${DATABASE_NAME:-farmvision}
-      POSTGRES_USER: ${DATABASE_USER:-farmvision_user}
+      POSTGRES_DB: ${DATABASE_NAME:-agrisynthia}
+      POSTGRES_USER: ${DATABASE_USER:-agrisynthia_user}
       # SECURITY: Change this password in production! Do not use defaults.
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD:?DATABASE_PASSWORD environment variable is required}
     ports:
       - "127.0.0.1:5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER:-farmvision_user}"]
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER:-agrisynthia_user}"]
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
-      - farmvision_network
+      - agrisynthia_network
 
   # Redis Cache
   redis:
     image: redis:7-alpine
-    container_name: farmvision_redis
+    container_name: agrisynthia_redis
     volumes:
       - redis_data:/data
     ports:
@@ -36,7 +36,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - farmvision_network
+      - agrisynthia_network
     command: >
       redis-server
       --appendonly yes
@@ -50,11 +50,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: farmvision_web
+    container_name: agrisynthia_web
     command: >
       sh -c "python manage.py migrate &&
              python manage.py collectstatic --noinput &&
-             gunicorn yolowebapp2.wsgi:application --config gunicorn_config.py"
+             gunicorn agrisynthia.wsgi:application --config gunicorn_config.py"
     volumes:
       - .:/app
       - static_volume:/app/static
@@ -68,8 +68,8 @@ services:
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
       DJANGO_DEBUG: ${DJANGO_DEBUG:-False}
       DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-localhost,127.0.0.1}
-      DATABASE_NAME: ${DATABASE_NAME:-farmvision}
-      DATABASE_USER: ${DATABASE_USER:-farmvision_user}
+      DATABASE_NAME: ${DATABASE_NAME:-agrisynthia}
+      DATABASE_USER: ${DATABASE_USER:-agrisynthia_user}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD:?DATABASE_PASSWORD environment variable is required}
       DATABASE_HOST: db
       DATABASE_PORT: 5432
@@ -90,7 +90,7 @@ services:
       retries: 3
       start_period: 40s
     networks:
-      - farmvision_network
+      - agrisynthia_network
     restart: unless-stopped
     deploy:
       resources:
@@ -105,8 +105,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: farmvision_celery_worker
-    command: celery -A yolowebapp2 worker -l info
+    container_name: agrisynthia_celery_worker
+    command: celery -A agrisynthia worker -l info
     volumes:
       - .:/app
       - media_volume:/app/media
@@ -115,8 +115,8 @@ services:
     environment:
       DJANGO_ENVIRONMENT: ${DJANGO_ENVIRONMENT:-production}
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
-      DATABASE_NAME: ${DATABASE_NAME:-farmvision}
-      DATABASE_USER: ${DATABASE_USER:-farmvision_user}
+      DATABASE_NAME: ${DATABASE_NAME:-agrisynthia}
+      DATABASE_USER: ${DATABASE_USER:-agrisynthia_user}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD:?DATABASE_PASSWORD environment variable is required}
       DATABASE_HOST: db
       DATABASE_PORT: 5432
@@ -130,7 +130,7 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - farmvision_network
+      - agrisynthia_network
     restart: unless-stopped
     deploy:
       resources:
@@ -145,16 +145,16 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: farmvision_celery_beat
-    command: celery -A yolowebapp2 beat -l info --schedule /app/logs/celerybeat-schedule
+    container_name: agrisynthia_celery_beat
+    command: celery -A agrisynthia beat -l info --schedule /app/logs/celerybeat-schedule
     volumes:
       - .:/app
       - logs_volume:/app/logs
     environment:
       DJANGO_ENVIRONMENT: ${DJANGO_ENVIRONMENT:-production}
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
-      DATABASE_NAME: ${DATABASE_NAME:-farmvision}
-      DATABASE_USER: ${DATABASE_USER:-farmvision_user}
+      DATABASE_NAME: ${DATABASE_NAME:-agrisynthia}
+      DATABASE_USER: ${DATABASE_USER:-agrisynthia_user}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD:?DATABASE_PASSWORD environment variable is required}
       DATABASE_HOST: db
       DATABASE_PORT: 5432
@@ -168,13 +168,87 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - farmvision_network
+      - agrisynthia_network
     restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # Monitoring stack
+  # ---------------------------------------------------------------------------
+
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    container_name: agrisynthia_prometheus
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "127.0.0.1:9090:9090"
+    networks:
+      - agrisynthia_network
+    restart: unless-stopped
+    depends_on:
+      - web
+      - redis_exporter
+      - postgres_exporter
+      - celery_exporter
+
+  grafana:
+    image: grafana/grafana:10.4.0
+    container_name: agrisynthia_grafana
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/etc/grafana/dashboards:ro
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?GRAFANA_ADMIN_PASSWORD is required}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_SERVER_ROOT_URL: "http://localhost:3000"
+    networks:
+      - agrisynthia_network
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+
+  redis_exporter:
+    image: oliver006/redis_exporter:v1.58.0
+    container_name: agrisynthia_redis_exporter
+    environment:
+      REDIS_ADDR: redis://redis:6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+    networks:
+      - agrisynthia_network
+    restart: unless-stopped
+    depends_on:
+      - redis
+
+  postgres_exporter:
+    image: prometheuscommunity/postgres-exporter:v0.15.0
+    container_name: agrisynthia_postgres_exporter
+    environment:
+      DATA_SOURCE_NAME: "postgresql://${DATABASE_USER:-agrisynthia_user}:${DATABASE_PASSWORD}@db:5432/${DATABASE_NAME:-agrisynthia}?sslmode=disable"
+    networks:
+      - agrisynthia_network
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+
+  celery_exporter:
+    image: danihodovic/celery-exporter:0.10.4
+    container_name: agrisynthia_celery_exporter
+    environment:
+      CE_BROKER_URL: ${CELERY_BROKER_URL:-redis://redis:6379/0}
+    networks:
+      - agrisynthia_network
+    restart: unless-stopped
+    depends_on:
+      - redis
 
   # Nginx Reverse Proxy (Optional — activate with: docker compose --profile with-nginx up)
   nginx:
     image: nginx:alpine
-    container_name: farmvision_nginx
+    container_name: agrisynthia_nginx
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - static_volume:/app/static:ro
@@ -186,7 +260,7 @@ services:
     depends_on:
       - web
     networks:
-      - farmvision_network
+      - agrisynthia_network
     restart: unless-stopped
     profiles:
       - with-nginx
@@ -204,7 +278,9 @@ volumes:
     driver: local
   models_volume:
     driver: local
+  grafana_data:
+    driver: local
 
 networks:
-  farmvision_network:
+  agrisynthia_network:
     driver: bridge
