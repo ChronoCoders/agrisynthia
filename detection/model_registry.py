@@ -1,134 +1,81 @@
 # -*- coding: utf-8 -*-
 """
-Model Registry for tracking ML model versions and metadata
+DEPRECATED — this module is superseded by detection.models.ModelVersion.
+
+Model metadata is now stored in the database and managed via:
+  - detection.models.ModelVersion  (ORM model)
+  - /admin/detection/modelversion/ (Django admin UI)
+  - python manage.py migrate_model_files (one-time file reorganisation)
+
+The functions below are kept for backward compatibility with the system
+monitoring view; they delegate to the DB instead of the old in-memory dict.
 """
 import logging
 import os
-from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-# Model metadata registry
-MODEL_REGISTRY: Dict[str, Dict[str, Any]] = {
-    "mandalina.pt": {
-        "version": "1.0.0",
-        "date": datetime(2024, 1, 15),
-        "accuracy": 0.92,
-        "description": "Mandalina meyve algılama modeli",
-        "training_dataset_size": 5000,
-        "framework": "YOLOv7",
-        "input_size": 640,
-        "confidence_threshold": 0.1,
-        "iou_threshold": 0.45,
-    },
-    "elma.pt": {
-        "version": "1.0.0",
-        "date": datetime(2024, 1, 15),
-        "accuracy": 0.89,
-        "description": "Elma meyve algılama modeli",
-        "training_dataset_size": 4800,
-        "framework": "YOLOv7",
-        "input_size": 640,
-        "confidence_threshold": 0.1,
-        "iou_threshold": 0.45,
-    },
-    "armut.pt": {
-        "version": "1.0.0",
-        "date": datetime(2024, 1, 15),
-        "accuracy": 0.88,
-        "description": "Armut meyve algılama modeli",
-        "training_dataset_size": 4500,
-        "framework": "YOLOv7",
-        "input_size": 640,
-        "confidence_threshold": 0.1,
-        "iou_threshold": 0.45,
-    },
-    "seftale.pt": {
-        "version": "1.0.0",
-        "date": datetime(2024, 1, 15),
-        "accuracy": 0.90,
-        "description": "Şeftali meyve algılama modeli",
-        "training_dataset_size": 4600,
-        "framework": "YOLOv7",
-        "input_size": 640,
-        "confidence_threshold": 0.1,
-        "iou_threshold": 0.45,
-    },
-    "nar.pt": {
-        "version": "1.0.0",
-        "date": datetime(2024, 1, 15),
-        "accuracy": 0.91,
-        "description": "Nar meyve algılama modeli",
-        "training_dataset_size": 4700,
-        "framework": "YOLOv7",
-        "input_size": 640,
-        "confidence_threshold": 0.1,
-        "iou_threshold": 0.45,
-    },
-    "agac.pt": {
-        "version": "1.0.0",
-        "date": datetime(2024, 1, 15),
-        "accuracy": 0.87,
-        "description": "Ağaç algılama modeli",
-        "training_dataset_size": 3500,
-        "framework": "YOLOv7",
-        "input_size": 640,
-        "confidence_threshold": 0.25,
-        "iou_threshold": 0.7,
-    },
-}
-
 
 def get_model_info(model_name: str) -> Optional[Dict[str, Any]]:
-    """
-    Get metadata for a specific model
-
-    Args:
-        model_name: Name of the model file (e.g., 'mandalina.pt')
-
-    Returns:
-        Dictionary with model metadata or None if model not found
-    """
-    return MODEL_REGISTRY.get(model_name)
+    """Return metadata for a model file name (e.g. 'mandalina.pt'). Deprecated."""
+    fruit_type = model_name.replace(".pt", "")
+    try:
+        from detection.models import ModelVersion
+        mv = ModelVersion.get_active(fruit_type)
+        return {
+            "version": mv.version,
+            "framework": mv.framework,
+            "weights_path": mv.weights_path,
+            "is_active": mv.is_active,
+        }
+    except Exception:
+        return None
 
 
 def get_all_models() -> Dict[str, Dict[str, Any]]:
-    """
-    Get metadata for all registered models
-
-    Returns:
-        Dictionary mapping model names to their metadata
-    """
-    return MODEL_REGISTRY.copy()
-
-
-def get_loaded_models_info() -> list:
-    """
-    Get information about all loaded/registered models
-
-    Returns:
-        List of dictionaries containing model information with model_id and is_loaded status
-    """
-    loaded_models = []
-    models_dir = os.path.join(settings.BASE_DIR, "models")
-    
-    for model_name, info in MODEL_REGISTRY.items():
-        model_path = os.path.join(models_dir, model_name)
-        is_exists = os.path.exists(model_path)
-        
-        loaded_models.append(
-            {
-                "model_id": model_name,
-                "is_loaded": is_exists,
-                "version": info["version"],
-                "date": info["date"].strftime("%Y-%m-%d"),
-                "accuracy": info["accuracy"],
-                "description": info["description"],
-                "framework": info.get("framework", "Unknown"),
-                "input_size": info.get("input_size", 0),
+    """Return metadata dict for all active model versions. Deprecated."""
+    try:
+        from detection.models import ModelVersion
+        result = {}
+        for mv in ModelVersion.objects.filter(is_active=True):
+            result[f"{mv.fruit_type}.pt"] = {
+                "version": mv.version,
+                "framework": mv.framework,
+                "weights_path": mv.weights_path,
             }
-        )
-    return loaded_models
+        return result
+    except Exception:
+        return {}
+
+
+def get_loaded_models_info() -> List[Dict[str, Any]]:
+    """Return model status list for the system monitoring view."""
+    try:
+        from detection.models import ModelVersion
+        models_dir = os.path.join(settings.BASE_DIR, "models")
+        loaded_models = []
+
+        for mv in ModelVersion.objects.filter(is_active=True).order_by("fruit_type"):
+            weights_abs = os.path.join(settings.BASE_DIR, mv.weights_path)
+            legacy_abs = os.path.join(models_dir, f"{mv.fruit_type}.pt")
+            is_exists = os.path.exists(weights_abs) or os.path.exists(legacy_abs)
+
+            loaded_models.append(
+                {
+                    "model_id": f"{mv.fruit_type}.pt",
+                    "is_loaded": is_exists,
+                    "version": mv.version,
+                    "date": mv.created_at.strftime("%Y-%m-%d"),
+                    "accuracy": None,
+                    "description": mv.notes or f"{mv.fruit_type} model ({mv.framework})",
+                    "framework": mv.framework,
+                    "input_size": 640,
+                }
+            )
+        return loaded_models
+    except Exception as exc:
+        logger.warning("get_loaded_models_info fell back to empty list: %s", exc)
+        return []
