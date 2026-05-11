@@ -69,14 +69,14 @@
         <p>Sentinel-2 uydu görüntülerinden haftalık NDVI haritası. Bitki stresini hasat öncesi fark edin.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon"><i class="fas fa-drone-alt" style="font-size:20px;"></i><i class="fas fa-helicopter" style="display:none;"></i><i class="fas fa-plane-up"></i></div>
-        <h3>Drone Ortofoto İşleme</h3>
-        <p>NodeODM entegrasyonu ile drone görüntülerinizden otomatik ortofoto ve sağlık haritası oluşturun.</p>
+        <div class="feature-icon"><i class="fas fa-plane-up"></i></div>
+        <h3>Drone ile Tarla Haritası</h3>
+        <p>Drone fotoğraflarınızı yükleyin, sistem tarlanızın detaylı sağlık haritasını otomatik oluşturur.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon"><i class="fas fa-seedling"></i></div>
-        <h3>YZ Meyve Tespiti</h3>
-        <p>YOLOv7 tabanlı modelimiz mandalina, elma, armut, şeftali ve nar için %94+ doğrulukla meyve sayar.</p>
+        <h3>Yapay Zeka Meyve Sayımı</h3>
+        <p>Birkaç fotoğraftan bahçenizdeki toplam meyveyi %94+ doğrulukla sayar, tonajı tahmin eder.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
@@ -89,7 +89,7 @@
         <p>Tüm tarlalarınızı tek haritada görün. NDVI sağlık durumuna göre renklendirilmiş poligon izleme.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon"><i class="fas fa-file-chart-column"></i></div>
+        <div class="feature-icon"><i class="fas fa-file-alt"></i></div>
         <h3>Otomatik Raporlama</h3>
         <p>Günlük, haftalık veya aylık PDF/Excel raporları otomatik olarak e-posta ile iletin.</p>
       </div>
@@ -120,6 +120,69 @@
         <h3 style="font-size:18px;margin-bottom:10px;">Raporunuzu alın</h3>
         <p style="font-size:14px;color:var(--muted);">Verim tahmini, NDVI trendi ve stres uyarıları ile hasat planınızı erkenden yapın.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- Use Cases -->
+<section class="section" style="background:#fff;border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="section-header centered">
+      <div class="section-tag">Kimler Kullanıyor?</div>
+      <h2 class="section-title">Her ölçekten üretici için</h2>
+      <p class="section-sub">Küçük aile bahçesinden büyük kooperatife — Agrisynthia her ölçeğe uyum sağlar.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
+
+      <!-- Case 1 -->
+      <div style="border:1px solid var(--border);border-radius:var(--radius);padding:32px;display:flex;flex-direction:column;gap:16px;">
+        <div style="width:48px;height:48px;border-radius:12px;background:var(--green-light);display:flex;align-items:center;justify-content:center;">
+          <i class="fas fa-user" style="color:var(--green);font-size:20px;"></i>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:6px;">Bireysel Üretici</div>
+          <h3 style="font-size:18px;font-weight:700;margin-bottom:10px;">50 dönüm mandalina bahçesi</h3>
+          <p style="font-size:14px;color:var(--muted);line-height:1.7;">Mehmet Bey, hasattan 3 hafta önce NDVI düşüşünü fark etti. Zamanında sulama yaptı. O sezon kayıpları yarı yarıya azaldı, alıcıya güvenle fiyat verdi.</p>
+        </div>
+        <div style="margin-top:auto;padding-top:16px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+          <i class="fas fa-arrow-trend-up" style="color:var(--green);"></i>
+          <span style="font-size:13px;font-weight:600;color:var(--green);">%31 daha az hasat kaybı</span>
+        </div>
+      </div>
+
+      <!-- Case 2 -->
+      <div style="border:2px solid var(--green);border-radius:var(--radius);padding:32px;display:flex;flex-direction:column;gap:16px;position:relative;">
+        <div style="position:absolute;top:-12px;left:24px;background:var(--green);color:#fff;font-size:11px;font-weight:700;padding:3px 12px;border-radius:100px;">En Yaygın Kullanım</div>
+        <div style="width:48px;height:48px;border-radius:12px;background:var(--green-light);display:flex;align-items:center;justify-content:center;">
+          <i class="fas fa-people-group" style="color:var(--green);font-size:20px;"></i>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:6px;">Kooperatif Yöneticisi</div>
+          <h3 style="font-size:18px;font-weight:700;margin-bottom:10px;">120 üyenin arazisi, tek ekran</h3>
+          <p style="font-size:14px;color:var(--muted);line-height:1.7;">Fatma Hanım, tüm üyelerin tarlalarını tek panelden takip ediyor. Haftalık raporlar otomatik geliyor. Sahaya çıkma sıklığı %40 azaldı, doğru yere gidiyor.</p>
+        </div>
+        <div style="margin-top:auto;padding-top:16px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+          <i class="fas fa-arrow-trend-up" style="color:var(--green);"></i>
+          <span style="font-size:13px;font-weight:600;color:var(--green);">%40 daha az gereksiz saha ziyareti</span>
+        </div>
+      </div>
+
+      <!-- Case 3 -->
+      <div style="border:1px solid var(--border);border-radius:var(--radius);padding:32px;display:flex;flex-direction:column;gap:16px;">
+        <div style="width:48px;height:48px;border-radius:12px;background:var(--green-light);display:flex;align-items:center;justify-content:center;">
+          <i class="fas fa-clipboard-check" style="color:var(--green);font-size:20px;"></i>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:6px;">Tarım Danışmanı</div>
+          <h3 style="font-size:18px;font-weight:700;margin-bottom:10px;">Sahaya gitmeden önce biliyor</h3>
+          <p style="font-size:14px;color:var(--muted);line-height:1.7;">Ali Bey, 15 farklı müşterisinin tarlasını uydudan izliyor. Sorunlu alana önce gidiyor, gereksiz ziyareti ortadan kaldırdı. Müşteri memnuniyeti arttı.</p>
+        </div>
+        <div style="margin-top:auto;padding-top:16px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+          <i class="fas fa-arrow-trend-up" style="color:var(--green);"></i>
+          <span style="font-size:13px;font-weight:600;color:var(--green);">2× daha fazla müşteri, aynı zamanda</span>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>

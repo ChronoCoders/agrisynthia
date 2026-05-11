@@ -16,4 +16,6 @@ urlpatterns = [
     path("kullanim-kosullari/", views.terms, name="terms"),
     path("kvkk/", views.kvkk, name="kvkk"),
     path("newsletter/subscribe/", views.newsletter_subscribe, name="newsletter_subscribe"),
+    path("chat/", views.chatbot_chat, name="chatbot_chat"),
+    path("chat/lead/", views.chat_lead, name="chat_lead"),
 ]

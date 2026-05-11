@@ -11,7 +11,7 @@
   <div class="container" style="text-align:center;">
     <div class="section-tag">Platform</div>
     <h1 class="section-title" style="max-width:640px;margin:0 auto 20px;">Tarımsal verinin tüm gücü, tek çatı altında</h1>
-    <p class="section-sub" style="margin:0 auto 40px;">Uydudan drone'a, sahadan ofise — Agrisynthia her veri kaynağını birleştirerek size eyleme geçilebilir içgörüler sunar.</p>
+    <p class="section-sub" style="margin:0 auto 40px;">Uydudan drone'a, sahadan ofise — Agrisynthia her veri kaynağını birleştirerek size eyleme geçilebilir tahminler sunar.</p>
     <a href="{% url 'website:pricing' %}" class="btn btn-primary btn-lg">Ücretsiz Deneyin</a>
   </div>
 </section>
@@ -27,12 +27,12 @@
           <div class="num">%31</div>
           <div class="desc">Ortalama stres tespitinde<br>önceden müdahale oranı</div>
         </div>
-        <p>Sentinel-2 uydusu, her 5 günde bir Türkiye'nin tamamını tarar. Agrisynthia bu verileri otomatik olarak işler ve tarlanızın NDVI değerini hesaplar. Kuraklık, hastalık veya gübre eksikliğini görüntüde renk değişimi olarak görürsünüz — hasat kaybı yaşamadan önce.</p>
+        <p>Tarlanız her 5 günde bir uydu tarafından görüntülenir. Agrisynthia bu görüntüleri otomatik işler ve size renkli bir sağlık haritası sunar. Kuraklık, hastalık veya gübre eksikliğini renk değişimi olarak görürsünüz — hasat kaybı yaşamadan önce müdahale edersiniz.</p>
         <ul class="check-list">
-          <li>Haftalık otomatik NDVI güncelleme</li>
-          <li>Zaman serisi grafiği ile mevsimsel karşılaştırma</li>
-          <li>Stres eşiği aşıldığında e-posta uyarısı</li>
-          <li>%30'dan fazla bulut örtüsünde otomatik atlama</li>
+          <li>Haftada bir otomatik güncelleme, siz hiçbir şey yapmadan</li>
+          <li>Aylık ve mevsimlik karşılaştırma grafikleri</li>
+          <li>Tarlanız strese girdiğinde anında e-posta bildirimi</li>
+          <li>Bulutlu günlerde sistem bir sonraki net görüntüyü bekler</li>
         </ul>
       </div>
       <div class="pillar-visual">
@@ -71,36 +71,59 @@
           <div class="num">20 dk</div>
           <div class="desc">Görüntü yükleme &rarr;<br>tam analiz süresi</div>
         </div>
-        <p>NodeODM motoru ile drone görüntüleriniz otomatik olarak dikdörtgenleştirilir, birleştirilir ve 14 farklı bitki sağlığı algoritmasından geçirilir. Sonucu harita üzerinde katman olarak görün, indirin veya paylaşın.</p>
+        <p>Drone ile çektiğiniz fotoğrafları yükleyin, gerisini Agrisynthia halleder. Görüntüler otomatik olarak birleştirilir ve tarlanızın detaylı bir sağlık haritasına dönüştürülür. Sonucu harita üzerinde görün, indirin veya ekibinizle paylaşın.</p>
         <ul class="check-list">
-          <li>Çoklu görüntü yükleme — sürükle ve bırak</li>
-          <li>14 sağlık algoritması (NDVI, EVI, GNDVI, SAVI…)</li>
-          <li>Gerçek zamanlı işleme durumu takibi</li>
-          <li>Mobil cihazdan doğrudan kamera ile yükleme</li>
+          <li>Sürükle bırak ile toplu görüntü yükleme</li>
+          <li>Hangi alanın sağlıklı, hangisinin sorunlu olduğunu renk haritasıyla görün</li>
+          <li>İşlem sürerken adım adım ilerleme takibi</li>
+          <li>Telefon kamerasıyla çekip doğrudan yükleme</li>
         </ul>
       </div>
       <div class="pillar-visual">
         <div style="padding:24px;">
-          <div style="background:#1A1A1A;border-radius:8px;padding:16px;font-family:monospace;font-size:12px;color:#81C784;line-height:2;">
-            <div style="color:#6B7280;margin-bottom:4px;">// ODM işleme durumu</div>
-            <div><i class="fas fa-check" style="color:#81C784;margin-right:8px;"></i>48 görüntü yüklendi</div>
-            <div><i class="fas fa-check" style="color:#81C784;margin-right:8px;"></i>Özellik eşleştirme tamamlandı</div>
-            <div><i class="fas fa-check" style="color:#81C784;margin-right:8px;"></i>Nokta bulutu oluşturuldu</div>
-            <div style="color:#F9A825;"><i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i>Ortofoto işleniyor… %74</div>
-            <div style="color:#6B7280;"><i class="fas fa-circle" style="margin-right:8px;font-size:8px;vertical-align:middle;"></i>Sağlık haritası bekliyor</div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:14px;">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:#E8F5E9;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <i class="fas fa-check" style="color:var(--green);font-size:14px;"></i>
+              </div>
+              <div style="font-size:14px;font-weight:600;color:var(--text);">48 fotoğraf yüklendi</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:#E8F5E9;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <i class="fas fa-check" style="color:var(--green);font-size:14px;"></i>
+              </div>
+              <div style="font-size:14px;font-weight:600;color:var(--text);">Görüntüler birleştirildi</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:#FFF8E1;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <i class="fas fa-spinner fa-spin" style="color:var(--gold);font-size:14px;"></i>
+              </div>
+              <div>
+                <div style="font-size:14px;font-weight:600;color:var(--text);">Sağlık haritası oluşturuluyor…</div>
+                <div style="height:6px;background:#E0E0E0;border-radius:4px;margin-top:6px;">
+                  <div style="width:74%;height:6px;background:var(--green);border-radius:4px;"></div>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;opacity:.4;">
+              <div style="width:36px;height:36px;border-radius:50%;background:#F5F5F5;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <i class="fas fa-envelope" style="color:var(--muted);font-size:14px;"></i>
+              </div>
+              <div style="font-size:14px;font-weight:600;color:var(--muted);">Rapor e-posta ile gönderilecek</div>
+            </div>
           </div>
           <div style="margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
             <div style="background:var(--green-light);border-radius:6px;padding:10px;text-align:center;">
               <div style="font-weight:700;color:var(--green);">48</div>
-              <div style="font-size:11px;color:var(--muted);">Görüntü</div>
+              <div style="font-size:11px;color:var(--muted);">Fotoğraf</div>
             </div>
             <div style="background:var(--green-light);border-radius:6px;padding:10px;text-align:center;">
               <div style="font-weight:700;color:var(--green);">4.2 ha</div>
               <div style="font-size:11px;color:var(--muted);">Alan</div>
             </div>
             <div style="background:var(--green-light);border-radius:6px;padding:10px;text-align:center;">
-              <div style="font-weight:700;color:var(--green);">2 cm</div>
-              <div style="font-size:11px;color:var(--muted);">Çözünürlük</div>
+              <div style="font-weight:700;color:var(--green);">~20 dk</div>
+              <div style="font-size:11px;color:var(--muted);">Süre</div>
             </div>
           </div>
         </div>
@@ -116,38 +139,43 @@
           <div class="num">%94+</div>
           <div class="desc">YOLOv7 tespit<br>doğruluğu</div>
         </div>
-        <p>YOLOv7 tabanlı modellerimiz 5 meyve türü için ayrı ayrı eğitilmiştir. Tek bir fotoğraftan ağaç başına meyve sayısını, toplam ağırlığı ve tahmini tonajı saniyeler içinde hesaplar.</p>
+        <p>Bahçenizden birkaç fotoğraf çekin, yapay zekamız meyveleri otomatik sayar. Ağaç başına düşen meyve sayısını, tahmini ağırlığı ve toplam tonajı saniyeler içinde görebilirsiniz — hasattan önce ne beklediğinizi önceden bilirsiniz.</p>
         <ul class="check-list">
-          <li>Mandalina, elma, armut, şeftali, nar</li>
-          <li>Ağaç sayısı ve yaşına göre kalibrasyon</li>
-          <li>Güven skoru ile her tespit etiketli</li>
-          <li>PDF ve Excel raporu tek tıkla</li>
+          <li>Mandalina, elma, armut, şeftali, nar desteği</li>
+          <li>Ağaç sayısı ve yaşa göre otomatik hesaplama</li>
+          <li>Her meyve görsel olarak işaretlenir, sayım şeffaftır</li>
+          <li>Sonuçları PDF veya Excel olarak tek tıkla indirin</li>
         </ul>
       </div>
       <div class="pillar-visual">
-        <div style="background:#111;border-radius:8px;overflow:hidden;">
-          <div style="position:relative;height:180px;background:linear-gradient(135deg,#1a2e1a,#2d4a2d);display:flex;align-items:center;justify-content:center;">
-            <div style="text-align:center;">
-              <i class="fas fa-tree" style="font-size:48px;color:#4CAF50;margin-bottom:8px;display:block;"></i>
-              <div style="font-size:11px;color:#81C784;font-weight:600;letter-spacing:0.5px;">YOLOv7 · 0.12s · conf: 0.94</div>
+        <div style="background:#1a1a1a;border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:16px;">
+          <div style="display:flex;align-items:center;gap:12px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.08);">
+            <div style="width:44px;height:44px;border-radius:10px;background:rgba(46,125,50,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <i class="fas fa-seedling" style="color:#81C784;font-size:18px;"></i>
             </div>
-            <div style="position:absolute;top:30px;left:40px;width:50px;height:50px;border:2px solid #81C784;border-radius:4px;"></div>
-            <div style="position:absolute;top:80px;right:50px;width:40px;height:40px;border:2px solid #81C784;border-radius:4px;"></div>
-            <div style="position:absolute;bottom:30px;left:90px;width:45px;height:45px;border:2px solid #F9A825;border-radius:4px;"></div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#fff;">Mandalina Bahçesi — 4.2 ha</div>
+              <div style="font-size:12px;color:#9E9E9E;">Analiz tamamlandı · Az önce</div>
+            </div>
+            <div style="margin-left:auto;background:rgba(46,125,50,0.3);color:#81C784;font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;">%94 güven</div>
           </div>
-          <div style="padding:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#1a1a1a;">
-            <div style="text-align:center;">
-              <div style="font-size:22px;font-weight:800;color:#81C784;">1,847</div>
-              <div style="font-size:11px;color:#9E9E9E;">Tespit</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center;">
+            <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:14px;">
+              <div style="font-size:26px;font-weight:800;color:#81C784;">1,847</div>
+              <div style="font-size:11px;color:#9E9E9E;margin-top:2px;">Tespit edilen meyve</div>
             </div>
-            <div style="text-align:center;">
-              <div style="font-size:22px;font-weight:800;color:#81C784;">203 kg</div>
-              <div style="font-size:11px;color:#9E9E9E;">Tahmini Ağırlık</div>
+            <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:14px;">
+              <div style="font-size:26px;font-weight:800;color:#81C784;">203 kg</div>
+              <div style="font-size:11px;color:#9E9E9E;margin-top:2px;">Ağaç başına tahmini</div>
             </div>
-            <div style="text-align:center;">
-              <div style="font-size:22px;font-weight:800;color:#81C784;">61 t</div>
-              <div style="font-size:11px;color:#9E9E9E;">Tonaj Tahmini</div>
+            <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:14px;">
+              <div style="font-size:26px;font-weight:800;color:#81C784;">61 t</div>
+              <div style="font-size:11px;color:#9E9E9E;margin-top:2px;">Toplam tonaj tahmini</div>
             </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;background:rgba(249,168,37,0.1);border-radius:8px;padding:10px 14px;">
+            <i class="fas fa-file-alt" style="color:var(--gold);font-size:13px;flex-shrink:0;"></i>
+            <span style="font-size:12px;color:#FFCC80;">PDF raporu hazır — <strong>İndir</strong></span>
           </div>
         </div>
       </div>
@@ -156,7 +184,7 @@
 </section>
 
 <!-- FAQ -->
-<section class="section" style="background:#fff;border-top:1px solid var(--border);">
+<section id="sss" class="section" style="background:#fff;border-top:1px solid var(--border);">
   <div class="container">
     <div class="section-header centered">
       <div class="section-tag">SSS</div>
