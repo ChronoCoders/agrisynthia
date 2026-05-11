@@ -97,6 +97,7 @@ _BASE_INSTALLED_APPS = [
     "rest_framework",
     "drf_spectacular",
     "django_filters",
+    "accounts.apps.AccountsConfig",
     "detection.apps.DetectionConfig",
     "dron_map.apps.DronMapConfig",
     "reports",
@@ -116,6 +117,7 @@ MIDDLEWARE = [
     "csp.middleware.CSPMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -214,7 +216,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = "tr-tr"
+LANGUAGE_CODE = "tr"
+LANGUAGES = [
+    ("tr", "Türkçe"),
+    ("en", "English"),
+]
+LANGUAGE_COOKIE_NAME = "agrisynthia_language"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
