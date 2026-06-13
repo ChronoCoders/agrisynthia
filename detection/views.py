@@ -36,6 +36,7 @@ from detection.constants import (
 from detection.models import ModelVersion
 from detection.tasks import process_image_detection
 from agrisynthia import hashing, predict_tree
+from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -46,23 +47,23 @@ FRUIT_MODELS = {k: str(v) for k, v in FRUIT_MODEL_PATHS.items()}
 
 def validate_image_file(file: UploadedFile) -> bool:
     if not file:
-        raise ValidationError("Dosya bulunamadı")
+        raise ValidationError(_("Dosya bulunamadı"))
 
     if file.size is not None and file.size > MAX_DETECTION_FILE_SIZE:
-        raise ValidationError("Dosya boyutu çok büyük (maksimum 10MB)")
+        raise ValidationError(_("Dosya boyutu çok büyük (maksimum 10MB)"))
 
     if file.name is None:
-        raise ValidationError("Dosya adı bulunamadı")
+        raise ValidationError(_("Dosya adı bulunamadı"))
 
     filename = os.path.basename(file.name)
 
     if ".." in filename or "/" in filename or "\\" in filename:
         logger.warning("Path traversal attempt detected: %s", file.name)
-        raise ValidationError("Geçersiz dosya adı")
+        raise ValidationError(_("Geçersiz dosya adı"))
 
     ext = filename.split(".")[-1].lower()
     if ext not in DETECTION_ALLOWED_EXTENSIONS:
-        raise ValidationError("Geçersiz dosya formatı")
+        raise ValidationError(_("Geçersiz dosya formatı"))
 
     try:
         file.seek(0)
@@ -90,7 +91,7 @@ def extract_detection_count(detec_result: bytes) -> int:
         return int(count_str)
     except (ValueError, UnicodeDecodeError, AttributeError) as e:
         logger.error("Algılama sonucu parse hatası: %s", e)
-        raise ValidationError("Algılama sonucu işlenemedi")
+        raise ValidationError(_("Algılama sonucu işlenemedi"))
 
 
 def sanitize_filename(filename: str) -> str:
@@ -98,7 +99,7 @@ def sanitize_filename(filename: str) -> str:
         logger.warning(
             "Path traversal attempt detected in sanitize_filename: %s", filename
         )
-        raise ValidationError("Geçersiz dosya adı - güvenlik ihlali tespit edildi")
+        raise ValidationError(_("Geçersiz dosya adı - güvenlik ihlali tespit edildi"))
 
     filename = os.path.basename(filename)
 
@@ -186,43 +187,43 @@ def index(request: HttpRequest) -> HttpResponse:
             filename = request.FILES.get("file")
 
             if not all((meyve_grubu, agac_sayisi, agac_yasi, ekim_sirasi, filename)):
-                return render(request, "main.html", {"error": "Tüm alanları doldurun"})
+                return render(request, "main.html", {"error": _("Tüm alanları doldurun")})
 
             if filename is None:
-                return render(request, "main.html", {"error": "Dosya bulunamadı"})
+                return render(request, "main.html", {"error": _("Dosya bulunamadı")})
 
             validate_image_file(filename)
 
             try:
                 if agac_sayisi is None:
                     return render(
-                        request, "main.html", {"error": "Ağaç sayısı gerekli"}
+                        request, "main.html", {"error": _("Ağaç sayısı gerekli")}
                     )
                 agac_sayisi_int = int(agac_sayisi)
                 if not (1 <= agac_sayisi_int <= 100000):
                     return render(
                         request,
                         "main.html",
-                        {"error": "Ağaç sayısı 1-100000 arasında olmalı"},
+                        {"error": _("Ağaç sayısı 1-100000 arasında olmalı")},
                     )
             except ValueError:
-                return render(request, "main.html", {"error": "Geçersiz sayı formatı"})
+                return render(request, "main.html", {"error": _("Geçersiz sayı formatı")})
 
             try:
                 if agac_yasi is None:
-                    return render(request, "main.html", {"error": "Ağaç yaşı gerekli"})
+                    return render(request, "main.html", {"error": _("Ağaç yaşı gerekli")})
                 agac_yasi_int = int(agac_yasi)
                 if not (0 <= agac_yasi_int <= 150):
                     return render(
                         request,
                         "main.html",
-                        {"error": "Ağaç yaşı 0-150 arasında olmalı"},
+                        {"error": _("Ağaç yaşı 0-150 arasında olmalı")},
                     )
             except ValueError:
-                return render(request, "main.html", {"error": "Geçersiz yaş formatı"})
+                return render(request, "main.html", {"error": _("Geçersiz yaş formatı")})
 
             if meyve_grubu not in FRUIT_MODELS:
-                return render(request, "main.html", {"error": "Geçersiz meyve grubu"})
+                return render(request, "main.html", {"error": _("Geçersiz meyve grubu")})
 
             safe_filename = sanitize_filename(filename.name or "")
 
@@ -283,14 +284,14 @@ def index(request: HttpRequest) -> HttpResponse:
 
                 if not str(tmp_path).startswith(str(temp_dir.resolve())):
                     logger.warning("Path traversal attempt detected: %s", tmp_path)
-                    raise ValidationError("Geçersiz dosya yolu")
+                    raise ValidationError(_("Geçersiz dosya yolu"))
 
                 try:
                     with open(tmp_path, "wb") as tmp:
                         tmp.write(image_data)
                 except Exception as e:
                     logger.error("Geçici dosya yazma hatası: %s: %s", tmp_path, e)
-                    raise ValidationError("Dosya yüklenirken hata oluştu")
+                    raise ValidationError(_("Dosya yüklenirken hata oluştu"))
 
                 start_time = time.time()
 
@@ -374,7 +375,7 @@ def index(request: HttpRequest) -> HttpResponse:
             return render(
                 request,
                 "main.html",
-                {"error": "Bir hata oluştu", "chart_data": chart_data},
+                {"error": _("Bir hata oluştu"), "chart_data": chart_data},
             )
 
     context: Dict[str, Any] = {"chart_data": chart_data}
@@ -398,7 +399,7 @@ def multi_detection_image(request: HttpRequest) -> HttpResponse:
                 return render(
                     request,
                     "multi_detection_fruit.html",
-                    {"error": "Tüm alanları doldurun"},
+                    {"error": _("Tüm alanları doldurun")},
                 )
 
             for image_file in filelist:
@@ -410,11 +411,11 @@ def multi_detection_image(request: HttpRequest) -> HttpResponse:
                     return render(
                         request,
                         "multi_detection_fruit.html",
-                        {"error": "Ağaç sayısı 1-100000 arasında olmalı"},
+                        {"error": _("Ağaç sayısı 1-100000 arasında olmalı")},
                     )
             except ValueError:
                 return render(
-                    request, "multi_detection_fruit.html", {"error": "Geçersiz ağaç sayısı"}
+                    request, "multi_detection_fruit.html", {"error": _("Geçersiz ağaç sayısı")}
                 )
 
             try:
@@ -423,25 +424,25 @@ def multi_detection_image(request: HttpRequest) -> HttpResponse:
                     return render(
                         request,
                         "multi_detection_fruit.html",
-                        {"error": "Ağaç yaşı 0-150 arasında olmalı"},
+                        {"error": _("Ağaç yaşı 0-150 arasında olmalı")},
                     )
             except ValueError:
                 return render(
-                    request, "multi_detection_fruit.html", {"error": "Geçersiz ağaç yaşı"}
+                    request, "multi_detection_fruit.html", {"error": _("Geçersiz ağaç yaşı")}
                 )
 
             if meyve_grubu not in FRUIT_MODELS:
                 return render(
                     request,
                     "multi_detection_fruit.html",
-                    {"error": "Geçersiz meyve grubu"},
+                    {"error": _("Geçersiz meyve grubu")},
                 )
 
             try:
                 hass = hashing.add_prefix2(filename=f"{time.time()}")
             except Exception as e:
                 logger.error("Hash oluşturma hatası: %s", e)
-                raise ValidationError("Dizin oluşturulamadı")
+                raise ValidationError(_("Dizin oluşturulamadı"))
 
             upload_dir = None
             try:
@@ -449,12 +450,12 @@ def multi_detection_image(request: HttpRequest) -> HttpResponse:
                 upload_dir.mkdir(parents=True, exist_ok=True)
             except Exception as e:
                 logger.error("Çıktı dizini oluşturma hatası: %s: %s", hass[0], e)
-                raise ValidationError("Çıktı dizini oluşturulamadı")
+                raise ValidationError(_("Çıktı dizini oluşturulamadı"))
 
             try:
                 for image in filelist:
                     if not image.name:
-                        raise ValidationError("Dosya adı bulunamadı")
+                        raise ValidationError(_("Dosya adı bulunamadı"))
 
                     safe_image_name = os.path.basename(image.name)
                     if (
@@ -543,7 +544,7 @@ def multi_detection_image(request: HttpRequest) -> HttpResponse:
         except Exception as e:
             logger.error("Çoklu algılama hatası: %s", e)
             return render(
-                request, "multi_detection_fruit.html", {"error": "Bir hata oluştu"}
+                request, "multi_detection_fruit.html", {"error": _("Bir hata oluştu")}
             )
 
     return render(request, "multi_detection_fruit.html")
@@ -665,25 +666,25 @@ def async_detection(request: HttpRequest) -> JsonResponse:
         filename = request.FILES.get("file")
 
         if not all((meyve_grubu, agac_sayisi, agac_yasi, filename)):
-            return JsonResponse({"error": "Tüm alanları doldurun"}, status=400)
+            return JsonResponse({"error": _("Tüm alanları doldurun")}, status=400)
 
         if filename is None:
-            return JsonResponse({"error": "Dosya bulunamadı"}, status=400)
+            return JsonResponse({"error": _("Dosya bulunamadı")}, status=400)
 
         validate_image_file(filename)
 
         try:
             if agac_sayisi is None or agac_yasi is None:
                 return JsonResponse(
-                    {"error": "Ağaç sayısı ve yaşı gerekli"}, status=400
+                    {"error": _("Ağaç sayısı ve yaşı gerekli")}, status=400
                 )
             agac_sayisi_int = int(agac_sayisi)
             agac_yasi_int = int(agac_yasi)
         except ValueError:
-            return JsonResponse({"error": "Geçersiz sayı formatı"}, status=400)
+            return JsonResponse({"error": _("Geçersiz sayı formatı")}, status=400)
 
         if meyve_grubu not in FRUIT_MODELS:
-            return JsonResponse({"error": "Geçersiz meyve grubu"}, status=400)
+            return JsonResponse({"error": _("Geçersiz meyve grubu")}, status=400)
 
         safe_filename = sanitize_filename(filename.name or "")
 
@@ -729,7 +730,7 @@ def async_detection(request: HttpRequest) -> JsonResponse:
 
         if not str(tmp_path).startswith(str(temp_dir.resolve())):
             logger.warning("Path traversal attempt detected: %s", tmp_path)
-            return JsonResponse({"error": "Geçersiz dosya yolu"}, status=400)
+            return JsonResponse({"error": _("Geçersiz dosya yolu")}, status=400)
 
         try:
             with open(tmp_path, "wb") as tmp:
@@ -739,13 +740,13 @@ def async_detection(request: HttpRequest) -> JsonResponse:
             if actual_mime not in DETECTION_ALLOWED_MIME_TYPES:
                 tmp_path.unlink()
                 logger.warning("MIME type mismatch after upload: %s", actual_mime)
-                return JsonResponse({"error": "Geçersiz dosya formatı"}, status=400)
+                return JsonResponse({"error": _("Geçersiz dosya formatı")}, status=400)
 
         except Exception as e:
             logger.error("Geçici dosya yazma hatası: %s: %s", tmp_path, e)
             if tmp_path.exists():
                 tmp_path.unlink()
-            return JsonResponse({"error": "Dosya yüklenirken hata oluştu"}, status=500)
+            return JsonResponse({"error": _("Dosya yüklenirken hata oluştu")}, status=500)
 
         task = process_image_detection.delay(
             image_path=str(tmp_path),
@@ -772,7 +773,7 @@ def async_detection(request: HttpRequest) -> JsonResponse:
         return JsonResponse({"error": str(e)}, status=400)
     except Exception as e:
         logger.error("Async detection hatası: %s", e)
-        return JsonResponse({"error": "Bir hata oluştu"}, status=500)
+        return JsonResponse({"error": _("Bir hata oluştu")}, status=500)
 
 
 @login_required
@@ -818,7 +819,7 @@ def task_status(request: HttpRequest, task_id: str) -> JsonResponse:
         return JsonResponse(
             {
                 "task_id": task_id,
-                "error": "Görev durumu alınamadı",
+                "error": _("Görev durumu alınamadı"),
                 "status": "UNKNOWN",
             },
             status=500,
@@ -897,7 +898,7 @@ def detection_task_stream(request: HttpRequest, task_id: str) -> StreamingHttpRe
 def cache_invalidate(request: HttpRequest) -> JsonResponse:
     if not request.user.is_staff:
         return JsonResponse(
-            {"success": False, "error": "Bu işlem için yönetici yetkisi gerekli"},
+            {"success": False, "error": _("Bu işlem için yönetici yetkisi gerekli")},
             status=403,
         )
 
@@ -950,7 +951,7 @@ def cache_invalidate(request: HttpRequest) -> JsonResponse:
             return JsonResponse(
                 {
                     "success": False,
-                    "error": "Geçersiz parametreler. image_hash+fruit_type veya all=true gerekli",
+                    "error": _("Geçersiz parametreler. image_hash+fruit_type veya all=true gerekli"),
                 },
                 status=400,
             )
@@ -965,7 +966,7 @@ def cache_invalidate(request: HttpRequest) -> JsonResponse:
 def cache_statistics(request: HttpRequest) -> JsonResponse:
     if not request.user.is_staff:
         return JsonResponse(
-            {"success": False, "error": "Bu işlem için yönetici yetkisi gerekli"},
+            {"success": False, "error": _("Bu işlem için yönetici yetkisi gerekli")},
             status=403,
         )
 

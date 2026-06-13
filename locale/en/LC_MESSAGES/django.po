@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-13 14:30-0400\n"
+"POT-Creation-Date: 2026-06-13 14:35-0400\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,6 +55,174 @@ msgstr "2FA enabled successfully."
 
 msgid "Geçersiz doğrulama kodu. Lütfen tekrar deneyin."
 msgstr "Invalid verification code. Please try again."
+
+#, fuzzy
+#| msgid "Sayfa bulunamadı"
+msgid "Dosya bulunamadı"
+msgstr "Page not found"
+
+msgid "Dosya boyutu çok büyük (maksimum 10MB)"
+msgstr "File too large (max 10 MB)"
+
+#, fuzzy
+#| msgid "Sayfa bulunamadı"
+msgid "Dosya adı bulunamadı"
+msgstr "Page not found"
+
+#, fuzzy
+#| msgid "Geçersiz istek."
+msgid "Geçersiz dosya adı"
+msgstr "Invalid request."
+
+#, fuzzy
+#| msgid "Geçersiz istek."
+msgid "Geçersiz dosya formatı"
+msgstr "Invalid request."
+
+msgid "Algılama sonucu işlenemedi"
+msgstr "Detection result could not be processed"
+
+msgid "Geçersiz dosya adı - güvenlik ihlali tespit edildi"
+msgstr "Invalid filename — security violation detected"
+
+#, fuzzy
+#| msgid "Tüm planlarda dahil:"
+msgid "Tüm alanları doldurun"
+msgstr "Included in all plans:"
+
+#, fuzzy
+#| msgid "Ağaç Sayısı"
+msgid "Ağaç sayısı gerekli"
+msgstr "Tree Count"
+
+msgid "Ağaç sayısı 1-100000 arasında olmalı"
+msgstr "Tree count must be between 1 and 100,000"
+
+#, fuzzy
+#| msgid "Geçersiz istek."
+msgid "Geçersiz sayı formatı"
+msgstr "Invalid request."
+
+#, fuzzy
+#| msgid "Ağaç başına tahmini"
+msgid "Ağaç yaşı gerekli"
+msgstr "Per tree estimate"
+
+msgid "Ağaç yaşı 0-150 arasında olmalı"
+msgstr "Tree age must be between 0 and 150"
+
+msgid "Geçersiz yaş formatı"
+msgstr "Invalid age format"
+
+msgid "Geçersiz meyve grubu"
+msgstr "Invalid fruit type"
+
+#, fuzzy
+#| msgid "Geçersiz istek."
+msgid "Geçersiz dosya yolu"
+msgstr "Invalid request."
+
+msgid "Dosya yüklenirken hata oluştu"
+msgstr "Error uploading file"
+
+#, fuzzy
+#| msgid "Hesap oluştur"
+msgid "Bir hata oluştu"
+msgstr "Sign up"
+
+#, fuzzy
+#| msgid "Ağaç Sayısı"
+msgid "Geçersiz ağaç sayısı"
+msgstr "Tree Count"
+
+#, fuzzy
+#| msgid "Ağaç başına tahmini"
+msgid "Geçersiz ağaç yaşı"
+msgstr "Per tree estimate"
+
+#, fuzzy
+#| msgid "Doğrulanmadı"
+msgid "Dizin oluşturulamadı"
+msgstr "Not verified"
+
+msgid "Çıktı dizini oluşturulamadı"
+msgstr "Could not create output directory"
+
+#, fuzzy
+#| msgid "Ağaç sayısı ve yaşa göre otomatik hesaplama"
+msgid "Ağaç sayısı ve yaşı gerekli"
+msgstr "Automatic calculation by tree count and age"
+
+msgid "Görev durumu alınamadı"
+msgstr "Could not fetch task status"
+
+msgid "Bu işlem için yönetici yetkisi gerekli"
+msgstr "Administrator privileges required for this action"
+
+msgid "Geçersiz parametreler. image_hash+fruit_type veya all=true gerekli"
+msgstr "Invalid parameters. image_hash+fruit_type or all=true required"
+
+#, fuzzy
+#| msgid "Geçersiz istek."
+msgid "Geçersiz dosya"
+msgstr "Invalid request."
+
+#, fuzzy
+#| msgid "Şifre Güncellendi"
+msgid "Proje güncellenemedi"
+msgstr "Password Updated"
+
+msgid "Güncelleme hatası"
+msgstr "Update error"
+
+#, fuzzy
+#| msgid "Hesap Oluştur"
+msgid "Proje dizini oluşturulamadı"
+msgstr "Sign Up"
+
+#, fuzzy
+#| msgid "Hesap Oluştur"
+msgid "Proje oluşturulamadı"
+msgstr "Sign Up"
+
+msgid "Geçersiz aralık değeri"
+msgstr "Invalid range value"
+
+msgid "Algılama veya dönüştürme hatası"
+msgstr "Detection or conversion error"
+
+msgid "Beklenmeyen bir hata oluştu"
+msgstr "An unexpected error occurred"
+
+msgid "Orthophoto dosyası bulunamadı"
+msgstr "Orthophoto file not found"
+
+#, fuzzy
+#| msgid "Sayfa bulunamadı"
+msgid "Algoritma bulunamadı"
+msgstr "Page not found"
+
+msgid "Algoritma işleme hatası"
+msgstr "Algorithm processing error"
+
+#, fuzzy
+#| msgid "Geçersiz istek."
+msgid "Geçersiz JSON"
+msgstr "Invalid request."
+
+#, fuzzy
+#| msgid "Rapor İşlemleri"
+msgid "Rapor isteği işlenemedi"
+msgstr "Report Actions"
+
+msgid "Bu proje için analiz verisi bulunamadı"
+msgstr "No analysis data found for this project"
+
+msgid "Geçersiz zamanlama parametresi."
+msgstr "Invalid schedule parameter."
+
+msgid "Zamanlama oluşturuldu."
+msgstr "Schedule created."
 
 msgid "Sayfa Bulunamadı"
 msgstr "Page Not Found"
@@ -1292,6 +1460,7 @@ msgstr "Satellite NDVI analysis, drone image processing, and AI fruit detection.
 "detection.Satellite NDVI analysis, drone image processing, and AI fruit "
 "detection.Satellite NDVI analysis, drone image processing, and AI fruit "
 "detection.Satellite NDVI analysis, drone image processing, and AI fruit "
+"detection.Satellite NDVI analysis, drone image processing, and AI fruit "
 "detection."
 
 msgid "Akıllı Tarım Platformu"
@@ -1493,6 +1662,7 @@ msgstr "Your message has been sent. We will get back to you as soon as possible.
 "Your message has been sent. We will get back to you as soon as possible.Your "
 "message has been sent. We will get back to you as soon as possible.Your "
 "message has been sent. We will get back to you as soon as possible.Your "
+"message has been sent. We will get back to you as soon as possible.Your "
 "message has been sent. We will get back to you as soon as possible."
 
 msgid "Firma / Kooperatif"
@@ -1629,7 +1799,8 @@ msgstr "From drone to satellite, from detection to prediction — the whole pipe
 "automated.From drone to satellite, from detection to prediction — the whole "
 "pipeline automated.From drone to satellite, from detection to prediction — "
 "the whole pipeline automated.From drone to satellite, from detection to "
-"prediction — the whole pipeline automated."
+"prediction — the whole pipeline automated.From drone to satellite, from "
+"detection to prediction — the whole pipeline automated."
 
 msgid "Uydu NDVI İzleme"
 msgstr "Satellite NDVI Monitoring"
@@ -2407,3 +2578,9 @@ msgid ""
 "Sistemde kayıtlı tespitleriniz ve uydu NDVI verileriniz otomatik olarak "
 "kullanılır."
 msgstr "Your stored detections and satellite NDVI data are used automatically."
+
+msgid "Tüm alanlar zorunludur."
+msgstr "All fields are required."
+
+msgid "Çok fazla istek. Lütfen bir dakika bekleyin."
+msgstr "Too many requests. Please wait a minute."

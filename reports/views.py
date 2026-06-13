@@ -15,6 +15,7 @@ from dron_map.models import Projects
 from .models import GeneratedReport, ScheduledReport
 from .tasks import generate_detection_report, generate_drone_report
 from analysis_logger.service import get_latest_analysis_data
+from django.utils.translation import gettext_lazy as _
 
 logger = logging.getLogger(__name__)
 
@@ -50,10 +51,10 @@ def request_detection_report(request):
             {"task_id": task.id, "message": "Rapor oluşturma başlatıldı"}, status=202
         )
     except json.JSONDecodeError:
-        return JsonResponse({"error": "Geçersiz JSON"}, status=400)
+        return JsonResponse({"error": _("Geçersiz JSON")}, status=400)
     except Exception as e:
         logger.error("Tespit raporu isteği hatası: %s", e)
-        return JsonResponse({"error": "Rapor isteği işlenemedi"}, status=500)
+        return JsonResponse({"error": _("Rapor isteği işlenemedi")}, status=500)
 
 
 @login_required
@@ -70,7 +71,7 @@ def request_drone_report(request):
         analysis_data = get_latest_analysis_data(project_id)
         if not analysis_data:
             return JsonResponse(
-                {"error": "Bu proje için analiz verisi bulunamadı"}, status=404
+                {"error": _("Bu proje için analiz verisi bulunamadı")}, status=404
             )
 
         task = generate_drone_report.delay(
@@ -81,10 +82,10 @@ def request_drone_report(request):
             status=202,
         )
     except json.JSONDecodeError:
-        return JsonResponse({"error": "Geçersiz JSON"}, status=400)
+        return JsonResponse({"error": _("Geçersiz JSON")}, status=400)
     except Exception as e:
         logger.error("Drone raporu isteği hatası: %s", e)
-        return JsonResponse({"error": "Rapor isteği işlenemedi"}, status=500)
+        return JsonResponse({"error": _("Rapor isteği işlenemedi")}, status=500)
 
 
 @login_required
@@ -156,7 +157,7 @@ def create_schedule(request):
     valid_freqs = {"daily", "weekly", "monthly"}
 
     if report_type not in valid_types or fmt not in valid_formats or frequency not in valid_freqs:
-        messages.error(request, "Geçersiz zamanlama parametresi.")
+        messages.error(request, _("Geçersiz zamanlama parametresi."))
         return redirect("reports:list")
 
     project = None
@@ -179,7 +180,7 @@ def create_schedule(request):
         project=project,
         next_run=next_run,
     )
-    messages.success(request, "Zamanlama oluşturuldu.")
+    messages.success(request, _("Zamanlama oluşturuldu."))
     return redirect("reports:list")
 
 
