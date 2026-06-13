@@ -85,7 +85,7 @@ def _send_verification_email(user: User) -> None:
         name = user.get_full_name() or user.username
         verify_url = f"https://agrisynthia.com{link}"
         send_mail(
-            subject=gettext("Agrisynthia — E-posta adresinizi doğrulayın"),
+            subject=gettext("Agrisynthia: E-posta adresinizi doğrulayın"),
             message=gettext(
                 "Merhaba %(name)s,\n\n"
                 "E-posta adresinizi doğrulamak için aşağıdaki bağlantıya tıklayın:\n\n"

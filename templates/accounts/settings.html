@@ -225,7 +225,7 @@
                                     {% endif %}
                                     <div>
                                         <p style="font-size:13px;color:#757575;margin-bottom:10px;">
-                                            {% trans "JPEG veya PNG — maks. 5 MB — 400×400 piksele yeniden boyutlandırılır" %}
+                                            {% trans "JPEG veya PNG (maks. 5 MB, 400×400 piksele yeniden boyutlandırılır)" %}
                                         </p>
                                         <form method="post" enctype="multipart/form-data">
                                             {% csrf_token %}
@@ -287,7 +287,7 @@
                             <div class="s-card">
                                 <h5><i class="fas fa-envelope-circle-check"></i> {% trans "E-posta Doğrulama" %}</h5>
                                 <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-                                    <span style="font-size:14px;color:#424242;">{{ user.email|default:"—" }}</span>
+                                    <span style="font-size:14px;color:#424242;">{{ user.email|default:"-" }}</span>
                                     {% if account_profile.email_verified %}
                                     <span class="badge-verified"><i class="fas fa-check-circle"></i> {% trans "Doğrulandı" %}</span>
                                     {% else %}

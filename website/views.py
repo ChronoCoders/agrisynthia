@@ -7,7 +7,7 @@ BLOG_POSTS = [
     {
         "slug": "ndvi-nedir-nasil-okunur",
         "title": _("NDVI Nedir ve Tarla Sağlığını Nasıl Anlatır?"),
-        "excerpt": _("Normalized Difference Vegetation Index — uydu görüntülerinden bitki canlılığını ölçen bu indeks, hasattan önce verimi tahmin etmek için neden kritik öneme sahip?"),
+        "excerpt": _("Normalized Difference Vegetation Index: uydu görüntülerinden bitki canlılığını ölçen bu indeks, hasattan önce verimi tahmin etmek için neden kritik öneme sahip?"),
         "category": _("NDVI & Uydu"),
         "cat_slug": "ndvi",
         "date": _("8 Mayıs 2026"),
@@ -17,13 +17,13 @@ BLOG_POSTS = [
         "content": _("""
 <p>NDVI (Normalize Edilmiş Bitki Örtüsü İndeksi), kırmızı ve yakın kızılötesi ışık bantlarının farkından hesaplanan bir sayısal değerdir. Değer -1 ile +1 arasında değişir; 0,5 ve üzeri sağlıklı ve yoğun bitkisel aktiviteyi, 0,3'ün altı ise stres ya da seyrek örtüyü gösterir.</p>
 <h2>Neden önemli?</h2>
-<p>Bir tarladaki klorofil miktarı düşmeye başladığında — kuraklık, hastalık veya besin eksikliği nedeniyle — bu değişim insan gözüyle görünür hale gelmeden çok önce kızılötesi bantta kendini belli eder. Agrisynthia, Sentinel-2 uydusunun her 5 günde bir çektiği görüntüleri işleyerek bu değişimi otomatik tespit eder.</p>
+<p>Bir tarladaki klorofil miktarı düşmeye başladığında (kuraklık, hastalık veya besin eksikliği nedeniyle), bu değişim insan gözüyle görünür hale gelmeden çok önce kızılötesi bantta kendini belli eder. Agrisynthia, Sentinel-2 uydusunun her 5 günde bir çektiği görüntüleri işleyerek bu değişimi otomatik tespit eder.</p>
 <h2>NDVI değerleri nasıl yorumlanır?</h2>
 <ul>
-<li><strong>0,6 ve üzeri:</strong> Yoğun, sağlıklı bitki örtüsü — ideal durum</li>
-<li><strong>0,4 – 0,6:</strong> Normal sezon seyri — dikkatli izleme yeterli</li>
-<li><strong>0,3 – 0,4:</strong> Hafif stres — sulama veya gübre kontrolü önerilir</li>
-<li><strong>0,3 altı:</strong> Ciddi stres veya hasar — acil saha müdahalesi gerekebilir</li>
+<li><strong>0,6 ve üzeri:</strong> Yoğun, sağlıklı bitki örtüsü, ideal durum</li>
+<li><strong>0,4-0,6:</strong> Normal sezon seyri, dikkatli izleme yeterli</li>
+<li><strong>0,3-0,4:</strong> Hafif stres, sulama veya gübre kontrolü önerilir</li>
+<li><strong>0,3 altı:</strong> Ciddi stres veya hasar. Acil saha müdahalesi gerekebilir</li>
 </ul>
 <blockquote>Agrisynthia'da belirlediğiniz eşiğin altına düştüğünde otomatik e-posta uyarısı gönderilir. Sahaya gitmeden önce neye bakacağınızı bilirsiniz.</blockquote>
 <h2>Uydu NDVI ile drone NDVI farkı</h2>
@@ -33,7 +33,7 @@ BLOG_POSTS = [
     {
         "slug": "drone-ortofoto-nasil-olusturulur",
         "title": _("Drone ile Tarla Haritası Çıkarma: 4 Adımda Anlattık"),
-        "excerpt": _("Drone'unuzla çektiğiniz fotoğraflar, tarlanızın detaylı bir sağlık haritasına dönüşebilir. Yazılım bilgisi gerekmez — sadece fotoğraf yükleyin."),
+        "excerpt": _("Drone'unuzla çektiğiniz fotoğraflar, tarlanızın detaylı bir sağlık haritasına dönüşebilir. Yazılım bilgisi gerekmez. Sadece fotoğraf yükleyin."),
         "category": _("Drone"),
         "cat_slug": "drone",
         "date": _("2 Mayıs 2026"),
@@ -41,12 +41,12 @@ BLOG_POSTS = [
         "icon": "fa-helicopter",
         "image": "https://images.unsplash.com/photo-1657093114835-031e7cf9520c?w=800&q=80&fit=crop",
         "content": _("""
-<p>Drone ile çekilen fotoğraflar tek başına bir anlam taşımaz. Asıl değer, bu fotoğrafların birleştirilerek tarlanızın yukarıdan eksiksiz bir görüntüsünün oluşturulmasıyla ortaya çıkar. Agrisynthia bu işlemi sizin için tamamen otomatik yapar — hiçbir teknik bilgi gerekmez.</p>
+<p>Drone ile çekilen fotoğraflar tek başına bir anlam taşımaz. Asıl değer, bu fotoğrafların birleştirilerek tarlanızın yukarıdan eksiksiz bir görüntüsünün oluşturulmasıyla ortaya çıkar. Agrisynthia bu işlemi sizin için tamamen otomatik yapar. Hiçbir teknik bilgi gerekmez.</p>
 <h2>1. Drone'u doğru uçurun</h2>
-<p>En iyi sonuç için drone'u sabit yükseklikte, tarla üzerinde ızgara çizerek uçurun. Fotoğrafların birbiriyle örtüşmesi önemlidir — modern drone uygulamalarının çoğu bu uçuş planını otomatik oluşturabilir.</p>
+<p>En iyi sonuç için drone'u sabit yükseklikte, tarla üzerinde ızgara çizerek uçurun. Fotoğrafların birbiriyle örtüşmesi önemlidir. Modern drone uygulamalarının çoğu bu uçuş planını otomatik oluşturabilir.</p>
 <h2>2. Fotoğrafları yükleyin</h2>
 <p>Agrisynthia'da "Drone Projeleri" bölümünden yeni proje oluşturun. Tüm fotoğrafları sürükleyip bırakın. Sistem konum bilgilerini fotoğraflardan otomatik okur, sizin bir şey yapmanıza gerek kalmaz.</p>
-<h2>3. Bekleyin — sistem çalışıyor</h2>
+<h2>3. Bekleyin: sistem çalışıyor</h2>
 <p>Yükleme tamamlanınca işleme otomatik başlar. Fotoğraf sayısına göre 10-40 dakika sürer. Sayfayı kapatabilirsiniz, iş bitince e-posta ile haber verilir.</p>
 <h2>4. Sağlık haritanızı inceleyin</h2>
 <p>Harita hazır olduğunda tarlanızın hangi bölümlerinin sağlıklı, hangilerinin stresli olduğunu renk renk görebilirsiniz. Sorunlu alanları yakınlaştırın, haritayı indirin ya da ekibinizle paylaşın.</p>
@@ -88,7 +88,7 @@ BLOG_POSTS = [
     {
         "slug": "verim-tahmini-agronomi-modeli",
         "title": _("Verim Tahmini İçin Kullandığımız Agronomi Modeli"),
-        "excerpt": _("Tespit verileri + NDVI + ağaç yaşı faktörü — Agrisynthia'nın verim tahmin modelinin arkasındaki bilimsel yaklaşımı açıkladık."),
+        "excerpt": _("Tespit verileri + NDVI + ağaç yaşı faktörü: Agrisynthia'nın verim tahmin modelinin arkasındaki bilimsel yaklaşımı açıkladık."),
         "category": _("Agronomi"),
         "cat_slug": "agronomy",
         "date": _("18 Nisan 2026"),
@@ -133,7 +133,7 @@ BLOG_POSTS = [
     },
     {
         "slug": "sentinel-2-ucretsiz-uydu-verisi",
-        "title": _("Tarlanız Her 5 Günde Bir Uydudan İzleniyor — Bunu Biliyor muydunuz?"),
+        "title": _("Tarlanız Her 5 Günde Bir Uydudan İzleniyor. Bunu Biliyor muydunuz?"),
         "excerpt": _("Avrupa'nın tarım uydusu Türkiye'yi düzenli olarak tarıyor ve bu veriler herkese ücretsiz açık. Agrisynthia bu veriyi sizin için anlamlı hale getiriyor."),
         "category": _("NDVI & Uydu"),
         "cat_slug": "ndvi",
@@ -142,13 +142,13 @@ BLOG_POSTS = [
         "icon": "fa-globe",
         "image": "https://images.unsplash.com/photo-1536183922588-166604504d5e?w=800&q=80&fit=crop",
         "content": _("""
-<p>Avrupa Uzay Ajansı'nın işlettiği bir uydu, her 5 günde bir Türkiye'nin tamamını görüntüler. Bu görüntüler herkese açık ve ücretsizdir — ama ham haliyle yorumlanmaları uzmanlık gerektirir. Agrisynthia bu yorumu sizin için otomatik yapar ve tarlanızın sağlık durumunu sade bir renkli haritaya dönüştürür.</p>
+<p>Avrupa Uzay Ajansı'nın işlettiği bir uydu, her 5 günde bir Türkiye'nin tamamını görüntüler. Bu görüntüler herkese açık ve ücretsizdir. Ama ham haliyle yorumlanmaları uzmanlık gerektirir. Agrisynthia bu yorumu sizin için otomatik yapar ve tarlanızın sağlık durumunu sade bir renkli haritaya dönüştürür.</p>
 <h2>Bu uydu tarlanız için ne yapabilir?</h2>
 <p>Uydu, bitkilerinizin yaydığı ışığı ölçer. Sağlıklı bitkiler bu ölçümde canlı ve yoğun görünürken, stres altındaki ya da kuruyan bitkiler soluk görünür. Bu sayede tarlada gezip görmeden önce sorunlu alanları tespit etmek mümkün olur.</p>
 <h2>Ne zaman işe yarar, ne zaman yaramaz?</h2>
 <ul>
 <li><strong>İşe yarar:</strong> Büyük alanlarda genel sağlık takibi, mevsimsel karşılaştırma, erken uyarı</li>
-<li><strong>Yetersiz kalır:</strong> Tek bir ağacı veya küçük bir lekeyi incelemek için — bunun için drone gerekir</li>
+<li><strong>Yetersiz kalır:</strong> Tek bir ağacı veya küçük bir lekeyi incelemek için yetersiz, bunun için drone gerekir</li>
 <li><strong>Bulutlu havalarda:</strong> Sistem bulut geçen günleri atlar, bir sonraki açık günü bekler</li>
 </ul>
 <h2>Agrisynthia olmadan kullanabilir misiniz?</h2>
