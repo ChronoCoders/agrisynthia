@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from datetime import timedelta
 
 from django.contrib.auth.models import User
@@ -45,7 +44,6 @@ class ModelVersion(models.Model):
                 )
 
     def save(self, *args, **kwargs):
-        # Detect is_active transition to True so cache can be cleared
         _was_active_before = False
         if self.pk:
             try:
@@ -56,7 +54,6 @@ class ModelVersion(models.Model):
 
         super().save(*args, **kwargs)
 
-        # Clear the in-process model cache when a version becomes active
         if self.is_active and not _was_active_before:
             try:
                 from agrisynthia.predict_tree import evict_model_cache
@@ -74,7 +71,6 @@ class ModelVersion(models.Model):
                 "Create one via the admin or seed the DB."
             )
         except cls.MultipleObjectsReturned:
-            # Should never happen given clean(), but degrade gracefully
             return cls.objects.filter(fruit_type=fruit_type, is_active=True).latest("created_at")
 
 
@@ -135,23 +131,6 @@ class DetectionResult(models.Model):
 
     @classmethod
     def check_model_degradation(cls, fruit_type=None, days=7, threshold=0.7):
-        """
-        Detect model degradation by checking average confidence score.
-
-        Args:
-            fruit_type: Optional fruit type to check (if None, checks all)
-            days: Number of days to look back (default: 7)
-            threshold: Minimum acceptable average confidence (default: 0.7)
-
-        Returns:
-            dict: {
-                'is_degraded': bool,
-                'avg_confidence': float,
-                'sample_count': int,
-                'fruit_type': str or None,
-                'period_days': int
-            }
-        """
         from django.db.models import Avg, Count
 
         cutoff_date = timezone.now() - timedelta(days=days)
@@ -170,7 +149,6 @@ class DetectionResult(models.Model):
         avg_confidence = stats["avg_confidence"] or 0.0
         sample_count = stats["sample_count"] or 0
 
-        # Require at least 10 samples for reliable assessment
         is_degraded = sample_count >= 10 and avg_confidence < threshold
 
         return {

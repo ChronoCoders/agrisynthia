@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import logging
 import os
 import time
@@ -30,10 +29,8 @@ class Command(BaseCommand):
         hours = options["hours"]
         dry_run = options["dry_run"]
 
-        # Calculate the cutoff time (current time - specified hours)
         cutoff_time = time.time() - (hours * 3600)
 
-        # Get the path to static/detected/
         base_dir = settings.BASE_DIR
         detected_dir = Path(base_dir) / "static" / "detected"
 
@@ -56,16 +53,13 @@ class Command(BaseCommand):
             )
 
         try:
-            # Walk through all subdirectories
             for root, dirs, files in os.walk(detected_dir):
                 for filename in files:
                     file_path = Path(root) / filename
 
                     try:
-                        # Get file modification time
                         file_mtime = os.path.getmtime(file_path)
 
-                        # Check if file is older than cutoff time
                         if file_mtime < cutoff_time:
                             file_size = os.path.getsize(file_path)
                             file_age_hours = (time.time() - file_mtime) / 3600
@@ -96,12 +90,10 @@ class Command(BaseCommand):
                         )
                         logger.error("Error processing file %s: %s", file_path, e)
 
-                # Clean up empty directories (only if not dry run)
                 if not dry_run:
                     for dirname in dirs:
                         dir_path = Path(root) / dirname
                         try:
-                            # Try to remove directory if empty (rmdir only works on empty dirs)
                             if dir_path.exists():
                                 dir_path.rmdir()
                                 self.stdout.write(
@@ -111,10 +103,8 @@ class Command(BaseCommand):
                                 )
                                 logger.info("Removed empty directory: %s", dir_path)
                         except (OSError, IOError):
-                            # Directory not empty or other error, skip silently
                             pass
 
-            # Print summary
             self.stdout.write("-" * 70)
             if dry_run:
                 self.stdout.write(
