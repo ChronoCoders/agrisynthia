@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from __future__ import annotations
 
 import json
@@ -7,12 +6,11 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-# Use project root for logs directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 LOGS_DIR = BASE_DIR / "logs"
 LOG_FILE = LOGS_DIR / "analysis_logs.json"
 
-LOG_MAX_BYTES = 10 * 1024 * 1024  # 10 MB
+LOG_MAX_BYTES = 10 * 1024 * 1024  # 10MB
 
 
 def _ensure_logs_dir() -> None:
@@ -20,17 +18,14 @@ def _ensure_logs_dir() -> None:
 
 
 def _rotate_if_needed() -> None:
-    """Rotate LOG_FILE to LOG_FILE.1 when it exceeds LOG_MAX_BYTES."""
     if LOG_FILE.exists() and LOG_FILE.stat().st_size >= LOG_MAX_BYTES:
         rotated = LOG_FILE.with_suffix(".json.1")
-        # Keep only one rotated copy
         if rotated.exists():
             rotated.unlink()
         LOG_FILE.rename(rotated)
 
 
 def get_latest_analysis_data(project_id: int) -> dict:
-    """Return the most recent analysis log entry for a given project_id."""
     _ensure_logs_dir()
 
     if not LOG_FILE.exists():
