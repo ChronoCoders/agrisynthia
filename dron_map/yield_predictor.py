@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Agronomic yield prediction using detection counts + Sentinel-2 NDVI.
 
@@ -16,9 +15,7 @@ import math
 from dataclasses import dataclass, field
 from typing import Optional
 
-# ---------------------------------------------------------------------------
 # Agronomic constants (literature / field averages for Mediterranean region)
-# ---------------------------------------------------------------------------
 
 _SPECIES_PARAMS: dict[str, dict] = {
     "mandalina": {
@@ -96,7 +93,6 @@ class YieldEstimate:
         self.avg_weight_kg = params["avg_weight_kg"]
         self.explanation = []
 
-        # --- 1. Fruits per tree from detection sample ---
         # Assumes the detection image covers roughly 1/10 of the orchard (conservative)
         sample_fraction = max(1.0 / max(self.tree_count, 1), 0.01)
         if self.detected_count > 0 and self.tree_count > 0:
@@ -109,7 +105,6 @@ class YieldEstimate:
             f"Görüntüden ağaç başına tespit: {self.fruits_per_tree_detected:.0f} meyve"
         )
 
-        # --- 2. NDVI stress factor ---
         if self.avg_ndvi is not None:
             peak = params["peak_ndvi"]
             ratio = self.avg_ndvi / peak
@@ -122,7 +117,6 @@ class YieldEstimate:
             self.ndvi_factor = 0.85  # unknown → assume slight stress
             self.explanation.append("NDVI verisi yok — varsayılan faktör 0.85 uygulandı")
 
-        # --- 3. Tree age correction ---
         full_age = params["full_bearing_age"]
         if self.tree_age <= 0:
             self.age_factor = 0.3
@@ -134,7 +128,6 @@ class YieldEstimate:
             f"Ağaç yaşı faktörü: {self.age_factor:.2f} ({self.tree_age} yıl, tam verim yaşı={full_age})"
         )
 
-        # --- 4. Final prediction ---
         self.predicted_fruits_total = (
             self.fruits_per_tree_detected
             * self.tree_count
