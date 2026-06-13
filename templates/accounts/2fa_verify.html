@@ -1,12 +1,12 @@
 {% extends 'registration/auth_base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}İki Faktörlü Doğrulama — Agrisynthia{% endblock %}
+{% block title %}{% trans "İki Faktörlü Doğrulama" %} — Agrisynthia{% endblock %}
 
 {% block form_content %}
 <div class="auth-info-icon"><i class="fas fa-mobile-alt"></i></div>
-<h1 class="form-heading">Kimlik Doğrulama</h1>
-<p class="form-sub">Kimlik doğrulayıcı uygulamanızdaki 6 haneli kodu veya bir yedek kodu girin.</p>
+<h1 class="form-heading">{% trans "Kimlik Doğrulama" %}</h1>
+<p class="form-sub">{% trans "Kimlik doğrulayıcı uygulamanızdaki 6 haneli kodu veya bir yedek kodu girin." %}</p>
 
 {% if error %}
 <div class="error-msg">
@@ -17,20 +17,20 @@
 <form method="post">
     {% csrf_token %}
     <div class="field-group">
-        <label for="code">Doğrulama Kodu</label>
+        <label for="code">{% trans "Doğrulama Kodu" %}</label>
         <input type="text" id="code" name="code"
                inputmode="numeric"
                maxlength="8" placeholder="000000"
                autocomplete="one-time-code" autofocus required
                style="text-align:center;font-size:22px;letter-spacing:6px;">
-        <p class="field-help">6 haneli TOTP kodu veya 8 haneli yedek kod</p>
+        <p class="field-help">{% trans "6 haneli TOTP kodu veya 8 haneli yedek kod" %}</p>
     </div>
     <button type="submit" class="btn-auth">
-        <i class="fas fa-arrow-right"></i> Doğrula ve Giriş Yap
+        <i class="fas fa-arrow-right"></i> {% trans "Doğrula ve Giriş Yap" %}
     </button>
 </form>
 
 <div class="form-footer">
-    <a href="{% url 'login' %}">Farklı hesapla giriş yap</a>
+    <a href="{% url 'login' %}">{% trans "Farklı hesapla giriş yap" %}</a>
 </div>
 {% endblock %}

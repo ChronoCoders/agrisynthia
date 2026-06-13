@@ -1,3 +1,4 @@
+{% load i18n %}
 <div class="main-menu">
 	<header class="header">
 		<a href="{% url 'detection:index' %}" class="logo" style="text-align: left; padding-left: 20px;">Agrisynthia</a>
@@ -7,31 +8,31 @@
 		<div class="navigation">
 			<ul class="menu js__accordion">
 				<li>
-					<a class="waves-effect" href="{% url 'detection:index' %}"><i class="menu-icon fa-solid fa-house"></i><span>Ana Panel</span></a>
+					<a class="waves-effect" href="{% url 'detection:index' %}"><i class="menu-icon fa-solid fa-house"></i><span>{% trans "Ana Panel" %}</span></a>
 				</li>
 				<li>
-					<a class="waves-effect" href="{% url 'detection:multi_detection_image' %}"><i class="menu-icon fa-solid fa-tree"></i><span>Çoklu Görüntü Sayımı</span></a>
+					<a class="waves-effect" href="{% url 'detection:multi_detection_image' %}"><i class="menu-icon fa-solid fa-tree"></i><span>{% trans "Çoklu Görüntü Sayımı" %}</span></a>
 				</li>
 				<li>
-					<a class="waves-effect" href="{% url 'dron_map:dashboard' %}"><i class="menu-icon fa-solid fa-seedling"></i><span>Alan İzleme</span></a>
+					<a class="waves-effect" href="{% url 'dron_map:dashboard' %}"><i class="menu-icon fa-solid fa-seedling"></i><span>{% trans "Alan İzleme" %}</span></a>
 					</li>
 					<li>
-						<a class="waves-effect" href="{% url 'dron_map:field_overview' %}"><i class="menu-icon fa-solid fa-map"></i><span>Alan Haritası</span></a>
+						<a class="waves-effect" href="{% url 'dron_map:field_overview' %}"><i class="menu-icon fa-solid fa-map"></i><span>{% trans "Alan Haritası" %}</span></a>
 					</li>
 					<li>
-						<a class="waves-effect" href="{% url 'dron_map:yield_prediction' %}"><i class="menu-icon fa-solid fa-wheat-awn"></i><span>Verim Tahmini</span></a>
+						<a class="waves-effect" href="{% url 'dron_map:yield_prediction' %}"><i class="menu-icon fa-solid fa-wheat-awn"></i><span>{% trans "Verim Tahmini" %}</span></a>
 				</li>
 				<li>
-					<a class="waves-effect" href="{% url 'dron_map:projects' %}"><i class="menu-icon fa-sharp fa-regular fa-tractor"></i><span>Drone Projeleri</span></a>
+					<a class="waves-effect" href="{% url 'dron_map:projects' %}"><i class="menu-icon fa-sharp fa-regular fa-tractor"></i><span>{% trans "Drone Projeleri" %}</span></a>
 				</li>
 				<li>
-					<a class="waves-effect" href="{% url 'reports:list' %}"><i class="menu-icon fa-solid fa-file-text"></i><span>Raporlar</span></a>
+					<a class="waves-effect" href="{% url 'reports:list' %}"><i class="menu-icon fa-solid fa-file-text"></i><span>{% trans "Raporlar" %}</span></a>
 				</li>
 				<li>
-					<a class="waves-effect" href="{% url 'detection:system_monitoring' %}"><i class="menu-icon fa-solid fa-chart-line"></i><span>Sistem İzleme</span></a>
+					<a class="waves-effect" href="{% url 'detection:system_monitoring' %}"><i class="menu-icon fa-solid fa-chart-line"></i><span>{% trans "Sistem İzleme" %}</span></a>
 				</li>
 				<li>
-					<a class="waves-effect" href="{% url 'account_settings' %}"><i class="menu-icon fa-solid fa-gear"></i><span>Ayarlar</span></a>
+					<a class="waves-effect" href="{% url 'account_settings' %}"><i class="menu-icon fa-solid fa-gear"></i><span>{% trans "Ayarlar" %}</span></a>
 				</li>
 			</ul>
 		</div>

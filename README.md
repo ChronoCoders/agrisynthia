@@ -311,6 +311,18 @@ Daily cron (Linux prod, 03:00 UTC):
 
 Requires `pg_dump`/`psql` on PATH, and R2 credentials in `.env` with object R/W on the bucket. Restore drops existing data (uses `--clean --if-exists`) and prompts for `yes` unless `-y` is passed.
 
+## Translations
+
+Turkish is the default (msgids are Turkish, so no `.po` compilation needed for `tr`). English translations live at `locale/en/LC_MESSAGES/django.po` — `msgstr ""` entries need to be filled, then compiled to `.mo`.
+
+```
+python manage.py makemessages -l en        # refresh .po after template/view changes
+# fill msgstr entries in locale/en/LC_MESSAGES/django.po
+python manage.py compilemessages           # build .mo files Django actually reads
+```
+
+Both commands need GNU gettext on PATH. On Windows: `choco install gettext`. On Linux: `apt install gettext` / `dnf install gettext`. The compiled `.mo` files are git-ignored — build them in your deploy step.
+
 ## License
 
 Proprietary. All rights reserved.
