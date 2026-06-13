@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-13 16:59-0400\n"
+"POT-Creation-Date: 2026-06-13 18:26-0400\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2409,6 +2409,76 @@ msgid ""
 "kullanılır."
 msgstr "Your stored detections and satellite NDVI data are used automatically."
 
+msgid "NDVI Nedir ve Tarla Sağlığını Nasıl Anlatır?"
+msgstr "What Is NDVI and How Does It Reflect Field Health?"
+
+msgid ""
+"Normalized Difference Vegetation Index — uydu görüntülerinden bitki "
+"canlılığını ölçen bu indeks, hasattan önce verimi tahmin etmek için neden "
+"kritik öneme sahip?"
+msgstr "Normalized Difference Vegetation Index — the metric that measures plant vitality from satellite imagery. Why is it critical for predicting yield before harvest?"
+
+msgid "8 Mayıs 2026"
+msgstr "May 8, 2026"
+
+#, fuzzy
+#| msgid "Drone ile Tarla Haritası"
+msgid "Drone ile Tarla Haritası Çıkarma: 4 Adımda Anlattık"
+msgstr "Drone Field Mapping"
+
+msgid ""
+"Drone'unuzla çektiğiniz fotoğraflar, tarlanızın detaylı bir sağlık "
+"haritasına dönüşebilir. Yazılım bilgisi gerekmez — sadece fotoğraf yükleyin."
+msgstr "Drone photos can become a detailed health map of your field. No software knowledge needed — just upload."
+
+msgid "2 Mayıs 2026"
+msgstr "May 2, 2026"
+
+msgid "Yapay Zeka ile Meyve Sayımı: Hasattan Önce Ne Kadar Ürün Var?"
+msgstr "AI Fruit Counting: How Much Will the Harvest Yield?"
+
+msgid ""
+"Elle saymak hem zaman alır hem de yanıltır. Telefonunuzla çektiğiniz birkaç "
+"fotoğraf, bahçenizdeki toplam meyveyi dakikalar içinde hesaplayabilir."
+msgstr "Manual counting is slow and misleading. A handful of phone photos can calculate the total fruit in your orchard in minutes."
+
+msgid "25 Nisan 2026"
+msgstr "April 25, 2026"
+
+msgid "Verim Tahmini İçin Kullandığımız Agronomi Modeli"
+msgstr "The Agronomy Model We Use for Yield Prediction"
+
+msgid ""
+"Tespit verileri + NDVI + ağaç yaşı faktörü — Agrisynthia'nın verim tahmin "
+"modelinin arkasındaki bilimsel yaklaşımı açıkladık."
+msgstr "Detection data + NDVI + tree-age factor — the scientific approach behind Agrisynthia's yield prediction model."
+
+msgid "18 Nisan 2026"
+msgstr "April 18, 2026"
+
+msgid "Türk Tarımında Dijital Dönüşüm: Neredeyiz, Nereye Gidiyoruz?"
+msgstr "Digital Transformation in Turkish Agriculture: Where Are We and Where Are We Heading?"
+
+msgid ""
+"Türkiye'nin tarım sektörü, dünya genelinde dijitalleşme dalgasını "
+"yakalayabildi mi? Güncel veriler ve fırsatlar üzerine bir analiz."
+msgstr "Has Turkey's agriculture sector caught the global digitalization wave? An analysis of current data and opportunities."
+
+msgid "10 Nisan 2026"
+msgstr "April 10, 2026"
+
+msgid "Tarlanız Her 5 Günde Bir Uydudan İzleniyor — Bunu Biliyor muydunuz?"
+msgstr "Your Field Is Monitored by Satellite Every 5 Days — Did You Know?"
+
+msgid ""
+"Avrupa'nın tarım uydusu Türkiye'yi düzenli olarak tarıyor ve bu veriler "
+"herkese ücretsiz açık. Agrisynthia bu veriyi sizin için anlamlı hale "
+"getiriyor."
+msgstr "Europe's agricultural satellite regularly scans Turkey, and the data is free for anyone. Agrisynthia turns that data into something meaningful for you."
+
+msgid "3 Nisan 2026"
+msgstr "April 3, 2026"
+
 msgid "SSL güvenlik"
 msgstr "SSL security"
 
@@ -2428,6 +2498,7 @@ msgstr "Upload imagery"
 
 msgid "Her 5 günde güncellenen uydu verileriyle tarlanızı sürekli takip edin."
 msgstr "Continuous field monitoring with satellite data refreshed every 5 days."
+"Continuous field monitoring with satellite data refreshed every 5 days."
 
 #, fuzzy
 #| msgid "YZ Meyve Tespiti"
