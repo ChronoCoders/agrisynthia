@@ -11,8 +11,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#, fuzzy
-#| msgid "E-posta adresiniz başarıyla doğrulandı."
 msgid "Agrisynthia — E-posta adresinizi doğrulayın"
 msgstr "Your email address has been verified."
 
@@ -83,26 +81,18 @@ msgstr "2FA enabled successfully."
 msgid "Geçersiz doğrulama kodu. Lütfen tekrar deneyin."
 msgstr "Invalid verification code. Please try again."
 
-#, fuzzy
-#| msgid "Sayfa bulunamadı"
 msgid "Dosya bulunamadı"
 msgstr "Page not found"
 
 msgid "Dosya boyutu çok büyük (maksimum 10MB)"
 msgstr "File too large (max 10 MB)"
 
-#, fuzzy
-#| msgid "Sayfa bulunamadı"
 msgid "Dosya adı bulunamadı"
 msgstr "Page not found"
 
-#, fuzzy
-#| msgid "Geçersiz istek."
 msgid "Geçersiz dosya adı"
 msgstr "Invalid request."
 
-#, fuzzy
-#| msgid "Geçersiz istek."
 msgid "Geçersiz dosya formatı"
 msgstr "Invalid request."
 
@@ -112,26 +102,18 @@ msgstr "Detection result could not be processed"
 msgid "Geçersiz dosya adı - güvenlik ihlali tespit edildi"
 msgstr "Invalid filename — security violation detected"
 
-#, fuzzy
-#| msgid "Tüm planlarda dahil:"
 msgid "Tüm alanları doldurun"
 msgstr "Included in all plans:"
 
-#, fuzzy
-#| msgid "Ağaç Sayısı"
 msgid "Ağaç sayısı gerekli"
 msgstr "Tree Count"
 
 msgid "Ağaç sayısı 1-100000 arasında olmalı"
 msgstr "Tree count must be between 1 and 100,000"
 
-#, fuzzy
-#| msgid "Geçersiz istek."
 msgid "Geçersiz sayı formatı"
 msgstr "Invalid request."
 
-#, fuzzy
-#| msgid "Ağaç başına tahmini"
 msgid "Ağaç yaşı gerekli"
 msgstr "Per tree estimate"
 
@@ -144,39 +126,27 @@ msgstr "Invalid age format"
 msgid "Geçersiz meyve grubu"
 msgstr "Invalid fruit type"
 
-#, fuzzy
-#| msgid "Geçersiz istek."
 msgid "Geçersiz dosya yolu"
 msgstr "Invalid request."
 
 msgid "Dosya yüklenirken hata oluştu"
 msgstr "Error uploading file"
 
-#, fuzzy
-#| msgid "Hesap oluştur"
 msgid "Bir hata oluştu"
 msgstr "Sign up"
 
-#, fuzzy
-#| msgid "Ağaç Sayısı"
 msgid "Geçersiz ağaç sayısı"
 msgstr "Tree Count"
 
-#, fuzzy
-#| msgid "Ağaç başına tahmini"
 msgid "Geçersiz ağaç yaşı"
 msgstr "Per tree estimate"
 
-#, fuzzy
-#| msgid "Doğrulanmadı"
 msgid "Dizin oluşturulamadı"
 msgstr "Not verified"
 
 msgid "Çıktı dizini oluşturulamadı"
 msgstr "Could not create output directory"
 
-#, fuzzy
-#| msgid "Ağaç sayısı ve yaşa göre otomatik hesaplama"
 msgid "Ağaç sayısı ve yaşı gerekli"
 msgstr "Automatic calculation by tree count and age"
 
@@ -189,26 +159,18 @@ msgstr "Administrator privileges required for this action"
 msgid "Geçersiz parametreler. image_hash+fruit_type veya all=true gerekli"
 msgstr "Invalid parameters. image_hash+fruit_type or all=true required"
 
-#, fuzzy
-#| msgid "Geçersiz istek."
 msgid "Geçersiz dosya"
 msgstr "Invalid request."
 
-#, fuzzy
-#| msgid "Şifre Güncellendi"
 msgid "Proje güncellenemedi"
 msgstr "Password Updated"
 
 msgid "Güncelleme hatası"
 msgstr "Update error"
 
-#, fuzzy
-#| msgid "Hesap Oluştur"
 msgid "Proje dizini oluşturulamadı"
 msgstr "Sign Up"
 
-#, fuzzy
-#| msgid "Hesap Oluştur"
 msgid "Proje oluşturulamadı"
 msgstr "Sign Up"
 
@@ -224,21 +186,15 @@ msgstr "An unexpected error occurred"
 msgid "Orthophoto dosyası bulunamadı"
 msgstr "Orthophoto file not found"
 
-#, fuzzy
-#| msgid "Sayfa bulunamadı"
 msgid "Algoritma bulunamadı"
 msgstr "Page not found"
 
 msgid "Algoritma işleme hatası"
 msgstr "Algorithm processing error"
 
-#, fuzzy
-#| msgid "Geçersiz istek."
 msgid "Geçersiz JSON"
 msgstr "Invalid request."
 
-#, fuzzy
-#| msgid "Rapor İşlemleri"
 msgid "Rapor isteği işlenemedi"
 msgstr "Report Actions"
 
@@ -270,8 +226,6 @@ msgstr "Back to Home"
 msgid "Önceki Sayfaya Dön"
 msgstr "Back to Previous Page"
 
-#, fuzzy
-#| msgid "Alan Haritası"
 msgid "Sunucu Hatası"
 msgstr "Field Map"
 
@@ -479,41 +433,27 @@ msgstr "Add / Edit Project"
 msgid "Çiftlik"
 msgstr "Farm"
 
-#, fuzzy
-#| msgid "Çiftlik"
 msgid "Çiftlik Adı"
 msgstr "Farm"
 
-#, fuzzy
-#| msgid "Ayarlar"
 msgid "Tarla"
 msgstr "Settings"
 
-#, fuzzy
-#| msgid "Ayarlar"
 msgid "Tarla Adı"
 msgstr "Settings"
 
-#, fuzzy
-#| msgid "Başlayın"
 msgid "Başlık"
 msgstr "Get Started"
 
 msgid "Proje Başlığı"
 msgstr "Project Title"
 
-#, fuzzy
-#| msgid "ODM Durumu"
 msgid "Durum"
 msgstr "ODM Status"
 
-#, fuzzy
-#| msgid "ODM Durumu"
 msgid "Proje Durumu"
 msgstr "ODM Status"
 
-#, fuzzy
-#| msgid "Drone Projeleri"
 msgid "Drone Görselleri"
 msgstr "Drone Projects"
 
@@ -523,18 +463,12 @@ msgstr "Choose Drone Image"
 msgid "Görselleri seçin veya sürükleyin"
 msgstr "Choose images or drag and drop"
 
-#, fuzzy
-#| msgid "JPEG · PNG · TIFF — maks. 10 MB"
 msgid "JPEG · PNG · TIFF — birden fazla dosya seçilebilir"
 msgstr "JPEG · PNG · TIFF — max 10 MB"
 
-#, fuzzy
-#| msgid "Mevcut Şifre"
 msgid "Mevcut Görsel"
 msgstr "Current Password"
 
-#, fuzzy
-#| msgid "Tarla Sağlık Durumu"
 msgid "Tarla Sınırı"
 msgstr "Field Health Status"
 
@@ -557,18 +491,12 @@ msgstr "Welcome! 3 steps to get started."
 msgid "İlk projenizi oluşturun, görüntü yükleyin ve ilk raporunuzu alın."
 msgstr "Create your first project, upload imagery, and get your first report."
 
-#, fuzzy
-#| msgid "Hesap Oluştur"
 msgid "Proje Oluştur"
 msgstr "Sign Up"
 
-#, fuzzy
-#| msgid "Görüntü yükleyin"
 msgid "Görüntü Yükle"
 msgstr "Upload imagery"
 
-#, fuzzy
-#| msgid "Raporlar"
 msgid "Rapor Al"
 msgstr "Reports"
 
@@ -581,8 +509,6 @@ msgstr "Total Detections"
 msgid "Ort. NDVI (tüm tarlalar)"
 msgstr "Avg. NDVI (all fields)"
 
-#, fuzzy
-#| msgid "Sağlıklı Alan"
 msgid "Sağlıklı / Stresli Tarla"
 msgstr "Healthy Area"
 
@@ -598,8 +524,6 @@ msgstr ""
 msgid "Henüz proje yok."
 msgstr "No projects yet."
 
-#, fuzzy
-#| msgid "Hesap oluşturun"
 msgid "İlk projeyi oluşturun."
 msgstr "Create your account"
 
@@ -651,8 +575,6 @@ msgstr "Processing"
 msgid "Başarısız"
 msgstr "Failed"
 
-#, fuzzy
-#| msgid "Alan Haritası"
 msgid "Harita"
 msgstr "Field Map"
 
@@ -662,21 +584,15 @@ msgstr "Add project"
 msgid "Alan Haritası"
 msgstr "Field Map"
 
-#, fuzzy
-#| msgid "Toplam Proje"
 msgid "Toplam Alan"
 msgstr "Total Projects"
 
 msgid "Poligon Var"
 msgstr "With Polygon"
 
-#, fuzzy
-#| msgid "Tarla Sağlık Durumu"
 msgid "NDVI Sağlık Durumu"
 msgstr "Field Health Status"
 
-#, fuzzy
-#| msgid "Sağlıklı Alan"
 msgid "Sağlıklı (≥0.5)"
 msgstr "Healthy Area"
 
@@ -689,8 +605,6 @@ msgstr "Stressed (<0.3)"
 msgid "Veri Yok"
 msgstr "No Data"
 
-#, fuzzy
-#| msgid "Alan"
 msgid "Alanlar"
 msgstr "Area"
 
@@ -706,8 +620,6 @@ msgstr "Processing Time (s)"
 msgid "Toplam Ağırlık (Ağaç × kg)"
 msgstr "Total Weight (Trees × kg)"
 
-#, fuzzy
-#| msgid "YZ Meyve Tespiti"
 msgid "Meyve Tespiti"
 msgstr "AI Fruit Detection"
 
@@ -735,16 +647,12 @@ msgstr "Pomegranate"
 msgid "Ağaç"
 msgstr "Tree"
 
-#, fuzzy
-#| msgid "Toplam Meyve Sayısı"
 msgid "Toplam Ağaç Sayısı"
 msgstr "Total Fruit Count"
 
 msgid "Ağaç Sayısı"
 msgstr "Tree Count"
 
-#, fuzzy
-#| msgid "Ağaç başına tahmini"
 msgid "Ağaç Yaşı"
 msgstr "Per tree estimate"
 
@@ -757,13 +665,9 @@ msgstr "Planting row format: 3-5"
 msgid "Ekim Sırası"
 msgstr "Planting Row"
 
-#, fuzzy
-#| msgid "Fotoğraf Seç"
 msgid "Meyve Fotoğrafı Seç"
 msgstr "Choose Photo"
 
-#, fuzzy
-#| msgid "Fotoğraf Seç"
 msgid "Fotoğraf seç veya çek"
 msgstr "Choose Photo"
 
@@ -779,33 +683,21 @@ msgstr "Start Detection"
 msgid "İşleniyor..."
 msgstr "Processing..."
 
-#, fuzzy
-#| msgid "Tespit Doğruluğu"
 msgid "Tespit Sonuçları"
 msgstr "Detection Accuracy"
 
-#, fuzzy
-#| msgid "Görüntü yükleyin"
 msgid "Tespit Görüntüsü"
 msgstr "Upload imagery"
 
-#, fuzzy
-#| msgid "Değerlerimiz"
 msgid "Giriş Değerleri"
 msgstr "Our Values"
 
-#, fuzzy
-#| msgid "Fotoğraf Seç"
 msgid "Meyve Fotoğraflarını Seç"
 msgstr "Choose Photo"
 
-#, fuzzy
-#| msgid "Fotoğraf Seç"
 msgid "Meyve Fotoğrafları Seç"
 msgstr "Choose Photo"
 
-#, fuzzy
-#| msgid "Analiz Edilen Görüntü"
 msgid "Önizleme Görüntüsü"
 msgstr "Images Analyzed"
 
@@ -824,8 +716,6 @@ msgstr "Generate Report (PDF & Excel)"
 msgid "Arazi Analiz Raporu"
 msgstr "Field Analysis Report"
 
-#, fuzzy
-#| msgid "Hesap Oluştur"
 msgid "Detaylı Rapor Oluştur"
 msgstr "Sign Up"
 
@@ -841,8 +731,6 @@ msgstr "Largest Critical Zone"
 msgid "Tahmini Verim"
 msgstr "Estimated Yield"
 
-#, fuzzy
-#| msgid "Güvenlik"
 msgid "Güven:"
 msgstr "Security"
 
@@ -852,16 +740,12 @@ msgstr "Suggested Action"
 msgid "Nokta"
 msgstr "Points"
 
-#, fuzzy
-#| msgid "Sentinel-2 NDVI Trendleri"
 msgid "Sentinel-2 NDVI Trendi"
 msgstr "Sentinel-2 NDVI Trends"
 
 msgid "yükleniyor…"
 msgstr "loading…"
 
-#, fuzzy
-#| msgid "Tarlalarınızı tanımlayın"
 msgid "Tarla sınırı tanımlanmamış."
 msgstr "Define your fields"
 
@@ -901,8 +785,6 @@ msgstr "Tiled Vegetation Index"
 msgid "Ortalama GSD:"
 msgstr "Average GSD:"
 
-#, fuzzy
-#| msgid "Alan"
 msgid "Alan:"
 msgstr "Area"
 
@@ -915,18 +797,12 @@ msgstr "Camera:"
 msgid "İrtifa:"
 msgstr "Altitude:"
 
-#, fuzzy
-#| msgid "Toplam Tespit"
 msgid "Tespit:"
 msgstr "Total Detections"
 
-#, fuzzy
-#| msgid "İstatistik Grafiği"
 msgid "Histogram Grafiği"
 msgstr "Statistics Chart"
 
-#, fuzzy
-#| msgid "Değerlerimiz"
 msgid "Değer:"
 msgstr "Our Values"
 
@@ -939,21 +815,15 @@ msgstr "Colors:"
 msgid "Kontrol Et"
 msgstr "Check"
 
-#, fuzzy
-#| msgid "Agrisynthia Asistan"
 msgid "Agrisynthia Yapay Zeka Sistemi"
 msgstr "Agrisynthia Assistant"
 
 msgid "Çıkış"
 msgstr "Log out"
 
-#, fuzzy
-#| msgid "Giriş Yap"
 msgid "Giriş"
 msgstr "Log In"
 
-#, fuzzy
-#| msgid "Proje ekle"
 msgid "Yeni Proje Ekle"
 msgstr "Add project"
 
@@ -963,16 +833,12 @@ msgstr "ODM"
 msgid "Tarih"
 msgstr "Date"
 
-#, fuzzy
-#| msgid "2FA'yı Devre Dışı Bırak"
 msgid "Devre Dışı"
 msgstr "Disable 2FA"
 
 msgid "Bekliyor"
 msgstr "Waiting"
 
-#, fuzzy
-#| msgid "Hesap Oluştur"
 msgid "Rapor Oluştur"
 msgstr "Sign Up"
 
@@ -1083,11 +949,6 @@ msgstr "If the button doesn't work, copy the link below into your browser:"
 msgid "Bu e-posta Agrisynthia tarafından gönderilmiştir."
 msgstr "This email was sent by Agrisynthia."
 
-#, fuzzy
-#| msgid ""
-#| "Sorun devam ederse <a "
-#| "href=\"mailto:info@agrisynthia.com\">info@agrisynthia.com</a> adresine "
-#| "yazın."
 msgid ""
 "Sorularınız için <a href=\"mailto:info@agrisynthia.com\" "
 "style=\"color:#2E7D32;text-decoration:none;\">info@agrisynthia.com</a> "
@@ -1150,49 +1011,33 @@ msgstr "Log in"
 msgid "Yeni Rapor Oluştur"
 msgstr "Create New Report"
 
-#, fuzzy
-#| msgid "Tespit Başlat"
 msgid "Tespit ID"
 msgstr "Start Detection"
 
-#, fuzzy
-#| msgid "Tespit Doğruluğu"
 msgid "Tespit Sonucu ID"
 msgstr "Detection Accuracy"
 
-#, fuzzy
-#| msgid "ODM Durumu"
 msgid "Proje ID"
 msgstr "ODM Status"
 
-#, fuzzy
-#| msgid "Form Hataları:"
 msgid "Formatlar"
 msgstr "Form Errors:"
 
 msgid "Excel (XLSX) - Tablo"
 msgstr "Excel (XLSX) — Table"
 
-#, fuzzy
-#| msgid "Hesap Oluştur"
 msgid "Oluştur"
 msgstr "Sign Up"
 
 msgid "Otomatik Rapor Zamanlaması"
 msgstr "Automated Report Schedule"
 
-#, fuzzy
-#| msgid "Raporlar"
 msgid "Rapor Türü"
 msgstr "Reports"
 
-#, fuzzy
-#| msgid "Tespit Doğruluğu"
 msgid "Tespit Raporu"
 msgstr "Detection Accuracy"
 
-#, fuzzy
-#| msgid "Arazi Analiz Raporu"
 msgid "Drone Analiz Raporu"
 msgstr "Field Analysis Report"
 
@@ -1202,13 +1047,9 @@ msgstr "Format"
 msgid "Sıklık"
 msgstr "Frequency"
 
-#, fuzzy
-#| msgid "30 Günlük Hedef:"
 msgid "Günlük"
 msgstr "30-Day Target:"
 
-#, fuzzy
-#| msgid "Aralık"
 msgid "Haftalık"
 msgstr "Dec"
 
@@ -1224,26 +1065,18 @@ msgstr "— All Results —"
 msgid "Ekle"
 msgstr "Add"
 
-#, fuzzy
-#| msgid "Süre"
 msgid "Tür"
 msgstr "Time"
 
-#, fuzzy
-#| msgid "Proje ekle"
 msgid "Proje"
 msgstr "Add project"
 
-#, fuzzy
-#| msgid "E-posta Gönderildi"
 msgid "Sonraki Gönderim"
 msgstr "Email Sent"
 
 msgid "Aktif"
 msgstr "Active"
 
-#, fuzzy
-#| msgid "İşleniyor"
 msgid "İşlem"
 msgstr "Processing"
 
@@ -1259,16 +1092,12 @@ msgstr "No."
 msgid "Biçim"
 msgstr "Format"
 
-#, fuzzy
-#| msgid "İlgili Yazılar"
 msgid "İlgili Kayıt"
 msgstr "Related Articles"
 
 msgid "Oluşturma Tarihi"
 msgstr "Created"
 
-#, fuzzy
-#| msgid "Toplam Tespit"
 msgid "Tespit"
 msgstr "Total Detections"
 
@@ -1278,76 +1107,54 @@ msgstr "Drone Analysis"
 msgid "Hazır"
 msgstr "Ready"
 
-#, fuzzy
-#| msgid "Hata!"
 msgid "Hata"
 msgstr "Error!"
 
-#, fuzzy
-#| msgid "Stabil"
 msgid "Sil"
 msgstr "Stable"
 
 msgid "Henüz rapor oluşturulmamış."
 msgstr "No reports created yet."
 
-#, fuzzy
-#| msgid "Kullanıcı Adı"
 msgid "CPU Kullanımı"
 msgstr "Username"
 
 msgid "Çekirdek"
 msgstr "Cores"
 
-#, fuzzy
-#| msgid "Yedek Kodlarınız"
 msgid "Bellek Kullanımı"
 msgstr "Your Backup Codes"
 
 msgid "Boş"
 msgstr "Free"
 
-#, fuzzy
-#| msgid "Kullanıcı Adı"
 msgid "Disk Kullanımı"
 msgstr "Username"
 
-#, fuzzy
-#| msgid "Kurulum Süresi"
 msgid "Sunucu Çalışma Süresi"
 msgstr "Setup Time"
 
-#, fuzzy
-#| msgid "Başlayın"
 msgid "Başlangıç:"
 msgstr "Get Started"
 
 msgid "30 Günlük Hedef:"
 msgstr "30-Day Target:"
 
-#, fuzzy
-#| msgid "Ürün"
 msgid "gün"
 msgstr "Product"
 
-#, fuzzy
-#| msgid "Fiyat Bilgisi"
 msgid "Sistem Bilgisi"
 msgstr "Pricing Info"
 
 msgid "İşletim Sistemi"
 msgstr "Operating System"
 
-#, fuzzy
-#| msgid "Platform"
 msgid "Platform Sürümü"
 msgstr "Platform"
 
 msgid "Mimari"
 msgstr "Architecture"
 
-#, fuzzy
-#| msgid "İşleniyor"
 msgid "İşlemci"
 msgstr "Processing"
 
@@ -1372,16 +1179,12 @@ msgstr "No models loaded yet"
 msgid "Yenile"
 msgstr "Refresh"
 
-#, fuzzy
-#| msgid "Drone Projeleri"
 msgid "Orijinal Görsel"
 msgstr "Drone Projects"
 
 msgid "Original"
 msgstr "Original"
 
-#, fuzzy
-#| msgid "Tespit Doğruluğu"
 msgid "Tespit Sonucu"
 msgstr "Detection Accuracy"
 
@@ -1409,15 +1212,10 @@ msgid "Hasadın kaybedildiği andan doğdu"
 msgstr "Born from the moment a harvest was lost"
 
 #
-#, fuzzy, python-format
-#| msgid ""
-#| "2024 yılında Antalya'da bir mandalina bahçesinde yaptığımız saha "
-#| "ziyaretinde gördük: üretici, NDVI grafiğinde haftalarca gerileyen bir "
-#| "tarlanın farkında bile değildi. Hasat geldiğinde verim %30 düşmüştü."
 msgid ""
 "2024 yılında Antalya'da bir mandalina bahçesinde yaptığımız saha ziyaretinde "
 "gördük: üretici, NDVI grafiğinde haftalarca gerileyen bir tarlanın farkında "
-"bile değildi. Hasat geldiğinde verim %%30 düşmüştü."
+"bile değildi. Hasat geldiğinde verim %30 düşmüştü."
 msgstr ""
 "In 2024 we visited a mandarin orchard in Antalya and saw it firsthand: the "
 "farmer had no idea his field's NDVI had been declining for weeks. By "
@@ -1633,8 +1431,6 @@ msgstr ""
 "Agrisynthia Blog — Articles on agronomy, NDVI analysis, drone technology, "
 "and smart agriculture."
 
-#, fuzzy
-#| msgid "Akıllı Tarım Platformu"
 msgid "Akıllı Tarım Tahminleri"
 msgstr "Smart Agriculture Platform"
 
@@ -1688,8 +1484,6 @@ msgstr ""
 "Monthly NDVI reports, seasonal agronomy advice, and product updates — "
 "straight to your inbox."
 
-#, fuzzy
-#| msgid "E-posta adresi"
 msgid "E-posta adresiniz"
 msgstr "Email address"
 
@@ -1734,8 +1528,6 @@ msgstr ""
 "Fill out the form for demo requests, pricing inquiries, or technical "
 "questions. We respond within 1 business day."
 
-#, fuzzy
-#| msgid "E-posta Gönderildi"
 msgid "Mesaj Gönderin"
 msgstr "Email Sent"
 
@@ -1770,16 +1562,12 @@ msgstr "Pricing Info"
 msgid "Diğer"
 msgstr "Other"
 
-#, fuzzy
-#| msgid "Mesajınızı yazın..."
 msgid "Mesajınız"
 msgstr "Type your message..."
 
 msgid "Projeniz veya ihtiyaçlarınız hakkında kısaca bilgi verin..."
 msgstr "Briefly describe your project or needs..."
 
-#, fuzzy
-#| msgid "Kişisel Bilgiler"
 msgid "İletişim Bilgileri"
 msgstr "Personal Information"
 
@@ -1900,24 +1688,16 @@ msgid "Yapay Zeka Meyve Sayımı"
 msgstr "AI Fruit Counting"
 
 #
-#, fuzzy, python-format
-#| msgid ""
-#| "Birkaç fotoğraftan bahçenizdeki toplam meyveyi %94+ doğrulukla sayar, "
-#| "tonajı tahmin eder."
 msgid ""
-"Birkaç fotoğraftan bahçenizdeki toplam meyveyi %%94+ doğrulukla sayar, "
+"Birkaç fotoğraftan bahçenizdeki toplam meyveyi %94+ doğrulukla sayar, "
 "tonajı tahmin eder."
 msgstr ""
 "From a handful of photos, counts the total fruit in your orchard with 94%+ "
 "accuracy and estimates tonnage."
 
 #
-#, fuzzy, python-format
-#| msgid ""
-#| "Tespit verileri ve NDVI'yı birleştiren agronomi modelimiz hasadı ±%25 "
-#| "hassasiyetle öngörür."
 msgid ""
-"Tespit verileri ve NDVI'yı birleştiren agronomi modelimiz hasadı ±%%25 "
+"Tespit verileri ve NDVI'yı birleştiren agronomi modelimiz hasadı ±%25 "
 "hassasiyetle öngörür."
 msgstr ""
 "Our agronomy model combines detection data and NDVI to predict harvest "
@@ -1999,9 +1779,7 @@ msgstr ""
 "That season his losses halved and he priced confidently to buyers."
 
 #
-#, fuzzy, python-format
-#| msgid "%31 daha az hasat kaybı"
-msgid "%%31 daha az hasat kaybı"
+msgid "%31 daha az hasat kaybı"
 msgstr "31% less harvest loss"
 
 msgid "En Yaygın Kullanım"
@@ -2014,14 +1792,9 @@ msgid "120 üyenin arazisi, tek ekran"
 msgstr "120 members' land, one screen"
 
 #
-#, fuzzy, python-format
-#| msgid ""
-#| "Fatma Hanım, tüm üyelerin tarlalarını tek panelden takip ediyor. Haftalık "
-#| "raporlar otomatik geliyor. Sahaya çıkma sıklığı %40 azaldı, doğru yere "
-#| "gidiyor."
 msgid ""
 "Fatma Hanım, tüm üyelerin tarlalarını tek panelden takip ediyor. Haftalık "
-"raporlar otomatik geliyor. Sahaya çıkma sıklığı %%40 azaldı, doğru yere "
+"raporlar otomatik geliyor. Sahaya çıkma sıklığı %40 azaldı, doğru yere "
 "gidiyor."
 msgstr ""
 "Fatma tracks all members' fields from a single panel. Weekly reports arrive "
@@ -2029,9 +1802,7 @@ msgstr ""
 "place."
 
 #
-#, fuzzy, python-format
-#| msgid "%40 daha az gereksiz saha ziyareti"
-msgid "%%40 daha az gereksiz saha ziyareti"
+msgid "%40 daha az gereksiz saha ziyareti"
 msgstr "40% fewer unnecessary field visits"
 
 msgid "Tarım Danışmanı"
@@ -2067,13 +1838,9 @@ msgid "Mandalina Üreticisi, Antalya"
 msgstr "Mandarin Farmer, Antalya"
 
 #
-#, fuzzy, python-format
-#| msgid ""
-#| "Kooperatifimizin 120 üyesinin tarlalarını tek panelden takip ediyoruz. "
-#| "Raporları otomatik alıyoruz, sahaya çıkma sıklığımız %40 azaldı."
 msgid ""
 "Kooperatifimizin 120 üyesinin tarlalarını tek panelden takip ediyoruz. "
-"Raporları otomatik alıyoruz, sahaya çıkma sıklığımız %%40 azaldı."
+"Raporları otomatik alıyoruz, sahaya çıkma sıklığımız %40 azaldı."
 msgstr ""
 "We track our coop's 120 members' fields from one panel. Reports come "
 "automatically and our site visits dropped 40%."
@@ -2110,9 +1877,7 @@ msgid "Yıllık"
 msgstr "Annual"
 
 #
-#, fuzzy, python-format
-#| msgid "(%20 indirim)"
-msgid "(%%20 indirim)"
+msgid "(%20 indirim)"
 msgstr "(20% off)"
 
 msgid "Bireysel"
@@ -2139,8 +1904,6 @@ msgstr "Drone analysis (1 project/month)"
 msgid "PDF rapor indirme"
 msgstr "PDF report download"
 
-#, fuzzy
-#| msgid "E-posta yolda!"
 msgid "E-posta uyarıları"
 msgstr "Email on its way!"
 
@@ -2174,8 +1937,6 @@ msgstr "Drone analysis (unlimited projects)"
 msgid "PDF + Excel rapor"
 msgstr "PDF + Excel reports"
 
-#, fuzzy
-#| msgid "Alan Haritası"
 msgid "Alan Haritası görünümü"
 msgstr "Field Map"
 
@@ -2188,8 +1949,6 @@ msgstr "Get a Quote"
 msgid "Büyük kooperatifler, tarım şirketleri ve kamu kurumları."
 msgstr "Large cooperatives, agritech companies, and public institutions."
 
-#, fuzzy
-#| msgid "İletişim"
 msgid "İletişime Geçin"
 msgstr "Contact"
 
@@ -2223,8 +1982,6 @@ msgstr "Included in all plans:"
 msgid "SSS"
 msgstr "FAQ"
 
-#, fuzzy
-#| msgid "Fiyatlandırma"
 msgid "Fiyatlandırma Soruları"
 msgstr "Pricing"
 
@@ -2243,12 +2000,8 @@ msgid "Yıllık faturalama nasıl işliyor?"
 msgstr "How does annual billing work?"
 
 #
-#, fuzzy, python-format
-#| msgid ""
-#| "Yıllık planı seçtiğinizde 12 aylık tutar tek seferinde faturalanır ve %20 "
-#| "indirim uygulanır. Dilediğiniz zaman aylık plana geçebilirsiniz."
 msgid ""
-"Yıllık planı seçtiğinizde 12 aylık tutar tek seferinde faturalanır ve %%20 "
+"Yıllık planı seçtiğinizde 12 aylık tutar tek seferinde faturalanır ve %20 "
 "indirim uygulanır. Dilediğiniz zaman aylık plana geçebilirsiniz."
 msgstr ""
 "If you pick annual, you're billed for 12 months at once with a 20% discount. "
@@ -2280,8 +2033,6 @@ msgstr "Still on the fence?"
 msgid "Bir uzmanımız tarlanızın ihtiyaçlarına göre en uygun planı belirlesin."
 msgstr "Let one of our experts match your field to the right plan."
 
-#, fuzzy
-#| msgid "Başlayın"
 msgid "Hemen Başlayın"
 msgstr "Get Started"
 
@@ -2454,9 +2205,7 @@ msgstr "Mandarin Orchard — 4.2 ha"
 msgid "Analiz tamamlandı · Az önce"
 msgstr "Analysis complete · Just now"
 
-#, fuzzy, python-format
-#| msgid "%94 güven"
-msgid "%%94 güven"
+msgid "%94 güven"
 msgstr "94% confidence"
 
 msgid "Tespit edilen meyve"
@@ -2499,12 +2248,8 @@ msgid "Uydu verileri ne sıklıkla güncelleniyor?"
 msgstr "How often is satellite data updated?"
 
 #
-#, fuzzy, python-format
-#| msgid ""
-#| "Sentinel-2 her 5 günde bir aynı konumu tekrar çeker. Bulut örtüsü %30'un "
-#| "altındaki geçişler otomatik işlenerek NDVI tablonuza eklenir."
 msgid ""
-"Sentinel-2 her 5 günde bir aynı konumu tekrar çeker. Bulut örtüsü %%30'un "
+"Sentinel-2 her 5 günde bir aynı konumu tekrar çeker. Bulut örtüsü %30'un "
 "altındaki geçişler otomatik işlenerek NDVI tablonuza eklenir."
 msgstr ""
 "Sentinel-2 revisits the same location every 5 days. Passes with cloud cover "
@@ -2539,40 +2284,30 @@ msgstr "No credit card required. Pick a plan after 14 days."
 msgid "Planları Görün"
 msgstr "See Plans"
 
-#, fuzzy
-#| msgid "Manuel giriş anahtarı:"
 msgid "— Manuel giriş —"
 msgstr "Manual entry key:"
 
 msgid "Proje seçilirse NDVI otomatik kullanılır."
 msgstr "If a project is selected, NDVI is used automatically."
 
-#, fuzzy
-#| msgid "Meyve Grubu"
 msgid "Meyve Türü"
 msgstr "Fruit Type"
 
 msgid "ör. 500"
 msgstr "e.g. 500"
 
-#, fuzzy
-#| msgid "Ağaç başına tahmini"
 msgid "Ağaç Yaşı (yıl)"
 msgstr "Per tree estimate"
 
 msgid "ör. 8"
 msgstr "e.g. 8"
 
-#, fuzzy
-#| msgid "Toplam Meyve Sayısı"
 msgid "Tespit Edilen Meyve Sayısı"
 msgstr "Total Fruit Count"
 
 msgid "ör. 1200"
 msgstr "e.g. 1200"
 
-#, fuzzy
-#| msgid "Görüntü Analizi"
 msgid "Görüntü analizinden"
 msgstr "Image Analyses"
 
@@ -2601,9 +2336,7 @@ msgid "Güven aralığı:"
 msgstr "Confidence interval:"
 
 #
-#, fuzzy, python-format
-#| msgid "(±25% payda)"
-msgid "(±25%% payda)"
+msgid "(±25% payda)"
 msgstr "(±25% spread)"
 
 msgid "Faktörler"
@@ -2615,46 +2348,30 @@ msgstr "NDVI Health Factor"
 msgid "Yaş Faktörü"
 msgstr "Age Factor"
 
-#, fuzzy
-#| msgid "Ağaç Sayısı"
 msgid "Ağaç sayısı"
 msgstr "Tree Count"
 
-#, fuzzy
-#| msgid "Ağaç başına tahmini"
 msgid "Ağaç yaşı"
 msgstr "Per tree estimate"
 
-#, fuzzy
-#| msgid "Aylık"
 msgid "yıl"
 msgstr "Monthly"
 
-#, fuzzy
-#| msgid "Görüntü yükleyin"
 msgid "Görüntüden tespit"
 msgstr "Upload imagery"
 
 msgid "meyve"
 msgstr "fruit"
 
-#, fuzzy
-#| msgid "Toplam tonaj tahmini"
 msgid "Toplam meyve (tahmini)"
 msgstr "Total tonnage estimate"
 
-#, fuzzy
-#| msgid "Toplam Meyve Ağırlığı (kg)"
 msgid "Ortalama meyve ağırlığı"
 msgstr "Total Fruit Weight (kg)"
 
-#, fuzzy
-#| msgid "Ort. NDVI (tüm tarlalar)"
 msgid "NDVI (ortalama)"
 msgstr "Avg. NDVI (all fields)"
 
-#, fuzzy
-#| msgid "Hesap Ayarları"
 msgid "Hesaplama Adımları:"
 msgstr "Account Settings"
 
