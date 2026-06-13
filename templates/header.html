@@ -1,6 +1,7 @@
-{% load static %}
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,7 +9,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>Agrisynthia - Meyve Tespiti</title>
+	<title>Agrisynthia - {% trans "Meyve Tespiti" %}</title>
 
 	<link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
 	<link rel="stylesheet" href="{% static 'assets/styles/style.min.css' %}">

@@ -1,10 +1,11 @@
-{% load static %}
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sayfa Bulunamadı — Agrisynthia</title>
+  <title>{% trans "Sayfa Bulunamadı" %} — Agrisynthia</title>
   <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet">
@@ -50,10 +51,10 @@
   <div class="brand">Agri<span>synthia</span></div>
   <div class="icon"><i class="fas fa-map-location-dot"></i></div>
   <div class="code">404</div>
-  <h1>Sayfa bulunamadı</h1>
-  <p>Aradığınız sayfa taşınmış, silinmiş veya hiç var olmamış olabilir. URL'yi kontrol edin ya da anasayfaya dönün.</p>
-  <a href="/" class="btn-home"><i class="fas fa-house"></i> Anasayfaya Dön</a>
+  <h1>{% trans "Sayfa bulunamadı" %}</h1>
+  <p>{% trans "Aradığınız sayfa taşınmış, silinmiş veya hiç var olmamış olabilir. URL'yi kontrol edin ya da anasayfaya dönün." %}</p>
+  <a href="/" class="btn-home"><i class="fas fa-house"></i> {% trans "Anasayfaya Dön" %}</a>
   <br>
-  <a href="javascript:history.back()" class="btn-back"><i class="fas fa-arrow-left"></i> Önceki Sayfaya Dön</a>
+  <a href="javascript:history.back()" class="btn-back"><i class="fas fa-arrow-left"></i> {% trans "Önceki Sayfaya Dön" %}</a>
 </body>
 </html>
