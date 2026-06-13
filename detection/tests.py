@@ -360,6 +360,53 @@ class TaskStatusViewTests(TestCase):
         self.assertEqual(data["progress"], 100)
 
 
+class DetectionTaskStreamTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user(username="streamer", password="pass123")
+        self.client.login(username="streamer", password="pass123")
+
+    def test_requires_login(self):
+        Client().get("/detection/task-stream/abc/").status_code  # warm up
+        resp = Client().get("/detection/task-stream/abc/")
+        self.assertEqual(resp.status_code, 302)
+        self.assertIn("/login/", resp.url)
+
+    @patch("detection.views.AsyncResult")
+    def test_streams_event_stream_content_type_and_disables_buffering(self, mock_async_result):
+        mock_result = MagicMock()
+        mock_result.state = "SUCCESS"
+        mock_result.result = {"detected_count": 1}
+        mock_async_result.return_value = mock_result
+
+        resp = self.client.get("/detection/task-stream/abc/")
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp["Content-Type"], "text/event-stream")
+        self.assertEqual(resp["X-Accel-Buffering"], "no")
+        self.assertEqual(resp["Cache-Control"], "no-cache")
+
+        body = b"".join(resp.streaming_content).decode()
+        self.assertIn('"status": "SUCCESS"', body)
+        self.assertIn('"status": "done"', body)
+
+
+class ModelChecksumTests(TestCase):
+    def test_compute_sha256_matches_known_value(self):
+        import tempfile, hashlib, os
+        from agrisynthia.predict_tree import compute_sha256
+
+        payload = b"agrisynthia model checksum smoke test\n" * 1024
+        with tempfile.NamedTemporaryFile(delete=False) as f:
+            f.write(payload)
+            tmp = f.name
+        try:
+            expected = hashlib.sha256(payload).hexdigest()
+            from pathlib import Path
+            self.assertEqual(compute_sha256(Path(tmp)), expected)
+        finally:
+            os.unlink(tmp)
+
+
 class CacheInvalidatePermissionTests(TestCase):
     """Test that cache invalidation requires admin."""
 
