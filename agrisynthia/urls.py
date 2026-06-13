@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -28,7 +27,6 @@ urlpatterns = [
     path(
         "favicon.ico", RedirectView.as_view(url="/static/favicon.ico", permanent=True)
     ),
-    # Backwards compatibility redirects
     path("mcti/", RedirectView.as_view(url="/detection/mcti/", permanent=False)),
     path("mcti", RedirectView.as_view(url="/detection/mcti/", permanent=False)),
     path("index/", RedirectView.as_view(url="/detection/", permanent=False)),

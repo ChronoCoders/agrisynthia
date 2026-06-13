@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Vegetation Index Calculator for Remote Sensing
 Implements 24 vegetation indices with optimized class-based architecture
@@ -61,11 +60,6 @@ class VegetationIndex(ABC):
     def get_name(self) -> str:
         """Get the index name from class name."""
         return self.__class__.__name__
-
-
-# =============================================================================
-# Vegetation Index Implementations (24 indices)
-# =============================================================================
 
 
 class NDVI(VegetationIndex):
@@ -256,10 +250,6 @@ class ARVI(VegetationIndex):
         )
 
 
-# =============================================================================
-# Index Registry
-# =============================================================================
-
 INDICES: Dict[str, type] = {
     "ndvi": NDVI,
     "vari": VARI,
@@ -288,18 +278,8 @@ INDICES: Dict[str, type] = {
 }
 
 
-# =============================================================================
-# Backward Compatible Interface
-# =============================================================================
-
-
 class algos:
-    """
-    Backward compatible class for vegetation index calculations.
-
-    Uses the new class-based architecture internally while maintaining
-    the original function signatures.
-    """
+    """Backward-compatible class for vegetation index calculations."""
 
     def __init__(self, path: str, out: str):
         """
@@ -378,7 +358,6 @@ class algos:
             "ranges": ranges,
         }
 
-    # Keep original method names for backward compatibility
     def Ndvi(
         self, ranges: Tuple[float, float] = (-1, 1), colormap: Optional[str] = None
     ) -> Dict[str, Any]:
@@ -502,9 +481,7 @@ class algos:
         return self._process_index(ARVI, ranges, colormap)
 
 
-# =============================================================================
 # Legacy standalone functions (kept for backward compatibility)
-# =============================================================================
 
 
 def gli(path: str) -> np.ndarray:
