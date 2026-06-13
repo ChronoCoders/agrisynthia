@@ -16,7 +16,6 @@ local_settings.py
 db.sqlite3
 media/
 staticfiles/
-locale/*/LC_MESSAGES/*.mo
 
 # Celery beat runtime state
 celerybeat-schedule
