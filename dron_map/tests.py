@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Tests for dron_map app.
 
@@ -174,9 +173,7 @@ class HealthAlgorithmTests(TestCase):
         self.assertIn("ndvi", HEALTH_ALGORITHMS)
 
 
-# ---------------------------------------------------------------------------
 # Shared helpers for analysis action tests
-# ---------------------------------------------------------------------------
 
 def _make_density_data():
     return {
@@ -229,9 +226,7 @@ def _make_analysis_data(raster_path=None):
     )
 
 
-# ---------------------------------------------------------------------------
 # Mocked analysis action tests
-# ---------------------------------------------------------------------------
 
 class ProjectDensityActionTests(APITestCase):
     """Tests for the /density/ action with mocked YOLO inference."""
