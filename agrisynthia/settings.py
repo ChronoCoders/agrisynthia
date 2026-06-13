@@ -244,7 +244,21 @@ CSRF_COOKIE_SECURE = not DEBUG and not IS_DEVELOPMENT
 SESSION_COOKIE_SECURE = not DEBUG and not IS_DEVELOPMENT
 SECURE_SSL_REDIRECT = not DEBUG and not IS_DEVELOPMENT
 
-# Additional security headers
+SESSION_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_HTTPONLY = True
+
+if not IS_DEVELOPMENT:
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+_csrf_trusted = os.environ.get("CSRF_TRUSTED_ORIGINS", "")
+if _csrf_trusted:
+    CSRF_TRUSTED_ORIGINS = _csrf_trusted.split(",")
+elif not IS_DEVELOPMENT:
+    CSRF_TRUSTED_ORIGINS = [f"https://{host}" for host in ALLOWED_HOSTS if host not in ("*", "")]
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000
+
 SECURE_REFERRER_POLICY = "same-origin"
 PERMISSIONS_POLICY = {
     "geolocation": [],
@@ -260,16 +274,29 @@ if not DEBUG and not IS_DEVELOPMENT:
 # Content Security Policy - allow unsafe-inline only in development
 # Production should use nonces or hashes
 CSP_DEFAULT_SRC = ("'self'",)
+_CSP_CDN_SCRIPT = (
+    "https://cdn.jsdelivr.net",
+    "https://cdnjs.cloudflare.com",
+    "https://unpkg.com",
+    "https://www.gstatic.com",
+    "https://plausible.io",
+)
+_CSP_CDN_STYLE = (
+    "https://cdn.jsdelivr.net",
+    "https://cdnjs.cloudflare.com",
+    "https://unpkg.com",
+    "https://fonts.googleapis.com",
+)
 if IS_DEVELOPMENT:
-    CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'")
-    CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
+    CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'") + _CSP_CDN_SCRIPT
+    CSP_STYLE_SRC = ("'self'", "'unsafe-inline'") + _CSP_CDN_STYLE
 else:
-    # Production: more restrictive CSP
-    CSP_SCRIPT_SRC = ("'self'",)
-    CSP_STYLE_SRC = ("'self'",)
+    CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'") + _CSP_CDN_SCRIPT
+    CSP_STYLE_SRC = ("'self'", "'unsafe-inline'") + _CSP_CDN_STYLE
 CSP_IMG_SRC = ("'self'", "data:", "https:")
-CSP_FONT_SRC = ("'self'", "data:")
-CSP_CONNECT_SRC = ("'self'",)
+CSP_FONT_SRC = ("'self'", "data:", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com")
+CSP_CONNECT_SRC = ("'self'", "https://plausible.io")
+CSP_FRAME_ANCESTORS = ("'none'",)
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
@@ -453,8 +480,18 @@ else:
     EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.gmail.com")
     EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
     EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "True") == "True"
+    EMAIL_USE_SSL = os.environ.get("EMAIL_USE_SSL", "False") == "True"
     EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
     EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+    EMAIL_TIMEOUT = int(os.environ.get("EMAIL_TIMEOUT", "10"))
+
+    if not EMAIL_HOST_USER or not EMAIL_HOST_PASSWORD:
+        import warnings
+        warnings.warn(
+            "EMAIL_HOST_USER or EMAIL_HOST_PASSWORD is unset — transactional emails "
+            "(verification, password reset, 2FA) will fail silently.",
+            RuntimeWarning,
+        )
 
 # Alert cooldown in seconds - don't send duplicate alerts within this window
 ALERT_COOLDOWN_SECONDS = int(os.environ.get("ALERT_COOLDOWN_SECONDS", "3600"))
