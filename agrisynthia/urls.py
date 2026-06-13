@@ -40,6 +40,7 @@ urlpatterns = [
         RedirectView.as_view(url="/detection/system-monitoring/", permanent=False),
     ),
     path("accounts/", include("accounts.urls")),
+    path("i18n/", include("django.conf.urls.i18n")),
     path("api/", include("agrisynthia.api_urls")),
     path("health/", health_check, name="health-check"),
     path("metrics/", include("django_prometheus.urls")),
