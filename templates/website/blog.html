@@ -17,7 +17,6 @@
 <section class="section">
   <div class="container">
 
-    <!-- Featured post -->
     {% if posts %}
     {% with posts.0 as featured %}
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:48px;display:grid;grid-template-columns:1fr 1fr;">
@@ -45,7 +44,6 @@
     {% endwith %}
     {% endif %}
 
-    <!-- Filter tabs -->
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px;">
       <button onclick="filterPosts('all', this)" class="filter-btn active" style="padding:8px 18px;border-radius:100px;border:1.5px solid var(--green);background:var(--green);color:#fff;font-size:13px;font-weight:600;cursor:pointer;">Tümü</button>
       <button onclick="filterPosts('ndvi', this)" class="filter-btn" style="padding:8px 18px;border-radius:100px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;">NDVI & Uydu</button>
@@ -80,7 +78,6 @@
   </div>
 </section>
 
-<!-- Newsletter -->
 <section class="section-sm" style="background:#fff;border-top:1px solid var(--border);">
   <div class="container" style="text-align:center;">
     <div class="section-tag">Bülten</div>
@@ -97,7 +94,6 @@
   </div>
 </section>
 
-<!-- CTA -->
 <div class="cta-band">
   <div class="container">
     <h2>Okumak yetmez — deneyin</h2>

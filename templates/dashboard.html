@@ -107,7 +107,6 @@
     <div class="main-content">
         <div class="row small-spacing">
 
-            <!-- ── Onboarding banner (first-time users) ──────────── -->
             {% if total_projects == 0 %}
             <div class="col-12" id="obBanner">
                 <div class="onboarding-banner">
@@ -134,7 +133,6 @@
             </div>
             {% endif %}
 
-            <!-- ── Summary cards ─────────────────────────────────── -->
             <div class="col-xl-3 col-md-6 col-12">
                 <div class="stat-box">
                     <div class="val">{{ total_projects }}</div>
@@ -160,7 +158,6 @@
                 </div>
             </div>
 
-            <!-- ── NDVI trend chart ──────────────────────────────── -->
             <div class="col-xl-8 col-12">
                 <div class="dash-card">
                     <h5><i class="fa fa-chart-line"></i> Sentinel-2 NDVI Trendleri</h5>
@@ -179,7 +176,6 @@
                 </div>
             </div>
 
-            <!-- ── Recent detections ─────────────────────────────── -->
             <div class="col-xl-4 col-12">
                 <div class="dash-card" style="height:calc(100% - 20px);">
                     <h5><i class="fa fa-history"></i> Son Tespitler</h5>
@@ -199,7 +195,6 @@
                 </div>
             </div>
 
-            <!-- ── Detection history bar chart ──────────────────── -->
             <div class="col-xl-8 col-12">
                 <div class="dash-card">
                     <h5><i class="fa fa-bar-chart"></i> Günlük Tespit Geçmişi (Son 60 Gün)</h5>
@@ -213,7 +208,6 @@
                 </div>
             </div>
 
-            <!-- ── Field health table ────────────────────────────── -->
             <div class="col-12">
                 <div class="dash-card">
                     <h5><i class="fa fa-table"></i> Tarla Sağlık Durumu</h5>
@@ -292,10 +286,9 @@
                 </div>
             </div>
 
-        </div><!-- /row -->
-    </div><!-- /main-content -->
-</div><!-- /wrapper -->
-
+        </div>
+    </div>
+</div>
 {% block scripts %}
 <script>
 (function() {
