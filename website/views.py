@@ -14,7 +14,7 @@ BLOG_POSTS = [
         "read_time": 6,
         "icon": "fa-satellite",
         "image": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80&fit=crop",
-        "content": """
+        "content": _("""
 <p>NDVI (Normalize Edilmiş Bitki Örtüsü İndeksi), kırmızı ve yakın kızılötesi ışık bantlarının farkından hesaplanan bir sayısal değerdir. Değer -1 ile +1 arasında değişir; 0,5 ve üzeri sağlıklı ve yoğun bitkisel aktiviteyi, 0,3'ün altı ise stres ya da seyrek örtüyü gösterir.</p>
 <h2>Neden önemli?</h2>
 <p>Bir tarladaki klorofil miktarı düşmeye başladığında — kuraklık, hastalık veya besin eksikliği nedeniyle — bu değişim insan gözüyle görünür hale gelmeden çok önce kızılötesi bantta kendini belli eder. Agrisynthia, Sentinel-2 uydusunun her 5 günde bir çektiği görüntüleri işleyerek bu değişimi otomatik tespit eder.</p>
@@ -28,7 +28,7 @@ BLOG_POSTS = [
 <blockquote>Agrisynthia'da belirlediğiniz eşiğin altına düştüğünde otomatik e-posta uyarısı gönderilir. Sahaya gitmeden önce neye bakacağınızı bilirsiniz.</blockquote>
 <h2>Uydu NDVI ile drone NDVI farkı</h2>
 <p>Sentinel-2 uydusu 10 metre/piksel çözünürlükle tarlayı genel olarak değerlendirir. Drone ise santimetre çözünürlüğünde çalışır ve tarla içindeki leke bazlı farklılıkları gösterir. İkisini birlikte kullanmak en kapsamlı tabloyu sunar.</p>
-""",
+"""),
     },
     {
         "slug": "drone-ortofoto-nasil-olusturulur",
@@ -40,7 +40,7 @@ BLOG_POSTS = [
         "read_time": 8,
         "icon": "fa-helicopter",
         "image": "https://images.unsplash.com/photo-1657093114835-031e7cf9520c?w=800&q=80&fit=crop",
-        "content": """
+        "content": _("""
 <p>Drone ile çekilen fotoğraflar tek başına bir anlam taşımaz. Asıl değer, bu fotoğrafların birleştirilerek tarlanızın yukarıdan eksiksiz bir görüntüsünün oluşturulmasıyla ortaya çıkar. Agrisynthia bu işlemi sizin için tamamen otomatik yapar — hiçbir teknik bilgi gerekmez.</p>
 <h2>1. Drone'u doğru uçurun</h2>
 <p>En iyi sonuç için drone'u sabit yükseklikte, tarla üzerinde ızgara çizerek uçurun. Fotoğrafların birbiriyle örtüşmesi önemlidir — modern drone uygulamalarının çoğu bu uçuş planını otomatik oluşturabilir.</p>
@@ -51,7 +51,7 @@ BLOG_POSTS = [
 <h2>4. Sağlık haritanızı inceleyin</h2>
 <p>Harita hazır olduğunda tarlanızın hangi bölümlerinin sağlıklı, hangilerinin stresli olduğunu renk renk görebilirsiniz. Sorunlu alanları yakınlaştırın, haritayı indirin ya da ekibinizle paylaşın.</p>
 <blockquote>İpucu: Sabah erken veya öğleden sonra geç saatlerde çekilen fotoğraflar, sert gölge olmadığı için çok daha net sonuç verir.</blockquote>
-""",
+"""),
     },
     {
         "slug": "meyve-tespitinde-yapay-zeka",
@@ -63,7 +63,7 @@ BLOG_POSTS = [
         "read_time": 7,
         "icon": "fa-microchip",
         "image": "https://images.unsplash.com/photo-1507598641400-ec3536ba81bc?w=800&q=80&fit=crop",
-        "content": """
+        "content": _("""
 <p>Yüzlerce ağaçlık bir bahçede meyve saymak, hem zaman hem de emek ister. Geleneksel yöntemlerle yapılan tahminlerin hata payı %20-40 arasında değişir. Bu, fazla işçi çağırmak ya da alıcıya yanlış fiyat vermek anlamına gelebilir. Agrisynthia'nın yapay zeka destekli sayım özelliği bu hata payını %6'nın altına indirir.</p>
 <h2>Nasıl çalışır?</h2>
 <p>Bahçenizden birkaç fotoğraf çekin ve Agrisynthia'ya yükleyin. Sistem her fotoğraftaki meyveleri tek tek tanır, işaretler ve sayar. Ağaç başına düşen ortalama meyve sayısını, tahmini toplam ağırlığı ve beklenen tonajı dakikalar içinde görürsünüz.</p>
@@ -83,7 +83,7 @@ BLOG_POSTS = [
 <li>Telefonunuzun fotoğraf kalitesi yeterliyse özel ekipman gerekmez</li>
 </ul>
 <blockquote>Sistem size sadece sayıyı değil, ne kadar emin olduğunu da gösterir. Belirsiz görüntülerde sizi uyarır, o kareleri yeniden çekmenizi önerir.</blockquote>
-""",
+"""),
     },
     {
         "slug": "verim-tahmini-agronomi-modeli",
@@ -95,7 +95,7 @@ BLOG_POSTS = [
         "read_time": 9,
         "icon": "fa-chart-line",
         "image": "https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?w=800&q=80&fit=crop",
-        "content": """
+        "content": _("""
 <p>Agrisynthia'nın verim tahmin motoru, üç bağımsız veri kaynağını birleştiren çok etkenli bir agronomi modelidir: görüntü bazlı meyve yoğunluğu, uydu NDVI verisi ve ağaç biyolojik parametreleri.</p>
 <h2>Model bileşenleri</h2>
 <h3>1. Görüntü bazlı meyve yoğunluğu</h3>
@@ -105,7 +105,7 @@ BLOG_POSTS = [
 <h3>3. Ağaç yaşı düzeltmesi</h3>
 <p>Meyve ağaçları tam verim yaşına (4-6 yıl) ulaşmadan düşük verimlidir. Model, genç ağaçlar için orantılı bir düzeltme uygular.</p>
 <blockquote>Modelimizi bir öngörü aracı olarak, sahada agronomunuzun deneyimiyle birleştirerek kullanın. Veri ile sezgi birlikte en iyi kararı verir.</blockquote>
-""",
+"""),
     },
     {
         "slug": "turk-tariminda-dijital-donusum",
@@ -117,7 +117,7 @@ BLOG_POSTS = [
         "read_time": 10,
         "icon": "fa-seedling",
         "image": "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&q=80&fit=crop",
-        "content": """
+        "content": _("""
 <p>Türkiye, yaklaşık 19 milyon hektar tarım arazisi ve dünya meyve ihracatında önemli bir pay ile küresel gıda sisteminde kritik bir aktördür. Buna karşın tarım sektörünün dijital teknoloji kullanım oranı, AB ortalamasının önemli ölçüde gerisinde kalmaktadır.</p>
 <h2>Mevcut tablo</h2>
 <p>TÜİK verilerine göre Türkiye'deki çiftçilerin yalnızca %8'i herhangi bir dijital tarım aracı kullanmaktadır. Avrupa Birliği'nde bu oran %34'ü geçmektedir.</p>
@@ -129,7 +129,7 @@ BLOG_POSTS = [
 </ul>
 <h2>Agrisynthia'nın rolü</h2>
 <p>Teknolojiyi çiftçiye götürmek, çiftçiyi teknolojiye götürmekten çok daha etkilidir. Agrisynthia tamamen Türkçe, mobil öncelikli ve minimum teknik bilgi gerektiren bir kullanıcı deneyimiyle tasarlandı.</p>
-""",
+"""),
     },
     {
         "slug": "sentinel-2-ucretsiz-uydu-verisi",
@@ -141,7 +141,7 @@ BLOG_POSTS = [
         "read_time": 7,
         "icon": "fa-globe",
         "image": "https://images.unsplash.com/photo-1536183922588-166604504d5e?w=800&q=80&fit=crop",
-        "content": """
+        "content": _("""
 <p>Avrupa Uzay Ajansı'nın işlettiği bir uydu, her 5 günde bir Türkiye'nin tamamını görüntüler. Bu görüntüler herkese açık ve ücretsizdir — ama ham haliyle yorumlanmaları uzmanlık gerektirir. Agrisynthia bu yorumu sizin için otomatik yapar ve tarlanızın sağlık durumunu sade bir renkli haritaya dönüştürür.</p>
 <h2>Bu uydu tarlanız için ne yapabilir?</h2>
 <p>Uydu, bitkilerinizin yaydığı ışığı ölçer. Sağlıklı bitkiler bu ölçümde canlı ve yoğun görünürken, stres altındaki ya da kuruyan bitkiler soluk görünür. Bu sayede tarlada gezip görmeden önce sorunlu alanları tespit etmek mümkün olur.</p>
@@ -154,7 +154,7 @@ BLOG_POSTS = [
 <h2>Agrisynthia olmadan kullanabilir misiniz?</h2>
 <p>Teorik olarak evet, ama pratik olarak çok zordur. Ham uydu verisi indirmek, işlemek ve yorumlamak saatler alır ve teknik bilgi gerektirir. Agrisynthia tüm bu adımları arka planda halleder; siz sadece haritanıza bakarsınız.</p>
 <blockquote>Tarlanız 5 günde bir uydudan geçiyor. Bu bilgiyi değerlendirmek artık sadece büyük çiftliklerin ayrıcalığı değil.</blockquote>
-""",
+"""),
     },
 ]
 
