@@ -1,13 +1,13 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-"""Django's command-line utility for administrative tasks."""
 import os
 import sys
 
 
 def main():
-    """Run administrative tasks."""
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "agrisynthia.settings")
+    if "test" in sys.argv:
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "agrisynthia.test_settings")
+    else:
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "agrisynthia.settings")
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
