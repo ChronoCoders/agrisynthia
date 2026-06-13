@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-12 23:21-0400\n"
+"POT-Creation-Date: 2026-06-12 23:33-0400\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -374,6 +374,122 @@ msgstr "Already have an account?"
 msgid "Giriş yapın"
 msgstr "Log in"
 
+msgid "Hakkımızda"
+msgstr "About"
+
+msgid ""
+"Agrisynthia — Türk tarımını dijital dönüşüme taşıyan yapay zeka platformu. "
+"Hikayemiz, misyonumuz ve değerlerimiz."
+msgstr "Agrisynthia — the AI platform driving Turkish agriculture's digital transformation. Our story, mission, and values."
+
+msgid ""
+"Türkiye'nin <span class=\"accent\">her tarlasının</span> uydu gözü ve yapay "
+"zeka aklıyla izlenmesi gerektiğine inanıyoruz.\n"
+"      Agrisynthia, üreticilerin veri temelli kararlar almasını <span "
+"class=\"accent\">mümkün kılmak</span> için kuruldu."
+msgstr ""
+
+msgid "Hikayemiz"
+msgstr "Our Story"
+
+msgid "Hasadın kaybedildiği andan doğdu"
+msgstr "Born from the moment a harvest was lost"
+
+#, python-format
+msgid ""
+"2024 yılında Antalya'da bir mandalina bahçesinde yaptığımız saha ziyaretinde "
+"gördük: üretici, NDVI grafiğinde haftalarca gerileyen bir tarlanın farkında "
+"bile değildi. Hasat geldiğinde verim %%30 düşmüştü."
+msgstr "In 2024 we visited a mandarin orchard in Antalya and saw it firsthand: the farmer had no idea his field's NDVI had been declining for weeks. By harvest, yield was down 30%%."
+
+msgid ""
+"O gün Agrisynthia'nın temelini attık. Uydu verisini, yapay zekayı ve drone "
+"teknolojisini bir araya getiren; Türk üreticisine anlık karar desteği sunan "
+"bir platform."
+msgstr "That day we laid Agrisynthia's foundation. A platform that brings satellite data, AI, and drone technology together to give Turkish farmers real-time decision support."
+
+msgid ""
+"Bugün 2.400'den fazla tarla ve 340+ kooperatif, hasatlarını Agrisynthia ile "
+"planlıyor."
+msgstr "Today, over 2,400 fields and 340+ cooperatives plan their harvest with Agrisynthia."
+
+msgid "2024'ten bu yana"
+msgstr "Since 2024"
+
+#, fuzzy
+#| msgid "Ayarlar"
+msgid "Tarla"
+msgstr "Settings"
+
+msgid "Kooperatif"
+msgstr "Cooperative"
+
+msgid "Ort. Verim Artışı"
+msgstr "Avg. Yield Increase"
+
+msgid "Görüntü Analizi"
+msgstr "Image Analyses"
+
+msgid "Değerlerimiz"
+msgstr "Our Values"
+
+msgid "Neye inandığımız"
+msgstr "What We Believe"
+
+msgid "Üretici Önce Gelir"
+msgstr "Farmer First"
+
+msgid ""
+"Her özellik, sahada üreticinin işini nasıl kolaylaştırdığı sorusuyla başlar. "
+"Teknoloji araçtır, amaç değil."
+msgstr "Every feature starts with the question: how does this make a farmer's work easier in the field? Technology is a tool, not the goal."
+
+msgid "Veri Asla Yanlış Söylemez"
+msgstr "Data Never Lies"
+
+msgid ""
+"Kararlarımız ve önerilerimiz bilimsel agronomi ve gerçek ölçüm verilerine "
+"dayanır. Tahmin belirsizliklerini her zaman açıkça belirtiriz."
+msgstr "Our decisions and recommendations are grounded in scientific agronomy and real measurement data. We always communicate prediction uncertainty clearly."
+
+msgid "Sürdürülebilir Tarım"
+msgstr "Sustainable Agriculture"
+
+msgid ""
+"Verimlilik artışı, su ve gübre tasarrufu anlamına gelir. Agrisynthia, "
+"çevresel ayak izini küçülten kararları destekler."
+msgstr "Higher productivity means water and fertilizer savings. Agrisynthia supports decisions that shrink your environmental footprint."
+
+msgid "Veri Gizliliği"
+msgstr "Data Privacy"
+
+msgid ""
+"Tarlanızın verisi sizindir. Üçüncü taraflarla paylaşmaz, reklam amaçlı "
+"kullanmayız. KVKK ve GDPR tam uyumlu."
+msgstr "Your field data is yours. We don't share it with third parties or use it for advertising. Fully KVKK and GDPR compliant."
+
+msgid "Nasıl Çalışır?"
+msgstr "How It Works"
+
+msgid "Tarlanız için çalışan araçlar"
+msgstr "Tools that work for your field"
+
+msgid ""
+"Uydudan drone'a, sahadan ofise — ihtiyacınız olan her şey tek platformda."
+msgstr "From satellite to drone, from field to office — everything you need on one platform."
+
+msgid "Birlikte büyüyelim"
+msgstr "Let's grow together"
+
+msgid "Agrisynthia'nın bir parçası olmak ister misiniz?"
+msgstr "Want to be part of Agrisynthia?"
+
+msgid "Bize Ulaşın"
+msgstr "Contact Us"
+
+msgid "Platformu Deneyin"
+msgstr "Try the Platform"
+
 msgid ""
 "Agrisynthia — Yapay zeka destekli tarımsal izleme, uydu NDVI analizi ve "
 "verim tahmini platformu."
@@ -392,7 +508,8 @@ msgstr ""
 "image processing, and AI fruit detection."
 
 msgid "Uydu NDVI analizi, drone görüntü işleme ve yapay zeka meyve tespiti."
-msgstr "Satellite NDVI analysis, drone image processing, and AI fruit detection."
+msgstr ""
+"Satellite NDVI analysis, drone image processing, and AI fruit detection."
 
 msgid "Akıllı Tarım Platformu"
 msgstr "Smart Agriculture Platform"
@@ -405,9 +522,6 @@ msgstr "Pricing"
 
 msgid "Blog"
 msgstr "Blog"
-
-msgid "Hakkımızda"
-msgstr "About"
 
 msgid "İletişim"
 msgstr "Contact"
@@ -422,8 +536,8 @@ msgid ""
 "Yapay zeka ve uydu görüntüleri ile tarlanızı gerçek zamanlı izleyin, "
 "hasadınızı önceden planlayın."
 msgstr ""
-"Monitor your fields in real time with AI and satellite imagery — plan "
-"your harvest ahead of time."
+"Monitor your fields in real time with AI and satellite imagery — plan your "
+"harvest ahead of time."
 
 msgid "Özellikler"
 msgstr "Features"
@@ -461,8 +575,7 @@ msgstr "Close"
 msgid ""
 "Sizi daha iyi tanımak ve destek verebilmek için lütfen bilgilerinizi "
 "paylaşın."
-msgstr ""
-"To better understand and support you, please share your details."
+msgstr "To better understand and support you, please share your details."
 
 msgid "Ad Soyad"
 msgstr "Full Name"
@@ -484,3 +597,823 @@ msgstr "Send"
 
 msgid "Asistan"
 msgstr "Assistant"
+
+msgid ""
+"Agrisynthia Blog — Agronomi, NDVI analizi, drone teknolojisi ve akıllı tarım "
+"üzerine içerikler."
+msgstr "Agrisynthia Blog — Articles on agronomy, NDVI analysis, drone technology, and smart agriculture."
+
+#, fuzzy
+#| msgid "Akıllı Tarım Platformu"
+msgid "Akıllı Tarım Tahminleri"
+msgstr "Smart Agriculture Platform"
+
+msgid ""
+"NDVI'dan drone teknolojisine, agronomi biliminden dijital dönüşüme — tarımın "
+"geleceğini birlikte okuyalım."
+msgstr "From NDVI to drone tech, from agronomy science to digital transformation — let's read the future of farming together."
+
+msgid "Öne Çıkan"
+msgstr "Featured"
+
+msgid "dk okuma"
+msgstr "min read"
+
+msgid "Devamını Oku"
+msgstr "Read More"
+
+msgid "Tümü"
+msgstr "All"
+
+msgid "NDVI & Uydu"
+msgstr "NDVI & Satellite"
+
+msgid "Drone"
+msgstr "Drone"
+
+msgid "Agronomi"
+msgstr "Agronomy"
+
+msgid "Teknoloji"
+msgstr "Technology"
+
+msgid "dk"
+msgstr "min"
+
+msgid "Yakında içerikler yayınlanacak."
+msgstr "Posts coming soon."
+
+msgid "Bülten"
+msgstr "Newsletter"
+
+msgid "Tarım haberlerini kaçırmayın"
+msgstr "Don't miss the farming news"
+
+msgid ""
+"Aylık NDVI raporları, sezonluk agronomi tavsiyeleri ve ürün güncellemeleri "
+"doğrudan e-posta kutunuza."
+msgstr "Monthly NDVI reports, seasonal agronomy advice, and product updates — straight to your inbox."
+
+#, fuzzy
+#| msgid "E-posta adresi"
+msgid "E-posta adresiniz"
+msgstr "Email address"
+
+msgid "Abone Ol"
+msgstr "Subscribe"
+
+msgid "Teşekkürler! Yakında ilk bülteniniz gelecek."
+msgstr "Thanks! Your first newsletter will arrive soon."
+
+msgid "Bu e-posta zaten kayıtlı."
+msgstr "This email is already subscribed."
+
+msgid "Okumak yetmez — deneyin"
+msgstr "Reading isn't enough — try it"
+
+msgid "14 gün boyunca kendi tarlanızda Agrisynthia'yı ücretsiz kullanın."
+msgstr "Use Agrisynthia free on your own field for 14 days."
+
+msgid "Blog'a Dön"
+msgstr "Back to Blog"
+
+msgid "Bu içerik faydalı oldu mu? Agrisynthia'yı tarlanızda deneyin."
+msgstr "Was this useful? Try Agrisynthia in your field."
+
+msgid "İlgili Yazılar"
+msgstr "Related Articles"
+
+msgid ""
+"Agrisynthia ile iletişime geçin. Demo talebi, teknik destek veya kurumsal "
+"görüşme için bize ulaşın."
+msgstr "Get in touch with Agrisynthia. Reach us for demo requests, technical support, or enterprise inquiries."
+
+msgid "Birlikte çalışalım"
+msgstr "Let's work together"
+
+msgid ""
+"Demo talebi, fiyat görüşmesi veya teknik sorularınız için formu doldurun. En "
+"geç 1 iş günü içinde dönüş yaparız."
+msgstr "Fill out the form for demo requests, pricing inquiries, or technical questions. We respond within 1 business day."
+
+#, fuzzy
+#| msgid "E-posta Gönderildi"
+msgid "Mesaj Gönderin"
+msgstr "Email Sent"
+
+msgid "Mesajınız iletildi. En kısa sürede size dönüş yapacağız."
+msgstr "Your message has been sent. We will get back to you as soon as possible."
+
+msgid "Firma / Kooperatif"
+msgstr "Company / Cooperative"
+
+msgid "Ege Tarım Koop."
+msgstr "Aegean Farming Coop."
+
+msgid "Konu"
+msgstr "Subject"
+
+msgid "— Seçin —"
+msgstr "— Select —"
+
+msgid "Demo Talebi"
+msgstr "Demo Request"
+
+msgid "Kurumsal / Kooperatif Görüşme"
+msgstr "Enterprise / Cooperative Inquiry"
+
+msgid "Teknik Destek"
+msgstr "Technical Support"
+
+msgid "Fiyat Bilgisi"
+msgstr "Pricing Info"
+
+msgid "Diğer"
+msgstr "Other"
+
+#, fuzzy
+#| msgid "Mesajınızı yazın..."
+msgid "Mesajınız"
+msgstr "Type your message..."
+
+msgid "Projeniz veya ihtiyaçlarınız hakkında kısaca bilgi verin..."
+msgstr "Briefly describe your project or needs..."
+
+#, fuzzy
+#| msgid "Kişisel Bilgiler"
+msgid "İletişim Bilgileri"
+msgstr "Personal Information"
+
+msgid "Yanıt Süresi"
+msgstr "Response Time"
+
+msgid "En geç 1 iş günü"
+msgstr "Within 1 business day"
+
+msgid "Destek Saatleri"
+msgstr "Support Hours"
+
+msgid "Hafta içi 09:00 – 18:00"
+msgstr "Weekdays 09:00 – 18:00"
+
+msgid "Demo İsteyin"
+msgstr "Request a Demo"
+
+msgid ""
+"Ekibimiz, ihtiyaçlarınıza özel 30 dakikalık canlı demo sunabilir. Yukarıdaki "
+"formu doldurmanız yeterli."
+msgstr "Our team can offer a 30-minute live demo tailored to your needs. Just fill out the form above."
+
+msgid "Ana Sayfa"
+msgstr "Home"
+
+msgid ""
+"Agrisynthia ile tarlanızı uydu ve drone görüntülerinden yapay zeka ile "
+"analiz edin. NDVI izleme, meyve tespiti ve verim tahmini tek platformda."
+msgstr "Analyze your field with AI using satellite and drone imagery. NDVI monitoring, fruit detection, and yield prediction in one platform."
+
+#, fuzzy
+#| msgid "Agrisynthia | Akıllı Tarım Platformu"
+msgid "Türkiye'nin Akıllı Tarım Platformu"
+msgstr "Agrisynthia | Smart Agriculture Platform"
+
+msgid ""
+"Tarlanızı <span class=\"highlight\">gerçek zamanlı</span> görün. Hasadınızı "
+"önceden planlayın."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "Uydu NDVI analizi, drone görüntü işleme ve yapay zeka meyve tespiti ile "
+#| "tarımsal verimliliğinizi artırın."
+msgid ""
+"Uydu NDVI analizi, drone görüntü işleme ve yapay zeka meyve tespiti ile "
+"hasadınızı artırın, kayıplarınızı azaltın."
+msgstr "Boost your harvest and reduce losses with satellite NDVI analysis, drone image processing, and AI fruit detection."
+
+msgid "Kredi kartı gerekmez"
+msgstr "No credit card required"
+
+#, fuzzy
+#| msgid "Gün Ücretsiz"
+msgid "14 gün ücretsiz deneme"
+msgstr "Days Free"
+
+msgid "Uydu NDVI Haritası — Antalya, Mandalina Bahçesi"
+msgstr "Satellite NDVI Map — Antalya, Mandarin Orchard"
+
+msgid "Ort. NDVI"
+msgstr "Avg. NDVI"
+
+msgid "Sağlıklı Alan"
+msgstr "Healthy Area"
+
+msgid "Verim Artışı"
+msgstr "Yield Increase"
+
+msgid "İzlenen Tarla"
+msgstr "Fields Monitored"
+
+msgid "Analiz Edilen Görüntü"
+msgstr "Images Analyzed"
+
+msgid "Ortalama Verim Artışı"
+msgstr "Avg. Yield Increase"
+
+msgid "Kooperatif & Çiftlik"
+msgstr "Co-ops & Farms"
+
+msgid "Tarımsal zeka, tek platformda"
+msgstr "Agricultural intelligence, one platform"
+
+msgid "Drone'dan uyduya, tespetten tahmine — tüm süreç otomatik."
+msgstr "From drone to satellite, from detection to prediction — the whole pipeline automated."
+
+msgid "Uydu NDVI İzleme"
+msgstr "Satellite NDVI Monitoring"
+
+msgid ""
+"Sentinel-2 uydu görüntülerinden haftalık NDVI haritası. Bitki stresini hasat "
+"öncesi fark edin."
+msgstr "Weekly NDVI maps from Sentinel-2 satellite imagery. Catch plant stress before harvest."
+
+#, fuzzy
+#| msgid "Alan Haritası"
+msgid "Drone ile Tarla Haritası"
+msgstr "Field Map"
+
+msgid ""
+"Drone fotoğraflarınızı yükleyin, sistem tarlanızın detaylı sağlık haritasını "
+"otomatik oluşturur."
+msgstr "Upload your drone photos — the system automatically generates a detailed health map of your field."
+
+msgid "Yapay Zeka Meyve Sayımı"
+msgstr "AI Fruit Counting"
+
+#, python-format
+msgid ""
+"Birkaç fotoğraftan bahçenizdeki toplam meyveyi %%94+ doğrulukla sayar, "
+"tonajı tahmin eder."
+msgstr "From a handful of photos, counts the total fruit in your orchard with 94%%+ accuracy and estimates tonnage."
+
+#, python-format
+msgid ""
+"Tespit verileri ve NDVI'yı birleştiren agronomi modelimiz hasadı ±%%25 "
+"hassasiyetle öngörür."
+msgstr "Our agronomy model combines detection data and NDVI to predict harvest within ±25%%."
+
+#, fuzzy
+#| msgid "Alan Haritası"
+msgid "Çoklu Alan Haritası"
+msgstr "Field Map"
+
+msgid ""
+"Tüm tarlalarınızı tek haritada görün. NDVI sağlık durumuna göre "
+"renklendirilmiş poligon izleme."
+msgstr "See all your fields on one map. Polygon tracking colored by NDVI health."
+
+msgid "Otomatik Raporlama"
+msgstr "Automated Reporting"
+
+msgid ""
+"Günlük, haftalık veya aylık PDF/Excel raporları otomatik olarak e-posta ile "
+"iletin."
+msgstr "Schedule daily, weekly, or monthly PDF/Excel reports — automatically emailed."
+
+msgid "3 adımda akıllı tarım"
+msgstr "Smart farming in 3 steps"
+
+msgid "Tarlalarınızı tanımlayın"
+msgstr "Define your fields"
+
+msgid ""
+"Harita üzerinde tarla sınırlarınızı çizin. Uydu NDVI izleme otomatik başlar."
+msgstr "Draw field boundaries on the map. Satellite NDVI monitoring starts automatically."
+
+msgid "Görüntü yükleyin"
+msgstr "Upload imagery"
+
+msgid ""
+"Drone görüntüleri veya tek fotoğraf yükleyin. YZ modelimiz meyveleri "
+"otomatik sayar."
+msgstr "Upload drone images or a single photo. Our AI counts the fruit automatically."
+
+msgid "Raporunuzu alın"
+msgstr "Get your report"
+
+msgid ""
+"Verim tahmini, NDVI trendi ve stres uyarıları ile hasat planınızı erkenden "
+"yapın."
+msgstr "Plan your harvest early with yield predictions, NDVI trends, and stress alerts."
+
+msgid "Kimler Kullanıyor?"
+msgstr "Who Uses It?"
+
+msgid "Her ölçekten üretici için"
+msgstr "For every scale of farmer"
+
+msgid ""
+"Küçük aile bahçesinden büyük kooperatife — Agrisynthia her ölçeğe uyum "
+"sağlar."
+msgstr "From a small family orchard to a large cooperative — Agrisynthia scales with you."
+
+msgid "Bireysel Üretici"
+msgstr "Individual Farmer"
+
+msgid "50 dönüm mandalina bahçesi"
+msgstr "50-decare mandarin orchard"
+
+msgid ""
+"Mehmet Bey, hasattan 3 hafta önce NDVI düşüşünü fark etti. Zamanında sulama "
+"yaptı. O sezon kayıpları yarı yarıya azaldı, alıcıya güvenle fiyat verdi."
+msgstr "Mehmet noticed an NDVI drop 3 weeks before harvest. He irrigated in time. That season his losses halved and he priced confidently to buyers."
+
+#, python-format
+msgid "%%31 daha az hasat kaybı"
+msgstr ""
+
+msgid "En Yaygın Kullanım"
+msgstr "Most Common Use"
+
+msgid "Kooperatif Yöneticisi"
+msgstr "Cooperative Manager"
+
+msgid "120 üyenin arazisi, tek ekran"
+msgstr "120 members' land, one screen"
+
+#, python-format
+msgid ""
+"Fatma Hanım, tüm üyelerin tarlalarını tek panelden takip ediyor. Haftalık "
+"raporlar otomatik geliyor. Sahaya çıkma sıklığı %%40 azaldı, doğru yere "
+"gidiyor."
+msgstr "Fatma tracks all members' fields from a single panel. Weekly reports arrive automatically. Field visits dropped 40%% and she's always going to the right place."
+
+#, python-format
+msgid "%%40 daha az gereksiz saha ziyareti"
+msgstr ""
+
+msgid "Tarım Danışmanı"
+msgstr "Agricultural Consultant"
+
+msgid "Sahaya gitmeden önce biliyor"
+msgstr "Knows before visiting the field"
+
+msgid ""
+"Ali Bey, 15 farklı müşterisinin tarlasını uydudan izliyor. Sorunlu alana "
+"önce gidiyor, gereksiz ziyareti ortadan kaldırdı. Müşteri memnuniyeti arttı."
+msgstr "Ali monitors 15 different clients' fields by satellite. He visits the problem areas first and cut out wasted trips. Client satisfaction is up."
+
+msgid "2× daha fazla müşteri, aynı zamanda"
+msgstr "2× more clients in the same time"
+
+msgid "Müşteri Yorumları"
+msgstr "Customer Stories"
+
+msgid "Üreticiler ne diyor?"
+msgstr "What farmers say"
+
+msgid ""
+"Mandalina bahçemde daha hasat gelmeden NDVI düşüşünü gördük. Zamanında "
+"müdahale ettik ve o sezon kayıplarımız yarı yarıya azaldı."
+msgstr "We saw the NDVI drop in my mandarin orchard before harvest. We intervened in time and our losses that season were cut in half."
+
+msgid "Mandalina Üreticisi, Antalya"
+msgstr "Mandarin Farmer, Antalya"
+
+#, python-format
+msgid ""
+"Kooperatifimizin 120 üyesinin tarlalarını tek panelden takip ediyoruz. "
+"Raporları otomatik alıyoruz, sahaya çıkma sıklığımız %%40 azaldı."
+msgstr "We track our coop's 120 members' fields from one panel. Reports come automatically and our site visits dropped 40%%."
+
+msgid "Kooperatif Müdürü, İzmir"
+msgstr "Cooperative Manager, İzmir"
+
+msgid ""
+"Drone görüntülerimizi yükleyip otomatik meyve sayımı yaptırıyoruz. Eskiden 3 "
+"kişi 2 günde yapardı, şimdi 20 dakika."
+msgstr "We upload our drone imagery and let it count the fruit automatically. What used to take 3 people 2 days now takes 20 minutes."
+
+msgid "Elma Bahçesi İşletmecisi, Isparta"
+msgstr "Apple Orchard Operator, Isparta"
+
+msgid "Tarlanızı bugün izlemeye başlayın"
+msgstr "Start monitoring your field today"
+
+msgid "Daha Fazla Bilgi"
+msgstr "Learn More"
+
+msgid ""
+"Agrisynthia fiyat planları — Bireysel üretici, kooperatif ve kurumsal. 14 "
+"gün ücretsiz deneme."
+msgstr "Agrisynthia pricing — Individual, Cooperative, Enterprise. 14-day free trial."
+
+msgid "Tarlanız için doğru plan"
+msgstr "The right plan for your field"
+
+msgid "Aylık"
+msgstr "Monthly"
+
+msgid "Yıllık"
+msgstr "Annual"
+
+#, python-format
+msgid "(%%20 indirim)"
+msgstr ""
+
+msgid "Bireysel"
+msgstr "Individual"
+
+msgid "/ay"
+msgstr "/mo"
+
+msgid "Küçük aile işletmeleri ve bireysel üreticiler için."
+msgstr "For small family operations and individual farmers."
+
+msgid "3 tarla / proje"
+msgstr "3 fields / projects"
+
+msgid "Haftalık NDVI güncelleme"
+msgstr "Weekly NDVI updates"
+
+msgid "Meyve tespiti (aylık 50 görüntü)"
+msgstr "Fruit detection (50 images/month)"
+
+msgid "Drone analizi (aylık 1 proje)"
+msgstr "Drone analysis (1 project/month)"
+
+msgid "PDF rapor indirme"
+msgstr "PDF report download"
+
+#, fuzzy
+#| msgid "E-posta yolda!"
+msgid "E-posta uyarıları"
+msgstr "Email on its way!"
+
+msgid "Otomatik rapor gönderimi"
+msgstr "Automated report delivery"
+
+msgid "API erişimi"
+msgstr "API access"
+
+msgid "Öncelikli destek"
+msgstr "Priority support"
+
+msgid "En Popüler"
+msgstr "Most Popular"
+
+msgid "Kooperatifler ve çok tarla yöneten işletmeler için."
+msgstr "For cooperatives and multi-field operations."
+
+msgid "25 tarla / proje"
+msgstr "25 fields / projects"
+
+msgid "Günlük NDVI güncelleme"
+msgstr "Daily NDVI updates"
+
+msgid "Meyve tespiti (sınırsız görüntü)"
+msgstr "Fruit detection (unlimited images)"
+
+msgid "Drone analizi (sınırsız proje)"
+msgstr "Drone analysis (unlimited projects)"
+
+msgid "PDF + Excel rapor"
+msgstr "PDF + Excel reports"
+
+#, fuzzy
+#| msgid "Alan Haritası"
+msgid "Alan Haritası görünümü"
+msgstr "Field Map"
+
+msgid "Kurumsal"
+msgstr "Enterprise"
+
+msgid "Teklif Alın"
+msgstr "Get a Quote"
+
+msgid "Büyük kooperatifler, tarım şirketleri ve kamu kurumları."
+msgstr "Large cooperatives, agritech companies, and public institutions."
+
+#, fuzzy
+#| msgid "İletişim"
+msgid "İletişime Geçin"
+msgstr "Contact"
+
+msgid "Sınırsız tarla / proje"
+msgstr "Unlimited fields / projects"
+
+msgid "Gerçek zamanlı NDVI"
+msgstr "Real-time NDVI"
+
+msgid "Meyve tespiti (sınırsız)"
+msgstr "Fruit detection (unlimited)"
+
+msgid "Drone analizi (sınırsız)"
+msgstr "Drone analysis (unlimited)"
+
+msgid "Tüm rapor formatları"
+msgstr "All report formats"
+
+msgid "Tüm uyarı türleri"
+msgstr "All alert types"
+
+msgid "REST API erişimi"
+msgstr "REST API access"
+
+msgid "Öncelikli destek + SLA"
+msgstr "Priority support + SLA"
+
+msgid "Tüm planlarda dahil:"
+msgstr "Included in all plans:"
+
+msgid "SSS"
+msgstr "FAQ"
+
+#, fuzzy
+#| msgid "Fiyatlandırma"
+msgid "Fiyatlandırma Soruları"
+msgstr "Pricing"
+
+msgid "Ücretsiz deneme nasıl çalışır?"
+msgstr "How does the free trial work?"
+
+msgid ""
+"Kaydolduğunuzda Kooperatif planının tüm özelliklerine 14 gün boyunca "
+"erişebilirsiniz. Süre sonunda istediğiniz plana geçebilir veya hesabınızı "
+"silebilirsiniz."
+msgstr "After signup you get full access to the Cooperative plan for 14 days. At the end you can pick any plan or delete your account."
+
+msgid "Yıllık faturalama nasıl işliyor?"
+msgstr "How does annual billing work?"
+
+#, python-format
+msgid ""
+"Yıllık planı seçtiğinizde 12 aylık tutar tek seferinde faturalanır ve %%20 "
+"indirim uygulanır. Dilediğiniz zaman aylık plana geçebilirsiniz."
+msgstr "If you pick annual, you're billed for 12 months at once with a 20%% discount. You can switch to monthly anytime."
+
+msgid "Plan değiştirmek mümkün mü?"
+msgstr "Can I change plans?"
+
+msgid ""
+"Evet. Hesap ayarlarınızdan istediğiniz zaman planınızı yükseltebilir veya "
+"düşürebilirsiniz. Ücret farkı günlük olarak hesaplanır."
+msgstr "Yes. Upgrade or downgrade anytime from account settings. The price difference is prorated daily."
+
+msgid "Fatura/e-fatura alabilir miyim?"
+msgstr "Can I get an invoice / e-invoice?"
+
+msgid ""
+"Evet, tüm ödemeler için yasal e-fatura düzenlenmektedir. Kurumsal fatura "
+"için destek ekibimizle iletişime geçin."
+msgstr "Yes — every payment generates a legal e-invoice. For enterprise invoicing, contact our support team."
+
+msgid "Hâlâ kararsız mısınız?"
+msgstr "Still on the fence?"
+
+msgid "Bir uzmanımız tarlanızın ihtiyaçlarına göre en uygun planı belirlesin."
+msgstr "Let one of our experts match your field to the right plan."
+
+#, fuzzy
+#| msgid "Başlayın"
+msgid "Hemen Başlayın"
+msgstr "Get Started"
+
+msgid ""
+"Agrisynthia ürün özellikleri — Sentinel-2 NDVI, drone analizi, YZ meyve "
+"tespiti ve verim tahmini."
+msgstr "Agrisynthia product features — Sentinel-2 NDVI, drone analysis, AI fruit detection, and yield prediction."
+
+msgid "Platform"
+msgstr "Platform"
+
+msgid "Tarımsal verinin tüm gücü, tek çatı altında"
+msgstr "All the power of farm data, under one roof"
+
+msgid ""
+"Uydudan drone'a, sahadan ofise — Agrisynthia her veri kaynağını "
+"birleştirerek size eyleme geçilebilir tahminler sunar."
+msgstr "From satellite to drone, from field to office — Agrisynthia unifies every data source to give you actionable predictions."
+
+#, fuzzy
+#| msgid "Alan İzleme"
+msgid "Uydu İzleme"
+msgstr "Field Monitoring"
+
+msgid "Bitki sağlığını haftadan haftaya takip edin"
+msgstr "Track plant health week by week"
+
+msgid "Ortalama stres tespitinde<br>önceden müdahale oranı"
+msgstr "Average rate of preventive<br>action on stress detection"
+
+msgid ""
+"Tarlanız her 5 günde bir uydu tarafından görüntülenir. Agrisynthia bu "
+"görüntüleri otomatik işler ve size renkli bir sağlık haritası sunar. "
+"Kuraklık, hastalık veya gübre eksikliğini renk değişimi olarak görürsünüz — "
+"hasat kaybı yaşamadan önce müdahale edersiniz."
+msgstr "Your field is imaged by satellite every 5 days. Agrisynthia processes the imagery automatically and gives you a colored health map. You see drought, disease, or fertilizer deficiency as color shifts — and act before harvest loss."
+
+msgid "Haftada bir otomatik güncelleme, siz hiçbir şey yapmadan"
+msgstr "Weekly automatic updates with zero effort from you"
+
+msgid "Aylık ve mevsimlik karşılaştırma grafikleri"
+msgstr "Monthly and seasonal comparison charts"
+
+msgid "Tarlanız strese girdiğinde anında e-posta bildirimi"
+msgstr "Instant email alert the moment your field is stressed"
+
+msgid "Bulutlu günlerde sistem bir sonraki net görüntüyü bekler"
+msgstr "On cloudy days, the system waits for the next clear pass"
+
+msgid "NDVI: 0.62 — Sağlıklı"
+msgstr "NDVI: 0.62 — Healthy"
+
+msgid "Ekim"
+msgstr "Oct"
+
+msgid "Kasım"
+msgstr "Nov"
+
+msgid "Aralık"
+msgstr "Dec"
+
+msgid "Ocak"
+msgstr "Jan"
+
+msgid "Şubat"
+msgstr "Feb"
+
+msgid "5 Aylık NDVI Trendi"
+msgstr "5-Month NDVI Trend"
+
+msgid "Drone Analizi"
+msgstr "Drone Analysis"
+
+msgid "Drone görüntülerinizi ortofotoya dönüştürün"
+msgstr "Turn your drone imagery into an orthophoto"
+
+msgid "min"
+msgstr "min"
+
+msgid "Görüntü yükleme &rarr;<br>tam analiz süresi"
+msgstr "Upload to<br>full analysis"
+
+msgid ""
+"Drone ile çektiğiniz fotoğrafları yükleyin, gerisini Agrisynthia halleder. "
+"Görüntüler otomatik olarak birleştirilir ve tarlanızın detaylı bir sağlık "
+"haritasına dönüştürülür. Sonucu harita üzerinde görün, indirin veya "
+"ekibinizle paylaşın."
+msgstr "Upload your drone photos, and Agrisynthia handles the rest. Images are stitched together and turned into a detailed health map of your field. View, download, or share with your team."
+
+msgid "Sürükle bırak ile toplu görüntü yükleme"
+msgstr "Drag-and-drop bulk image upload"
+
+msgid ""
+"Hangi alanın sağlıklı, hangisinin sorunlu olduğunu renk haritasıyla görün"
+msgstr "See healthy vs. problem areas at a glance with the color map"
+
+msgid "İşlem sürerken adım adım ilerleme takibi"
+msgstr "Step-by-step progress while processing"
+
+msgid "Telefon kamerasıyla çekip doğrudan yükleme"
+msgstr "Shoot with your phone and upload directly"
+
+msgid "48 fotoğraf yüklendi"
+msgstr "48 photos uploaded"
+
+msgid "Görüntüler birleştirildi"
+msgstr "Images stitched"
+
+msgid "Sağlık haritası oluşturuluyor…"
+msgstr "Generating health map…"
+
+#, fuzzy
+#| msgid "Doğrulama e-postası gönderildi."
+msgid "Rapor e-posta ile gönderilecek"
+msgstr "Verification email sent."
+
+#, fuzzy
+#| msgid "Fotoğraf Seç"
+msgid "Fotoğraf"
+msgstr "Choose Photo"
+
+msgid "Alan"
+msgstr "Area"
+
+msgid "Süre"
+msgstr "Time"
+
+msgid "YZ Meyve Tespiti"
+msgstr "AI Fruit Detection"
+
+msgid "Hasattan önce meyvenizi sayın"
+msgstr "Count your fruit before harvest"
+
+#, fuzzy
+#| msgid "Tespit Doğruluğu"
+msgid "YOLOv7 tespit<br>doğruluğu"
+msgstr "Detection Accuracy"
+
+msgid ""
+"Bahçenizden birkaç fotoğraf çekin, yapay zekamız meyveleri otomatik sayar. "
+"Ağaç başına düşen meyve sayısını, tahmini ağırlığı ve toplam tonajı "
+"saniyeler içinde görebilirsiniz — hasattan önce ne beklediğinizi önceden "
+"bilirsiniz."
+msgstr "Take a handful of photos from your orchard — our AI counts the fruit automatically. See fruit per tree, estimated weight, and total tonnage in seconds. Know what to expect before harvest."
+
+msgid "Mandalina, elma, armut, şeftali, nar desteği"
+msgstr "Mandarin, apple, pear, peach, pomegranate supported"
+
+msgid "Ağaç sayısı ve yaşa göre otomatik hesaplama"
+msgstr "Automatic calculation by tree count and age"
+
+msgid "Her meyve görsel olarak işaretlenir, sayım şeffaftır"
+msgstr "Each fruit is visually marked — the count is transparent"
+
+msgid "Sonuçları PDF veya Excel olarak tek tıkla indirin"
+msgstr "Download results as PDF or Excel with one click"
+
+msgid "Mandalina Bahçesi — 4.2 ha"
+msgstr "Mandarin Orchard — 4.2 ha"
+
+msgid "Analiz tamamlandı · Az önce"
+msgstr "Analysis complete · Just now"
+
+#, python-format
+msgid "94%% güven"
+msgstr ""
+
+msgid "Tespit edilen meyve"
+msgstr "Fruit detected"
+
+msgid "Ağaç başına tahmini"
+msgstr "Per tree estimate"
+
+msgid "Toplam tonaj tahmini"
+msgstr "Total tonnage estimate"
+
+msgid "PDF raporu hazır"
+msgstr "PDF report ready"
+
+msgid "İndir"
+msgstr "Download"
+
+#, fuzzy
+#| msgid "Sık Sorulan Sorular"
+msgid "Sıkça Sorulan Sorular"
+msgstr "Frequently Asked Questions"
+
+msgid "İnternet bağlantısı olmadan çalışır mı?"
+msgstr "Does it work without an internet connection?"
+
+msgid ""
+"Görüntü analizi için internet bağlantısı gereklidir. Ancak önceden "
+"indirilmiş NDVI haritaları ve raporlar çevrimdışı erişilebilir."
+msgstr "An internet connection is required for image analysis. However, previously downloaded NDVI maps and reports are available offline."
+
+msgid "Hangi drone modelleri destekleniyor?"
+msgstr "Which drone models are supported?"
+
+msgid ""
+"JPEG ve TIFF formatında görüntü çıktısı veren tüm drone modelleri "
+"desteklenmektedir. DJI, Parrot ve Autel başta olmak üzere 50'den fazla model "
+"ile test edilmiştir."
+msgstr "Any drone that outputs JPEG or TIFF imagery is supported. Tested with 50+ models, primarily DJI, Parrot, and Autel."
+
+msgid "Uydu verileri ne sıklıkla güncelleniyor?"
+msgstr "How often is satellite data updated?"
+
+#, python-format
+msgid ""
+"Sentinel-2 her 5 günde bir aynı konumu tekrar çeker. Bulut örtüsü %%30'un "
+"altındaki geçişler otomatik işlenerek NDVI tablonuza eklenir."
+msgstr "Sentinel-2 revisits the same location every 5 days. Passes with cloud cover below 30%% are automatically processed and added to your NDVI dashboard."
+
+msgid "Verilerim güvende mi?"
+msgstr "Is my data safe?"
+
+msgid ""
+"Tüm görüntüler ve analizler yalnızca sizin hesabınızda saklanır, üçüncü "
+"taraflarla paylaşılmaz. Veri işleme KVKK ve GDPR uyumludur."
+msgstr "All imagery and analysis stay in your account alone — never shared with third parties. Data processing is KVKK and GDPR compliant."
+
+msgid "Kooperatif için toplu hesap açılabilir mi?"
+msgstr "Can a bulk account be opened for a cooperative?"
+
+msgid ""
+"Evet. Kooperatif planımız birden fazla üreticiyi tek yönetim paneliyle takip "
+"etmenizi sağlar. Detaylar için bizimle iletişime geçin."
+msgstr "Yes. Our Cooperative plan lets you track multiple farmers from one admin panel. Contact us for details."
+
+#, fuzzy
+#| msgid "Ücretsiz Başlayın"
+msgid "Ücretsiz denemeye başlayın"
+msgstr "Start Free"
+
+#, fuzzy
+#| msgid "14 gün ücretsiz. Kredi kartı gerekmez. İstediğiniz zaman iptal edin."
+msgid "Kredi kartı gerekmez. 14 gün sonra istediğiniz planı seçin."
+msgstr "14 days free. No credit card. Cancel anytime."
+
+msgid "Planları Görün"
+msgstr "See Plans"
