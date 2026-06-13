@@ -213,7 +213,6 @@
       
 
 <script>
-// ── Sentinel-2 NDVI chart ──────────────────────────────────────────────────
 (function() {
     var ndviUrl = "{% url 'dron_map:ndvi_data' project_id=projes.id %}";
     fetch(ndviUrl, {credentials: 'same-origin'})
@@ -345,8 +344,6 @@
         .then(response => {
             if (response.status === 202) {
                 alert("Rapor oluşturma başlatıldı. Raporlar sayfasından indirebilirsiniz.");
-                // Optional: redirect to reports list or stay here
-                // window.location.href = "{% url 'reports:list' %}";
             } else {
                 return response.json().then(data => {
                     throw new Error(data.error || "Bilinmeyen hata");
@@ -483,13 +480,11 @@ function loadDensityLayer() {
     });
 }
 
-    // Stres Analizi Chart.js Entegrasyonu
     let stressChart = null;
 
     function updateStressChart(stats) {
         const ctx = document.getElementById('stressChart').getContext('2d');
         
-        // Veri hazırlığı
         const totalArea = stats.toplam_alan || 100;
         const stressArea = stats.yuksek_stres_alan_ha || 0;
         const mediumArea = stats.orta_stres_alan_ha || 0;
@@ -563,7 +558,6 @@ function loadDensityLayer() {
           layerControl.addOverlay(stressZoneLayer, "Stres Zonları");
 
           if (data.ozet) {
-            // Panel güncellemeleri
             if (typeof data.ozet.yuksek_stres_yuzde !== 'undefined') {
               var v = data.ozet.yuksek_stres_yuzde;
               document.getElementById('stress-area-percent').textContent = v.toFixed(1);
@@ -577,7 +571,6 @@ function loadDensityLayer() {
                 data.ozet.en_buyuk_zon_ha.toFixed(3);
             }
             
-            // Grafik güncelleme
             updateStressChart({
                 toplam_alan: projectAreaHa,
                 yuksek_stres_alan_ha: data.ozet.toplam_stres_alani_ha,
@@ -676,7 +669,6 @@ function loadYield() {
     });
 }
 
-    // Harita Lejantı
     var legend = L.control({position: 'bottomright'});
 
     legend.onAdd = function (map) {
@@ -689,14 +681,12 @@ function loadYield() {
         
         var content = '<strong>Lejant</strong><br>';
         
-        // Stres Zonları
         content += '<div class="legend-item"><div class="legend-color" style="background:#d73027"></div>Yüksek Stres</div>';
         content += '<div class="legend-item"><div class="legend-color" style="background:#fc8d59"></div>Orta Stres</div>';
         content += '<div class="legend-item"><div class="legend-color" style="background:#1a9850"></div>Sağlıklı</div>';
         
         content += '<hr style="margin:8px 0;border-color:rgba(0,0,0,0.1)">';
         
-        // Yoğunluk
         content += '<div class="legend-item"><div class="legend-color" style="background:#E31A1C"></div>Yüksek Yoğunluk</div>';
         content += '<div class="legend-item"><div class="legend-color" style="background:#FD8D3C"></div>Normal Yoğunluk</div>';
         content += '<div class="legend-item"><div class="legend-color" style="background:#FFEDA0"></div>Düşük Yoğunluk</div>';

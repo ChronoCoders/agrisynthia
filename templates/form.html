@@ -347,7 +347,6 @@ function handleFormSubmit() {
             return;
         }
 
-        // Unexpected response
         _showError(data.error || 'Beklenmeyen sunucu yanıtı.');
         _resetBtn();
     })
@@ -461,7 +460,6 @@ function _renderResult(result, fromCache) {
     }
 }
 
-// Drag-and-drop on desktop
 (function() {
     var zone = document.getElementById('uploadZone');
     if (!zone) return;
