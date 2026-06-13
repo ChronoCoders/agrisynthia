@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-13 15:04-0400\n"
+"POT-Creation-Date: 2026-06-13 16:16-0400\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1409,10 +1409,15 @@ msgid "Hasadın kaybedildiği andan doğdu"
 msgstr "Born from the moment a harvest was lost"
 
 #
+#, fuzzy, python-format
+#| msgid ""
+#| "2024 yılında Antalya'da bir mandalina bahçesinde yaptığımız saha "
+#| "ziyaretinde gördük: üretici, NDVI grafiğinde haftalarca gerileyen bir "
+#| "tarlanın farkında bile değildi. Hasat geldiğinde verim %30 düşmüştü."
 msgid ""
 "2024 yılında Antalya'da bir mandalina bahçesinde yaptığımız saha ziyaretinde "
 "gördük: üretici, NDVI grafiğinde haftalarca gerileyen bir tarlanın farkında "
-"bile değildi. Hasat geldiğinde verim %30 düşmüştü."
+"bile değildi. Hasat geldiğinde verim %%30 düşmüştü."
 msgstr ""
 "In 2024 we visited a mandarin orchard in Antalya and saw it firsthand: the "
 "farmer had no idea his field's NDVI had been declining for weeks. By "
@@ -1439,6 +1444,9 @@ msgstr "Since 2024"
 
 msgid "Kooperatif"
 msgstr "Cooperative"
+
+msgid "%23"
+msgstr "23%"
 
 msgid "Ort. Verim Artışı"
 msgstr "Avg. Yield Increase"
@@ -1534,7 +1542,8 @@ msgstr ""
 "image processing, and AI fruit detection."
 
 msgid "Uydu NDVI analizi, drone görüntü işleme ve yapay zeka meyve tespiti."
-msgstr "Satellite NDVI analysis, drone image processing, and AI fruit detection."
+msgstr ""
+"Satellite NDVI analysis, drone image processing, and AI fruit detection."
 
 msgid "Akıllı Tarım Platformu"
 msgstr "Smart Agriculture Platform"
@@ -1731,7 +1740,8 @@ msgid "Mesaj Gönderin"
 msgstr "Email Sent"
 
 msgid "Mesajınız iletildi. En kısa sürede size dönüş yapacağız."
-msgstr "Your message has been sent. We will get back to you as soon as possible."
+msgstr ""
+"Your message has been sent. We will get back to you as soon as possible."
 
 msgid "Firma / Kooperatif"
 msgstr "Company / Cooperative"
@@ -1811,12 +1821,16 @@ msgstr "Turkey's Smart Agriculture Platform"
 msgid ""
 "Tarlanızı <span class=\"highlight\">gerçek zamanlı</span> görün. Hasadınızı "
 "önceden planlayın."
-msgstr "See your field <span class=\"highlight\">in real time</span>. Plan your harvest in advance."
+msgstr ""
+"See your field <span class=\"highlight\">in real time</span>. Plan your "
+"harvest in advance."
 
 msgid ""
 "Uydu NDVI analizi, drone görüntü işleme ve yapay zeka meyve tespiti ile "
 "hasadınızı artırın, kayıplarınızı azaltın."
-msgstr "Boost your harvest and reduce losses with satellite NDVI analysis, drone image processing, and AI fruit detection."
+msgstr ""
+"Boost your harvest and reduce losses with satellite NDVI analysis, drone "
+"image processing, and AI fruit detection."
 
 msgid "Kredi kartı gerekmez"
 msgstr "No credit card required"
@@ -1830,8 +1844,14 @@ msgstr "Satellite NDVI Map — Antalya, Mandarin Orchard"
 msgid "Ort. NDVI"
 msgstr "Avg. NDVI"
 
+msgid "%87"
+msgstr "87%"
+
 msgid "Sağlıklı Alan"
 msgstr "Healthy Area"
+
+msgid "+%14"
+msgstr "+14%"
 
 msgid "Verim Artışı"
 msgstr "Yield Increase"
@@ -1852,7 +1872,9 @@ msgid "Tarımsal zeka, tek platformda"
 msgstr "Agricultural intelligence, one platform"
 
 msgid "Drone'dan uyduya, tespitten tahmine — tüm süreç otomatik."
-msgstr "From drone to satellite, from detection to prediction — the whole pipeline automated."
+msgstr ""
+"From drone to satellite, from detection to prediction — the whole pipeline "
+"automated."
 
 msgid "Uydu NDVI İzleme"
 msgstr "Satellite NDVI Monitoring"
@@ -1878,16 +1900,24 @@ msgid "Yapay Zeka Meyve Sayımı"
 msgstr "AI Fruit Counting"
 
 #
+#, fuzzy, python-format
+#| msgid ""
+#| "Birkaç fotoğraftan bahçenizdeki toplam meyveyi %94+ doğrulukla sayar, "
+#| "tonajı tahmin eder."
 msgid ""
-"Birkaç fotoğraftan bahçenizdeki toplam meyveyi %94+ doğrulukla sayar, "
+"Birkaç fotoğraftan bahçenizdeki toplam meyveyi %%94+ doğrulukla sayar, "
 "tonajı tahmin eder."
 msgstr ""
 "From a handful of photos, counts the total fruit in your orchard with 94%+ "
 "accuracy and estimates tonnage."
 
 #
+#, fuzzy, python-format
+#| msgid ""
+#| "Tespit verileri ve NDVI'yı birleştiren agronomi modelimiz hasadı ±%25 "
+#| "hassasiyetle öngörür."
 msgid ""
-"Tespit verileri ve NDVI'yı birleştiren agronomi modelimiz hasadı ±%25 "
+"Tespit verileri ve NDVI'yı birleştiren agronomi modelimiz hasadı ±%%25 "
 "hassasiyetle öngörür."
 msgstr ""
 "Our agronomy model combines detection data and NDVI to predict harvest "
@@ -1969,7 +1999,9 @@ msgstr ""
 "That season his losses halved and he priced confidently to buyers."
 
 #
-msgid "%31 daha az hasat kaybı"
+#, fuzzy, python-format
+#| msgid "%31 daha az hasat kaybı"
+msgid "%%31 daha az hasat kaybı"
 msgstr "31% less harvest loss"
 
 msgid "En Yaygın Kullanım"
@@ -1982,9 +2014,14 @@ msgid "120 üyenin arazisi, tek ekran"
 msgstr "120 members' land, one screen"
 
 #
+#, fuzzy, python-format
+#| msgid ""
+#| "Fatma Hanım, tüm üyelerin tarlalarını tek panelden takip ediyor. Haftalık "
+#| "raporlar otomatik geliyor. Sahaya çıkma sıklığı %40 azaldı, doğru yere "
+#| "gidiyor."
 msgid ""
 "Fatma Hanım, tüm üyelerin tarlalarını tek panelden takip ediyor. Haftalık "
-"raporlar otomatik geliyor. Sahaya çıkma sıklığı %40 azaldı, doğru yere "
+"raporlar otomatik geliyor. Sahaya çıkma sıklığı %%40 azaldı, doğru yere "
 "gidiyor."
 msgstr ""
 "Fatma tracks all members' fields from a single panel. Weekly reports arrive "
@@ -1992,7 +2029,9 @@ msgstr ""
 "place."
 
 #
-msgid "%40 daha az gereksiz saha ziyareti"
+#, fuzzy, python-format
+#| msgid "%40 daha az gereksiz saha ziyareti"
+msgid "%%40 daha az gereksiz saha ziyareti"
 msgstr "40% fewer unnecessary field visits"
 
 msgid "Tarım Danışmanı"
@@ -2028,9 +2067,13 @@ msgid "Mandalina Üreticisi, Antalya"
 msgstr "Mandarin Farmer, Antalya"
 
 #
+#, fuzzy, python-format
+#| msgid ""
+#| "Kooperatifimizin 120 üyesinin tarlalarını tek panelden takip ediyoruz. "
+#| "Raporları otomatik alıyoruz, sahaya çıkma sıklığımız %40 azaldı."
 msgid ""
 "Kooperatifimizin 120 üyesinin tarlalarını tek panelden takip ediyoruz. "
-"Raporları otomatik alıyoruz, sahaya çıkma sıklığımız %40 azaldı."
+"Raporları otomatik alıyoruz, sahaya çıkma sıklığımız %%40 azaldı."
 msgstr ""
 "We track our coop's 120 members' fields from one panel. Reports come "
 "automatically and our site visits dropped 40%."
@@ -2067,7 +2110,9 @@ msgid "Yıllık"
 msgstr "Annual"
 
 #
-msgid "(%20 indirim)"
+#, fuzzy, python-format
+#| msgid "(%20 indirim)"
+msgid "(%%20 indirim)"
 msgstr "(20% off)"
 
 msgid "Bireysel"
@@ -2198,12 +2243,16 @@ msgid "Yıllık faturalama nasıl işliyor?"
 msgstr "How does annual billing work?"
 
 #
+#, fuzzy, python-format
+#| msgid ""
+#| "Yıllık planı seçtiğinizde 12 aylık tutar tek seferinde faturalanır ve %20 "
+#| "indirim uygulanır. Dilediğiniz zaman aylık plana geçebilirsiniz."
 msgid ""
-"Yıllık planı seçtiğinizde 12 aylık tutar tek seferinde faturalanır ve %20 "
+"Yıllık planı seçtiğinizde 12 aylık tutar tek seferinde faturalanır ve %%20 "
 "indirim uygulanır. Dilediğiniz zaman aylık plana geçebilirsiniz."
 msgstr ""
-"If you pick annual, you're billed for 12 months at once with a 20% "
-"discount. You can switch to monthly anytime."
+"If you pick annual, you're billed for 12 months at once with a 20% discount. "
+"You can switch to monthly anytime."
 
 msgid "Plan değiştirmek mümkün mü?"
 msgstr "Can I change plans?"
@@ -2256,13 +2305,14 @@ msgstr ""
 "From satellite to drone, from field to office — Agrisynthia unifies every "
 "data source to give you actionable predictions."
 
-#, fuzzy
-#| msgid "Alan İzleme"
 msgid "Uydu İzleme"
-msgstr "Field Monitoring"
+msgstr "Satellite Monitoring"
 
 msgid "Bitki sağlığını haftadan haftaya takip edin"
 msgstr "Track plant health week by week"
+
+msgid "%31"
+msgstr "31%"
 
 msgid "Ortalama stres tespitinde<br>önceden müdahale oranı"
 msgstr "Average rate of preventive<br>action on stress detection"
@@ -2352,15 +2402,11 @@ msgstr "Images stitched"
 msgid "Sağlık haritası oluşturuluyor…"
 msgstr "Generating health map…"
 
-#, fuzzy
-#| msgid "Doğrulama e-postası gönderildi."
 msgid "Rapor e-posta ile gönderilecek"
-msgstr "Verification email sent."
+msgstr "Report will be sent by email"
 
-#, fuzzy
-#| msgid "Fotoğraf Seç"
 msgid "Fotoğraf"
-msgstr "Choose Photo"
+msgstr "Photos"
 
 msgid "Alan"
 msgstr "Area"
@@ -2374,10 +2420,11 @@ msgstr "AI Fruit Detection"
 msgid "Hasattan önce meyvenizi sayın"
 msgstr "Count your fruit before harvest"
 
-#, fuzzy
-#| msgid "Tespit Doğruluğu"
+msgid "%94+"
+msgstr "94%+"
+
 msgid "YOLOv7 tespit<br>doğruluğu"
-msgstr "Detection Accuracy"
+msgstr "YOLOv7 detection<br>accuracy"
 
 msgid ""
 "Bahçenizden birkaç fotoğraf çekin, yapay zekamız meyveleri otomatik sayar. "
@@ -2407,7 +2454,9 @@ msgstr "Mandarin Orchard — 4.2 ha"
 msgid "Analiz tamamlandı · Az önce"
 msgstr "Analysis complete · Just now"
 
-msgid "%94 güven"
+#, fuzzy, python-format
+#| msgid "%94 güven"
+msgid "%%94 güven"
 msgstr "94% confidence"
 
 msgid "Tespit edilen meyve"
@@ -2422,8 +2471,6 @@ msgstr "Total tonnage estimate"
 msgid "PDF raporu hazır"
 msgstr "PDF report ready"
 
-#, fuzzy
-#| msgid "Sık Sorulan Sorular"
 msgid "Sıkça Sorulan Sorular"
 msgstr "Frequently Asked Questions"
 
@@ -2452,8 +2499,12 @@ msgid "Uydu verileri ne sıklıkla güncelleniyor?"
 msgstr "How often is satellite data updated?"
 
 #
+#, fuzzy, python-format
+#| msgid ""
+#| "Sentinel-2 her 5 günde bir aynı konumu tekrar çeker. Bulut örtüsü %30'un "
+#| "altındaki geçişler otomatik işlenerek NDVI tablonuza eklenir."
 msgid ""
-"Sentinel-2 her 5 günde bir aynı konumu tekrar çeker. Bulut örtüsü %30'un "
+"Sentinel-2 her 5 günde bir aynı konumu tekrar çeker. Bulut örtüsü %%30'un "
 "altındaki geçişler otomatik işlenerek NDVI tablonuza eklenir."
 msgstr ""
 "Sentinel-2 revisits the same location every 5 days. Passes with cloud cover "
@@ -2479,15 +2530,11 @@ msgstr ""
 "Yes. Our Cooperative plan lets you track multiple farmers from one admin "
 "panel. Contact us for details."
 
-#, fuzzy
-#| msgid "Ücretsiz Başlayın"
 msgid "Ücretsiz denemeye başlayın"
-msgstr "Start Free"
+msgstr "Start your free trial"
 
-#, fuzzy
-#| msgid "14 gün ücretsiz. Kredi kartı gerekmez. İstediğiniz zaman iptal edin."
 msgid "Kredi kartı gerekmez. 14 gün sonra istediğiniz planı seçin."
-msgstr "14 days free. No credit card. Cancel anytime."
+msgstr "No credit card required. Pick a plan after 14 days."
 
 msgid "Planları Görün"
 msgstr "See Plans"
@@ -2554,7 +2601,9 @@ msgid "Güven aralığı:"
 msgstr "Confidence interval:"
 
 #
-msgid "(±25% payda)"
+#, fuzzy, python-format
+#| msgid "(±25% payda)"
+msgid "(±25%% payda)"
 msgstr "(±25% spread)"
 
 msgid "Faktörler"
