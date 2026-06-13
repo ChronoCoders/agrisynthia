@@ -1,5 +1,5 @@
 {% extends 'website/base.html' %}
-{% load static %}
+{% load static i18n %}
 
 {% block title %}{{ post.title }}{% endblock %}
 {% block meta_desc %}{{ post.excerpt }}{% endblock %}
@@ -8,12 +8,12 @@
 
 <section style="padding:140px 0 48px;background:linear-gradient(160deg,#f0f7f0,var(--bg));border-bottom:1px solid var(--border);">
   <div class="container" style="max-width:760px;">
-    <a href="{% url 'website:blog' %}" style="font-size:13px;color:var(--green);font-weight:600;display:inline-flex;align-items:center;gap:6px;margin-bottom:24px;">← Blog'a Dön</a>
+    <a href="{% url 'website:blog' %}" style="font-size:13px;color:var(--green);font-weight:600;display:inline-flex;align-items:center;gap:6px;margin-bottom:24px;">← {% trans "Blog'a Dön" %}</a>
     <div class="blog-cat">{{ post.category }}</div>
     <h1 style="font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-1px;line-height:1.2;margin-bottom:20px;">{{ post.title }}</h1>
     <div class="blog-meta" style="font-size:13px;">
       <span><i class="fas fa-calendar-alt" style="margin-right:4px;"></i>{{ post.date }}</span>
-      <span><i class="fas fa-clock" style="margin-right:4px;"></i>{{ post.read_time }} dk okuma</span>
+      <span><i class="fas fa-clock" style="margin-right:4px;"></i>{{ post.read_time }} {% trans "dk okuma" %}</span>
     </div>
   </div>
 </section>
@@ -34,8 +34,8 @@
     </div>
 
     <div style="margin-top:48px;padding-top:32px;border-top:1px solid var(--border);">
-      <p style="font-size:13px;color:var(--muted);">Bu içerik faydalı oldu mu? Agrisynthia'yı tarlanızda deneyin.</p>
-      <a href="{% url 'website:pricing' %}" class="btn btn-primary" style="margin-top:12px;">Ücretsiz Başlayın</a>
+      <p style="font-size:13px;color:var(--muted);">{% trans "Bu içerik faydalı oldu mu? Agrisynthia'yı tarlanızda deneyin." %}</p>
+      <a href="{% url 'website:pricing' %}" class="btn btn-primary" style="margin-top:12px;">{% trans "Ücretsiz Başlayın" %}</a>
     </div>
   </div>
 </section>
@@ -43,7 +43,7 @@
 {% if related %}
 <section class="section-sm" style="background:#fff;border-top:1px solid var(--border);">
   <div class="container">
-    <h3 style="font-size:20px;font-weight:700;margin-bottom:24px;">İlgili Yazılar</h3>
+    <h3 style="font-size:20px;font-weight:700;margin-bottom:24px;">{% trans "İlgili Yazılar" %}</h3>
     <div class="blog-grid" style="grid-template-columns:repeat(3,1fr);">
       {% for r in related %}
       <article class="blog-card">
@@ -55,7 +55,7 @@
           <div class="blog-cat">{{ r.category }}</div>
           <h3 class="blog-title">{{ r.title }}</h3>
           <p class="blog-excerpt">{{ r.excerpt }}</p>
-          <a href="{% url 'website:blog_detail' r.slug %}" class="blog-read-more">Devamını Oku →</a>
+          <a href="{% url 'website:blog_detail' r.slug %}" class="blog-read-more">{% trans "Devamını Oku" %} →</a>
         </div>
       </article>
       {% endfor %}

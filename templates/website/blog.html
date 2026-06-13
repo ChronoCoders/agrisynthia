@@ -1,16 +1,16 @@
 {% extends 'website/base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Blog{% endblock %}
-{% block meta_desc %}Agrisynthia Blog — Agronomi, NDVI analizi, drone teknolojisi ve akıllı tarım üzerine içerikler.{% endblock %}
+{% block title %}{% trans "Blog" %}{% endblock %}
+{% block meta_desc %}{% trans "Agrisynthia Blog — Agronomi, NDVI analizi, drone teknolojisi ve akıllı tarım üzerine içerikler." %}{% endblock %}
 
 {% block content %}
 
 <section style="padding:140px 0 64px;background:linear-gradient(160deg,#f0f7f0,var(--bg));border-bottom:1px solid var(--border);text-align:center;">
   <div class="container">
-    <div class="section-tag">Blog</div>
-    <h1 class="section-title">Akıllı Tarım Tahminleri</h1>
-    <p class="section-sub" style="margin:0 auto;">NDVI'dan drone teknolojisine, agronomi biliminden dijital dönüşüme — tarımın geleceğini birlikte okuyalım.</p>
+    <div class="section-tag">{% trans "Blog" %}</div>
+    <h1 class="section-title">{% trans "Akıllı Tarım Tahminleri" %}</h1>
+    <p class="section-sub" style="margin:0 auto;">{% trans "NDVI'dan drone teknolojisine, agronomi biliminden dijital dönüşüme — tarımın geleceğini birlikte okuyalım." %}</p>
   </div>
 </section>
 
@@ -31,25 +31,25 @@
         {% endif %}
       </div>
       <div style="padding:40px;">
-        <div class="blog-cat">{{ featured.category }} · Öne Çıkan</div>
+        <div class="blog-cat">{{ featured.category }} · {% trans "Öne Çıkan" %}</div>
         <h2 style="font-size:24px;font-weight:800;line-height:1.3;margin-bottom:14px;">{{ featured.title }}</h2>
         <p style="font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:24px;">{{ featured.excerpt }}</p>
         <div class="blog-meta">
           <span><i class="fas fa-calendar-alt" style="margin-right:4px;"></i>{{ featured.date }}</span>
-          <span><i class="fas fa-clock" style="margin-right:4px;"></i>{{ featured.read_time }} dk okuma</span>
+          <span><i class="fas fa-clock" style="margin-right:4px;"></i>{{ featured.read_time }} {% trans "dk okuma" %}</span>
         </div>
-        <a href="{% url 'website:blog_detail' featured.slug %}" class="blog-read-more" style="margin-top:20px;">Devamını Oku →</a>
+        <a href="{% url 'website:blog_detail' featured.slug %}" class="blog-read-more" style="margin-top:20px;">{% trans "Devamını Oku" %} →</a>
       </div>
     </div>
     {% endwith %}
     {% endif %}
 
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px;">
-      <button onclick="filterPosts('all', this)" class="filter-btn active" style="padding:8px 18px;border-radius:100px;border:1.5px solid var(--green);background:var(--green);color:#fff;font-size:13px;font-weight:600;cursor:pointer;">Tümü</button>
-      <button onclick="filterPosts('ndvi', this)" class="filter-btn" style="padding:8px 18px;border-radius:100px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;">NDVI & Uydu</button>
-      <button onclick="filterPosts('drone', this)" class="filter-btn" style="padding:8px 18px;border-radius:100px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;">Drone</button>
-      <button onclick="filterPosts('agronomy', this)" class="filter-btn" style="padding:8px 18px;border-radius:100px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;">Agronomi</button>
-      <button onclick="filterPosts('tech', this)" class="filter-btn" style="padding:8px 18px;border-radius:100px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;">Teknoloji</button>
+      <button onclick="filterPosts('all', this)" class="filter-btn active" style="padding:8px 18px;border-radius:100px;border:1.5px solid var(--green);background:var(--green);color:#fff;font-size:13px;font-weight:600;cursor:pointer;">{% trans "Tümü" %}</button>
+      <button onclick="filterPosts('ndvi', this)" class="filter-btn" style="padding:8px 18px;border-radius:100px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;">{% trans "NDVI & Uydu" %}</button>
+      <button onclick="filterPosts('drone', this)" class="filter-btn" style="padding:8px 18px;border-radius:100px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;">{% trans "Drone" %}</button>
+      <button onclick="filterPosts('agronomy', this)" class="filter-btn" style="padding:8px 18px;border-radius:100px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;">{% trans "Agronomi" %}</button>
+      <button onclick="filterPosts('tech', this)" class="filter-btn" style="padding:8px 18px;border-radius:100px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;">{% trans "Teknoloji" %}</button>
     </div>
 
     <div class="blog-grid" id="blogGrid">
@@ -65,13 +65,13 @@
           <p class="blog-excerpt">{{ post.excerpt }}</p>
           <div class="blog-meta">
             <span><i class="fas fa-calendar-alt" style="margin-right:4px;"></i>{{ post.date }}</span>
-            <span><i class="fas fa-clock" style="margin-right:4px;"></i>{{ post.read_time }} dk</span>
+            <span><i class="fas fa-clock" style="margin-right:4px;"></i>{{ post.read_time }} {% trans "dk" %}</span>
           </div>
-          <a href="{% url 'website:blog_detail' post.slug %}" class="blog-read-more">Devamını Oku →</a>
+          <a href="{% url 'website:blog_detail' post.slug %}" class="blog-read-more">{% trans "Devamını Oku" %} →</a>
         </div>
       </article>
       {% empty %}
-      <p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:48px 0;">Yakında içerikler yayınlanacak.</p>
+      <p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:48px 0;">{% trans "Yakında içerikler yayınlanacak." %}</p>
       {% endfor %}
     </div>
 
@@ -80,26 +80,26 @@
 
 <section class="section-sm" style="background:#fff;border-top:1px solid var(--border);">
   <div class="container" style="text-align:center;">
-    <div class="section-tag">Bülten</div>
-    <h2 class="section-title">Tarım haberlerini kaçırmayın</h2>
-    <p class="section-sub" style="margin:0 auto 32px;">Aylık NDVI raporları, sezonluk agronomi tavsiyeleri ve ürün güncellemeleri doğrudan e-posta kutunuza.</p>
+    <div class="section-tag">{% trans "Bülten" %}</div>
+    <h2 class="section-title">{% trans "Tarım haberlerini kaçırmayın" %}</h2>
+    <p class="section-sub" style="margin:0 auto 32px;">{% trans "Aylık NDVI raporları, sezonluk agronomi tavsiyeleri ve ürün güncellemeleri doğrudan e-posta kutunuza." %}</p>
     <form id="newsletterForm" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;max-width:480px;margin:0 auto;">
       {% csrf_token %}
-      <input type="email" name="email" placeholder="E-posta adresiniz" required
+      <input type="email" name="email" placeholder="{% trans 'E-posta adresiniz' %}" required
              style="flex:1;min-width:220px;padding:14px 18px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
-      <button type="submit" class="btn btn-primary">Abone Ol</button>
+      <button type="submit" class="btn btn-primary">{% trans "Abone Ol" %}</button>
     </form>
-    <p id="newsletter-msg" style="margin-top:12px;font-size:13px;color:var(--green);display:none;"><i class="fas fa-check-circle" style="margin-right:4px;"></i>Teşekkürler! Yakında ilk bülteniniz gelecek.</p>
-    <p id="newsletter-dup" style="margin-top:12px;font-size:13px;color:var(--muted);display:none;"><i class="fas fa-info-circle" style="margin-right:4px;"></i>Bu e-posta zaten kayıtlı.</p>
+    <p id="newsletter-msg" style="margin-top:12px;font-size:13px;color:var(--green);display:none;"><i class="fas fa-check-circle" style="margin-right:4px;"></i>{% trans "Teşekkürler! Yakında ilk bülteniniz gelecek." %}</p>
+    <p id="newsletter-dup" style="margin-top:12px;font-size:13px;color:var(--muted);display:none;"><i class="fas fa-info-circle" style="margin-right:4px;"></i>{% trans "Bu e-posta zaten kayıtlı." %}</p>
   </div>
 </section>
 
 <div class="cta-band">
   <div class="container">
-    <h2>Okumak yetmez — deneyin</h2>
-    <p>14 gün boyunca kendi tarlanızda Agrisynthia'yı ücretsiz kullanın.</p>
+    <h2>{% trans "Okumak yetmez — deneyin" %}</h2>
+    <p>{% trans "14 gün boyunca kendi tarlanızda Agrisynthia'yı ücretsiz kullanın." %}</p>
     <div class="btn-row">
-      <a href="{% url 'website:pricing' %}" class="btn btn-white btn-lg">Ücretsiz Başlayın</a>
+      <a href="{% url 'website:pricing' %}" class="btn btn-white btn-lg">{% trans "Ücretsiz Başlayın" %}</a>
     </div>
   </div>
 </div>
