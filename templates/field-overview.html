@@ -1,10 +1,11 @@
-{% load static %}
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <title>Agrisynthia - Alan Haritası</title>
+    <title>Agrisynthia - {% trans "Alan Haritası" %}</title>
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
     <link rel="stylesheet" href="{% static 'assets/styles/style.min.css' %}">
     <link rel="stylesheet" href="{% static 'assets/styles/custom.css' %}">
@@ -68,28 +69,28 @@
 <div id="map"></div>
 
 <div class="map-sidebar">
-    <h6><i class="fas fa-map-marked-alt"></i> Alan Haritası</h6>
+    <h6><i class="fas fa-map-marked-alt"></i> {% trans "Alan Haritası" %}</h6>
     <div class="stat-row">
         <div class="stat-box">
             <div class="val">{{ total }}</div>
-            <div class="lbl">Toplam Alan</div>
+            <div class="lbl">{% trans "Toplam Alan" %}</div>
         </div>
         <div class="stat-box">
             <div class="val">{{ with_polygon }}</div>
-            <div class="lbl">Poligon Var</div>
+            <div class="lbl">{% trans "Poligon Var" %}</div>
         </div>
     </div>
 
     <div class="legend">
-        <div class="legend-title">NDVI Sağlık Durumu</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#2E7D32;"></div> Sağlıklı (≥0.5)</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#F9A825;"></div> Uyarı (0.3–0.5)</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#C62828;"></div> Stresli (&lt;0.3)</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#9E9E9E;"></div> Veri Yok</div>
+        <div class="legend-title">{% trans "NDVI Sağlık Durumu" %}</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#2E7D32;"></div> {% trans "Sağlıklı (≥0.5)" %}</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#F9A825;"></div> {% trans "Uyarı (0.3–0.5)" %}</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#C62828;"></div> {% trans "Stresli (<0.3)" %}</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#9E9E9E;"></div> {% trans "Veri Yok" %}</div>
     </div>
 
     <div class="field-list" id="fieldList">
-        <div class="legend-title" style="margin-top:10px;">Alanlar</div>
+        <div class="legend-title" style="margin-top:10px;">{% trans "Alanlar" %}</div>
     </div>
 </div>
 

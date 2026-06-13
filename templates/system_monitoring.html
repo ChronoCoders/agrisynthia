@@ -1,6 +1,6 @@
 {% extends 'header.html' %}
 {% block body %}
-{% load static %}
+{% load static i18n %}
 {% include 'menu.html' %}
 {% include 'navbar.html' with picture=userss.picture %}
 
@@ -40,8 +40,8 @@
 	<div class="main-content">
 		{% if error %}
 		<div class="alert alert-danger alert-dismissible fade show" role="alert">
-			<strong>Hata!</strong> {{ error }}
-			<button type="button" class="close" data-dismiss="alert" aria-label="Kapat">
+			<strong>{% trans "Hata!" %}</strong> {{ error }}
+			<button type="button" class="close" data-dismiss="alert" aria-label="{% trans 'Kapat' %}">
 				<span aria-hidden="true">&times;</span>
 			</button>
 		</div>
@@ -49,19 +49,19 @@
 
 		<div class="row small-spacing">
 			<div class="col-12">
-				<h2 class="page-title">Sistem İzleme</h2>
+				<h2 class="page-title">{% trans "Sistem İzleme" %}</h2>
 			</div>
 		</div>
 
 		<div class="row small-spacing">
 			<div class="col-lg-3 col-md-6 col-12">
 				<div class="box-content card white">
-					<h4 class="box-title">CPU Kullanımı</h4>
+					<h4 class="box-title">{% trans "CPU Kullanımı" %}</h4>
 					<div class="card-content">
 						<div class="clearfix">
 							<div class="number text-center">
 								<h3 class="font-bold no-margin">{{ cpu_percent }}%</h3>
-								<p class="text-muted">{{ cpu_count }} Çekirdek</p>
+								<p class="text-muted">{{ cpu_count }} {% trans "Çekirdek" %}</p>
 								{% if cpu_freq %}
 								<p class="text-muted small">{{ cpu_freq|floatformat:0 }} MHz</p>
 								{% else %}
@@ -86,13 +86,13 @@
 
 			<div class="col-lg-3 col-md-6 col-12">
 				<div class="box-content card white">
-					<h4 class="box-title">Bellek Kullanımı</h4>
+					<h4 class="box-title">{% trans "Bellek Kullanımı" %}</h4>
 					<div class="card-content">
 						<div class="clearfix">
 							<div class="number text-center">
 								<h3 class="font-bold no-margin">{{ memory_percent }}%</h3>
 								<p class="text-muted">{{ memory_used_gb }} GB / {{ memory_total_gb }} GB</p>
-								<p class="text-muted small">{{ memory_available_gb }} GB Boş</p>
+								<p class="text-muted small">{{ memory_available_gb }} GB {% trans "Boş" %}</p>
 							</div>
 						</div>
 						<div class="progress-wrapper">
@@ -112,13 +112,13 @@
 
 			<div class="col-lg-3 col-md-6 col-12">
 				<div class="box-content card white">
-					<h4 class="box-title">Disk Kullanımı</h4>
+					<h4 class="box-title">{% trans "Disk Kullanımı" %}</h4>
 					<div class="card-content">
 						<div class="clearfix">
 							<div class="number text-center">
 								<h3 class="font-bold no-margin">{{ disk_percent }}%</h3>
 								<p class="text-muted">{{ disk_used_gb }} GB / {{ disk_total_gb }} GB</p>
-								<p class="text-muted small">{{ disk_free_gb }} GB Boş</p>
+								<p class="text-muted small">{{ disk_free_gb }} GB {% trans "Boş" %}</p>
 							</div>
 						</div>
 						<div class="progress-wrapper">
@@ -138,13 +138,13 @@
 
 			<div class="col-lg-3 col-md-6 col-12">
 				<div class="box-content card white">
-					<h4 class="box-title">Sunucu Çalışma Süresi</h4>
+					<h4 class="box-title">{% trans "Sunucu Çalışma Süresi" %}</h4>
 					<div class="card-content">
 						<div class="clearfix">
 							<div class="number text-center">
 								<h3 class="font-bold no-margin" style="font-size: 1.5rem;">{{ uptime_str }}</h3>
-								<p class="text-muted">Başlangıç: {{ boot_time|date:"d.m.Y H:i" }}</p>
-								<p class="text-muted small">30 Günlük Hedef: {{ uptime_days|floatformat:1 }}/30 gün</p>
+								<p class="text-muted">{% trans "Başlangıç:" %} {{ boot_time|date:"d.m.Y H:i" }}</p>
+								<p class="text-muted small">{% trans "30 Günlük Hedef:" %} {{ uptime_days|floatformat:1 }}/30 {% trans "gün" %}</p>
 							</div>
 						</div>
 						<div class="progress-wrapper">
@@ -166,28 +166,28 @@
 		<div class="row small-spacing">
 			<div class="col-lg-6 col-12">
 				<div class="box-content card white">
-					<h4 class="box-title">Sistem Bilgisi</h4>
+					<h4 class="box-title">{% trans "Sistem Bilgisi" %}</h4>
 					<div class="card-content">
 						<table class="table table-striped">
 							<tbody>
 								<tr>
-									<th style="width: 40%;">İşletim Sistemi</th>
+									<th style="width: 40%;">{% trans "İşletim Sistemi" %}</th>
 									<td>{{ system_info.platform }} {{ system_info.platform_release }}</td>
 								</tr>
 								<tr>
-									<th>Platform Sürümü</th>
+									<th>{% trans "Platform Sürümü" %}</th>
 									<td>{{ system_info.platform_version }}</td>
 								</tr>
 								<tr>
-									<th>Mimari</th>
+									<th>{% trans "Mimari" %}</th>
 									<td>{{ system_info.architecture }}</td>
 								</tr>
 								<tr>
-									<th>İşlemci</th>
+									<th>{% trans "İşlemci" %}</th>
 									<td>{{ system_info.processor }}</td>
 								</tr>
 								<tr>
-									<th>Python Sürümü</th>
+									<th>{% trans "Python Sürümü" %}</th>
 									<td>{{ system_info.python_version }}</td>
 								</tr>
 							</tbody>
@@ -198,14 +198,14 @@
 
 			<div class="col-lg-6 col-12">
 				<div class="box-content card white">
-					<h4 class="box-title">Yüklenmiş Modeller</h4>
+					<h4 class="box-title">{% trans "Yüklenmiş Modeller" %}</h4>
 					<div class="card-content">
 						<table class="table table-striped">
 							<thead>
 								<tr>
-									<th>Model Adı</th>
-									<th>Durum</th>
-									<th>Yüklü</th>
+									<th>{% trans "Model Adı" %}</th>
+									<th>{% trans "Durum" %}</th>
+									<th>{% trans "Yüklü" %}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -214,9 +214,9 @@
 									<td>{{ model.model_id }}</td>
 									<td>
 										{% if model.is_loaded %}
-										<span class="badge badge-success">Aktif</span>
+										<span class="badge badge-success">{% trans "Aktif" %}</span>
 										{% else %}
-										<span class="badge badge-secondary">Yüklü Değil</span>
+										<span class="badge badge-secondary">{% trans "Yüklü Değil" %}</span>
 										{% endif %}
 									</td>
 									<td>
@@ -229,7 +229,7 @@
 								</tr>
 								{% empty %}
 								<tr>
-									<td colspan="3" class="text-center text-muted">Henüz yüklenmiş model yok</td>
+									<td colspan="3" class="text-center text-muted">{% trans "Henüz yüklenmiş model yok" %}</td>
 								</tr>
 								{% endfor %}
 							</tbody>
@@ -242,7 +242,7 @@
 		<div class="row small-spacing">
 			<div class="col-12 text-center" style="padding-bottom:48px;">
 				<button onclick="location.reload();" class="btn btn-primary btn-lg waves-effect waves-light">
-					<i class="fa fa-refresh"></i> Yenile
+					<i class="fa fa-refresh"></i> {% trans "Yenile" %}
 				</button>
 			</div>
 		</div>

@@ -1,6 +1,6 @@
 {% extends 'header.html' %}
 {% block body %}
-{% load static %}
+{% load static i18n %}
 {% include 'menu.html' %}
 {% include 'navbar.html' with picture=userss.picture %}
 
@@ -8,15 +8,15 @@
 	<div class="main-content">
 		{% if error %}
 		<div class="alert alert-danger alert-dismissible fade show" role="alert">
-			<strong>Hata!</strong> {{ error }}
-			<button type="button" class="close" data-dismiss="alert" aria-label="Kapat">
+			<strong>{% trans "Hata!" %}</strong> {{ error }}
+			<button type="button" class="close" data-dismiss="alert" aria-label="{% trans 'Kapat' %}">
 				<span aria-hidden="true">&times;</span>
 			</button>
 		</div>
 		{% endif %}
 		{% if errors %}
 		<div class="alert alert-danger alert-dismissible fade show" role="alert">
-			<strong>Form Hataları:</strong>
+			<strong>{% trans "Form Hataları:" %}</strong>
 			<ul>
 			{% for field, error_list in errors.items %}
 				{% for error in error_list %}
@@ -24,7 +24,7 @@
 				{% endfor %}
 			{% endfor %}
 			</ul>
-			<button type="button" class="close" data-dismiss="alert" aria-label="Kapat">
+			<button type="button" class="close" data-dismiss="alert" aria-label="{% trans 'Kapat' %}">
 				<span aria-hidden="true">&times;</span>
 			</button>
 		</div>
@@ -32,31 +32,31 @@
 		<div class="row small-spacing">
 			<div class="col-xl-12 col-12">
 				<div class="box-content card white">
-					<h4 class="box-title">Proje Ekle/Düzenle</h4>
+					<h4 class="box-title">{% trans "Proje Ekle/Düzenle" %}</h4>
 					<div class="card-content">
 						{% if userss != None %}
 						<form method="post" enctype="multipart/form-data" onsubmit="handleProjectFormSubmit(event)">
 							{% csrf_token %}
 							<div class="form-group">
-								<label for="farmInput">Çiftlik</label>
-								<input type="text" id="farmInput" placeholder="Çiftlik Adı" name="Farm" class="form-control" style="height:46px;" value="{% if projes != None %}{{projes.Farm}}{% endif %}" required maxlength="250" aria-label="Çiftlik Adı" autocomplete="organization">
+								<label for="farmInput">{% trans "Çiftlik" %}</label>
+								<input type="text" id="farmInput" placeholder="{% trans 'Çiftlik Adı' %}" name="Farm" class="form-control" style="height:46px;" value="{% if projes != None %}{{projes.Farm}}{% endif %}" required maxlength="250" aria-label="{% trans 'Çiftlik Adı' %}" autocomplete="organization">
 							</div>
 							<div class="form-group">
-								<label for="fieldInput">Tarla</label>
-								<input type="text" id="fieldInput" placeholder="Tarla Adı" name="Field" class="form-control" style="height:46px;" value="{% if projes != None %}{{projes.Field}}{% endif %}" required maxlength="250" aria-label="Tarla Adı">
+								<label for="fieldInput">{% trans "Tarla" %}</label>
+								<input type="text" id="fieldInput" placeholder="{% trans 'Tarla Adı' %}" name="Field" class="form-control" style="height:46px;" value="{% if projes != None %}{{projes.Field}}{% endif %}" required maxlength="250" aria-label="{% trans 'Tarla Adı' %}">
 								<input type="hidden" name="kat_user" value="{{userss.id}}">
 							</div>
 							<div class="form-group">
-								<label for="titleInput">Başlık</label>
-								<input type="text" id="titleInput" placeholder="Proje Başlığı" name="Title" class="form-control" style="height:46px;" value="{% if projes != None %}{{projes.Title}}{% endif %}" required maxlength="250" aria-label="Proje Başlığı">
+								<label for="titleInput">{% trans "Başlık" %}</label>
+								<input type="text" id="titleInput" placeholder="{% trans 'Proje Başlığı' %}" name="Title" class="form-control" style="height:46px;" value="{% if projes != None %}{{projes.Title}}{% endif %}" required maxlength="250" aria-label="{% trans 'Proje Başlığı' %}">
 							</div>
 							<div class="form-group">
-								<label for="stateInput">Durum</label>
-								<input type="text" id="stateInput" placeholder="Proje Durumu" name="State" class="form-control" style="height:46px;" value="{% if projes != None %}{{projes.State}}{% endif %}" required maxlength="250" aria-label="Proje Durumu">
+								<label for="stateInput">{% trans "Durum" %}</label>
+								<input type="text" id="stateInput" placeholder="{% trans 'Proje Durumu' %}" name="State" class="form-control" style="height:46px;" value="{% if projes != None %}{{projes.State}}{% endif %}" required maxlength="250" aria-label="{% trans 'Proje Durumu' %}">
 							</div>
 							<input type="hidden" id="hashing_path" name="hashing_path" value="0">
 							<div class="form-group">
-								<label style="display:block;margin-bottom:6px;">Drone Görselleri {% if projes == None %}<span class="text-danger">*</span>{% endif %}</label>
+								<label style="display:block;margin-bottom:6px;">{% trans "Drone Görselleri" %} {% if projes == None %}<span class="text-danger">*</span>{% endif %}</label>
 								<div id="droneUploadZone" style="border:2px dashed #b0bec5;border-radius:10px;padding:24px 16px;text-align:center;background:#fafafa;cursor:pointer;position:relative;transition:border-color 0.2s,background 0.2s;">
 									<input id="exampleInputFile"
 										   style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;"
@@ -67,30 +67,30 @@
 										   onchange="loadFile(event)"
 										   multiple
 										   {% if projes == None %}required{% endif %}
-										   aria-label="Drone Görseli Seç">
+										   aria-label="{% trans 'Drone Görseli Seç' %}">
 									<div style="font-size:2rem;color:#b0bec5;margin-bottom:8px;pointer-events:none;">
 										<i class="fa-solid fa-images"></i>
 									</div>
-									<div style="font-size:14px;color:#555;pointer-events:none;">Görselleri seçin veya sürükleyin</div>
-									<div style="font-size:12px;color:#aaa;margin-top:4px;pointer-events:none;">JPEG · PNG · TIFF — birden fazla dosya seçilebilir</div>
+									<div style="font-size:14px;color:#555;pointer-events:none;">{% trans "Görselleri seçin veya sürükleyin" %}</div>
+									<div style="font-size:12px;color:#aaa;margin-top:4px;pointer-events:none;">{% trans "JPEG · PNG · TIFF — birden fazla dosya seçilebilir" %}</div>
 								</div>
 								<div id="drone-preview-row" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
 									{% if projes != None %}
-									<img src="{% static projes.picture %}" alt="Mevcut Görsel" style="height:72px;width:72px;object-fit:cover;border-radius:6px;border:1px solid #ddd;">
+									<img src="{% static projes.picture %}" alt="{% trans 'Mevcut Görsel' %}" style="height:72px;width:72px;object-fit:cover;border-radius:6px;border:1px solid #ddd;">
 									{% endif %}
 								</div>
 								<div id="drone-file-count" style="font-size:12px;color:#777;margin-top:4px;"></div>
 							</div>
 							<div class="form-group">
-								<label>Tarla Sınırı <small class="text-muted">(opsiyonel — Sentinel-2 NDVI izleme için)</small></label>
+								<label>{% trans "Tarla Sınırı" %} <small class="text-muted">{% trans "(opsiyonel — Sentinel-2 NDVI izleme için)" %}</small></label>
 								<div id="polygon-map" style="height:320px;border-radius:6px;border:1px solid #ddd;margin-bottom:8px;"></div>
 								<input type="hidden" name="field_polygon_json" id="field_polygon_json">
-								<small class="text-muted" id="polygon-hint">Haritada çokgen çizmek için sağ üst köşedeki <strong>çokgen aracını</strong> kullanın. Seçimi silmek için çöp kutusu simgesine tıklayın.</small>
+								<small class="text-muted" id="polygon-hint">{% blocktrans %}Haritada çokgen çizmek için sağ üst köşedeki <strong>çokgen aracını</strong> kullanın. Seçimi silmek için çöp kutusu simgesine tıklayın.{% endblocktrans %}</small>
 								<div id="polygon-coords" class="text-success" style="font-size:12px;margin-top:4px;"></div>
 							</div>
 
 							<button id="projectSubmitBtn" type="submit" class="btn btn-primary waves-effect waves-light" style="width:100%;height:50px;font-size:15px;font-weight:600;border-radius:8px;touch-action:manipulation;margin-top:8px;">
-								<i class="fa-solid fa-floppy-disk"></i> Kaydet
+								<i class="fa-solid fa-floppy-disk"></i> {% trans "Kaydet" %}
 							</button>
 						</form>
 						{% endif %}

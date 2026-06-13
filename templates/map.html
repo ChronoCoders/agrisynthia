@@ -1,6 +1,6 @@
 {% extends 'header.html' %}
 {% block body %}
-      {% load static %}
+      {% load static i18n %}
       {% include 'menu3.html' with picture=projes.picture%}
       {% include 'navbar.html' with picture=userss.picture  orthophoto=orthophoto static=static images_info=images_info%}
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
@@ -141,8 +141,8 @@
         <div class="main-content">
             {% if error %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                  <strong>Hata!</strong> {{ error }}
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Kapat">
+                  <strong>{% trans "Hata!" %}</strong> {{ error }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="{% trans 'Kapat' %}">
                         <span aria-hidden="true">&times;</span>
                   </button>
             </div>
@@ -153,13 +153,13 @@
                 
                 <div class="dashboard-panel">
                     <div class="dashboard-header">
-                        <span>Arazi Analiz Raporu</span>
+                        <span>{% trans "Arazi Analiz Raporu" %}</span>
                         <i class="fa fa-chart-pie"></i>
                     </div>
-                    
+
                     <div class="dashboard-content">
                         <button class="action-btn" onclick="requestDroneReport({{ projes.id }}, ['pdf', 'xlsx'])">
-                            <i class="fa fa-file-pdf-o"></i> Detaylı Rapor Oluştur
+                            <i class="fa fa-file-pdf-o"></i> {% trans "Detaylı Rapor Oluştur" %}
                         </button>
 
                         <div class="chart-container">
@@ -167,38 +167,38 @@
                         </div>
 
                         <div class="stat-card danger">
-                            <div class="stat-label">Yüksek Stres Alanı</div>
+                            <div class="stat-label">{% trans "Yüksek Stres Alanı" %}</div>
                             <div class="stat-value"><span id="stress-area-percent">0</span>%</div>
-                            <small class="text-muted"><span id="total-stress-area-ha">0</span> hektar etkilendi</small>
+                            <small class="text-muted"><span id="total-stress-area-ha">0</span> {% trans "hektar etkilendi" %}</small>
                         </div>
 
                         <div class="stat-card warning">
-                            <div class="stat-label">En Büyük Kritik Bölge</div>
+                            <div class="stat-label">{% trans "En Büyük Kritik Bölge" %}</div>
                             <div class="stat-value"><span id="largest-zone-ha">0</span> ha</div>
                         </div>
 
                         <div class="stat-card">
-                            <div class="stat-label">Tahmini Verim</div>
+                            <div class="stat-label">{% trans "Tahmini Verim" %}</div>
                             <div class="stat-value"><span id="yield-total-kg">-</span> kg</div>
-                            <small class="text-muted"><span id="yield-per-ha-kg">-</span> kg/ha (Güven: <span id="yield-confidence">-</span>)</small>
+                            <small class="text-muted"><span id="yield-per-ha-kg">-</span> kg/ha ({% trans "Güven:" %} <span id="yield-confidence">-</span>)</small>
                         </div>
 
                         <div class="stat-card">
-                            <div class="stat-label">Önerilen Müdahale</div>
-                            <div class="stat-value"><span id="recommendation-count">0</span> Nokta</div>
+                            <div class="stat-label">{% trans "Önerilen Müdahale" %}</div>
+                            <div class="stat-value"><span id="recommendation-count">0</span> {% trans "Nokta" %}</div>
                         </div>
 
                         <div id="ndvi-panel">
                             <div class="stat-label" style="margin-top:12px;margin-bottom:6px;">
-                                Sentinel-2 NDVI Trendi
-                                <span id="ndvi-loading" style="font-size:11px;color:#999;"> yükleniyor…</span>
+                                {% trans "Sentinel-2 NDVI Trendi" %}
+                                <span id="ndvi-loading" style="font-size:11px;color:#999;"> {% trans "yükleniyor…" %}</span>
                             </div>
                             <div id="ndvi-no-polygon" style="display:none;font-size:12px;color:#999;margin-bottom:8px;">
-                                Tarla sınırı tanımlanmamış.
-                                <a href="{% url 'dron_map:add_projects' slug='update' project_id=projes.id %}" style="color:#2E7D32;">Düzenle</a>
+                                {% trans "Tarla sınırı tanımlanmamış." %}
+                                <a href="{% url 'dron_map:add_projects' slug='update' project_id=projes.id %}" style="color:#2E7D32;">{% trans "Düzenle" %}</a>
                             </div>
                             <div id="ndvi-no-data" style="display:none;font-size:12px;color:#999;margin-bottom:8px;">
-                                Henüz NDVI verisi yok — ilk okuma arka planda işleniyor.
+                                {% trans "Henüz NDVI verisi yok — ilk okuma arka planda işleniyor." %}
                             </div>
                             <div class="chart-container" id="ndvi-chart-container" style="display:none;height:160px;">
                                 <canvas id="ndviChart"></canvas>
