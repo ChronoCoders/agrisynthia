@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-13 13:32-0400\n"
+"POT-Creation-Date: 2026-06-13 14:21-0400\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -269,6 +269,90 @@ msgstr "High NDVI threshold (recovery notification)"
 msgid "Tercihleri Kaydet"
 msgstr "Save Preferences"
 
+msgid "Hata!"
+msgstr "Error!"
+
+msgid "Kapat"
+msgstr "Close"
+
+msgid "Form Hataları:"
+msgstr "Form Errors:"
+
+#, fuzzy
+#| msgid "Proje ekle"
+msgid "Proje Ekle/Düzenle"
+msgstr "Add project"
+
+msgid "Çiftlik"
+msgstr "Farm"
+
+#, fuzzy
+#| msgid "Çiftlik"
+msgid "Çiftlik Adı"
+msgstr "Farm"
+
+#, fuzzy
+#| msgid "Ayarlar"
+msgid "Tarla"
+msgstr "Settings"
+
+#, fuzzy
+#| msgid "Ayarlar"
+msgid "Tarla Adı"
+msgstr "Settings"
+
+#, fuzzy
+#| msgid "Başlayın"
+msgid "Başlık"
+msgstr "Get Started"
+
+msgid "Proje Başlığı"
+msgstr "Project Title"
+
+#, fuzzy
+#| msgid "ODM Durumu"
+msgid "Durum"
+msgstr "ODM Status"
+
+#, fuzzy
+#| msgid "ODM Durumu"
+msgid "Proje Durumu"
+msgstr "ODM Status"
+
+#, fuzzy
+#| msgid "Drone Projeleri"
+msgid "Drone Görselleri"
+msgstr "Drone Projects"
+
+msgid "Drone Görseli Seç"
+msgstr "Choose Drone Image"
+
+msgid "Görselleri seçin veya sürükleyin"
+msgstr "Choose images or drag and drop"
+
+#, fuzzy
+#| msgid "JPEG · PNG · TIFF — maks. 10 MB"
+msgid "JPEG · PNG · TIFF — birden fazla dosya seçilebilir"
+msgstr "JPEG · PNG · TIFF — max 10 MB"
+
+#, fuzzy
+#| msgid "Mevcut Şifre"
+msgid "Mevcut Görsel"
+msgstr "Current Password"
+
+#, fuzzy
+#| msgid "Tarla Sağlık Durumu"
+msgid "Tarla Sınırı"
+msgstr "Field Health Status"
+
+msgid "(opsiyonel — Sentinel-2 NDVI izleme için)"
+msgstr "(optional — for Sentinel-2 NDVI monitoring)"
+
+msgid ""
+"Haritada çokgen çizmek için sağ üst köşedeki <strong>çokgen aracını</strong> "
+"kullanın. Seçimi silmek için çöp kutusu simgesine tıklayın."
+msgstr "To draw a polygon on the map, use the <strong>polygon tool</strong> in the top-right corner. Click the trash icon to delete the selection."
+
 msgid "İstatistik Grafiği"
 msgstr "Statistics Chart"
 
@@ -293,9 +377,6 @@ msgstr "Upload imagery"
 msgid "Rapor Al"
 msgstr "Reports"
 
-msgid "Kapat"
-msgstr "Close"
-
 msgid "Toplam Proje"
 msgstr "Total Projects"
 
@@ -316,7 +397,7 @@ msgstr "Sentinel-2 NDVI Trends"
 msgid ""
 "Veri kaynağı: Sentinel-2 L2A (Element84 Earth Search) · Her tarla için ayrı "
 "çizgi"
-msgstr ""
+msgstr "Data source: Sentinel-2 L2A (Element84 Earth Search) · One line per field"
 
 msgid "Henüz proje yok."
 msgstr "No projects yet."
@@ -343,19 +424,6 @@ msgstr "No detection data for this period."
 
 msgid "Tarla Sağlık Durumu"
 msgstr "Field Health Status"
-
-msgid "Çiftlik"
-msgstr "Farm"
-
-#, fuzzy
-#| msgid "Ayarlar"
-msgid "Tarla"
-msgstr "Settings"
-
-#, fuzzy
-#| msgid "Başlayın"
-msgid "Başlık"
-msgstr "Get Started"
 
 msgid "Son NDVI"
 msgstr "Latest NDVI"
@@ -394,6 +462,41 @@ msgstr "Field Map"
 
 msgid "Proje ekle"
 msgstr "Add project"
+
+msgid "Alan Haritası"
+msgstr "Field Map"
+
+#, fuzzy
+#| msgid "Toplam Proje"
+msgid "Toplam Alan"
+msgstr "Total Projects"
+
+msgid "Poligon Var"
+msgstr "With Polygon"
+
+#, fuzzy
+#| msgid "Tarla Sağlık Durumu"
+msgid "NDVI Sağlık Durumu"
+msgstr "Field Health Status"
+
+#, fuzzy
+#| msgid "Sağlıklı Alan"
+msgid "Sağlıklı (≥0.5)"
+msgstr "Healthy Area"
+
+msgid "Uyarı (0.3–0.5)"
+msgstr "Warning (0.3–0.5)"
+
+msgid "Stresli (<0.3)"
+msgstr "Stressed (<0.3)"
+
+msgid "Veri Yok"
+msgstr "No Data"
+
+#, fuzzy
+#| msgid "Alan"
+msgid "Alanlar"
+msgstr "Area"
 
 msgid "Toplam Meyve Sayısı"
 msgstr "Total Fruit Count"
@@ -516,14 +619,61 @@ msgstr "Send"
 msgid "İndir"
 msgstr "Download"
 
-msgid "Hata!"
-msgstr "Error!"
-
 msgid "Rapor İşlemleri"
 msgstr "Report Actions"
 
 msgid "Rapor Oluştur (PDF & Excel)"
 msgstr "Generate Report (PDF & Excel)"
+
+msgid "Arazi Analiz Raporu"
+msgstr "Field Analysis Report"
+
+#, fuzzy
+#| msgid "Hesap Oluştur"
+msgid "Detaylı Rapor Oluştur"
+msgstr "Sign Up"
+
+msgid "Yüksek Stres Alanı"
+msgstr "High Stress Area"
+
+msgid "hektar etkilendi"
+msgstr "hectares affected"
+
+msgid "En Büyük Kritik Bölge"
+msgstr "Largest Critical Zone"
+
+msgid "Tahmini Verim"
+msgstr "Estimated Yield"
+
+#, fuzzy
+#| msgid "Güvenlik"
+msgid "Güven:"
+msgstr "Security"
+
+msgid "Önerilen Müdahale"
+msgstr "Suggested Action"
+
+msgid "Nokta"
+msgstr "Points"
+
+#, fuzzy
+#| msgid "Sentinel-2 NDVI Trendleri"
+msgid "Sentinel-2 NDVI Trendi"
+msgstr "Sentinel-2 NDVI Trends"
+
+msgid "yükleniyor…"
+msgstr "loading…"
+
+#, fuzzy
+#| msgid "Tarlalarınızı tanımlayın"
+msgid "Tarla sınırı tanımlanmamış."
+msgstr "Define your fields"
+
+msgid "Düzenle"
+msgstr "Edit"
+
+msgid "Henüz NDVI verisi yok — ilk okuma arka planda işleniyor."
+msgstr "No NDVI data yet — the first reading is processing in the background."
 
 msgid "Ana Panel"
 msgstr "Dashboard"
@@ -533,9 +683,6 @@ msgstr "Multi-Image Counting"
 
 msgid "Alan İzleme"
 msgstr "Field Monitoring"
-
-msgid "Alan Haritası"
-msgstr "Field Map"
 
 msgid "Verim Tahmini"
 msgstr "Yield Prediction"
@@ -564,6 +711,30 @@ msgstr "Log out"
 #| msgid "Giriş Yap"
 msgid "Giriş"
 msgstr "Log In"
+
+#, fuzzy
+#| msgid "Proje ekle"
+msgid "Yeni Proje Ekle"
+msgstr "Add project"
+
+msgid "ODM"
+msgstr "ODM"
+
+msgid "Tarih"
+msgstr "Date"
+
+#, fuzzy
+#| msgid "2FA'yı Devre Dışı Bırak"
+msgid "Devre Dışı"
+msgstr "Disable 2FA"
+
+msgid "Bekliyor"
+msgstr "Waiting"
+
+#, fuzzy
+#| msgid "Hesap Oluştur"
+msgid "Rapor Oluştur"
+msgstr "Sign Up"
 
 msgid "Giriş Yap"
 msgstr "Log In"
@@ -683,6 +854,90 @@ msgstr "Already have an account?"
 
 msgid "Giriş yapın"
 msgstr "Log in"
+
+#, fuzzy
+#| msgid "Kullanıcı Adı"
+msgid "CPU Kullanımı"
+msgstr "Username"
+
+msgid "Çekirdek"
+msgstr "Cores"
+
+#, fuzzy
+#| msgid "Yedek Kodlarınız"
+msgid "Bellek Kullanımı"
+msgstr "Your Backup Codes"
+
+msgid "Boş"
+msgstr "Free"
+
+#, fuzzy
+#| msgid "Kullanıcı Adı"
+msgid "Disk Kullanımı"
+msgstr "Username"
+
+#, fuzzy
+#| msgid "Kurulum Süresi"
+msgid "Sunucu Çalışma Süresi"
+msgstr "Setup Time"
+
+#, fuzzy
+#| msgid "Başlayın"
+msgid "Başlangıç:"
+msgstr "Get Started"
+
+msgid "30 Günlük Hedef:"
+msgstr "30-Day Target:"
+
+#, fuzzy
+#| msgid "Ürün"
+msgid "gün"
+msgstr "Product"
+
+#, fuzzy
+#| msgid "Fiyat Bilgisi"
+msgid "Sistem Bilgisi"
+msgstr "Pricing Info"
+
+msgid "İşletim Sistemi"
+msgstr "Operating System"
+
+#, fuzzy
+#| msgid "Platform"
+msgid "Platform Sürümü"
+msgstr "Platform"
+
+msgid "Mimari"
+msgstr "Architecture"
+
+#, fuzzy
+#| msgid "İşleniyor"
+msgid "İşlemci"
+msgstr "Processing"
+
+msgid "Python Sürümü"
+msgstr "Python Version"
+
+msgid "Yüklenmiş Modeller"
+msgstr "Loaded Models"
+
+msgid "Model Adı"
+msgstr "Model Name"
+
+msgid "Yüklü"
+msgstr "Loaded"
+
+msgid "Aktif"
+msgstr "Active"
+
+msgid "Yüklü Değil"
+msgstr "Not Loaded"
+
+msgid "Henüz yüklenmiş model yok"
+msgstr "No models loaded yet"
+
+msgid "Yenile"
+msgstr "Refresh"
 
 msgid "Hakkımızda"
 msgstr "About"
@@ -835,6 +1090,7 @@ msgstr ""
 msgid "Uydu NDVI analizi, drone görüntü işleme ve yapay zeka meyve tespiti."
 msgstr "Satellite NDVI analysis, drone image processing, and AI fruit detection."
 "Satellite NDVI analysis, drone image processing, and AI fruit "
+"detection.Satellite NDVI analysis, drone image processing, and AI fruit "
 "detection.Satellite NDVI analysis, drone image processing, and AI fruit "
 "detection."
 
@@ -1035,6 +1291,7 @@ msgstr "Email Sent"
 msgid "Mesajınız iletildi. En kısa sürede size dönüş yapacağız."
 msgstr "Your message has been sent. We will get back to you as soon as possible."
 "Your message has been sent. We will get back to you as soon as possible.Your "
+"message has been sent. We will get back to you as soon as possible.Your "
 "message has been sent. We will get back to you as soon as possible."
 
 msgid "Firma / Kooperatif"
@@ -1169,7 +1426,8 @@ msgid "Drone'dan uyduya, tespetten tahmine — tüm süreç otomatik."
 msgstr "From drone to satellite, from detection to prediction — the whole pipeline automated."
 "From drone to satellite, from detection to prediction — the whole pipeline "
 "automated.From drone to satellite, from detection to prediction — the whole "
-"pipeline automated."
+"pipeline automated.From drone to satellite, from detection to prediction — "
+"the whole pipeline automated."
 
 msgid "Uydu NDVI İzleme"
 msgstr "Satellite NDVI Monitoring"
@@ -1819,3 +2077,137 @@ msgstr "14 days free. No credit card. Cancel anytime."
 
 msgid "Planları Görün"
 msgstr "See Plans"
+
+msgid "Proje (opsiyonel)"
+msgstr "Project (optional)"
+
+#, fuzzy
+#| msgid "Manuel giriş anahtarı:"
+msgid "— Manuel giriş —"
+msgstr "Manual entry key:"
+
+msgid "Proje seçilirse NDVI otomatik kullanılır."
+msgstr "If a project is selected, NDVI is used automatically."
+
+#, fuzzy
+#| msgid "Meyve Grubu"
+msgid "Meyve Türü"
+msgstr "Fruit Type"
+
+msgid "ör. 500"
+msgstr "e.g. 500"
+
+#, fuzzy
+#| msgid "Ağaç başına tahmini"
+msgid "Ağaç Yaşı (yıl)"
+msgstr "Per tree estimate"
+
+msgid "ör. 8"
+msgstr "e.g. 8"
+
+#, fuzzy
+#| msgid "Toplam Meyve Sayısı"
+msgid "Tespit Edilen Meyve Sayısı"
+msgstr "Total Fruit Count"
+
+msgid "ör. 1200"
+msgstr "e.g. 1200"
+
+#, fuzzy
+#| msgid "Görüntü Analizi"
+msgid "Görüntü analizinden"
+msgstr "Image Analyses"
+
+msgid "(opsiyonel)"
+msgstr "(optional)"
+
+msgid "ör. 0.55"
+msgstr "e.g. 0.55"
+
+msgid "Boş bırakılırsa projeden alınır"
+msgstr "If left blank, pulled from the project"
+
+msgid "Tahmin Et"
+msgstr "Predict"
+
+msgid "Tahmin Sonucu"
+msgstr "Prediction Result"
+
+msgid "Tahmini Hasat"
+msgstr "Estimated Harvest"
+
+msgid "ton"
+msgstr "tons"
+
+msgid "Güven aralığı:"
+msgstr "Confidence interval:"
+
+#, python-format
+msgid "(±25%% payda)"
+msgstr "(±25%% spread)"
+
+msgid "Faktörler"
+msgstr "Factors"
+
+msgid "NDVI Sağlık Faktörü"
+msgstr "NDVI Health Factor"
+
+msgid "Yaş Faktörü"
+msgstr "Age Factor"
+
+#, fuzzy
+#| msgid "Ağaç Sayısı"
+msgid "Ağaç sayısı"
+msgstr "Tree Count"
+
+#, fuzzy
+#| msgid "Ağaç başına tahmini"
+msgid "Ağaç yaşı"
+msgstr "Per tree estimate"
+
+#, fuzzy
+#| msgid "Aylık"
+msgid "yıl"
+msgstr "Monthly"
+
+#, fuzzy
+#| msgid "Görüntü yükleyin"
+msgid "Görüntüden tespit"
+msgstr "Upload imagery"
+
+msgid "meyve"
+msgstr "fruit"
+
+#, fuzzy
+#| msgid "Toplam tonaj tahmini"
+msgid "Toplam meyve (tahmini)"
+msgstr "Total tonnage estimate"
+
+#, fuzzy
+#| msgid "Toplam Meyve Ağırlığı (kg)"
+msgid "Ortalama meyve ağırlığı"
+msgstr "Total Fruit Weight (kg)"
+
+#, fuzzy
+#| msgid "Ort. NDVI (tüm tarlalar)"
+msgid "NDVI (ortalama)"
+msgstr "Avg. NDVI (all fields)"
+
+#, fuzzy
+#| msgid "Hesap Ayarları"
+msgid "Hesaplama Adımları:"
+msgstr "Account Settings"
+
+msgid ""
+"Bu tahmin, mevcut tespit verileri ve uydu NDVI ölçümlerine dayalı agronomi "
+"modelidir. Gerçek hasat; hava koşulları, sulama ve bakım uygulamalarına göre "
+"farklılık gösterebilir."
+msgstr "This prediction is an agronomy model based on existing detection data and satellite NDVI measurements. The actual harvest may vary based on weather, irrigation, and care practices."
+
+msgid "Formu doldurup <strong>Tahmin Et</strong> butonuna tıklayın."
+msgstr "Fill out the form and click <strong>Predict</strong>."
+
+msgid ""
+"Sistemde kayıtlı tespitleriniz ve uydu NDVI verileriniz otomatik olarak "
+"kullanılır."
+msgstr "Your stored detections and satellite NDVI data are used automatically."
