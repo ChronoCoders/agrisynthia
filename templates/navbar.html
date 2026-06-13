@@ -1,8 +1,8 @@
-{% load static %}
+{% load static i18n %}
 <div class="fixed-navbar">
 <div class="float-left">
 <button type="button" class="menu-mobile-button fas fa-bars js__menu_mobile"></button>
-<h1 class="page-title">Agrisynthia Yapay Zeka Sistemi</h1>
+<h1 class="page-title">{% trans "Agrisynthia Yapay Zeka Sistemi" %}</h1>
 </div>
 <div class="float-right">
 <div class="ico-item" style="display:flex;align-items:center;gap:12px;">
@@ -13,12 +13,12 @@
     <form method="post" action="{% url 'logout' %}" style="margin:0;">
         {% csrf_token %}
         <button type="submit" style="background:none;border:none;color:#c62828;font-size:13px;cursor:pointer;padding:0;">
-            <i class="fa fa-sign-out-alt"></i> Çıkış
+            <i class="fa fa-sign-out-alt"></i> {% trans "Çıkış" %}
         </button>
     </form>
     {% else %}
     <a href="{% url 'login' %}" style="font-size:13px;color:#2E7D32;">
-        <i class="fa fa-sign-in-alt"></i> Giriş
+        <i class="fa fa-sign-in-alt"></i> {% trans "Giriş" %}
     </a>
     {% endif %}
 </div>

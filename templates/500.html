@@ -1,10 +1,11 @@
-{% load static %}
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sunucu Hatası — Agrisynthia</title>
+  <title>{% trans "Sunucu Hatası" %} — Agrisynthia</title>
   <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet">
@@ -40,9 +41,9 @@
   <div class="brand">Agri<span>synthia</span></div>
   <div class="icon"><i class="fas fa-triangle-exclamation"></i></div>
   <div class="code">500</div>
-  <h1>Bir şeyler ters gitti</h1>
-  <p>Sunucumuzda beklenmedik bir hata oluştu. Ekibimiz bilgilendirildi, en kısa sürede düzeltilecek.</p>
-  <a href="/" class="btn-home"><i class="fas fa-house"></i> Anasayfaya Dön</a>
-  <div class="support">Sorun devam ederse <a href="mailto:info@agrisynthia.com">info@agrisynthia.com</a> adresine yazın.</div>
+  <h1>{% trans "Bir şeyler ters gitti" %}</h1>
+  <p>{% trans "Sunucumuzda beklenmedik bir hata oluştu. Ekibimiz bilgilendirildi, en kısa sürede düzeltilecek." %}</p>
+  <a href="/" class="btn-home"><i class="fas fa-house"></i> {% trans "Anasayfaya Dön" %}</a>
+  <div class="support">{% blocktrans %}Sorun devam ederse <a href="mailto:info@agrisynthia.com">info@agrisynthia.com</a> adresine yazın.{% endblocktrans %}</div>
 </body>
 </html>
