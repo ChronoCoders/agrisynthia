@@ -81,15 +81,18 @@ def _send_verification_email(user: User) -> None:
     token = profile.generate_verification_token()
     link = f"/accounts/verify-email/{token}/"
     try:
+        from django.utils.translation import gettext
+        name = user.get_full_name() or user.username
+        verify_url = f"https://agrisynthia.com{link}"
         send_mail(
-            subject="Agrisynthia — E-posta adresinizi doğrulayın",
-            message=(
-                f"Merhaba {user.get_full_name() or user.username},\n\n"
-                f"E-posta adresinizi doğrulamak için aşağıdaki bağlantıya tıklayın:\n\n"
-                f"https://agrisynthia.com{link}\n\n"
+            subject=gettext("Agrisynthia — E-posta adresinizi doğrulayın"),
+            message=gettext(
+                "Merhaba %(name)s,\n\n"
+                "E-posta adresinizi doğrulamak için aşağıdaki bağlantıya tıklayın:\n\n"
+                "%(url)s\n\n"
                 "Bu bağlantıyı siz istemediyseniz bu e-postayı dikkate almayın.\n\n"
                 "Agrisynthia Ekibi"
-            ),
+            ) % {"name": name, "url": verify_url},
             from_email=None,
             recipient_list=[user.email],
             fail_silently=True,
