@@ -23,10 +23,10 @@
                     <div class="form-group">
                         <label>{% trans "Proje (opsiyonel)" %}</label>
                         <select name="project_id" class="form-control" onchange="fillFromProject(this)">
-                            <option value="">{% trans "— Manuel giriş —" %}</option>
+                            <option value="">{% trans "Manuel giriş" %}</option>
                             {% for p in projects %}
                             <option value="{{ p.id }}" {% if selected_project and selected_project.id == p.id %}selected{% endif %}>
-                                {{ p.Farm }} – {{ p.Field }}
+                                {{ p.Farm }}, {{ p.Field }}
                             </option>
                             {% endfor %}
                         </select>
@@ -36,7 +36,7 @@
                     <div class="form-group">
                         <label>{% trans "Meyve Türü" %}</label>
                         <select name="fruit_type" class="form-control" required>
-                            <option value="">{% trans "— Seçin —" %}</option>
+                            <option value="">{% trans "Seçin" %}</option>
                             {% for ft in fruit_types %}
                             <option value="{{ ft }}" {% if estimate and estimate.fruit_type == ft %}selected{% endif %}>
                                 {{ ft|capfirst }}
@@ -93,7 +93,7 @@
     <div class="col-lg-7 col-xs-12">
         {% if estimate %}
         <div class="box-content card white">
-            <h4 class="box-title"><i class="fa-solid fa-chart-bar"></i> {% trans "Tahmin Sonucu" %} — {{ estimate.species_label }}</h4>
+            <h4 class="box-title"><i class="fa-solid fa-chart-bar"></i> {% trans "Tahmin Sonucu" %}: {{ estimate.species_label }}</h4>
             <div class="card-content">
 
                 <div style="text-align:center;padding:24px 0 16px;">
@@ -105,7 +105,7 @@
                         {{ estimate.predicted_yield_kg }} kg
                     </div>
                     <div style="font-size:12px;color:#9E9E9E;margin-top:8px;">
-                        {% trans "Güven aralığı:" %} {{ estimate.yield_low_kg }} – {{ estimate.yield_high_kg }} kg {% trans "(±25% payda)" %}
+                        {% trans "Güven aralığı:" %} {{ estimate.yield_low_kg }}-{{ estimate.yield_high_kg }} kg {% trans "(±25% payda)" %}
                     </div>
                 </div>
 
@@ -141,7 +141,7 @@
                         <tr><th>{% trans "Ağaç başına tahmini" %}</th><td>{{ estimate.fruits_per_tree }} {% trans "meyve" %}</td></tr>
                         <tr><th>{% trans "Toplam meyve (tahmini)" %}</th><td>{{ estimate.predicted_fruits_total }}</td></tr>
                         <tr><th>{% trans "Ortalama meyve ağırlığı" %}</th><td>{{ estimate.avg_weight_kg }} kg</td></tr>
-                        <tr><th>{% trans "NDVI (ortalama)" %}</th><td>{% if estimate.avg_ndvi %}{{ estimate.avg_ndvi }}{% else %}—{% endif %}</td></tr>
+                        <tr><th>{% trans "NDVI (ortalama)" %}</th><td>{% if estimate.avg_ndvi %}{{ estimate.avg_ndvi }}{% else %}-{% endif %}</td></tr>
                     </tbody>
                 </table>
 

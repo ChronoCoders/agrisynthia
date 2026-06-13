@@ -84,7 +84,7 @@
     <div class="legend">
         <div class="legend-title">{% trans "NDVI Sağlık Durumu" %}</div>
         <div class="legend-item"><div class="legend-dot" style="background:#2E7D32;"></div> {% trans "Sağlıklı (≥0.5)" %}</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#F9A825;"></div> {% trans "Uyarı (0.3–0.5)" %}</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#F9A825;"></div> {% trans "Uyarı (0.3-0.5)" %}</div>
         <div class="legend-item"><div class="legend-dot" style="background:#C62828;"></div> {% trans "Stresli (<0.3)" %}</div>
         <div class="legend-item"><div class="legend-dot" style="background:#9E9E9E;"></div> {% trans "Veri Yok" %}</div>
     </div>
@@ -117,15 +117,15 @@ geojsonData.features.forEach(function(feature) {
     const item = document.createElement('div');
     item.className = 'field-item';
     item.innerHTML = `
-        <div class="fname">${p.farm || ''} – ${p.field || p.title || ''}</div>
+        <div class="fname">${p.farm || ''}, ${p.field || p.title || ''}</div>
         <div class="fndvi">
-            NDVI: ${p.ndvi !== null ? p.ndvi : '—'}
+            NDVI: ${p.ndvi !== null ? p.ndvi : '-'}
             <span class="health-badge" style="background:${color};">${p.health}</span>
         </div>`;
     fieldList.appendChild(item);
 
     if (!feature.geometry) {
-        // No polygon — skip map layer but still add sidebar
+        // No polygon, skip map layer but still add sidebar
         item.style.opacity = '0.5';
         item.title = 'Poligon tanımlanmamış';
         return;

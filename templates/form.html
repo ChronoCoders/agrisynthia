@@ -235,7 +235,7 @@
                                onchange="handleFileSelect(event)">
                         <div class="upload-icon"><i class="fa-solid fa-camera-retro"></i></div>
                         <div class="upload-label">{% trans "Fotoğraf seç veya çek" %}</div>
-                        <div class="upload-sub">{% trans "JPEG · PNG · TIFF — maks. 10 MB" %}</div>
+                        <div class="upload-sub">{% trans "JPEG · PNG · TIFF (maks. 10 MB)" %}</div>
                     </div>
                     <div id="preview-container">
                         <img id="output" src="" alt="{% trans 'Önizleme' %}">
@@ -334,7 +334,7 @@ function handleFormSubmit() {
         const data = obj.data;
 
         if (obj.status === 200 && data.status === 'SUCCESS') {
-            // Cache hit — show result immediately
+            // Cache hit, show result immediately
             _showStatus('Önbellekten döndürüldü', 100);
             _renderResult(data.result, true);
             _resetBtn();

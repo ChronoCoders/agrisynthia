@@ -91,9 +91,9 @@
                                     <div class="form-group">
                                         <label>{% trans "Proje (opsiyonel)" %}</label>
                                         <select name="project_id" class="form-control">
-                                            <option value="">{% trans "— Tüm Sonuçlar —" %}</option>
+                                            <option value="">{% trans "Tüm Sonuçlar" %}</option>
                                             {% for p in projects %}
-                                            <option value="{{ p.id }}">{{ p.Farm }} – {{ p.Field }}</option>
+                                            <option value="{{ p.id }}">{{ p.Farm }}, {{ p.Field }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -125,7 +125,7 @@
                                     <td>{{ s.get_report_type_display }}</td>
                                     <td>{{ s.format|upper }}</td>
                                     <td>{{ s.get_frequency_display }}</td>
-                                    <td>{% if s.project %}{{ s.project.Farm }} – {{ s.project.Field }}{% else %}—{% endif %}</td>
+                                    <td>{% if s.project %}{{ s.project.Farm }}, {{ s.project.Field }}{% else %}-{% endif %}</td>
                                     <td>{{ s.next_run|date:"d.m.Y H:i" }}</td>
                                     <td>
                                         <button class="btn btn-xs {% if s.is_active %}btn-success{% else %}btn-default{% endif %}"
