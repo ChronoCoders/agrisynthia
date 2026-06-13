@@ -1,16 +1,16 @@
 {% extends 'registration/auth_base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Yedek Kodlar — Agrisynthia{% endblock %}
+{% block title %}{% trans "Yedek Kodlar" %} — Agrisynthia{% endblock %}
 
 {% block form_content %}
-<h1 class="form-heading">Yedek Kodlarınız</h1>
-<p class="form-sub">Bu kodları güvenli bir yere kaydedin. Her kod yalnızca bir kez kullanılabilir.</p>
+<h1 class="form-heading">{% trans "Yedek Kodlarınız" %}</h1>
+<p class="form-sub">{% trans "Bu kodları güvenli bir yere kaydedin. Her kod yalnızca bir kez kullanılabilir." %}</p>
 
 <div style="background:#FFF8E1;border:1px solid #FFE082;border-radius:8px;padding:14px 16px;margin-bottom:20px;">
     <p style="font-size:13px;color:#F57F17;margin:0;">
         <i class="fas fa-exclamation-triangle"></i>
-        <strong>Uyarı:</strong> Bu kodlar bir daha gösterilmeyecek. Lütfen hemen kaydedin.
+        <strong>{% trans "Uyarı:" %}</strong> {% trans "Bu kodlar bir daha gösterilmeyecek. Lütfen hemen kaydedin." %}
     </p>
 </div>
 
@@ -21,6 +21,6 @@
 </div>
 
 <a href="{% url 'account_settings' %}?tab=guvenlik" class="btn-auth" style="display:block;text-align:center;text-decoration:none;">
-    <i class="fas fa-check"></i> Kodları Kaydettim, Devam Et
+    <i class="fas fa-check"></i> {% trans "Kodları Kaydettim, Devam Et" %}
 </a>
 {% endblock %}

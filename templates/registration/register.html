@@ -1,20 +1,20 @@
 {% extends 'registration/auth_base.html' %}
-
-{% block title %}Hesap Oluştur — Agrisynthia{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Hesap Oluştur" %} — Agrisynthia{% endblock %}
 
 {% block image_quote %}
 <h2>Tarımı veriye dönüştürün.<br>Bugün başlayın.</h2>
-<p>14 gün ücretsiz. Kredi kartı gerekmez. İstediğiniz zaman iptal edin.</p>
+<p>{% trans "14 gün ücretsiz. Kredi kartı gerekmez. İstediğiniz zaman iptal edin." %}</p>
 <div class="auth-image-stats">
-  <div class="auth-image-stat"><div class="val">14</div><div class="lbl">Gün Ücretsiz</div></div>
-  <div class="auth-image-stat"><div class="val">%94</div><div class="lbl">Tespit Doğruluğu</div></div>
-  <div class="auth-image-stat"><div class="val">5 dk</div><div class="lbl">Kurulum Süresi</div></div>
+  <div class="auth-image-stat"><div class="val">14</div><div class="lbl">{% trans "Gün Ücretsiz" %}</div></div>
+  <div class="auth-image-stat"><div class="val">%94</div><div class="lbl">{% trans "Tespit Doğruluğu" %}</div></div>
+  <div class="auth-image-stat"><div class="val">5 dk</div><div class="lbl">{% trans "Kurulum Süresi" %}</div></div>
 </div>
 {% endblock %}
 
 {% block form_content %}
-<h1 class="form-heading">Hesap oluşturun</h1>
-<p class="form-sub">Ücretsiz denemenizi başlatın. Kart bilgisi istenmez.</p>
+<h1 class="form-heading">{% trans "Hesap oluşturun" %}</h1>
+<p class="form-sub">{% trans "Ücretsiz denemenizi başlatın. Kart bilgisi istenmez." %}</p>
 
 <form method="post">
   {% csrf_token %}
@@ -30,11 +30,11 @@
     {% if field.errors %}<ul class="field-error">{% for e in field.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
   </div>
   {% endfor %}
-  <button type="submit" class="btn-auth">Ücretsiz Başlayın</button>
+  <button type="submit" class="btn-auth">{% trans "Ücretsiz Başlayın" %}</button>
 </form>
 
 <div class="form-footer">
-  Zaten hesabınız var mı?
-  <a href="{% url 'login' %}">Giriş yapın</a>
+  {% trans "Zaten hesabınız var mı?" %}
+  <a href="{% url 'login' %}">{% trans "Giriş yapın" %}</a>
 </div>
 {% endblock %}

@@ -16,9 +16,11 @@ local_settings.py
 db.sqlite3
 media/
 staticfiles/
+locale/*/LC_MESSAGES/*.mo
 
-# Claude Code
-.claude/
+# Celery beat runtime state
+celerybeat-schedule
+celerybeat-schedule.*
 
 # IDE
 .vscode/

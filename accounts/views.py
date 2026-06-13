@@ -21,7 +21,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.decorators import method_decorator
-from django.utils.translation import activate
+from django.utils.translation import activate, gettext_lazy as _
 from django.views.decorators.http import require_http_methods
 from django_ratelimit.decorators import ratelimit
 from PIL import Image
@@ -72,7 +72,7 @@ class NotificationForm(forms.ModelForm):
 
 
 def _get_or_create_profile(user: User) -> UserProfile:
-    profile, _ = UserProfile.objects.get_or_create(user=user)
+    profile, __ = UserProfile.objects.get_or_create(user=user)
     return profile
 
 
@@ -197,10 +197,10 @@ def settings_view(request):
                     up.email_verified = False
                     up.save()
                     _send_verification_email(user)
-                    messages.info(request, "E-posta adresiniz değiştirildi. Doğrulama e-postası gönderildi.")
+                    messages.info(request, _("E-posta adresiniz değiştirildi. Doğrulama e-postası gönderildi."))
                 else:
                     up.save()
-                    messages.success(request, "Profil bilgileri güncellendi.")
+                    messages.success(request, _("Profil bilgileri güncellendi."))
 
                 language = userprofile_form.cleaned_data.get("language", "tr")
                 activate(language)
@@ -216,7 +216,7 @@ def settings_view(request):
         elif action == "upload_avatar":
             avatar_file = request.FILES.get("avatar")
             if not avatar_file:
-                messages.error(request, "Lütfen bir görsel seçin.")
+                messages.error(request, _("Lütfen bir görsel seçin."))
             else:
                 try:
                     resized = _resize_avatar(avatar_file)
@@ -228,7 +228,7 @@ def settings_view(request):
                             pass
                     account_profile.avatar = resized
                     account_profile.save(update_fields=["avatar"])
-                    messages.success(request, "Avatar güncellendi.")
+                    messages.success(request, _("Avatar güncellendi."))
                 except ValidationError as e:
                     messages.error(request, str(e))
             return redirect("/accounts/settings/?tab=profil")
@@ -238,27 +238,27 @@ def settings_view(request):
             if password_form.is_valid():
                 password_form.save()
                 update_session_auth_hash(request, password_form.user)
-                messages.success(request, "Şifre başarıyla değiştirildi.")
+                messages.success(request, _("Şifre başarıyla değiştirildi."))
                 return redirect("/accounts/settings/?tab=guvenlik")
             active_tab = "guvenlik"
 
         elif action == "disable_2fa":
             current_password = request.POST.get("current_password_2fa", "")
             if not user.check_password(current_password):
-                messages.error(request, "Mevcut şifreniz hatalı.")
+                messages.error(request, _("Mevcut şifreniz hatalı."))
             else:
                 account_profile.totp_enabled = False
                 account_profile.totp_secret = ""
                 account_profile.save(update_fields=["totp_enabled", "totp_secret"])
                 BackupCode.objects.filter(user=user).delete()
-                messages.success(request, "İki faktörlü kimlik doğrulama devre dışı bırakıldı.")
+                messages.success(request, _("İki faktörlü kimlik doğrulama devre dışı bırakıldı."))
             return redirect("/accounts/settings/?tab=guvenlik")
 
         elif action == "update_notifications":
             notification_form = NotificationForm(request.POST, instance=account_profile)
             if notification_form.is_valid():
                 notification_form.save()
-                messages.success(request, "Bildirim tercihleri güncellendi.")
+                messages.success(request, _("Bildirim tercihleri güncellendi."))
                 return redirect("/accounts/settings/?tab=bildirimler")
             active_tab = "bildirimler"
 
@@ -278,10 +278,10 @@ def settings_view(request):
 @ratelimit(key="user", rate="3/m", method="POST", block=True)
 def send_verification_email_view(request):
     if not request.user.email:
-        messages.error(request, "Hesabınızda kayıtlı bir e-posta adresi yok.")
+        messages.error(request, _("Hesabınızda kayıtlı bir e-posta adresi yok."))
     else:
         _send_verification_email(request.user)
-        messages.success(request, "Doğrulama e-postası gönderildi.")
+        messages.success(request, _("Doğrulama e-postası gönderildi."))
     return redirect("/accounts/settings/?tab=guvenlik")
 
 
@@ -289,14 +289,14 @@ def verify_email(request, token: str):
     try:
         profile = UserProfile.objects.get(email_verification_token=token)
     except UserProfile.DoesNotExist:
-        messages.error(request, "Geçersiz veya süresi dolmuş doğrulama bağlantısı.")
+        messages.error(request, _("Geçersiz veya süresi dolmuş doğrulama bağlantısı."))
         return redirect("login")
 
     if not profile.email_verified:
         profile.email_verified = True
         profile.email_verification_token = ""
         profile.save(update_fields=["email_verified", "email_verification_token"])
-        messages.success(request, "E-posta adresiniz başarıyla doğrulandı.")
+        messages.success(request, _("E-posta adresiniz başarıyla doğrulandı."))
 
     if request.user.is_authenticated:
         return redirect("/accounts/settings/?tab=guvenlik")
@@ -313,7 +313,7 @@ def setup_2fa(request):
         secret = request.POST.get("totp_secret", "").strip()
 
         if not secret:
-            messages.error(request, "Geçersiz istek.")
+            messages.error(request, _("Geçersiz istek."))
             return redirect("setup_2fa")
 
         totp = pyotp.TOTP(secret)
@@ -322,12 +322,12 @@ def setup_2fa(request):
             account_profile.totp_enabled = True
             account_profile.save(update_fields=["totp_secret", "totp_enabled"])
             backup_codes = BackupCode.generate_for_user(user)
-            messages.success(request, "2FA başarıyla etkinleştirildi.")
+            messages.success(request, _("2FA başarıyla etkinleştirildi."))
             return render(request, "accounts/2fa_backup_codes.html", {
                 "backup_codes": backup_codes,
             })
         else:
-            messages.error(request, "Geçersiz doğrulama kodu. Lütfen tekrar deneyin.")
+            messages.error(request, _("Geçersiz doğrulama kodu. Lütfen tekrar deneyin."))
 
     secret = pyotp.random_base32()
     totp_uri = pyotp.TOTP(secret).provisioning_uri(

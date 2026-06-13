@@ -1,5 +1,5 @@
 {% extends 'header.html' %}
-{% load static %}
+{% load static i18n %}
 
 {% block body %}
 {% include 'menu.html' %}
@@ -183,7 +183,7 @@
                 <div class="box-content card white" style="padding:24px 28px;">
 
                     <h4 class="box-title" style="margin-bottom:24px;">
-                        <i class="fa-solid fa-gear"></i> Hesap Ayarları
+                        <i class="fa-solid fa-gear"></i> {% trans "Hesap Ayarları" %}
                     </h4>
 
                     {% for message in messages %}
@@ -203,9 +203,9 @@
                         {% if active_tab == 'bildirimler' %}checked{% endif %}>
 
                     <div class="settings-tab-labels">
-                        <label for="tab-r-profil"><i class="fas fa-user"></i> Profil</label>
-                        <label for="tab-r-guvenlik"><i class="fas fa-shield-alt"></i> Güvenlik</label>
-                        <label for="tab-r-bildirimler"><i class="fas fa-bell"></i> Bildirimler</label>
+                        <label for="tab-r-profil"><i class="fas fa-user"></i> {% trans "Profil" %}</label>
+                        <label for="tab-r-guvenlik"><i class="fas fa-shield-alt"></i> {% trans "Güvenlik" %}</label>
+                        <label for="tab-r-bildirimler"><i class="fas fa-bell"></i> {% trans "Bildirimler" %}</label>
                     </div>
 
                     <div class="settings-panes">
@@ -213,7 +213,7 @@
                         <div class="settings-pane" id="pane-profil">
 
                             <div class="s-card">
-                                <h5><i class="fas fa-camera"></i> Profil Fotoğrafı</h5>
+                                <h5><i class="fas fa-camera"></i> {% trans "Profil Fotoğrafı" %}</h5>
                                 <div class="avatar-wrap">
                                     {% if account_profile.avatar %}
                                     <img id="avatar-preview" class="avatar-img" src="{{ account_profile.avatar.url }}" alt="Avatar">
@@ -225,13 +225,13 @@
                                     {% endif %}
                                     <div>
                                         <p style="font-size:13px;color:#757575;margin-bottom:10px;">
-                                            JPEG veya PNG — maks. 5 MB — 400×400 piksele yeniden boyutlandırılır
+                                            {% trans "JPEG veya PNG — maks. 5 MB — 400×400 piksele yeniden boyutlandırılır" %}
                                         </p>
                                         <form method="post" enctype="multipart/form-data">
                                             {% csrf_token %}
                                             <input type="hidden" name="_action" value="upload_avatar">
                                             <label for="avatar-input" class="btn-outline" style="cursor:pointer;">
-                                                <i class="fas fa-upload"></i> Fotoğraf Seç
+                                                <i class="fas fa-upload"></i> {% trans "Fotoğraf Seç" %}
                                             </label>
                                             <input type="file" id="avatar-input" name="avatar"
                                                    accept="image/jpeg,image/png"
@@ -242,41 +242,41 @@
                             </div>
 
                             <div class="s-card">
-                                <h5><i class="fas fa-id-card"></i> Kişisel Bilgiler</h5>
+                                <h5><i class="fas fa-id-card"></i> {% trans "Kişisel Bilgiler" %}</h5>
                                 <form method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="_action" value="update_profile">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Ad</label>
+                                                <label>{% trans "Ad" %}</label>
                                                 {{ profile_form.first_name }}
                                                 {% if profile_form.first_name.errors %}<ul class="errorlist">{% for e in profile_form.first_name.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Soyad</label>
+                                                <label>{% trans "Soyad" %}</label>
                                                 {{ profile_form.last_name }}
                                                 {% if profile_form.last_name.errors %}<ul class="errorlist">{% for e in profile_form.last_name.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>E-posta</label>
+                                        <label>{% trans "E-posta" %}</label>
                                         {{ profile_form.email }}
                                         {% if profile_form.email.errors %}<ul class="errorlist">{% for e in profile_form.email.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
                                     </div>
                                     <div class="form-group">
-                                        <label>Telefon</label>
+                                        <label>{% trans "Telefon" %}</label>
                                         {{ userprofile_form.phone }}
                                     </div>
                                     <div class="form-group">
-                                        <label>Dil Tercihi</label>
+                                        <label>{% trans "Dil Tercihi" %}</label>
                                         {{ userprofile_form.language }}
                                     </div>
                                     <button type="submit" class="btn-green">
-                                        <i class="fas fa-save"></i> Kaydet
+                                        <i class="fas fa-save"></i> {% trans "Kaydet" %}
                                     </button>
                                 </form>
                             </div>
@@ -285,19 +285,19 @@
                         <div class="settings-pane" id="pane-guvenlik">
 
                             <div class="s-card">
-                                <h5><i class="fas fa-envelope-circle-check"></i> E-posta Doğrulama</h5>
+                                <h5><i class="fas fa-envelope-circle-check"></i> {% trans "E-posta Doğrulama" %}</h5>
                                 <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
                                     <span style="font-size:14px;color:#424242;">{{ user.email|default:"—" }}</span>
                                     {% if account_profile.email_verified %}
-                                    <span class="badge-verified"><i class="fas fa-check-circle"></i> Doğrulandı</span>
+                                    <span class="badge-verified"><i class="fas fa-check-circle"></i> {% trans "Doğrulandı" %}</span>
                                     {% else %}
-                                    <span class="badge-unverified"><i class="fas fa-exclamation-triangle"></i> Doğrulanmadı</span>
+                                    <span class="badge-unverified"><i class="fas fa-exclamation-triangle"></i> {% trans "Doğrulanmadı" %}</span>
                                     {% if user.email %}
                                     <form method="post" style="margin:0;">
                                         {% csrf_token %}
                                         <input type="hidden" name="_action" value="send_verification">
                                         <button type="submit" formaction="{% url 'send_verification_email' %}" class="btn-outline" style="padding:5px 14px;font-size:13px;">
-                                            <i class="fas fa-paper-plane"></i> Doğrulama e-postası gönder
+                                            <i class="fas fa-paper-plane"></i> {% trans "Doğrulama e-postası gönder" %}
                                         </button>
                                     </form>
                                     {% endif %}
@@ -306,22 +306,22 @@
                             </div>
 
                             <div class="s-card">
-                                <h5><i class="fas fa-lock"></i> Şifre Değiştir</h5>
+                                <h5><i class="fas fa-lock"></i> {% trans "Şifre Değiştir" %}</h5>
                                 <form method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="_action" value="change_password">
                                     <div class="form-group">
-                                        <label>Mevcut Şifre</label>
+                                        <label>{% trans "Mevcut Şifre" %}</label>
                                         <input type="password" name="old_password" class="form-control" autocomplete="current-password" required>
                                         {% if password_form.old_password.errors %}<ul class="errorlist">{% for e in password_form.old_password.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
                                     </div>
                                     <div class="form-group">
-                                        <label>Yeni Şifre</label>
+                                        <label>{% trans "Yeni Şifre" %}</label>
                                         <input type="password" name="new_password1" class="form-control" autocomplete="new-password" required>
                                         {% if password_form.new_password1.errors %}<ul class="errorlist">{% for e in password_form.new_password1.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
                                     </div>
                                     <div class="form-group">
-                                        <label>Yeni Şifre (Tekrar)</label>
+                                        <label>{% trans "Yeni Şifre (Tekrar)" %}</label>
                                         <input type="password" name="new_password2" class="form-control" autocomplete="new-password" required>
                                         {% if password_form.new_password2.errors %}<ul class="errorlist">{% for e in password_form.new_password2.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
                                     </div>
@@ -329,37 +329,37 @@
                                     <div class="s-alert-error">{% for e in password_form.non_field_errors %}<i class="fas fa-exclamation-circle"></i> {{ e }}{% endfor %}</div>
                                     {% endif %}
                                     <button type="submit" class="btn-green">
-                                        <i class="fas fa-key"></i> Şifreyi Güncelle
+                                        <i class="fas fa-key"></i> {% trans "Şifreyi Güncelle" %}
                                     </button>
                                 </form>
                             </div>
 
                             <div class="s-card">
-                                <h5><i class="fas fa-mobile-alt"></i> İki Faktörlü Kimlik Doğrulama (2FA)</h5>
+                                <h5><i class="fas fa-mobile-alt"></i> {% trans "İki Faktörlü Kimlik Doğrulama (2FA)" %}</h5>
                                 {% if account_profile.totp_enabled %}
                                 <div style="margin-bottom:16px;">
-                                    <span class="badge-2fa-on"><i class="fas fa-shield-alt"></i> 2FA Etkin</span>
+                                    <span class="badge-2fa-on"><i class="fas fa-shield-alt"></i> {% trans "2FA Etkin" %}</span>
                                 </div>
                                 <p style="font-size:13px;color:#757575;margin-bottom:16px;">
-                                    2FA şu anda etkin. Devre dışı bırakmak için mevcut şifrenizi girin.
+                                    {% trans "2FA şu anda etkin. Devre dışı bırakmak için mevcut şifrenizi girin." %}
                                 </p>
                                 <form method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="_action" value="disable_2fa">
                                     <div class="form-group">
-                                        <label>Mevcut Şifre</label>
+                                        <label>{% trans "Mevcut Şifre" %}</label>
                                         <input type="password" name="current_password_2fa" class="form-control" autocomplete="current-password" required>
                                     </div>
                                     <button type="submit" class="btn-outline-red">
-                                        <i class="fas fa-shield-slash"></i> 2FA'yı Devre Dışı Bırak
+                                        <i class="fas fa-shield-slash"></i> {% trans "2FA'yı Devre Dışı Bırak" %}
                                     </button>
                                 </form>
                                 {% else %}
                                 <p style="font-size:13px;color:#757575;margin-bottom:16px;">
-                                    Hesabınızı kimlik doğrulayıcı uygulama (Google Authenticator, Authy vb.) ile koruyun.
+                                    {% trans "Hesabınızı kimlik doğrulayıcı uygulama (Google Authenticator, Authy vb.) ile koruyun." %}
                                 </p>
                                 <a href="{% url 'setup_2fa' %}" class="btn-green" style="display:inline-block;text-decoration:none;">
-                                    <i class="fas fa-qrcode"></i> 2FA Kurulumunu Başlat
+                                    <i class="fas fa-qrcode"></i> {% trans "2FA Kurulumunu Başlat" %}
                                 </a>
                                 {% endif %}
                             </div>
@@ -367,7 +367,7 @@
 
                         <div class="settings-pane" id="pane-bildirimler">
                             <div class="s-card">
-                                <h5><i class="fas fa-satellite"></i> NDVI Uyarıları</h5>
+                                <h5><i class="fas fa-satellite"></i> {% trans "NDVI Uyarıları" %}</h5>
                                 <form method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="_action" value="update_notifications">
@@ -377,12 +377,12 @@
                                             {% if account_profile.ndvi_alert_enabled %}checked{% endif %}
                                             style="width:18px;height:18px;accent-color:#2E7D32;">
                                         <label for="ndvi-enabled" style="margin:0;font-size:14px;font-weight:600;cursor:pointer;">
-                                            NDVI stres uyarılarını etkinleştir
+                                            {% trans "NDVI stres uyarılarını etkinleştir" %}
                                         </label>
                                     </div>
 
                                     <div class="form-group" style="margin-top:18px;">
-                                        <label>Düşük NDVI Eşiği (stres uyarısı)</label>
+                                        <label>{% trans "Düşük NDVI Eşiği (stres uyarısı)" %}</label>
                                         <div class="ndvi-row">
                                             <input type="range" id="ndvi-low-range" min="0" max="1" step="0.01"
                                                 value="{{ account_profile.ndvi_alert_threshold_low }}"
@@ -394,7 +394,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label>Yüksek NDVI Eşiği (iyileşme bildirimi)</label>
+                                        <label>{% trans "Yüksek NDVI Eşiği (iyileşme bildirimi)" %}</label>
                                         <div class="ndvi-row">
                                             <input type="range" id="ndvi-high-range" min="0" max="1" step="0.01"
                                                 value="{{ account_profile.ndvi_alert_threshold_high }}"
@@ -406,7 +406,7 @@
                                     </div>
 
                                     <button type="submit" class="btn-green">
-                                        <i class="fas fa-save"></i> Tercihleri Kaydet
+                                        <i class="fas fa-save"></i> {% trans "Tercihleri Kaydet" %}
                                     </button>
                                 </form>
                             </div>
