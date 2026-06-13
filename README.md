@@ -321,7 +321,15 @@ python manage.py makemessages -l en        # refresh .po after template/view cha
 python manage.py compilemessages           # build .mo files Django actually reads
 ```
 
-Both commands need GNU gettext on PATH. On Windows: `choco install gettext`. On Linux: `apt install gettext` / `dnf install gettext`. The compiled `.mo` files are git-ignored — build them in your deploy step.
+Both commands need GNU gettext on PATH. On Windows: `choco install gettext`. On Linux: `apt install gettext` / `dnf install gettext`.
+
+Compiled `.mo` files **are committed** so prod hosts don't need gettext at deploy time. A pre-commit hook recompiles `.mo` whenever a `.po` is staged — activate it once per clone:
+
+```
+git config core.hooksPath hooks
+```
+
+After that, `git commit` on a touched `.po` automatically runs `compilemessages` and stages the matching `.mo` into the same commit.
 
 ## Load testing
 
