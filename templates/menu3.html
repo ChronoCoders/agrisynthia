@@ -1,4 +1,4 @@
-{% load static %}
+{% load static i18n %}
 
 <div class="main-menu">
 	<header class="header">
@@ -19,29 +19,29 @@
 				</ul>
 				<div class="tab-content card white" id="myTabContent">
 					<div class="tab-pane fade active show" id="Imagedetails" role="tabpanel">
-						<h2>Döşenmiş Bitki Örtüsü İndeksi</h2>
+						<h2>{% trans "Döşenmiş Bitki Örtüsü İndeksi" %}</h2>
 						<p>
-							<strong style='color:rgb(156, 158, 158);'>Ortalama GSD:</strong><p>{{static.gsd}} cm</p>
-							<strong style='color:rgb(156, 158, 158);'>Alan:</strong><p>{{static.area}} m&sup2;</p>
-							<strong style='color:rgb(156, 158, 158);'>Oluşturulma Tarihi:</strong><p>{{static.date}}</p>
-							<strong style='color:rgb(156, 158, 158);'>Kamera:</strong><p>{{images_info.camera_model}}</p>
-							<strong style='color:rgb(156, 158, 158);'>İrtifa:</strong><p>{{images_info.altitude}}</p>
+							<strong style='color:rgb(156, 158, 158);'>{% trans "Ortalama GSD:" %}</strong><p>{{static.gsd}} cm</p>
+							<strong style='color:rgb(156, 158, 158);'>{% trans "Alan:" %}</strong><p>{{static.area}} m&sup2;</p>
+							<strong style='color:rgb(156, 158, 158);'>{% trans "Oluşturulma Tarihi:" %}</strong><p>{{static.date}}</p>
+							<strong style='color:rgb(156, 158, 158);'>{% trans "Kamera:" %}</strong><p>{{images_info.camera_model}}</p>
+							<strong style='color:rgb(156, 158, 158);'>{% trans "İrtifa:" %}</strong><p>{{images_info.altitude}}</p>
 							{% if orthophoto.ranges is not None %}
-							<strong style='color:rgb(156, 158, 158);'>Tespit:</strong><p style='color:red;font-weight: bold;'>{{detection}}</p>
+							<strong style='color:rgb(156, 158, 158);'>{% trans "Tespit:" %}</strong><p style='color:red;font-weight: bold;'>{{detection}}</p>
 							{% endif %}
 						</p>
 					</div>
 					<div class="tab-pane fade" id="Analysis" role="tabpanel">
-						<label>Histogram Grafiği</label>
+						<label>{% trans "Histogram Grafiği" %}</label>
 						{% if orthophoto.ranges is not None %}
 						<input type="range" id="myRange" name="range" multiple max="1" min="-1" step="0.001" />
-						<p>Değer: {{orthophoto.ranges}}<span id="demo"></span></p>
+						<p>{% trans "Değer:" %} {{orthophoto.ranges}}<span id="demo"></span></p>
 						{% else %}
 						<input type="range" name="range" multiple max="1" min="-1" step="0.001" id="myRange"/>
-						<p>Değer: <span id="demo"></span></p>
+						<p>{% trans "Değer:" %} <span id="demo"></span></p>
 						{% endif %}
 						<p>
-							<label for="base">Algoritma:</label>
+							<label for="base">{% trans "Algoritma:" %}</label>
 							<select class="form-control" name="health_color" id="base">
 								{% for key,values in algo.items %}
 								{{values|safe}}
@@ -49,14 +49,14 @@
 							</select>
 						</p>
 						<p>
-							<label for="base">Renkler:</label>
+							<label for="base">{% trans "Renkler:" %}</label>
 							<select class="form-control" name="cmap">
 								{% for color in colors.items %}
 								{{color|safe}}
 								{% endfor %}
 							</select>
 						</p>
-						<p><button name="checked" type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Kontrol Et</button></p>
+						<p><button name="checked" type="submit" class="btn btn-primary btn-sm waves-effect waves-light">{% trans "Kontrol Et" %}</button></p>
 					</div>
 				</div>
 			</div>
