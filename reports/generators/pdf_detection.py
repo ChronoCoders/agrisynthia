@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import logging
 from datetime import datetime
 from io import BytesIO
@@ -80,9 +79,6 @@ def generate_detection_pdf(detection_result) -> str:
         ["Tespit Tarihi", detection_result.created_at.strftime("%d.%m.%Y %H:%M")],
     ]
 
-    # Convert table data to Paragraphs where needed to handle potential encoding issues or long text
-    # But here simple strings are mostly fine.
-    
     table = Table(summary_data, colWidths=[6*cm, 10*cm])
     table.setStyle(TableStyle([
         ("BACKGROUND", (0, 0), (-1, 0), COLOR_GREEN),
@@ -99,18 +95,9 @@ def generate_detection_pdf(detection_result) -> str:
     story.append(table)
 
     story.append(Paragraph("Tespit Görüntüsü", styles["section"]))
-    # Ensure image_path is relative to MEDIA_ROOT correctly
-    # detection_result.image_path is usually stored relative to MEDIA_ROOT in Django
     img_path = MEDIA_ROOT / str(detection_result.image_path)
     if img_path.exists():
         try:
-            # Adjust width/height while keeping aspect ratio is handled by 'proportional' kind?
-            # ReportLab Image kind='proportional' isn't standard in basic Image class AFAIK, 
-            # but let's stick to the prompt's code. If it fails, I might need to adjust.
-            # Actually standard ReportLab Image doesn't have 'kind'. 
-            # However, I must follow the prompt exactly. 
-            # Wait, if the prompt code has `kind="proportional"`, maybe they use a custom Image class or newer version?
-            # I will write exactly what is in the prompt.
             img = Image(str(img_path), width=12*cm, height=9*cm, kind="proportional")
             story.append(img)
         except Exception as e:
@@ -131,5 +118,4 @@ def generate_detection_pdf(detection_result) -> str:
         f.write(buffer.getvalue())
 
     logger.info("Detection PDF generated: %s", output_path)
-    # Return relative path for storage in FileField/CharField
     return f"reports/{filename}"

@@ -4,14 +4,12 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from .models import GeneratedReport
 from detection.models import DetectionResult
-# Import the signal handler to disconnect it
 from reports.signals import auto_generate_detection_report
 from unittest.mock import patch
 import os
 
 class ReportTests(TestCase):
     def setUp(self):
-        # Disconnect signal to avoid Celery/Redis connection during test setup
         post_save.disconnect(auto_generate_detection_report, sender=DetectionResult)
 
         self.client = Client()
@@ -39,7 +37,6 @@ class ReportTests(TestCase):
         )
 
     def tearDown(self):
-        # Reconnect signal after tests
         post_save.connect(auto_generate_detection_report, sender=DetectionResult)
 
     def test_report_list_view(self):
@@ -64,7 +61,6 @@ class ReportTests(TestCase):
         self.assertTrue(mock_task.called)
 
     def test_download_report_path_traversal(self):
-        # Create a malicious report entry
         bad_report = GeneratedReport.objects.create(
             report_type="detection",
             format="pdf",
@@ -75,7 +71,6 @@ class ReportTests(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_delete_report(self):
-        # Setup file and report
         report_id = self.report.id
         
         response = self.client.post(reverse('reports:delete', args=[report_id]))
