@@ -278,10 +278,8 @@ msgstr "Close"
 msgid "Form Hataları:"
 msgstr "Form Errors:"
 
-#, fuzzy
-#| msgid "Proje ekle"
 msgid "Proje Ekle/Düzenle"
-msgstr "Add project"
+msgstr "Add / Edit Project"
 
 msgid "Çiftlik"
 msgstr "Farm"
