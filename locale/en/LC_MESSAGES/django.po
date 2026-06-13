@@ -1,0 +1,367 @@
+# Agrisynthia translations.
+# Copyright (C) 2026 ChronoCoders
+#
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8
+"
+"Content-Transfer-Encoding: 8bit
+"
+"Language: en
+"
+"MIME-Version: 1.0
+"
+"Plural-Forms: nplurals=2; plural=(n != 1);
+"
+
+msgid "14 gün ücretsiz. Kredi kartı gerekmez. İstediğiniz zaman iptal edin."
+msgstr ""
+
+msgid "2FA Etkin"
+msgstr ""
+
+msgid "2FA Kurulumu"
+msgstr ""
+
+msgid "2FA Kurulumunu Başlat"
+msgstr ""
+
+msgid "2FA başarıyla etkinleştirildi."
+msgstr ""
+
+msgid "2FA şu anda etkin. Devre dışı bırakmak için mevcut şifrenizi girin."
+msgstr ""
+
+msgid "2FA'yı Devre Dışı Bırak"
+msgstr ""
+
+msgid "6 haneli TOTP kodu veya 8 haneli yedek kod"
+msgstr ""
+
+msgid "Ad"
+msgstr ""
+
+msgid "Alan Haritası"
+msgstr ""
+
+msgid "Alan İzleme"
+msgstr ""
+
+msgid "Ana Panel"
+msgstr ""
+
+msgid "Avatar güncellendi."
+msgstr ""
+
+msgid "Ayarlar"
+msgstr ""
+
+msgid "Bildirim tercihleri güncellendi."
+msgstr ""
+
+msgid "Bildirimler"
+msgstr ""
+
+msgid "Bu bağlantı geçersiz veya süresi dolmuş."
+msgstr ""
+
+msgid "Bu kodlar bir daha gösterilmeyecek. Lütfen hemen kaydedin."
+msgstr ""
+
+msgid "Bu kodları güvenli bir yere kaydedin. Her kod yalnızca bir kez kullanılabilir."
+msgstr ""
+
+msgid "Dil Tercihi"
+msgstr ""
+
+msgid "Doğrula ve Etkinleştir"
+msgstr ""
+
+msgid "Doğrula ve Giriş Yap"
+msgstr ""
+
+msgid "Doğrulama Kodu"
+msgstr ""
+
+msgid "Doğrulama Kodu (6 haneli)"
+msgstr ""
+
+msgid "Doğrulama e-postası gönder"
+msgstr ""
+
+msgid "Doğrulama e-postası gönderildi."
+msgstr ""
+
+msgid "Doğrulandı"
+msgstr ""
+
+msgid "Doğrulanmadı"
+msgstr ""
+
+msgid "Drone Projeleri"
+msgstr ""
+
+msgid "Düşük NDVI Eşiği (stres uyarısı)"
+msgstr ""
+
+msgid "E-posta"
+msgstr ""
+
+msgid "E-posta Adresi"
+msgstr ""
+
+msgid "E-posta Doğrulama"
+msgstr ""
+
+msgid "E-posta Gönderildi"
+msgstr ""
+
+msgid "E-posta adresiniz başarıyla doğrulandı."
+msgstr ""
+
+msgid "E-posta adresiniz değiştirildi. Doğrulama e-postası gönderildi."
+msgstr ""
+
+msgid "E-posta yolda!"
+msgstr ""
+
+msgid "En az 8 karakter, harf ve rakam içermesi önerilir."
+msgstr ""
+
+msgid "Farklı hesapla giriş yap"
+msgstr ""
+
+msgid "Fotoğraf Seç"
+msgstr ""
+
+msgid "Gelen kutunuzu kontrol edin."
+msgstr ""
+
+msgid "Geçersiz doğrulama kodu. Lütfen tekrar deneyin."
+msgstr ""
+
+msgid "Geçersiz istek."
+msgstr ""
+
+msgid "Geçersiz veya süresi dolmuş doğrulama bağlantısı."
+msgstr ""
+
+msgid "Giriş Yap"
+msgstr ""
+
+msgid "Giriş yapın"
+msgstr ""
+
+msgid "Gün Ücretsiz"
+msgstr ""
+
+msgid "Güvenlik"
+msgstr ""
+
+msgid "Güçlü bir şifre belirleyin ve hesabınıza geri dönün."
+msgstr ""
+
+msgid "Hesabınız güvende."
+msgstr ""
+
+msgid "Hesabınıza giriş yapın."
+msgstr ""
+
+msgid "Hesabınızda kayıtlı bir e-posta adresi yok."
+msgstr ""
+
+msgid "Hesabınızı kimlik doğrulayıcı uygulama (Google Authenticator, Authy vb.) ile koruyun."
+msgstr ""
+
+msgid "Hesap Ayarları"
+msgstr ""
+
+msgid "Hesap Oluştur"
+msgstr ""
+
+msgid "Hesap oluştur"
+msgstr ""
+
+msgid "Hesap oluşturun"
+msgstr ""
+
+msgid "JPEG veya PNG — maks. 5 MB — 400×400 piksele yeniden boyutlandırılır"
+msgstr ""
+
+msgid "Kaydet"
+msgstr ""
+
+msgid "Kayıtlı e-posta adresinizi girin, sıfırlama bağlantısı gönderelim."
+msgstr ""
+
+msgid "Kimlik Doğrulama"
+msgstr ""
+
+msgid "Kimlik doğrulayıcı uygulamanızdaki 6 haneli kodu veya bir yedek kodu girin."
+msgstr ""
+
+msgid "Kimlik doğrulayıcı uygulamanızla (Google Authenticator, Authy) QR kodu tarayın."
+msgstr ""
+
+msgid "Kişisel Bilgiler"
+msgstr ""
+
+msgid "Kodları Kaydettim, Devam Et"
+msgstr ""
+
+msgid "Kullanıcı Adı"
+msgstr ""
+
+msgid "Kullanıcı adı veya şifre hatalı. Lütfen tekrar deneyin."
+msgstr ""
+
+msgid "Kurulum Süresi"
+msgstr ""
+
+msgid "Lütfen bir görsel seçin."
+msgstr ""
+
+msgid "Manuel giriş anahtarı:"
+msgstr ""
+
+msgid "Mevcut Şifre"
+msgstr ""
+
+msgid "Mevcut şifreniz hatalı."
+msgstr ""
+
+msgid "NDVI Uyarıları"
+msgstr ""
+
+msgid "NDVI stres uyarılarını etkinleştir"
+msgstr ""
+
+msgid "Profil"
+msgstr ""
+
+msgid "Profil Fotoğrafı"
+msgstr ""
+
+msgid "Profil bilgileri güncellendi."
+msgstr ""
+
+msgid "QR Kod"
+msgstr ""
+
+msgid "Raporlar"
+msgstr ""
+
+msgid "Sistem İzleme"
+msgstr ""
+
+msgid "Son bir adım kaldı."
+msgstr ""
+
+msgid "Soyad"
+msgstr ""
+
+msgid "Sıfırlama Bağlantısı Gönder"
+msgstr ""
+
+msgid "Tekrar hoş geldiniz"
+msgstr ""
+
+msgid "Telefon"
+msgstr ""
+
+msgid "Tercihleri Kaydet"
+msgstr ""
+
+msgid "Tespit Doğruluğu"
+msgstr ""
+
+msgid "Uyarı:"
+msgstr ""
+
+msgid "Verim Tahmini"
+msgstr ""
+
+msgid "Yedek Kodlar"
+msgstr ""
+
+msgid "Yedek Kodlarınız"
+msgstr ""
+
+msgid "Yeni bağlantı isteyin"
+msgstr ""
+
+msgid "Yeni Şifre"
+msgstr ""
+
+msgid "Yeni Şifre (Tekrar)"
+msgstr ""
+
+msgid "Yeni şifre belirleyin"
+msgstr ""
+
+msgid "Yeni şifreniz başarıyla kaydedildi. Artık hesabınıza giriş yapabilirsiniz."
+msgstr ""
+
+msgid "Yeni şifrenizle giriş yapabilir ve tarlanızı izlemeye devam edebilirsiniz."
+msgstr ""
+
+msgid "Yüksek NDVI Eşiği (iyileşme bildirimi)"
+msgstr ""
+
+msgid "Zaten hesabınız var mı?"
+msgstr ""
+
+msgid "Çoklu Görüntü Sayımı"
+msgstr ""
+
+msgid "Ücretsiz Başlayın"
+msgstr ""
+
+msgid "Ücretsiz denemenizi başlatın. Kart bilgisi istenmez."
+msgstr ""
+
+msgid "İki Faktörlü Doğrulama"
+msgstr ""
+
+msgid "İki Faktörlü Kimlik Doğrulama (2FA)"
+msgstr ""
+
+msgid "İki faktörlü kimlik doğrulama devre dışı bırakıldı."
+msgstr ""
+
+msgid "İptal"
+msgstr ""
+
+msgid "Şifre"
+msgstr ""
+
+msgid "Şifre Değiştir"
+msgstr ""
+
+msgid "Şifre Güncellendi"
+msgstr ""
+
+msgid "Şifre Sıfırla"
+msgstr ""
+
+msgid "Şifre başarıyla değiştirildi."
+msgstr ""
+
+msgid "Şifremi unuttum"
+msgstr ""
+
+msgid "Şifreniz güncellendi!"
+msgstr ""
+
+msgid "Şifrenizi sıfırlayın"
+msgstr ""
+
+msgid "Şifreyi Güncelle"
+msgstr ""
+
+msgid "Şifreyi Kaydet"
+msgstr ""
+
+msgid "← Giriş sayfasına dön"
+msgstr ""
+
