@@ -290,6 +290,27 @@ docker compose exec web python manage.py migrate
 - Media files are served through authenticated proxy — direct `/media/` access requires login
 - Rate limiting is enforced at nginx level (10 req/s for API, 100 req/s general)
 
+## Backups
+
+Postgres → Cloudflare R2 (`backups/postgres/` prefix). All operations via `scripts/backup_postgres.py`:
+
+```
+python scripts/backup_postgres.py backup           # dump, gzip, upload
+python scripts/backup_postgres.py list             # newest first
+python scripts/backup_postgres.py restore          # restore latest
+python scripts/backup_postgres.py restore --key K  # restore specific key
+python scripts/backup_postgres.py prune --days 30  # delete >30d old
+```
+
+Daily cron (Linux prod, 03:00 UTC):
+
+```
+0 3 * * *  cd /opt/agrisynthia && /opt/agrisynthia/venv/bin/python scripts/backup_postgres.py backup >> /var/log/agrisynthia-backup.log 2>&1
+0 4 * * *  cd /opt/agrisynthia && /opt/agrisynthia/venv/bin/python scripts/backup_postgres.py prune --days 30 >> /var/log/agrisynthia-backup.log 2>&1
+```
+
+Requires `pg_dump`/`psql` on PATH, and R2 credentials in `.env` with object R/W on the bucket. Restore drops existing data (uses `--clean --if-exists`) and prompts for `yes` unless `-y` is passed.
+
 ## License
 
 Proprietary. All rights reserved.
