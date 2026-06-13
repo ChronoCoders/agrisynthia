@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
@@ -360,7 +359,6 @@ def chatbot_chat(request):
     import anthropic
     from django_ratelimit.core import is_ratelimited
 
-    # 10 req/min per IP for anonymous users, 30 req/min per user for authenticated
     if request.user.is_authenticated:
         limited = is_ratelimited(
             request,
