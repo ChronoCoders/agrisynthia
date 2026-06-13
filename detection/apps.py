@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 
 from django.apps import AppConfig
@@ -9,9 +8,7 @@ class DetectionConfig(AppConfig):
     name = "detection"
 
     def ready(self):
-        # Django reloader içinde mi kontrol et
         if os.environ.get("RUN_MAIN") != "true":
             return
 
-        # Models will be loaded lazily on first use to avoid slow startup
         print("Detection app ready. Models will load on first use.")

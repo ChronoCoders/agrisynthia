@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 One-time management command to reorganize model weights into versioned directories.
 
