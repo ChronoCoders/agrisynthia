@@ -323,6 +323,25 @@ python manage.py compilemessages           # build .mo files Django actually rea
 
 Both commands need GNU gettext on PATH. On Windows: `choco install gettext`. On Linux: `apt install gettext` / `dnf install gettext`. The compiled `.mo` files are git-ignored — build them in your deploy step.
 
+## Load testing
+
+Locust profile in `scripts/locustfile.py`. Three user classes — browsing the dashboard, uploading detections + watching the SSE stream, polling the REST API — at weights `6 / 2 / 3`.
+
+```
+pip install locust
+export LOCUST_TEST_USERNAME=loadtest LOCUST_TEST_PASSWORD=...
+locust -f scripts/locustfile.py --host https://staging.example.com
+```
+
+Open http://localhost:8089 and set concurrent users + spawn rate. Headless:
+
+```
+locust -f scripts/locustfile.py --host https://staging.example.com \
+    --users 50 --spawn-rate 5 --run-time 5m --headless --csv reports/load
+```
+
+Never point at production — the script enqueues Celery work on every iteration and holds SSE connections open. Drop any small JPEG at `scripts/_sample.jpg` (git-ignored) before running.
+
 ## License
 
 Proprietary. All rights reserved.
