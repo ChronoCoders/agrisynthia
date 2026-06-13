@@ -1,23 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Celery tasks for ODM (NodeODM) processing and Sentinel-2 NDVI fetching.
-
-ODM flow:
-  1. User uploads drone images via the add-project form.
-  2. Images are saved to disk synchronously.
-  3. process_odm_task is dispatched as a Celery task (async).
-  4. The task creates a NodeODM task, polls for completion, then downloads
-     the output assets into static/results/{hashing_path}/.
-  5. Project.odm_status is updated at each step so the frontend can poll.
-
-Sentinel-2 flow:
-  1. User draws a field polygon when creating/editing a project.
-  2. fetch_sentinel2_ndvi(project_id) queries Element84 Earth Search STAC,
-     reads B04/B08 COG bands via rio-tiler, computes NDVI statistics, and
-     stores one SatelliteNDVI row per scene date.
-  3. refresh_all_sentinel2_ndvi() dispatches fetch_sentinel2_ndvi for every
-     project that has a polygon. Run weekly via Celery Beat.
-"""
 import logging
 import os
 from pathlib import Path
@@ -31,25 +11,17 @@ logger = logging.getLogger(__name__)
 
 BASE_DIR = Path(settings.BASE_DIR)
 
-# ---------------------------------------------------------------------------
-# Sentinel-2 helpers
-# ---------------------------------------------------------------------------
-
 _STAC_ENDPOINT = "https://earth-search.aws.element84.com/v1"
 _STAC_COLLECTION = "sentinel-2-l2a"
-# Asset key candidates for red (B04) and NIR (B08) across catalog versions
 _RED_KEYS = ("red",)
 _NIR_KEYS = ("nir", "nir08", "B08")
 
 
 def _polygon_bbox(geom) -> list:
-    """Return [min_lng, min_lat, max_lng, max_lat] from either a GEOSGeometry or a [[lng,lat],...] ring."""
     if isinstance(geom, list):
-        # Legacy JSONField path: list of [lng, lat] pairs
         lngs = [c[0] for c in geom]
         lats = [c[1] for c in geom]
         return [min(lngs), min(lats), max(lngs), max(lats)]
-    # GeoDjango PolygonField path: .extent = (xmin, ymin, xmax, ymax)
     ext = geom.extent
     return [ext[0], ext[1], ext[2], ext[3]]
 
@@ -80,7 +52,6 @@ def _get_asset_href(assets: dict, keys: tuple) -> str | None:
 
 
 def _compute_ndvi(red_href: str, nir_href: str, bbox: list) -> dict | None:
-    """Read COG bands for bbox and return NDVI statistics, or None if too few pixels."""
     from rio_tiler.io import Reader
 
     with Reader(red_href) as r:
@@ -115,15 +86,6 @@ def _compute_ndvi(red_href: str, nir_href: str, bbox: list) -> dict | None:
     default_retry_delay=60,
 )
 def process_odm_task(self, project_id: int) -> dict:
-    """
-    Run NodeODM processing for a project.
-
-    Args:
-        project_id: Primary key of the dron_map.Projects instance.
-
-    Returns:
-        dict with keys: project_id, status, odm_task_id, output_path
-    """
     from dron_map.models import Projects
 
     try:
@@ -138,7 +100,6 @@ def process_odm_task(self, project_id: int) -> dict:
         project.save(update_fields=["odm_status"])
         return {"project_id": project_id, "status": Projects.ODM_DISABLED}
 
-    # Locate uploaded images — saved by the view into static/images_ortho/{hashing_path}
     image_dir = BASE_DIR / "static" / "images_ortho" / project.hashing_path
     output_dir = BASE_DIR / "static" / "results" / project.hashing_path
 
@@ -150,7 +111,6 @@ def process_odm_task(self, project_id: int) -> dict:
         project.save(update_fields=["odm_status", "odm_error"])
         return {"project_id": project_id, "error": err}
 
-    # Mark as processing
     project.odm_status = Projects.ODM_PROCESSING
     project.save(update_fields=["odm_status"])
 
@@ -164,7 +124,6 @@ def process_odm_task(self, project_id: int) -> dict:
             token=settings.ODM_TOKEN or None,
         )
 
-        # Collect image files
         import glob as glob_mod
         images = (
             glob_mod.glob(str(image_dir / "*.JPG"))
@@ -190,10 +149,8 @@ def process_odm_task(self, project_id: int) -> dict:
         project.save(update_fields=["odm_task_id"])
         logger.info("ODM task oluşturuldu: %s (proje %s)", task.uuid, project_id)
 
-        # Block until ODM finishes (runs in Celery worker, not in web process)
         task.wait_for_completion()
 
-        # Download results
         output_dir.mkdir(parents=True, exist_ok=True)
         task.download_assets(str(output_dir))
         logger.info("ODM sonuçları indirildi: %s (proje %s)", output_dir, project_id)
@@ -210,8 +167,7 @@ def process_odm_task(self, project_id: int) -> dict:
         }
 
     except (TaskFailedError, ValueError) as e:
-        # ODM task failed or bad input — permanent failure, do not retry.
-        # Network/DB errors are not caught here and propagate to autoretry.
+        # Permanent failure; network/DB errors propagate to autoretry instead.
         logger.error(
             "ODM işleme hatası proje %s: %s", project_id, e, exc_info=True
         )
@@ -223,13 +179,7 @@ def process_odm_task(self, project_id: int) -> dict:
 
 @shared_task(name="dron_map.watchdog_stuck_odm_tasks")
 def watchdog_stuck_odm_tasks() -> dict:
-    """
-    Periodic watchdog that marks ODM projects stuck in 'processing' as failed.
-
-    A project is considered stuck if it has been in ODM_PROCESSING status for
-    longer than ODM_STUCK_TIMEOUT_MINUTES (default 120 minutes). This covers the
-    case where the Celery worker crashed mid-task and never updated the status.
-    """
+    # Covers the case where the Celery worker crashed mid-task and never updated status.
     from datetime import timedelta
 
     from django.utils import timezone
@@ -261,10 +211,6 @@ def watchdog_stuck_odm_tasks() -> dict:
     return {"recovered": count, "project_ids": ids}
 
 
-# ---------------------------------------------------------------------------
-# Sentinel-2 NDVI tasks
-# ---------------------------------------------------------------------------
-
 @shared_task(
     name="dron_map.fetch_sentinel2_ndvi",
     autoretry_for=(Exception, http_requests.exceptions.RequestException),
@@ -272,18 +218,6 @@ def watchdog_stuck_odm_tasks() -> dict:
     default_retry_delay=60,
 )
 def fetch_sentinel2_ndvi(project_id: int, days_back: int = 90) -> dict:
-    """
-    Fetch Sentinel-2 NDVI time series for a single project.
-
-    Queries Element84 Earth Search (free, no auth) for sentinel-2-l2a scenes
-    that intersect the project's field_polygon, reads B04/B08 COG bands via
-    rio-tiler, computes NDVI statistics, and upserts SatelliteNDVI rows.
-    Already-stored dates are skipped to avoid redundant downloads.
-
-    Args:
-        project_id: PK of the dron_map.Projects instance.
-        days_back: How many days back from today to search.
-    """
     from datetime import date, timedelta
 
     from dron_map.models import Projects, SatelliteNDVI
@@ -308,8 +242,6 @@ def fetch_sentinel2_ndvi(project_id: int, days_back: int = 90) -> dict:
         project_id, bbox, start_date, end_date, cloud_max,
     )
 
-    # STAC search exceptions propagate to autoretry_for — transient API failures
-    # should trigger a retry rather than silently returning an error dict.
     scenes = _search_scenes(bbox, start_date.isoformat(), end_date.isoformat(), cloud_max)
 
     saved = 0
@@ -363,10 +295,6 @@ def fetch_sentinel2_ndvi(project_id: int, days_back: int = 90) -> dict:
 
 @shared_task(name="dron_map.refresh_all_sentinel2_ndvi")
 def refresh_all_sentinel2_ndvi() -> dict:
-    """
-    Dispatch fetch_sentinel2_ndvi for all projects that have a field polygon.
-    Run weekly via Celery Beat to keep NDVI time series current.
-    """
     from dron_map.models import Projects
 
     ids = list(
@@ -379,22 +307,9 @@ def refresh_all_sentinel2_ndvi() -> dict:
     return {"dispatched": len(ids)}
 
 
-# ---------------------------------------------------------------------------
-# NDVI stress alert task
-# ---------------------------------------------------------------------------
-
 @shared_task(name="dron_map.send_ndvi_stress_alerts")
 def send_ndvi_stress_alerts() -> dict:
-    """
-    Weekly task: email each user a summary of their stressed/warning fields.
-
-    Thresholds (configurable via settings):
-      NDVI_STRESS_THRESHOLD  < value → stressed  (default 0.3)
-      NDVI_WARN_THRESHOLD    < value → warning   (default 0.5)
-
-    A per-user cache key prevents duplicate emails within
-    NDVI_ALERT_COOLDOWN_DAYS (default 7 days).
-    """
+    # Per-user cache key prevents duplicate emails within NDVI_ALERT_COOLDOWN_DAYS.
     from collections import defaultdict
 
     from django.contrib.auth import get_user_model
@@ -411,7 +326,6 @@ def send_ndvi_stress_alerts() -> dict:
     cooldown_secs    = cooldown_days * 86400
     from_email       = getattr(settings, "DEFAULT_FROM_EMAIL", "noreply@agrisynthia.io")
 
-    # Collect latest NDVI per project, grouped by owner
     alerts_by_user: dict[int, list[dict]] = defaultdict(list)
 
     projects = Projects.objects.exclude(created_by__isnull=True).select_related("created_by")
@@ -422,7 +336,7 @@ def send_ndvi_stress_alerts() -> dict:
 
         ndvi = latest["mean_ndvi"]
         if ndvi >= warn_threshold:
-            continue  # healthy — no alert needed
+            continue
 
         level = "stressed" if ndvi < stress_threshold else "warning"
         alerts_by_user[project.created_by_id].append({

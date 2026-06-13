@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import logging
 from dataclasses import dataclass
 from pathlib import Path
@@ -121,23 +120,6 @@ class _AnalysisData:
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint for drone mapping projects
-
-    Provides CRUD operations for farm projects:
-    - List all projects (GET /api/projects/)
-    - Retrieve single project (GET /api/projects/{id}/)
-    - Create new project (POST /api/projects/)
-    - Update project (PUT/PATCH /api/projects/{id}/)
-    - Delete project (DELETE /api/projects/{id}/)
-    - Filter by farm/field/state (GET /api/projects/?Farm=MyFarm)
-    - Search by farm/field/title (GET /api/projects/?search=apple)
-    - Get project summary (GET /api/projects/{id}/summary/)
-    - List by farm (GET /api/projects/by_farm/)
-
-    Note: Authentication required for all endpoints to protect farm data.
-    """
-
     queryset = Projects.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
@@ -155,13 +137,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
     ordering = ["-Data_time"]
 
     def get_serializer_class(self):
-        """Use summary serializer for list action"""
         if self.action == "list":
             return ProjectSummarySerializer
         return ProjectSerializer
 
     def perform_create(self, serializer):
-        """Generate hashing_path on creation"""
         from agrisynthia import hashing
         from rest_framework.exceptions import ValidationError
 
@@ -169,9 +149,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         field = serializer.validated_data.get("Field", "")
 
         try:
-            # Generate unique hash based on title and field
             hashing_result = hashing.add_prefix(filename=f"{title}{field}")
-            # hashing_result is (full_path, hash_string)
             serializer.save(hashing_path=hashing_result[1], created_by=self.request.user)
         except Exception as e:
             raise ValidationError(f"Karma yol oluşturulamadı: {str(e)}")
@@ -191,18 +169,12 @@ class ProjectViewSet(viewsets.ModelViewSet):
         ndvi_high: float = NDVI_HIGH,
         min_area_ha: float = MIN_ZONE_AREA_HA,
     ) -> "Union[_AnalysisData, Response]":
-        """Run YOLO inference and NDVI computation exactly once.
-
-        Returns an ``_AnalysisData`` on success, or a ``Response`` error on
-        failure so callers can return it immediately.
-        """
         raster_path = self._get_orthophoto_path(project)
         if raster_path is None:
             return Response(
                 {"detail": "Bu proje için ortofoto mevcut değil."}, status=400
             )
 
-        # --- NDVI raster (once) ---
         ndvi_algo = algos(str(raster_path), project.hashing_path)
         ndvi_result = ndvi_algo.Ndvi()
         ndvi_rel_path = ndvi_result.get("path")
@@ -212,7 +184,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
             )
         ndvi_path = BASE_DIR / "static" / ndvi_rel_path
 
-        # --- Stress zones from NDVI (once) ---
         try:
             zones = generate_stress_zones(
                 str(ndvi_path),
@@ -263,7 +234,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
             "ozet": ozet,
         }
 
-        # --- YOLO tree detection (once) ---
         try:
             (
                 _detec,
@@ -306,18 +276,12 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["get"])
     def by_farm(self, request):
-        """
-        Get projects grouped by farm
-        GET /api/projects/by_farm/
-        """
         from itertools import groupby
         from operator import attrgetter
 
-        # Fetch all projects in one query, ordered by farm
         all_projects = Projects.objects.all().order_by("Farm")
 
         result = []
-        # Group by farm name using itertools.groupby (efficient, no N+1)
         for farm_name, projects in groupby(all_projects, key=attrgetter("Farm")):
             projects_list = list(projects)
             serializer = ProjectSummarySerializer(projects_list, many=True)
@@ -333,10 +297,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["get"])
     def by_state(self, request):
-        """
-        Get projects grouped by state
-        GET /api/projects/by_state/
-        """
         from django.db.models import Count
 
         states = (
@@ -349,10 +309,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["get"])
     def summary(self, request, pk=None):
-        """
-        Get detailed project summary
-        GET /api/projects/{id}/summary/
-        """
         project = self.get_object()
         return Response(
             {
@@ -369,10 +325,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["get"])
     def statistics(self, request):
-        """
-        Get project statistics
-        GET /api/projects/statistics/
-        """
         from django.db.models import Count
 
         stats = {
@@ -652,7 +604,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
         start_time = timezone.now()
 
         try:
-            # --- Step 1: NDVI raster (once) ---
             ndvi_algo = algos(str(raster_path), project.hashing_path)
             ndvi_result = ndvi_algo.Ndvi()
             ndvi_rel_path = ndvi_result.get("path")
@@ -660,7 +611,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
                 raise ValueError("NDVI sonucu yolu belirlenemedi.")
             ndvi_path = BASE_DIR / "static" / ndvi_rel_path
 
-            # --- Step 2: Stress zones from NDVI raster (once) ---
             try:
                 zones = generate_stress_zones(
                     str(ndvi_path),
@@ -700,7 +650,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
                 "ozet": ozet,
             }
 
-            # --- Step 3: Tree detection + density grid (once) ---
             try:
                 (
                     _detec,
@@ -724,7 +673,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
             lonlat_points = [(p["lon"], p["lat"]) for p in geo_points]
             density_data = generate_density_grid(lonlat_points, grid_size)
 
-            # --- Step 4: Aggregate metrics ---
             total_tree_count, avg_density_per_ha = _aggregate_density_metrics(density_data)
             total_stressed_area_percent, largest_stress_zone_ha = _extract_stress_summary(stress_data)
             average_ndvi = _compute_average_ndvi(str(ndvi_path))
@@ -745,10 +693,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
                 "tree_age": tree_age,
             }
 
-            # --- Step 5: Yield prediction ---
             yield_result = predict_yield(feature_vector, fruit_type_param)
 
-            # --- Step 6: Recommendations (uses pre-computed data, no re-inference) ---
             recommendations = generate_recommendations(density_data, stress_data)
             severity_map = {"critical": "Kritik", "high": "Yüksek", "medium": "Orta"}
             action_map = {

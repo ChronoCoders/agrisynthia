@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 import os
 
 from django.contrib.auth.models import User
 
-# Use GeoDjango models when GDAL is available; fall back to plain Django otherwise.
 # Set GEODJANGO_ENABLED=False in .env on Windows without OSGeo4W.
 if os.environ.get("GEODJANGO_ENABLED", "True") == "True":
     from django.contrib.gis.db import models
@@ -48,7 +46,6 @@ class Projects(models.Model):
         db_index=True,
     )
 
-    # ODM processing state
     ODM_PENDING = "pending"
     ODM_PROCESSING = "processing"
     ODM_COMPLETED = "completed"

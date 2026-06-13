@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import logging
 import os
 import shutil
@@ -64,10 +63,8 @@ def validate_uploaded_files(files: List[Any]) -> None:
         if uploaded_file.size == 0:
             raise ValidationError(f"Boş dosya: {uploaded_file.name}")
 
-        # Extract basename to prevent path traversal
         filename = os.path.basename(uploaded_file.name)
 
-        # Check for path traversal attempts
         if ".." in filename or "/" in filename or "\\" in filename:
             logger.warning("Path traversal attempt detected: %s", uploaded_file.name)
             raise ValidationError(f"Geçersiz dosya adı: {uploaded_file.name}")
@@ -248,7 +245,6 @@ def add_projects(
                 title = form.cleaned_data["Title"]
                 field = form.cleaned_data["Field"]
 
-                # Create hashing path
                 try:
                     hashing_result = hashing.add_prefix(filename=f"{title}{field}")
                     upload_dir = Path(hashing_result[0])
@@ -256,11 +252,9 @@ def add_projects(
                     logger.error("Hashing path oluşturma hatası: %s", e)
                     raise ValidationError("Proje dizini oluşturulamadı")
 
-                # Save uploaded images
                 saved_files_dir = None
                 try:
                     for image in images_list:
-                        # Sanitize filename to prevent path traversal
                         if image.name is None:
                             raise ValidationError("Dosya adı bulunamadı")
 
@@ -283,7 +277,6 @@ def add_projects(
                     saved_files_dir = upload_dir
                 except Exception as e:
                     logger.error("Görüntü kaydetme hatası: %s", e)
-                    # Clean up any files that were saved
                     if upload_dir.exists():
                         try:
                             shutil.rmtree(str(upload_dir))
@@ -292,7 +285,6 @@ def add_projects(
                             logger.error("Dosya temizleme hatası: %s", cleanup_error)
                     raise ValidationError(f"Dosyalar kaydedilemedi: {str(e)}")
 
-                # Parse optional field polygon from form
                 import json as _json
                 import os as _os
                 raw_polygon = request.POST.get("field_polygon_json", "").strip()
@@ -309,7 +301,6 @@ def add_projects(
                     except Exception:
                         logger.warning("Geçersiz field_polygon JSON, atlandı.")
 
-                # Save project to database with transaction
                 try:
                     with transaction.atomic():
                         form.instance.hashing_path = hashing_result[1]
@@ -320,7 +311,6 @@ def add_projects(
                         logger.info("Proje veritabanına kaydedildi: %s", project.id)
                 except Exception as e:
                     logger.error("Veritabanı kaydetme hatası: %s", e)
-                    # Database save failed, clean up saved files
                     if saved_files_dir and saved_files_dir.exists():
                         try:
                             shutil.rmtree(str(saved_files_dir))
@@ -332,7 +322,6 @@ def add_projects(
                             logger.error("Dosya temizleme hatası: %s", cleanup_error)
                     raise ValidationError("Proje kaydedilemedi")
 
-                # Dispatch ODM processing as async Celery task
                 from django.conf import settings
                 if settings.ODM_ENABLED:
                     try:
@@ -345,9 +334,7 @@ def add_projects(
                         logger.error(
                             "ODM task gönderilemedi proje %s: %s", project.id, e
                         )
-                        # Non-critical: project saved, ODM will be skipped
 
-                # Dispatch Sentinel-2 NDVI fetch if polygon was provided
                 if parsed_polygon:
                     try:
                         from dron_map.tasks import fetch_sentinel2_ndvi
@@ -374,7 +361,6 @@ def add_projects(
 
         return render(request, "add-projects.html", {"userss": request.user})
 
-    # Default case: if no slug matches, redirect to projects list
     return redirect("dron_map:projects")
 
 
@@ -401,7 +387,6 @@ def convert(input_path: str, output_path: str) -> None:
         dataset2.SetProjection(projection)
         dataset2.GetRasterBand(1).SetNoDataValue(0)
 
-        # Close datasets
         dataset1 = None
         dataset2 = None
 
@@ -515,7 +500,6 @@ def maping(request: HttpRequest, id: int) -> HttpResponse:
             try:
                 orthophoto_path = f'{BASE_DIR}/static/{orthophoto["odm_orthophoto"]}'
 
-                # Check if file exists
                 if not os.path.exists(orthophoto_path):
                     logger.error("Orthophoto bulunamadı: %s", orthophoto_path)
                     return render(
@@ -578,7 +562,6 @@ def maping(request: HttpRequest, id: int) -> HttpResponse:
                     },
                 )
 
-        # Default return for POST if no health_color action matched
         return render(
             request,
             "map.html",
@@ -647,10 +630,8 @@ def field_overview(request: HttpRequest) -> HttpResponse:
         if p.field_polygon:
             import json as _json
             if hasattr(p.field_polygon, "geojson"):
-                # GeoDjango PolygonField
                 geometry = _json.loads(p.field_polygon.geojson)
             else:
-                # Legacy JSONField ring [[lng, lat], ...]
                 geometry = {"type": "Polygon", "coordinates": [p.field_polygon]}
         else:
             geometry = None
@@ -779,7 +760,6 @@ def dashboard(request: HttpRequest) -> HttpResponse:
         .order_by("day")
     )
 
-    # Build label list (all days in range) and datasets per fruit type
     all_days = [(date.today() - timedelta(days=d)).isoformat() for d in range(59, -1, -1)]
     fruit_totals: dict[str, dict[str, int]] = {}
     for row in det_by_date_fruit:
@@ -836,7 +816,6 @@ def ndvi_data(request, project_id: int) -> JsonResponse:
         .order_by("date")
         .values("date", "mean_ndvi", "min_ndvi", "max_ndvi", "cloud_cover")
     )
-    # Convert date objects to ISO strings for JSON
     for r in readings:
         r["date"] = r["date"].isoformat()
 
@@ -876,11 +855,9 @@ def yield_prediction(request: HttpRequest) -> HttpResponse:
 
             if project_id:
                 selected_project = get_object_or_404(Projects, pk=project_id, created_by=request.user)
-                # Pull NDVI from DB if not manually provided
                 if avg_ndvi is None:
                     qs = selected_project.ndvi_readings.order_by("-date").values_list("mean_ndvi", flat=True)[:6]
                     avg_ndvi = (sum(qs) / len(qs)) if qs else None
-                # Pull detection if not manually provided
                 if not detected_count or not fruit_type:
                     det = DetectionResult.objects.filter(created_by=request.user).order_by("-created_at").first()
                     if det:
