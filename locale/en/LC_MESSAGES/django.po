@@ -900,10 +900,8 @@ msgstr "Already have an account?"
 msgid "Giriş yapın"
 msgstr "Log in"
 
-#, fuzzy
-#| msgid "Hesap Oluştur"
 msgid "Yeni Rapor Oluştur"
-msgstr "Sign Up"
+msgstr "Create New Report"
 
 #, fuzzy
 #| msgid "Tespit Başlat"
@@ -933,10 +931,8 @@ msgstr "Excel (XLSX) — Table"
 msgid "Oluştur"
 msgstr "Sign Up"
 
-#, fuzzy
-#| msgid "Otomatik Raporlama"
 msgid "Otomatik Rapor Zamanlaması"
-msgstr "Automated Reporting"
+msgstr "Automated Report Schedule"
 
 #, fuzzy
 #| msgid "Raporlar"
