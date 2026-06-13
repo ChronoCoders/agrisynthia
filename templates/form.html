@@ -187,7 +187,6 @@
             <form id="upload-file" method="post" enctype="multipart/form-data" novalidate>
                 {% csrf_token %}
 
-                <!-- Fruit type -->
                 <div class="form-group input-icon-group" style="margin-bottom:14px;">
                     <i class="fa-solid fa-seedling input-icon"></i>
                     <select name="meyve_grubu" id="meyve_grubu" class="form-control form-control-touch" aria-label="Meyve Grubu">
@@ -201,7 +200,6 @@
                     </select>
                 </div>
 
-                <!-- Tree count -->
                 <div class="form-group input-icon-group" style="margin-bottom:14px;">
                     <i class="fa-solid fa-tree input-icon"></i>
                     <input type="number" name="agac_sayisi" id="agac_sayisi" class="form-control form-control-touch"
@@ -209,7 +207,6 @@
                            aria-label="Ağaç Sayısı" inputmode="numeric">
                 </div>
 
-                <!-- Tree age -->
                 <div class="form-group input-icon-group" style="margin-bottom:14px;">
                     <i class="fa-brands fa-pagelines input-icon"></i>
                     <input type="number" name="agac_yasi" id="agac_yasi" class="form-control form-control-touch"
@@ -217,7 +214,6 @@
                            aria-label="Ağaç Yaşı" inputmode="numeric">
                 </div>
 
-                <!-- Row pattern -->
                 <div class="form-group input-icon-group" style="margin-bottom:14px;">
                     <i class="fa-regular fa-chart-simple input-icon"></i>
                     <input type="text" name="ekim_sirasi" id="ekim_sirasi" class="form-control form-control-touch"
@@ -227,7 +223,6 @@
                            aria-label="Ekim Sırası" inputmode="text">
                 </div>
 
-                <!-- Image upload zone -->
                 <div class="form-group" style="margin-bottom:14px;">
                     <div class="upload-zone" id="uploadZone">
                         <input id="exampleInputFile"
@@ -252,7 +247,6 @@
                 </button>
             </form>
 
-            <!-- Status / progress -->
             <div id="detection-status-box">
                 <div id="detection-status-msg">İşleniyor...</div>
                 <div id="detection-progress-track">
@@ -260,7 +254,6 @@
                 </div>
             </div>
 
-            <!-- Result card -->
             <div id="detection-result-card">
                 <div class="result-header"><i class="fa-solid fa-check-circle"></i> Tespit Sonuçları</div>
                 <div class="result-body" id="detection-result-body"></div>
