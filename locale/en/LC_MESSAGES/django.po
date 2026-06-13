@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-13 14:21-0400\n"
+"POT-Creation-Date: 2026-06-13 14:30-0400\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -349,7 +349,9 @@ msgstr "(optional — for Sentinel-2 NDVI monitoring)"
 msgid ""
 "Haritada çokgen çizmek için sağ üst köşedeki <strong>çokgen aracını</strong> "
 "kullanın. Seçimi silmek için çöp kutusu simgesine tıklayın."
-msgstr "To draw a polygon on the map, use the <strong>polygon tool</strong> in the top-right corner. Click the trash icon to delete the selection."
+msgstr ""
+"To draw a polygon on the map, use the <strong>polygon tool</strong> in the "
+"top-right corner. Click the trash icon to delete the selection."
 
 msgid "İstatistik Grafiği"
 msgstr "Statistics Chart"
@@ -395,7 +397,8 @@ msgstr "Sentinel-2 NDVI Trends"
 msgid ""
 "Veri kaynağı: Sentinel-2 L2A (Element84 Earth Search) · Her tarla için ayrı "
 "çizgi"
-msgstr "Data source: Sentinel-2 L2A (Element84 Earth Search) · One line per field"
+msgstr ""
+"Data source: Sentinel-2 L2A (Element84 Earth Search) · One line per field"
 
 msgid "Henüz proje yok."
 msgstr "No projects yet."
@@ -697,6 +700,50 @@ msgstr "System Monitoring"
 msgid "Ayarlar"
 msgstr "Settings"
 
+msgid "Döşenmiş Bitki Örtüsü İndeksi"
+msgstr "Tiled Vegetation Index"
+
+msgid "Ortalama GSD:"
+msgstr "Average GSD:"
+
+#, fuzzy
+#| msgid "Alan"
+msgid "Alan:"
+msgstr "Area"
+
+msgid "Oluşturulma Tarihi:"
+msgstr "Created:"
+
+msgid "Kamera:"
+msgstr "Camera:"
+
+msgid "İrtifa:"
+msgstr "Altitude:"
+
+#, fuzzy
+#| msgid "Toplam Tespit"
+msgid "Tespit:"
+msgstr "Total Detections"
+
+#, fuzzy
+#| msgid "İstatistik Grafiği"
+msgid "Histogram Grafiği"
+msgstr "Statistics Chart"
+
+#, fuzzy
+#| msgid "Değerlerimiz"
+msgid "Değer:"
+msgstr "Our Values"
+
+msgid "Algoritma:"
+msgstr "Algorithm:"
+
+msgid "Renkler:"
+msgstr "Colors:"
+
+msgid "Kontrol Et"
+msgstr "Check"
+
 #, fuzzy
 #| msgid "Agrisynthia Asistan"
 msgid "Agrisynthia Yapay Zeka Sistemi"
@@ -854,6 +901,154 @@ msgid "Giriş yapın"
 msgstr "Log in"
 
 #, fuzzy
+#| msgid "Hesap Oluştur"
+msgid "Yeni Rapor Oluştur"
+msgstr "Sign Up"
+
+#, fuzzy
+#| msgid "Tespit Başlat"
+msgid "Tespit ID"
+msgstr "Start Detection"
+
+#, fuzzy
+#| msgid "Tespit Doğruluğu"
+msgid "Tespit Sonucu ID"
+msgstr "Detection Accuracy"
+
+#, fuzzy
+#| msgid "ODM Durumu"
+msgid "Proje ID"
+msgstr "ODM Status"
+
+#, fuzzy
+#| msgid "Form Hataları:"
+msgid "Formatlar"
+msgstr "Form Errors:"
+
+msgid "Excel (XLSX) - Tablo"
+msgstr "Excel (XLSX) — Table"
+
+#, fuzzy
+#| msgid "Hesap Oluştur"
+msgid "Oluştur"
+msgstr "Sign Up"
+
+#, fuzzy
+#| msgid "Otomatik Raporlama"
+msgid "Otomatik Rapor Zamanlaması"
+msgstr "Automated Reporting"
+
+#, fuzzy
+#| msgid "Raporlar"
+msgid "Rapor Türü"
+msgstr "Reports"
+
+#, fuzzy
+#| msgid "Tespit Doğruluğu"
+msgid "Tespit Raporu"
+msgstr "Detection Accuracy"
+
+#, fuzzy
+#| msgid "Arazi Analiz Raporu"
+msgid "Drone Analiz Raporu"
+msgstr "Field Analysis Report"
+
+msgid "Format"
+msgstr "Format"
+
+msgid "Sıklık"
+msgstr "Frequency"
+
+#, fuzzy
+#| msgid "30 Günlük Hedef:"
+msgid "Günlük"
+msgstr "30-Day Target:"
+
+#, fuzzy
+#| msgid "Aralık"
+msgid "Haftalık"
+msgstr "Dec"
+
+msgid "Aylık"
+msgstr "Monthly"
+
+msgid "Proje (opsiyonel)"
+msgstr "Project (optional)"
+
+msgid "— Tüm Sonuçlar —"
+msgstr "— All Results —"
+
+msgid "Ekle"
+msgstr "Add"
+
+#, fuzzy
+#| msgid "Süre"
+msgid "Tür"
+msgstr "Time"
+
+#, fuzzy
+#| msgid "Proje ekle"
+msgid "Proje"
+msgstr "Add project"
+
+#, fuzzy
+#| msgid "E-posta Gönderildi"
+msgid "Sonraki Gönderim"
+msgstr "Email Sent"
+
+msgid "Aktif"
+msgstr "Active"
+
+#, fuzzy
+#| msgid "İşleniyor"
+msgid "İşlem"
+msgstr "Processing"
+
+msgid "Henüz zamanlama eklenmemiş."
+msgstr "No schedule added yet."
+
+msgid "Rapor Listesi"
+msgstr "Report List"
+
+msgid "No"
+msgstr "No."
+
+msgid "Biçim"
+msgstr "Format"
+
+#, fuzzy
+#| msgid "İlgili Yazılar"
+msgid "İlgili Kayıt"
+msgstr "Related Articles"
+
+msgid "Oluşturma Tarihi"
+msgstr "Created"
+
+#, fuzzy
+#| msgid "Toplam Tespit"
+msgid "Tespit"
+msgstr "Total Detections"
+
+msgid "Drone Analizi"
+msgstr "Drone Analysis"
+
+msgid "Hazır"
+msgstr "Ready"
+
+#, fuzzy
+#| msgid "Hata!"
+msgid "Hata"
+msgstr "Error!"
+
+#, fuzzy
+#| msgid "Stabil"
+msgid "Sil"
+msgstr "Stable"
+
+msgid "Henüz rapor oluşturulmamış."
+msgstr "No reports created yet."
+
+#, fuzzy
 #| msgid "Kullanıcı Adı"
 msgid "CPU Kullanımı"
 msgstr "Username"
@@ -925,9 +1120,6 @@ msgstr "Model Name"
 msgid "Yüklü"
 msgstr "Loaded"
 
-msgid "Aktif"
-msgstr "Active"
-
 msgid "Yüklü Değil"
 msgstr "Not Loaded"
 
@@ -936,6 +1128,19 @@ msgstr "No models loaded yet"
 
 msgid "Yenile"
 msgstr "Refresh"
+
+#, fuzzy
+#| msgid "Drone Projeleri"
+msgid "Orijinal Görsel"
+msgstr "Drone Projects"
+
+msgid "Original"
+msgstr "Original"
+
+#, fuzzy
+#| msgid "Tespit Doğruluğu"
+msgid "Tespit Sonucu"
+msgstr "Detection Accuracy"
 
 msgid "Hakkımızda"
 msgstr "About"
@@ -1088,6 +1293,7 @@ msgstr ""
 msgid "Uydu NDVI analizi, drone görüntü işleme ve yapay zeka meyve tespiti."
 msgstr "Satellite NDVI analysis, drone image processing, and AI fruit detection."
 "Satellite NDVI analysis, drone image processing, and AI fruit "
+"detection.Satellite NDVI analysis, drone image processing, and AI fruit "
 "detection.Satellite NDVI analysis, drone image processing, and AI fruit "
 "detection.Satellite NDVI analysis, drone image processing, and AI fruit "
 "detection."
@@ -1290,6 +1496,7 @@ msgid "Mesajınız iletildi. En kısa sürede size dönüş yapacağız."
 msgstr "Your message has been sent. We will get back to you as soon as possible."
 "Your message has been sent. We will get back to you as soon as possible.Your "
 "message has been sent. We will get back to you as soon as possible.Your "
+"message has been sent. We will get back to you as soon as possible.Your "
 "message has been sent. We will get back to you as soon as possible."
 
 msgid "Firma / Kooperatif"
@@ -1425,7 +1632,8 @@ msgstr "From drone to satellite, from detection to prediction — the whole pipe
 "From drone to satellite, from detection to prediction — the whole pipeline "
 "automated.From drone to satellite, from detection to prediction — the whole "
 "pipeline automated.From drone to satellite, from detection to prediction — "
-"the whole pipeline automated."
+"the whole pipeline automated.From drone to satellite, from detection to "
+"prediction — the whole pipeline automated."
 
 msgid "Uydu NDVI İzleme"
 msgstr "Satellite NDVI Monitoring"
@@ -1639,9 +1847,6 @@ msgstr ""
 
 msgid "Tarlanız için doğru plan"
 msgstr "The right plan for your field"
-
-msgid "Aylık"
-msgstr "Monthly"
 
 msgid "Yıllık"
 msgstr "Annual"
@@ -1891,9 +2096,6 @@ msgstr "Feb"
 msgid "5 Aylık NDVI Trendi"
 msgstr "5-Month NDVI Trend"
 
-msgid "Drone Analizi"
-msgstr "Drone Analysis"
-
 msgid "Drone görüntülerinizi ortofotoya dönüştürün"
 msgstr "Turn your drone imagery into an orthophoto"
 
@@ -2076,9 +2278,6 @@ msgstr "14 days free. No credit card. Cancel anytime."
 msgid "Planları Görün"
 msgstr "See Plans"
 
-msgid "Proje (opsiyonel)"
-msgstr "Project (optional)"
-
 #, fuzzy
 #| msgid "Manuel giriş anahtarı:"
 msgid "— Manuel giriş —"
@@ -2200,7 +2399,10 @@ msgid ""
 "Bu tahmin, mevcut tespit verileri ve uydu NDVI ölçümlerine dayalı agronomi "
 "modelidir. Gerçek hasat; hava koşulları, sulama ve bakım uygulamalarına göre "
 "farklılık gösterebilir."
-msgstr "This prediction is an agronomy model based on existing detection data and satellite NDVI measurements. The actual harvest may vary based on weather, irrigation, and care practices."
+msgstr ""
+"This prediction is an agronomy model based on existing detection data and "
+"satellite NDVI measurements. The actual harvest may vary based on weather, "
+"irrigation, and care practices."
 
 msgid "Formu doldurup <strong>Tahmin Et</strong> butonuna tıklayın."
 msgstr "Fill out the form and click <strong>Predict</strong>."
