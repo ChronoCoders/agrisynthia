@@ -1,19 +1,20 @@
-{% load static %}
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="{% block meta_desc %}Agrisynthia — Yapay zeka destekli tarımsal izleme, uydu NDVI analizi ve verim tahmini platformu.{% endblock %}">
-  <meta property="og:title" content="{% block og_title %}Agrisynthia | Akıllı Tarım Platformu{% endblock %}">
-  <meta property="og:description" content="{% block og_desc %}Uydu NDVI analizi, drone görüntü işleme ve yapay zeka meyve tespiti ile tarımsal verimliliğinizi artırın.{% endblock %}">
+  <meta name="description" content="{% block meta_desc %}{% trans "Agrisynthia — Yapay zeka destekli tarımsal izleme, uydu NDVI analizi ve verim tahmini platformu." %}{% endblock %}">
+  <meta property="og:title" content="{% block og_title %}{% trans "Agrisynthia | Akıllı Tarım Platformu" %}{% endblock %}">
+  <meta property="og:description" content="{% block og_desc %}{% trans "Uydu NDVI analizi, drone görüntü işleme ve yapay zeka meyve tespiti ile tarımsal verimliliğinizi artırın." %}{% endblock %}">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://agrisynthia.com{% block og_url %}{% endblock %}">
   <meta property="og:image" content="https://agrisynthia.com{% static 'website/og-image.png' %}">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{% block tw_title %}Agrisynthia | Akıllı Tarım Platformu{% endblock %}">
-  <meta name="twitter:description" content="{% block tw_desc %}Uydu NDVI analizi, drone görüntü işleme ve yapay zeka meyve tespiti.{% endblock %}">
-  <title>{% block title %}Agrisynthia{% endblock %} | Akıllı Tarım Platformu</title>
+  <meta name="twitter:title" content="{% block tw_title %}{% trans "Agrisynthia | Akıllı Tarım Platformu" %}{% endblock %}">
+  <meta name="twitter:description" content="{% block tw_desc %}{% trans "Uydu NDVI analizi, drone görüntü işleme ve yapay zeka meyve tespiti." %}{% endblock %}">
+  <title>{% block title %}Agrisynthia{% endblock %} | {% trans "Akıllı Tarım Platformu" %}</title>
   <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}">
   <link rel="canonical" href="https://agrisynthia.com{% block canonical_url %}{% endblock %}">
   <link rel="stylesheet" href="{% static 'website/css/site.css' %}">
@@ -30,17 +31,17 @@
   <div class="container">
     <a href="{% url 'website:home' %}" class="nav-logo">Agri<span>synthia</span></a>
     <ul class="nav-links">
-      <li><a href="{% url 'website:product' %}" class="{% block nav_product %}{% endblock %}">Ürün</a></li>
-      <li><a href="{% url 'website:pricing' %}" class="{% block nav_pricing %}{% endblock %}">Fiyatlandırma</a></li>
-      <li><a href="{% url 'website:blog' %}" class="{% block nav_blog %}{% endblock %}">Blog</a></li>
-      <li><a href="{% url 'website:about' %}" class="{% block nav_about %}{% endblock %}">Hakkımızda</a></li>
-      <li><a href="{% url 'website:contact' %}" class="{% block nav_contact %}{% endblock %}">İletişim</a></li>
+      <li><a href="{% url 'website:product' %}" class="{% block nav_product %}{% endblock %}">{% trans "Ürün" %}</a></li>
+      <li><a href="{% url 'website:pricing' %}" class="{% block nav_pricing %}{% endblock %}">{% trans "Fiyatlandırma" %}</a></li>
+      <li><a href="{% url 'website:blog' %}" class="{% block nav_blog %}{% endblock %}">{% trans "Blog" %}</a></li>
+      <li><a href="{% url 'website:about' %}" class="{% block nav_about %}{% endblock %}">{% trans "Hakkımızda" %}</a></li>
+      <li><a href="{% url 'website:contact' %}" class="{% block nav_contact %}{% endblock %}">{% trans "İletişim" %}</a></li>
     </ul>
     <div class="nav-actions">
-      <a href="{% url 'login' %}" class="btn btn-outline btn-sm">Giriş Yap</a>
-      <a href="{% url 'website:pricing' %}" class="btn btn-primary btn-sm">Ücretsiz Deneyin</a>
+      <a href="{% url 'login' %}" class="btn btn-outline btn-sm">{% trans "Giriş Yap" %}</a>
+      <a href="{% url 'website:pricing' %}" class="btn btn-primary btn-sm">{% trans "Ücretsiz Deneyin" %}</a>
     </div>
-    <button class="nav-mobile-toggle" id="navToggle" aria-label="Menüyü aç">
+    <button class="nav-mobile-toggle" id="navToggle" aria-label="{% trans 'Menüyü aç' %}">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -52,15 +53,15 @@
     <button onclick="closeDrawer()" style="background:none;border:none;font-size:24px;cursor:pointer;color:var(--text);">&#x2715;</button>
   </div>
   <ul>
-    <li><a href="{% url 'website:product' %}" onclick="closeDrawer()">Ürün</a></li>
-    <li><a href="{% url 'website:pricing' %}" onclick="closeDrawer()">Fiyatlandırma</a></li>
-    <li><a href="{% url 'website:blog' %}" onclick="closeDrawer()">Blog</a></li>
-    <li><a href="{% url 'website:about' %}" onclick="closeDrawer()">Hakkımızda</a></li>
-    <li><a href="{% url 'website:contact' %}" onclick="closeDrawer()">İletişim</a></li>
+    <li><a href="{% url 'website:product' %}" onclick="closeDrawer()">{% trans "Ürün" %}</a></li>
+    <li><a href="{% url 'website:pricing' %}" onclick="closeDrawer()">{% trans "Fiyatlandırma" %}</a></li>
+    <li><a href="{% url 'website:blog' %}" onclick="closeDrawer()">{% trans "Blog" %}</a></li>
+    <li><a href="{% url 'website:about' %}" onclick="closeDrawer()">{% trans "Hakkımızda" %}</a></li>
+    <li><a href="{% url 'website:contact' %}" onclick="closeDrawer()">{% trans "İletişim" %}</a></li>
   </ul>
   <div class="nav-drawer-actions">
-    <a href="{% url 'login' %}" class="btn btn-outline">Giriş Yap</a>
-    <a href="{% url 'website:pricing' %}" class="btn btn-primary">Ücretsiz Deneyin</a>
+    <a href="{% url 'login' %}" class="btn btn-outline">{% trans "Giriş Yap" %}</a>
+    <a href="{% url 'website:pricing' %}" class="btn btn-primary">{% trans "Ücretsiz Deneyin" %}</a>
   </div>
 </div>
 
@@ -71,36 +72,36 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <div class="logo">Agri<span>synthia</span></div>
-        <p>Yapay zeka ve uydu görüntüleri ile tarlanızı gerçek zamanlı izleyin, hasadınızı önceden planlayın.</p>
+        <p>{% trans "Yapay zeka ve uydu görüntüleri ile tarlanızı gerçek zamanlı izleyin, hasadınızı önceden planlayın." %}</p>
       </div>
       <div class="footer-col">
-        <h4>Ürün</h4>
+        <h4>{% trans "Ürün" %}</h4>
         <ul>
-          <li><a href="{% url 'website:product' %}">Özellikler</a></li>
-          <li><a href="{% url 'website:pricing' %}">Fiyatlandırma</a></li>
-          <li><a href="{% url 'website:product' %}#sss">Sık Sorulan Sorular</a></li>
+          <li><a href="{% url 'website:product' %}">{% trans "Özellikler" %}</a></li>
+          <li><a href="{% url 'website:pricing' %}">{% trans "Fiyatlandırma" %}</a></li>
+          <li><a href="{% url 'website:product' %}#sss">{% trans "Sık Sorulan Sorular" %}</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Şirket</h4>
+        <h4>{% trans "Şirket" %}</h4>
         <ul>
-          <li><a href="{% url 'website:about' %}">Hakkımızda</a></li>
-          <li><a href="{% url 'website:blog' %}">Blog</a></li>
-          <li><a href="{% url 'website:contact' %}">İletişim</a></li>
+          <li><a href="{% url 'website:about' %}">{% trans "Hakkımızda" %}</a></li>
+          <li><a href="{% url 'website:blog' %}">{% trans "Blog" %}</a></li>
+          <li><a href="{% url 'website:contact' %}">{% trans "İletişim" %}</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Yasal</h4>
+        <h4>{% trans "Yasal" %}</h4>
         <ul>
-          <li><a href="{% url 'website:privacy' %}">Gizlilik Politikası</a></li>
-          <li><a href="{% url 'website:terms' %}">Kullanım Koşulları</a></li>
-          <li><a href="{% url 'website:kvkk' %}">KVKK Aydınlatma Metni</a></li>
+          <li><a href="{% url 'website:privacy' %}">{% trans "Gizlilik Politikası" %}</a></li>
+          <li><a href="{% url 'website:terms' %}">{% trans "Kullanım Koşulları" %}</a></li>
+          <li><a href="{% url 'website:kvkk' %}">{% trans "KVKK Aydınlatma Metni" %}</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 Agrisynthia. Tüm hakları saklıdır.</span>
-      <span style="color:var(--muted);font-size:13px;">Tohumdan hasada, veriden karara.</span>
+      <span>{% blocktrans %}© 2026 Agrisynthia. Tüm hakları saklıdır.{% endblocktrans %}</span>
+      <span style="color:var(--muted);font-size:13px;">{% trans "Tohumdan hasada, veriden karara." %}</span>
     </div>
   </div>
 </footer>
@@ -168,27 +169,27 @@
 <div id="chat-bubble">
   <div id="chat-window">
     <div id="chat-header">
-      <span>Agrisynthia Asistan</span>
-      <button id="chat-close" aria-label="Kapat">&#x2715;</button>
+      <span>{% trans "Agrisynthia Asistan" %}</span>
+      <button id="chat-close" aria-label="{% trans 'Kapat' %}">&#x2715;</button>
     </div>
 
     <div id="chat-lead-panel">
-      <p>Sizi daha iyi tanımak ve destek verebilmek için lütfen bilgilerinizi paylaşın.</p>
-      <input id="lead-name" class="chat-lead-field" type="text" placeholder="Ad Soyad" maxlength="100">
-      <input id="lead-email" class="chat-lead-field" type="email" placeholder="E-posta adresi" maxlength="200">
-      <input id="lead-phone" class="chat-lead-field" type="tel" placeholder="Telefon numarası" maxlength="30">
+      <p>{% trans "Sizi daha iyi tanımak ve destek verebilmek için lütfen bilgilerinizi paylaşın." %}</p>
+      <input id="lead-name" class="chat-lead-field" type="text" placeholder="{% trans 'Ad Soyad' %}" maxlength="100">
+      <input id="lead-email" class="chat-lead-field" type="email" placeholder="{% trans 'E-posta adresi' %}" maxlength="200">
+      <input id="lead-phone" class="chat-lead-field" type="tel" placeholder="{% trans 'Telefon numarası' %}" maxlength="30">
       <div id="chat-lead-error"></div>
-      <button id="chat-lead-submit">Başlayın &rarr;</button>
+      <button id="chat-lead-submit">{% trans "Başlayın" %} &rarr;</button>
     </div>
 
     <div id="chat-messages" style="display:none;"></div>
     <form id="chat-form" autocomplete="off" style="display:none;">
       {% csrf_token %}
-      <textarea id="chat-input" rows="1" placeholder="Mesajınızı yazın..." maxlength="500"></textarea>
-      <button type="submit" id="chat-send">Gönder</button>
+      <textarea id="chat-input" rows="1" placeholder="{% trans 'Mesajınızı yazın...' %}" maxlength="500"></textarea>
+      <button type="submit" id="chat-send">{% trans "Gönder" %}</button>
     </form>
   </div>
-  <button id="chat-toggle" aria-label="Asistan">
+  <button id="chat-toggle" aria-label="{% trans 'Asistan' %}">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>
   </button>
 </div>
