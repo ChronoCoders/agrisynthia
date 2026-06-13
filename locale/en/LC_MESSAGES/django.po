@@ -1408,15 +1408,15 @@ msgstr "Our Story"
 msgid "Hasadın kaybedildiği andan doğdu"
 msgstr "Born from the moment a harvest was lost"
 
-#, python-format
+#
 msgid ""
 "2024 yılında Antalya'da bir mandalina bahçesinde yaptığımız saha ziyaretinde "
 "gördük: üretici, NDVI grafiğinde haftalarca gerileyen bir tarlanın farkında "
-"bile değildi. Hasat geldiğinde verim %%30 düşmüştü."
+"bile değildi. Hasat geldiğinde verim %30 düşmüştü."
 msgstr ""
 "In 2024 we visited a mandarin orchard in Antalya and saw it firsthand: the "
 "farmer had no idea his field's NDVI had been declining for weeks. By "
-"harvest, yield was down 30%%."
+"harvest, yield was down 30%."
 
 msgid ""
 "O gün Agrisynthia'nın temelini attık. Uydu verisini, yapay zekayı ve drone "
@@ -1913,21 +1913,21 @@ msgstr ""
 msgid "Yapay Zeka Meyve Sayımı"
 msgstr "AI Fruit Counting"
 
-#, python-format
+#
 msgid ""
-"Birkaç fotoğraftan bahçenizdeki toplam meyveyi %%94+ doğrulukla sayar, "
+"Birkaç fotoğraftan bahçenizdeki toplam meyveyi %94+ doğrulukla sayar, "
 "tonajı tahmin eder."
 msgstr ""
-"From a handful of photos, counts the total fruit in your orchard with 94%%+ "
+"From a handful of photos, counts the total fruit in your orchard with 94%+ "
 "accuracy and estimates tonnage."
 
-#, python-format
+#
 msgid ""
-"Tespit verileri ve NDVI'yı birleştiren agronomi modelimiz hasadı ±%%25 "
+"Tespit verileri ve NDVI'yı birleştiren agronomi modelimiz hasadı ±%25 "
 "hassasiyetle öngörür."
 msgstr ""
 "Our agronomy model combines detection data and NDVI to predict harvest "
-"within ±25%%."
+"within ±25%."
 
 #, fuzzy
 #| msgid "Alan Haritası"
@@ -2006,9 +2006,9 @@ msgstr ""
 "Mehmet noticed an NDVI drop 3 weeks before harvest. He irrigated in time. "
 "That season his losses halved and he priced confidently to buyers."
 
-#, python-format
-msgid "%%31 daha az hasat kaybı"
-msgstr "31%% less harvest loss"
+#
+msgid "%31 daha az hasat kaybı"
+msgstr "31% less harvest loss"
 
 msgid "En Yaygın Kullanım"
 msgstr "Most Common Use"
@@ -2019,19 +2019,19 @@ msgstr "Cooperative Manager"
 msgid "120 üyenin arazisi, tek ekran"
 msgstr "120 members' land, one screen"
 
-#, python-format
+#
 msgid ""
 "Fatma Hanım, tüm üyelerin tarlalarını tek panelden takip ediyor. Haftalık "
-"raporlar otomatik geliyor. Sahaya çıkma sıklığı %%40 azaldı, doğru yere "
+"raporlar otomatik geliyor. Sahaya çıkma sıklığı %40 azaldı, doğru yere "
 "gidiyor."
 msgstr ""
 "Fatma tracks all members' fields from a single panel. Weekly reports arrive "
-"automatically. Field visits dropped 40%% and she's always going to the right "
+"automatically. Field visits dropped 40% and she's always going to the right "
 "place."
 
-#, python-format
-msgid "%%40 daha az gereksiz saha ziyareti"
-msgstr "40%% fewer unnecessary field visits"
+#
+msgid "%40 daha az gereksiz saha ziyareti"
+msgstr "40% fewer unnecessary field visits"
 
 msgid "Tarım Danışmanı"
 msgstr "Agricultural Consultant"
@@ -2065,13 +2065,13 @@ msgstr ""
 msgid "Mandalina Üreticisi, Antalya"
 msgstr "Mandarin Farmer, Antalya"
 
-#, python-format
+#
 msgid ""
 "Kooperatifimizin 120 üyesinin tarlalarını tek panelden takip ediyoruz. "
-"Raporları otomatik alıyoruz, sahaya çıkma sıklığımız %%40 azaldı."
+"Raporları otomatik alıyoruz, sahaya çıkma sıklığımız %40 azaldı."
 msgstr ""
 "We track our coop's 120 members' fields from one panel. Reports come "
-"automatically and our site visits dropped 40%%."
+"automatically and our site visits dropped 40%."
 
 msgid "Kooperatif Müdürü, İzmir"
 msgstr "Cooperative Manager, İzmir"
@@ -2104,9 +2104,9 @@ msgstr "The right plan for your field"
 msgid "Yıllık"
 msgstr "Annual"
 
-#, python-format
-msgid "(%%20 indirim)"
-msgstr "(20%% off)"
+#
+msgid "(%20 indirim)"
+msgstr "(20% off)"
 
 msgid "Bireysel"
 msgstr "Individual"
@@ -2235,12 +2235,12 @@ msgstr ""
 msgid "Yıllık faturalama nasıl işliyor?"
 msgstr "How does annual billing work?"
 
-#, python-format
+#
 msgid ""
-"Yıllık planı seçtiğinizde 12 aylık tutar tek seferinde faturalanır ve %%20 "
+"Yıllık planı seçtiğinizde 12 aylık tutar tek seferinde faturalanır ve %20 "
 "indirim uygulanır. Dilediğiniz zaman aylık plana geçebilirsiniz."
 msgstr ""
-"If you pick annual, you're billed for 12 months at once with a 20%% "
+"If you pick annual, you're billed for 12 months at once with a 20% "
 "discount. You can switch to monthly anytime."
 
 msgid "Plan değiştirmek mümkün mü?"
@@ -2445,8 +2445,8 @@ msgstr "Mandarin Orchard — 4.2 ha"
 msgid "Analiz tamamlandı · Az önce"
 msgstr "Analysis complete · Just now"
 
-msgid "%%94 güven"
-msgstr "94%% confidence"
+msgid "%94 güven"
+msgstr "94% confidence"
 
 msgid "Tespit edilen meyve"
 msgstr "Fruit detected"
@@ -2489,13 +2489,13 @@ msgstr ""
 msgid "Uydu verileri ne sıklıkla güncelleniyor?"
 msgstr "How often is satellite data updated?"
 
-#, python-format
+#
 msgid ""
-"Sentinel-2 her 5 günde bir aynı konumu tekrar çeker. Bulut örtüsü %%30'un "
+"Sentinel-2 her 5 günde bir aynı konumu tekrar çeker. Bulut örtüsü %30'un "
 "altındaki geçişler otomatik işlenerek NDVI tablonuza eklenir."
 msgstr ""
 "Sentinel-2 revisits the same location every 5 days. Passes with cloud cover "
-"below 30%% are automatically processed and added to your NDVI dashboard."
+"below 30% are automatically processed and added to your NDVI dashboard."
 
 msgid "Verilerim güvende mi?"
 msgstr "Is my data safe?"
@@ -2591,9 +2591,9 @@ msgstr "tons"
 msgid "Güven aralığı:"
 msgstr "Confidence interval:"
 
-#, python-format
-msgid "(±25%% payda)"
-msgstr "(±25%% spread)"
+#
+msgid "(±25% payda)"
+msgstr "(±25% spread)"
 
 msgid "Faktörler"
 msgstr "Factors"
