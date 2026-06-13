@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import logging
 from datetime import datetime
 from pathlib import Path
@@ -51,7 +50,6 @@ def generate_detection_excel(detection_results) -> str:
 
     wb = Workbook()
     
-    # Sheet 1: Detection Results
     ws1 = wb.active
     ws1.title = "Tespit Sonuçları"
     ws1.append([
@@ -81,14 +79,12 @@ def generate_detection_excel(detection_results) -> str:
     _autofit_columns(ws1)
     ws1.freeze_panes = "A2"
 
-    # Alternating row colors
     fill_light = PatternFill(start_color=COLOR_LIGHT_GREEN, end_color=COLOR_LIGHT_GREEN, fill_type="solid")
     for row in ws1.iter_rows(min_row=2):
         if row[0].row % 2 == 0:
             for cell in row:
                 cell.fill = fill_light
 
-    # Sheet 2: Summary
     ws2 = wb.create_sheet("Özet")
     total_records = len(detection_results)
     total_detections = sum(d.detected_count for d in detection_results)
@@ -111,7 +107,6 @@ def generate_detection_excel(detection_results) -> str:
     _apply_borders(ws2)
     _autofit_columns(ws2)
 
-    # Sheet 3: Group by Fruit Type
     ws3 = wb.create_sheet("Meyve Türüne Göre")
     ws3.append(["Meyve Türü", "Kayıt Sayısı", "Toplam Tespit", "Toplam Ağırlık (kg)"])
 
@@ -133,13 +128,11 @@ def generate_detection_excel(detection_results) -> str:
     _apply_borders(ws3)
     _autofit_columns(ws3)
 
-    # Bar Chart
     chart = BarChart()
     chart.title = "Meyve Türüne Göre Toplam Tespit"
     chart.x_axis.title = "Meyve Türü"
     chart.y_axis.title = "Tespit Sayısı"
     
-    # Data is in column 3 (C), Categories in column 1 (A)
     data = Reference(ws3, min_col=3, min_row=1, max_row=len(fruit_stats)+1)
     cats = Reference(ws3, min_col=1, min_row=2, max_row=len(fruit_stats)+1)
     
@@ -159,7 +152,6 @@ def generate_drone_excel(project, analysis_data: dict) -> str:
 
     wb = Workbook()
 
-    # Sheet 1: Project Info
     ws1 = wb.active
     ws1.title = "Proje Bilgileri"
     ws1.append(["Alan", "Değer"])
@@ -174,7 +166,6 @@ def generate_drone_excel(project, analysis_data: dict) -> str:
     _apply_borders(ws1)
     _autofit_columns(ws1)
 
-    # Sheet 2: Vegetation Stats
     ws2 = wb.create_sheet("İndeks İstatistikleri")
     ws2.append(["Metrik", "Değer"])
     for k, v in analysis_data.get('vegetation_stats', {}).items():
@@ -184,7 +175,6 @@ def generate_drone_excel(project, analysis_data: dict) -> str:
     _apply_borders(ws2)
     _autofit_columns(ws2)
 
-    # Sheet 3: Stress Zones
     ws3 = wb.create_sheet("Stres Zonları")
     ws3.append(["Zone ID", "Stres Sınıfı", "Alan (ha)"])
     for zone in analysis_data.get('stress_zones', []):
@@ -198,7 +188,6 @@ def generate_drone_excel(project, analysis_data: dict) -> str:
     _apply_borders(ws3)
     _autofit_columns(ws3)
 
-    # Sheet 4: Yield Prediction
     ws4 = wb.create_sheet("Verim Tahmini")
     ws4.append(["Metrik", "Tahmin"])
     for k, v in analysis_data.get('yield_prediction', {}).items():
@@ -208,7 +197,6 @@ def generate_drone_excel(project, analysis_data: dict) -> str:
     _apply_borders(ws4)
     _autofit_columns(ws4)
 
-    # Sheet 5: Recommendations
     ws5 = wb.create_sheet("Öneriler")
     ws5.append(["Önem Derecesi", "Aksiyon"])
     for rec in analysis_data.get('recommendations', []):

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import logging
 import os
 from datetime import timedelta
@@ -26,9 +25,6 @@ def generate_detection_report(
     formats: List[str],
     user_id: Optional[int] = None,
 ) -> dict:
-    """
-    Generates reports for a given DetectionResult in specified formats.
-    """
     results = {}
     try:
         detection_result = DetectionResult.objects.get(pk=detection_result_id)
@@ -88,9 +84,6 @@ def generate_drone_report(
     formats: List[str],
     user_id: Optional[int] = None,
 ) -> dict:
-    """
-    Generates reports for a given Project (Drone Analysis) in specified formats.
-    """
     results = {}
     try:
         project = Projects.objects.get(pk=project_id)
@@ -143,10 +136,6 @@ def generate_drone_report(
 
 @shared_task
 def send_scheduled_reports() -> dict:
-    """
-    Check all active ScheduledReport entries whose next_run <= now, generate
-    the report file, email it to the user, then advance next_run.
-    """
     from django.conf import settings
 
     now = timezone.now()
@@ -159,7 +148,6 @@ def send_scheduled_reports() -> dict:
             file_path = None
 
             if schedule.report_type == "detection":
-                # Send a summary of recent detection results
                 results = DetectionResult.objects.filter(
                     created_by=schedule.user
                 ).order_by("-created_at")[:10]
