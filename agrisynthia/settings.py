@@ -216,6 +216,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+MODEL_CHECKSUM_VERIFY = os.environ.get(
+    "MODEL_CHECKSUM_VERIFY",
+    "True" if not IS_DEVELOPMENT else "False",
+) == "True"
+
 LANGUAGE_CODE = "tr"
 LANGUAGES = [
     ("tr", "Türkçe"),
