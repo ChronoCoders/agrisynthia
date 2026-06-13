@@ -20,14 +20,12 @@
   <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet">
   <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet">
   {% block extra_head %}{% endblock %}
-  <!-- Analytics (production only) -->
   {% if 'localhost' not in request.META.HTTP_HOST and '127.0.0.1' not in request.META.HTTP_HOST %}
   <script defer data-domain="agrisynthia.com" src="https://plausible.io/js/script.js"></script>
   {% endif %}
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="site-nav">
   <div class="container">
     <a href="{% url 'website:home' %}" class="nav-logo">Agri<span>synthia</span></a>
@@ -48,7 +46,6 @@
   </div>
 </nav>
 
-<!-- Mobile drawer -->
 <div class="nav-drawer" id="navDrawer">
   <div class="nav-drawer-header">
     <a href="{% url 'website:home' %}" class="nav-logo">Agri<span>synthia</span></a>
@@ -69,7 +66,6 @@
 
 {% block content %}{% endblock %}
 
-<!-- Footer -->
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
@@ -140,7 +136,6 @@
 </script>
 {% block extra_scripts %}{% endblock %}
 
-<!-- Chatbot bubble -->
 <style>
 #chat-bubble{position:fixed;bottom:28px;right:28px;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;gap:12px;}
 #chat-toggle{width:56px;height:56px;border-radius:50%;background:var(--green);border:none;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center;transition:transform .2s;}
@@ -179,7 +174,6 @@
       <button id="chat-close" aria-label="Kapat">&#x2715;</button>
     </div>
 
-    <!-- Step 1: Lead form -->
     <div id="chat-lead-panel">
       <p>Sizi daha iyi tanımak ve destek verebilmek için lütfen bilgilerinizi paylaşın.</p>
       <input id="lead-name" class="chat-lead-field" type="text" placeholder="Ad Soyad" maxlength="100">
@@ -189,7 +183,6 @@
       <button id="chat-lead-submit">Başlayın &rarr;</button>
     </div>
 
-    <!-- Step 2: Chat (hidden until lead submitted) -->
     <div id="chat-messages" style="display:none;"></div>
     <form id="chat-form" autocomplete="off" style="display:none;">
       {% csrf_token %}

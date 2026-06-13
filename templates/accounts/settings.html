@@ -195,7 +195,6 @@
                     </div>
                     {% endfor %}
 
-                    <!-- Hidden radio inputs — server sets checked via active_tab -->
                     <input class="settings-tabs-radios" type="radio" id="tab-r-profil" name="settings-tab"
                         {% if active_tab == 'profil' %}checked{% endif %}>
                     <input class="settings-tabs-radios" type="radio" id="tab-r-guvenlik" name="settings-tab"
@@ -211,10 +210,8 @@
 
                     <div class="settings-panes">
 
-                        <!-- ══════════════════════ PROFIL PANE ════════════════════════ -->
                         <div class="settings-pane" id="pane-profil">
 
-                            <!-- Avatar -->
                             <div class="s-card">
                                 <h5><i class="fas fa-camera"></i> Profil Fotoğrafı</h5>
                                 <div class="avatar-wrap">
@@ -244,7 +241,6 @@
                                 </div>
                             </div>
 
-                            <!-- Profile info -->
                             <div class="s-card">
                                 <h5><i class="fas fa-id-card"></i> Kişisel Bilgiler</h5>
                                 <form method="post">
@@ -286,10 +282,8 @@
                             </div>
                         </div>
 
-                        <!-- ══════════════════════ GÜVENLİK PANE ════════════════════════ -->
                         <div class="settings-pane" id="pane-guvenlik">
 
-                            <!-- Email verification -->
                             <div class="s-card">
                                 <h5><i class="fas fa-envelope-circle-check"></i> E-posta Doğrulama</h5>
                                 <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
@@ -311,7 +305,6 @@
                                 </div>
                             </div>
 
-                            <!-- Password change -->
                             <div class="s-card">
                                 <h5><i class="fas fa-lock"></i> Şifre Değiştir</h5>
                                 <form method="post">
@@ -341,7 +334,6 @@
                                 </form>
                             </div>
 
-                            <!-- 2FA -->
                             <div class="s-card">
                                 <h5><i class="fas fa-mobile-alt"></i> İki Faktörlü Kimlik Doğrulama (2FA)</h5>
                                 {% if account_profile.totp_enabled %}
@@ -373,7 +365,6 @@
                             </div>
                         </div>
 
-                        <!-- ══════════════════════ BİLDİRİMLER PANE ════════════════════════ -->
                         <div class="settings-pane" id="pane-bildirimler">
                             <div class="s-card">
                                 <h5><i class="fas fa-satellite"></i> NDVI Uyarıları</h5>
@@ -421,7 +412,7 @@
                             </div>
                         </div>
 
-                    </div><!-- /.settings-panes -->
+                    </div>
                 </div>
             </div>
         </div>
