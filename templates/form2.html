@@ -63,14 +63,12 @@ function loadFile(event) {
 	const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 	const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/tiff'];
 
-	// Validate file type
 	if (!ALLOWED_TYPES.includes(file.type)) {
 		alert('Geçersiz dosya formatı. Sadece JPEG, PNG ve TIFF formatları kabul edilir.');
 		event.target.value = ''; // Clear the input
 		return;
 	}
 
-	// Validate file size
 	if (file.size > MAX_FILE_SIZE) {
 		alert('Dosya boyutu çok büyük. Maksimum 10MB yüklenebilir.');
 		event.target.value = ''; // Clear the input
@@ -99,7 +97,6 @@ function handleFormSubmit2(event) {
 		submitBtn.disabled = true;
 		submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yükleniyor...';
 	}
-	// Form will submit normally
 	return true;
 }
 </script>

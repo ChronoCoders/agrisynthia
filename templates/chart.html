@@ -9,7 +9,6 @@
 <script>
 const ctx = document.getElementById('line-chartjs-chart');
 if (ctx) {
-	// Get data from backend context or use defaults
 	const chartData = {{ chart_data|safe }};
 	const labels = chartData && chartData.labels ? chartData.labels : ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'];
 	const values = chartData && chartData.values ? chartData.values : [28, 28.5, 29, 29.5, 30, 30.5, 31, 31.5, 32, 32.5];
