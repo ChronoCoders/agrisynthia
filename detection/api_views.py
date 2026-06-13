@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, viewsets
 from rest_framework.decorators import action
@@ -10,22 +9,6 @@ from .serializers import DetectionResultSerializer, MultiDetectionBatchSerialize
 
 
 class DetectionResultViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint for fruit detection results
-
-    Provides CRUD operations for detection results including:
-    - List all results (GET /api/detections/)
-    - Retrieve single result (GET /api/detections/{id}/)
-    - Create new result (POST /api/detections/)
-    - Update result (PUT/PATCH /api/detections/{id}/)
-    - Delete result (DELETE /api/detections/{id}/)
-    - Filter by fruit type (GET /api/detections/?fruit_type=apple)
-    - Search by fruit type (GET /api/detections/?search=apple)
-    - Get statistics (GET /api/detections/statistics/)
-
-    Note: Authentication required for all endpoints to protect detection data.
-    """
-
     queryset = DetectionResult.objects.all()
     serializer_class = DetectionResultSerializer
     permission_classes = [IsAuthenticated]
@@ -41,23 +24,16 @@ class DetectionResultViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        # Restrict to records owned by the requesting user
         if self.request.user.is_authenticated:
             qs = qs.filter(created_by=self.request.user)
         else:
             qs = qs.none()
-        # bbox_coordinates can be several MB per row; exclude it from list pages
-        # where callers only need summary fields.  Detail / retrieve still loads it.
         if self.action == "list":
             qs = qs.defer("bbox_coordinates")
         return qs
 
     @action(detail=False, methods=["get"])
     def statistics(self, request):
-        """
-        Get detection statistics across all results
-        GET /api/detections/statistics/
-        """
         from django.db.models import Avg, Count, Sum
 
         stats = DetectionResult.objects.aggregate(
@@ -82,28 +58,12 @@ class DetectionResultViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["get"])
     def recent(self, request):
-        """
-        Get recent detection results (last 10)
-        GET /api/detections/recent/
-        """
         recent_results = self.queryset.order_by("-created_at")[:10]
         serializer = self.get_serializer(recent_results, many=True)
         return Response(serializer.data)
 
 
 class MultiDetectionBatchViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint for multi-image detection batches
-
-    Provides CRUD operations for batch processing:
-    - List all batches (GET /api/batches/)
-    - Retrieve single batch (GET /api/batches/{id}/)
-    - Create new batch (POST /api/batches/)
-    - Update batch (PUT/PATCH /api/batches/{id}/)
-    - Delete batch (DELETE /api/batches/{id}/)
-    - Filter by fruit type (GET /api/batches/?fruit_type=apple)
-    """
-
     queryset = MultiDetectionBatch.objects.all()
     serializer_class = MultiDetectionBatchSerializer
     permission_classes = [IsAuthenticated]
@@ -119,10 +79,6 @@ class MultiDetectionBatchViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["get"])
     def summary(self, request, pk=None):
-        """
-        Get batch summary with image count and metadata
-        GET /api/batches/{id}/summary/
-        """
         batch = self.get_object()
         return Response(
             {

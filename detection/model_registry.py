@@ -1,15 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-DEPRECATED — this module is superseded by detection.models.ModelVersion.
-
-Model metadata is now stored in the database and managed via:
-  - detection.models.ModelVersion  (ORM model)
-  - /admin/detection/modelversion/ (Django admin UI)
-  - python manage.py migrate_model_files (one-time file reorganisation)
-
-The functions below are kept for backward compatibility with the system
-monitoring view; they delegate to the DB instead of the old in-memory dict.
-"""
+"""DEPRECATED — superseded by detection.models.ModelVersion. Kept for the
+system monitoring view; delegates to the DB."""
 import logging
 import os
 from typing import Any, Dict, List, Optional
