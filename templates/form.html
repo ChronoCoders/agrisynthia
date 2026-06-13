@@ -180,47 +180,48 @@
     }
 </style>
 
+{% load i18n %}
 <div class="col-lg-6 col-12">
     <div class="box-content card white">
-        <h4 class="box-title">Meyve Tespiti</h4>
+        <h4 class="box-title">{% trans "Meyve Tespiti" %}</h4>
         <div class="card-content">
             <form id="upload-file" method="post" enctype="multipart/form-data" novalidate>
                 {% csrf_token %}
 
                 <div class="form-group input-icon-group" style="margin-bottom:14px;">
                     <i class="fa-solid fa-seedling input-icon"></i>
-                    <select name="meyve_grubu" id="meyve_grubu" class="form-control form-control-touch" aria-label="Meyve Grubu">
-                        <option value="">Meyve Grubu Seçin</option>
-                        <option value="mandalina">Mandalina</option>
-                        <option value="elma">Elma</option>
-                        <option value="armut">Armut</option>
-                        <option value="seftale">Şeftali</option>
-                        <option value="nar">Nar</option>
-                        <option value="agac">Ağaç</option>
+                    <select name="meyve_grubu" id="meyve_grubu" class="form-control form-control-touch" aria-label="{% trans 'Meyve Grubu' %}">
+                        <option value="">{% trans "Meyve Grubu Seçin" %}</option>
+                        <option value="mandalina">{% trans "Mandalina" %}</option>
+                        <option value="elma">{% trans "Elma" %}</option>
+                        <option value="armut">{% trans "Armut" %}</option>
+                        <option value="seftale">{% trans "Şeftali" %}</option>
+                        <option value="nar">{% trans "Nar" %}</option>
+                        <option value="agac">{% trans "Ağaç" %}</option>
                     </select>
                 </div>
 
                 <div class="form-group input-icon-group" style="margin-bottom:14px;">
                     <i class="fa-solid fa-tree input-icon"></i>
                     <input type="number" name="agac_sayisi" id="agac_sayisi" class="form-control form-control-touch"
-                           placeholder="Toplam Ağaç Sayısı" min="1" max="10000"
-                           aria-label="Ağaç Sayısı" inputmode="numeric">
+                           placeholder="{% trans 'Toplam Ağaç Sayısı' %}" min="1" max="10000"
+                           aria-label="{% trans 'Ağaç Sayısı' %}" inputmode="numeric">
                 </div>
 
                 <div class="form-group input-icon-group" style="margin-bottom:14px;">
                     <i class="fa-brands fa-pagelines input-icon"></i>
                     <input type="number" name="agac_yasi" id="agac_yasi" class="form-control form-control-touch"
-                           placeholder="Ağaç Yaşı" min="1" max="100"
-                           aria-label="Ağaç Yaşı" inputmode="numeric">
+                           placeholder="{% trans 'Ağaç Yaşı' %}" min="1" max="100"
+                           aria-label="{% trans 'Ağaç Yaşı' %}" inputmode="numeric">
                 </div>
 
                 <div class="form-group input-icon-group" style="margin-bottom:14px;">
                     <i class="fa-regular fa-chart-simple input-icon"></i>
                     <input type="text" name="ekim_sirasi" id="ekim_sirasi" class="form-control form-control-touch"
-                           placeholder="Ekim Sırası (örn: 3-5)"
+                           placeholder="{% trans 'Ekim Sırası (örn: 3-5)' %}"
                            pattern="[0-9]+-[0-9]+"
-                           title="Ekim sırası formatı: 3-5"
-                           aria-label="Ekim Sırası" inputmode="text">
+                           title="{% trans 'Ekim sırası formatı: 3-5' %}"
+                           aria-label="{% trans 'Ekim Sırası' %}" inputmode="text">
                 </div>
 
                 <div class="form-group" style="margin-bottom:14px;">
@@ -230,34 +231,34 @@
                                name="file"
                                accept="image/jpeg,image/png,image/tiff,image/*"
                                capture="environment"
-                               aria-label="Meyve Fotoğrafı Seç"
+                               aria-label="{% trans 'Meyve Fotoğrafı Seç' %}"
                                onchange="handleFileSelect(event)">
                         <div class="upload-icon"><i class="fa-solid fa-camera-retro"></i></div>
-                        <div class="upload-label">Fotoğraf seç veya çek</div>
-                        <div class="upload-sub">JPEG · PNG · TIFF — maks. 10 MB</div>
+                        <div class="upload-label">{% trans "Fotoğraf seç veya çek" %}</div>
+                        <div class="upload-sub">{% trans "JPEG · PNG · TIFF — maks. 10 MB" %}</div>
                     </div>
                     <div id="preview-container">
-                        <img id="output" src="" alt="Önizleme">
+                        <img id="output" src="" alt="{% trans 'Önizleme' %}">
                         <div id="preview-filename"></div>
                     </div>
                 </div>
 
                 <button id="submitBtn" type="button" class="btn btn-submit-mobile" onclick="handleFormSubmit()">
-                    <i class="fa-solid fa-magnifying-glass"></i> Tespit Başlat
+                    <i class="fa-solid fa-magnifying-glass"></i> {% trans "Tespit Başlat" %}
                 </button>
             </form>
 
             <div id="detection-status-box">
-                <div id="detection-status-msg">İşleniyor...</div>
+                <div id="detection-status-msg">{% trans "İşleniyor..." %}</div>
                 <div id="detection-progress-track">
                     <div id="detection-progress-bar"></div>
                 </div>
             </div>
 
             <div id="detection-result-card">
-                <div class="result-header"><i class="fa-solid fa-check-circle"></i> Tespit Sonuçları</div>
+                <div class="result-header"><i class="fa-solid fa-check-circle"></i> {% trans "Tespit Sonuçları" %}</div>
                 <div class="result-body" id="detection-result-body"></div>
-                <div id="detection-result-img"><img id="detection-result-image" src="" alt="Tespit Görüntüsü"></div>
+                <div id="detection-result-img"><img id="detection-result-image" src="" alt="{% trans 'Tespit Görüntüsü' %}"></div>
             </div>
         </div>
     </div>
