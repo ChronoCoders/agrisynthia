@@ -1041,15 +1041,11 @@ msgstr "Email on its way!"
 msgid "← Giriş sayfasına dön"
 msgstr "← Back to login"
 
-#, fuzzy
-#| msgid "Şifre Sıfırla"
 msgid "Şifre Sıfırlama"
-msgstr "Reset Password"
+msgstr "Password Reset"
 
-#, fuzzy
-#| msgid "Şifre Sıfırla"
 msgid "Şifre Sıfırlama İsteği"
-msgstr "Reset Password"
+msgstr "Password Reset Request"
 
 #, python-format
 msgid "Merhaba <strong>%(username)s</strong>,"
@@ -1060,10 +1056,8 @@ msgid ""
 "butona tıklayarak yeni şifrenizi belirleyebilirsiniz."
 msgstr ""
 
-#, fuzzy
-#| msgid "Şifre Sıfırla"
 msgid "Şifremi Sıfırla"
-msgstr "Reset Password"
+msgstr "Reset My Password"
 
 msgid ""
 "<strong>&#9888; Önemli:</strong> Bu bağlantı <strong>24 saat</strong> "
@@ -1090,10 +1084,8 @@ msgstr ""
 "If the problem persists, write to <a "
 "href=\"mailto:info@agrisynthia.com\">info@agrisynthia.com</a>."
 
-#, fuzzy
-#| msgid "© 2026 Agrisynthia. Tüm hakları saklıdır."
 msgid "Tüm hakları saklıdır."
-msgstr "© 2026 Agrisynthia. All rights reserved."
+msgstr "All rights reserved."
 
 msgid "Şifre Sıfırla"
 msgstr "Reset Password"
@@ -1110,10 +1102,8 @@ msgstr "Email Address"
 msgid "Sıfırlama Bağlantısı Gönder"
 msgstr "Send Reset Link"
 
-#, fuzzy
-#| msgid "Şifre Sıfırla"
 msgid "Agrisynthia - Şifre Sıfırlama"
-msgstr "Reset Password"
+msgstr "Agrisynthia - Password Reset"
 
 msgid "Hesap Oluştur"
 msgstr "Sign Up"
