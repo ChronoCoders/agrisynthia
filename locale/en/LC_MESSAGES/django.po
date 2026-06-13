@@ -2457,10 +2457,8 @@ msgid ""
 "tabloyu sunar.</p>\n"
 msgstr "\n<p>NDVI (the Normalized Difference Vegetation Index) is a numeric value calculated from the difference between red and near-infrared light bands. Values range from -1 to +1; 0.5 and above indicates healthy, dense vegetation, while below 0.3 signals stress or sparse cover.</p>\n<h2>Why it matters</h2>\n<p>When chlorophyll in a field starts to drop — from drought, disease, or nutrient deficiency — the shift shows up in the infrared band long before the human eye can see it. Agrisynthia processes the imagery Sentinel-2 captures every 5 days and catches this change automatically.</p>\n<h2>How to interpret NDVI values</h2>\n<ul>\n<li><strong>0.6 and above:</strong> Dense, healthy vegetation — ideal</li>\n<li><strong>0.4 – 0.6:</strong> Normal season progress — monitor regularly</li>\n<li><strong>0.3 – 0.4:</strong> Mild stress — check irrigation or fertilizer</li>\n<li><strong>Below 0.3:</strong> Serious stress or damage — urgent field action may be needed</li>\n</ul>\n<blockquote>When you drop below your alert threshold in Agrisynthia, an automatic email is sent. You know what to look for before even going to the field.</blockquote>\n<h2>Satellite NDVI vs. drone NDVI</h2>\n<p>Sentinel-2 evaluates the field broadly at 10 m/pixel resolution. Drones operate at centimeter resolution and show patch-level differences within the field. Using both together gives the most complete picture.</p>\n"
 
-#, fuzzy
-#| msgid "Drone ile Tarla Haritası"
 msgid "Drone ile Tarla Haritası Çıkarma: 4 Adımda Anlattık"
-msgstr "Drone Field Mapping"
+msgstr "Drone Field Mapping: We'll Explain in 4 Steps"
 
 msgid ""
 "Drone'unuzla çektiğiniz fotoğraflar, tarlanızın detaylı bir sağlık "
