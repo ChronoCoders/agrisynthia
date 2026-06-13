@@ -173,25 +173,25 @@ def product(request):
 
 def pricing(request):
     included_items = [
-        "14 gün ücretsiz deneme",
-        "SSL güvenlik",
-        "KVKK uyumlu veri saklama",
-        "Türkçe destek",
-        "İstediğiniz zaman iptal",
+        _("14 gün ücretsiz deneme"),
+        _("SSL güvenlik"),
+        _("KVKK uyumlu veri saklama"),
+        _("Türkçe destek"),
+        _("İstediğiniz zaman iptal"),
     ]
     return render(request, "website/pricing.html", {"included_items": included_items})
 
 
 def about(request):
     techs = [
-        {"icon": "fa-satellite", "name": "Uydu Görüntüleme", "desc": "Her 5 günde güncellenen uydu verileriyle tarlanızı sürekli takip edin."},
-        {"icon": "fa-robot", "name": "Yapay Zeka Tespiti", "desc": "Görüntülerden meyve ve mahsulü %94+ doğrulukla otomatik sayar."},
-        {"icon": "fa-helicopter", "name": "Drone Haritalama", "desc": "Drone görüntülerinizi yükleyin, platformumuz detaylı alan haritasını oluşturur."},
-        {"icon": "fa-bolt", "name": "Anlık İşleme", "desc": "Yüklediğiniz veriler arka planda işlenir; sonuçlar hazır olunca sizi bildirir."},
-        {"icon": "fa-leaf", "name": "NDVI Analizi", "desc": "Bitkilerinizin sağlığını renkli haritalarla görün, sorunlu alanları anında fark edin."},
-        {"icon": "fa-map-location-dot", "name": "Etkileşimli Harita", "desc": "Tüm tarlalarınızı tek ekranda izleyin, alanlara tıklayarak detay görün."},
-        {"icon": "fa-shield-halved", "name": "Güvenli Depolama", "desc": "Verileriniz Türkiye'de güvenli sunucularda saklanır, başkasıyla paylaşılmaz."},
-        {"icon": "fa-file-alt", "name": "Otomatik Raporlar", "desc": "PDF ve Excel raporları belirlediğiniz sıklıkta e-posta kutunuza iletilir."},
+        {"icon": "fa-satellite", "name": _("Uydu Görüntüleme"), "desc": _("Her 5 günde güncellenen uydu verileriyle tarlanızı sürekli takip edin.")},
+        {"icon": "fa-robot", "name": _("Yapay Zeka Tespiti"), "desc": _("Görüntülerden meyve ve mahsulü %94+ doğrulukla otomatik sayar.")},
+        {"icon": "fa-helicopter", "name": _("Drone Haritalama"), "desc": _("Drone görüntülerinizi yükleyin, platformumuz detaylı alan haritasını oluşturur.")},
+        {"icon": "fa-bolt", "name": _("Anlık İşleme"), "desc": _("Yüklediğiniz veriler arka planda işlenir; sonuçlar hazır olunca sizi bildirir.")},
+        {"icon": "fa-leaf", "name": _("NDVI Analizi"), "desc": _("Bitkilerinizin sağlığını renkli haritalarla görün, sorunlu alanları anında fark edin.")},
+        {"icon": "fa-map-location-dot", "name": _("Etkileşimli Harita"), "desc": _("Tüm tarlalarınızı tek ekranda izleyin, alanlara tıklayarak detay görün.")},
+        {"icon": "fa-shield-halved", "name": _("Güvenli Depolama"), "desc": _("Verileriniz Türkiye'de güvenli sunucularda saklanır, başkasıyla paylaşılmaz.")},
+        {"icon": "fa-file-alt", "name": _("Otomatik Raporlar"), "desc": _("PDF ve Excel raporları belirlediğiniz sıklıkta e-posta kutunuza iletilir.")},
     ]
     return render(request, "website/about.html", {"techs": techs})
 
