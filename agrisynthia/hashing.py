@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from hashlib import shake_256
 from pathlib import Path
 from time import localtime

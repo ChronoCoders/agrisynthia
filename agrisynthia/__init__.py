@@ -1,12 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Agrisynthia Django Application
-
-This module ensures that the Celery app is loaded when Django starts,
-so that shared_task decorator will use this app.
-"""
-
-# Import Celery app to ensure it's always imported when Django starts
+# Ensure the Celery app is loaded when Django starts so @shared_task uses it.
 from .celery import app as celery_app
 
 __all__ = ("celery_app",)
