@@ -17,6 +17,7 @@ from agrisynthia import histogram as hs
 
 from .forms import Projects_Form
 from .models import Projects
+from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 logger = logging.getLogger(__name__)
@@ -51,11 +52,11 @@ HEALTH_ALGORITHMS = {
 
 def validate_uploaded_files(files: List[Any]) -> None:
     if not files:
-        raise ValidationError("Dosya bulunamadı")
+        raise ValidationError(_("Dosya bulunamadı"))
 
     for uploaded_file in files:
         if not uploaded_file:
-            raise ValidationError("Geçersiz dosya")
+            raise ValidationError(_("Geçersiz dosya"))
 
         if uploaded_file.size > MAX_DRONE_FILE_SIZE:
             raise ValidationError(f"Dosya çok büyük: {uploaded_file.name}")
@@ -182,7 +183,7 @@ def add_projects(
                             "add-projects.html",
                             {
                                 "projes": projes,
-                                "error": "Proje güncellenemedi",
+                                "error": _("Proje güncellenemedi"),
                                 "userss": request.user,
                             },
                         )
@@ -198,7 +199,7 @@ def add_projects(
                     "add-projects.html",
                     {
                         "projes": projes,
-                        "error": "Güncelleme hatası",
+                        "error": _("Güncelleme hatası"),
                         "userss": request.user,
                     },
                 )
@@ -250,13 +251,13 @@ def add_projects(
                     upload_dir = Path(hashing_result[0])
                 except Exception as e:
                     logger.error("Hashing path oluşturma hatası: %s", e)
-                    raise ValidationError("Proje dizini oluşturulamadı")
+                    raise ValidationError(_("Proje dizini oluşturulamadı"))
 
                 saved_files_dir = None
                 try:
                     for image in images_list:
                         if image.name is None:
-                            raise ValidationError("Dosya adı bulunamadı")
+                            raise ValidationError(_("Dosya adı bulunamadı"))
 
                         safe_filename = os.path.basename(image.name)
                         if (
@@ -356,7 +357,7 @@ def add_projects(
                 return render(
                     request,
                     "add-projects.html",
-                    {"error": "Proje oluşturulamadı", "userss": request.user},
+                    {"error": _("Proje oluşturulamadı"), "userss": request.user},
                 )
 
         return render(request, "add-projects.html", {"userss": request.user})
@@ -432,7 +433,7 @@ def maping(request: HttpRequest, id: int) -> HttpResponse:
                     "colors": options.colormaps,
                     "static": static,
                     "images_info": images_info,
-                    "error": "Geçersiz aralık değeri",
+                    "error": _("Geçersiz aralık değeri"),
                 },
             )
 
@@ -477,7 +478,7 @@ def maping(request: HttpRequest, id: int) -> HttpResponse:
                         "colors": colors,
                         "static": static,
                         "images_info": images_info,
-                        "error": "Algılama veya dönüştürme hatası",
+                        "error": _("Algılama veya dönüştürme hatası"),
                     },
                 )
             except Exception as e:
@@ -492,7 +493,7 @@ def maping(request: HttpRequest, id: int) -> HttpResponse:
                         "colors": colors,
                         "static": static,
                         "images_info": images_info,
-                        "error": "Beklenmeyen bir hata oluştu",
+                        "error": _("Beklenmeyen bir hata oluştu"),
                     },
                 )
 
@@ -512,7 +513,7 @@ def maping(request: HttpRequest, id: int) -> HttpResponse:
                             "colors": colors,
                             "static": static,
                             "images_info": images_info,
-                            "error": "Orthophoto dosyası bulunamadı",
+                            "error": _("Orthophoto dosyası bulunamadı"),
                         },
                     )
 
@@ -543,7 +544,7 @@ def maping(request: HttpRequest, id: int) -> HttpResponse:
                         "colors": colors,
                         "static": static,
                         "images_info": images_info,
-                        "error": "Algoritma bulunamadı",
+                        "error": _("Algoritma bulunamadı"),
                     },
                 )
             except Exception as e:
@@ -558,7 +559,7 @@ def maping(request: HttpRequest, id: int) -> HttpResponse:
                         "colors": colors,
                         "static": static,
                         "images_info": images_info,
-                        "error": "Algoritma işleme hatası",
+                        "error": _("Algoritma işleme hatası"),
                     },
                 )
 
