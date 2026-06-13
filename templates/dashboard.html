@@ -1,6 +1,6 @@
 {% extends 'header.html' %}
 {% block body %}
-{% load static %}
+{% load static i18n %}
 {% include 'menu.html' %}
 {% include 'navbar.html' with picture=userss.picture %}
 
@@ -112,21 +112,21 @@
                 <div class="onboarding-banner">
                     <div class="ob-icon"><i class="fas fa-seedling"></i></div>
                     <div style="flex:1;">
-                        <h4>Hoş geldiniz! Başlamak için 3 adım.</h4>
-                        <p>İlk projenizi oluşturun, görüntü yükleyin ve ilk raporunuzu alın.</p>
+                        <h4>{% trans "Hoş geldiniz! Başlamak için 3 adım." %}</h4>
+                        <p>{% trans "İlk projenizi oluşturun, görüntü yükleyin ve ilk raporunuzu alın." %}</p>
                         <div class="ob-steps">
                             <a href="{% url 'dron_map:add_projects' slug='new' %}" class="ob-step">
-                                <i class="fas fa-circle-plus"></i> Proje Oluştur
+                                <i class="fas fa-circle-plus"></i> {% trans "Proje Oluştur" %}
                             </a>
                             <a href="{% url 'detection:multi_detection_image' %}" class="ob-step">
-                                <i class="fas fa-image"></i> Görüntü Yükle
+                                <i class="fas fa-image"></i> {% trans "Görüntü Yükle" %}
                             </a>
                             <a href="{% url 'reports:list' %}" class="ob-step">
-                                <i class="fas fa-file-chart-column"></i> Rapor Al
+                                <i class="fas fa-file-chart-column"></i> {% trans "Rapor Al" %}
                             </a>
                         </div>
                     </div>
-                    <button class="ob-dismiss" onclick="document.getElementById('obBanner').style.display='none'" title="Kapat">
+                    <button class="ob-dismiss" onclick="document.getElementById('obBanner').style.display='none'" title="{% trans 'Kapat' %}">
                         <i class="fas fa-xmark"></i>
                     </button>
                 </div>
@@ -136,41 +136,41 @@
             <div class="col-xl-3 col-md-6 col-12">
                 <div class="stat-box">
                     <div class="val">{{ total_projects }}</div>
-                    <div class="lbl">Toplam Proje</div>
+                    <div class="lbl">{% trans "Toplam Proje" %}</div>
                 </div>
             </div>
             <div class="col-xl-3 col-md-6 col-12">
                 <div class="stat-box info">
                     <div class="val">{{ total_detections }}</div>
-                    <div class="lbl">Toplam Tespit</div>
+                    <div class="lbl">{% trans "Toplam Tespit" %}</div>
                 </div>
             </div>
             <div class="col-xl-3 col-md-6 col-12">
                 <div class="stat-box{% if avg_ndvi and avg_ndvi >= 0.5 %}{% elif avg_ndvi and avg_ndvi < 0.3 %} danger{% else %} warn{% endif %}">
                     <div class="val">{% if avg_ndvi %}{{ avg_ndvi }}{% else %}—{% endif %}</div>
-                    <div class="lbl">Ort. NDVI (tüm tarlalar)</div>
+                    <div class="lbl">{% trans "Ort. NDVI (tüm tarlalar)" %}</div>
                 </div>
             </div>
             <div class="col-xl-3 col-md-6 col-12">
                 <div class="stat-box{% if stressed_count > 0 %} danger{% endif %}">
                     <div class="val">{{ healthy_count }} / {{ stressed_count }}</div>
-                    <div class="lbl">Sağlıklı / Stresli Tarla</div>
+                    <div class="lbl">{% trans "Sağlıklı / Stresli Tarla" %}</div>
                 </div>
             </div>
 
             <div class="col-xl-8 col-12">
                 <div class="dash-card">
-                    <h5><i class="fa fa-chart-line"></i> Sentinel-2 NDVI Trendleri</h5>
+                    <h5><i class="fa fa-chart-line"></i> {% trans "Sentinel-2 NDVI Trendleri" %}</h5>
                     {% if field_rows %}
                     <div class="chart-box">
                         <canvas id="ndviTrendChart"></canvas>
                     </div>
                     <div style="margin-top:8px;font-size:11px;color:#aaa;">
-                        Veri kaynağı: Sentinel-2 L2A (Element84 Earth Search) · Her tarla için ayrı çizgi
+                        {% trans "Veri kaynağı: Sentinel-2 L2A (Element84 Earth Search) · Her tarla için ayrı çizgi" %}
                     </div>
                     {% else %}
                     <p class="text-muted" style="font-size:13px;">
-                        Henüz proje yok. <a href="{% url 'dron_map:add_projects' slug='add' %}">İlk projeyi oluşturun.</a>
+                        {% trans "Henüz proje yok." %} <a href="{% url 'dron_map:add_projects' slug='add' %}">{% trans "İlk projeyi oluşturun." %}</a>
                     </p>
                     {% endif %}
                 </div>
@@ -178,51 +178,51 @@
 
             <div class="col-xl-4 col-12">
                 <div class="dash-card" style="height:calc(100% - 20px);">
-                    <h5><i class="fa fa-history"></i> Son Tespitler</h5>
+                    <h5><i class="fa fa-history"></i> {% trans "Son Tespitler" %}</h5>
                     {% if recent_detections %}
                     {% for det in recent_detections %}
                     <div class="recent-item">
                         <span>
                             <strong>{{ det.fruit_type|capfirst }}</strong>
-                            &nbsp;·&nbsp; {{ det.detected_count }} adet
+                            &nbsp;·&nbsp; {{ det.detected_count }} {% trans "adet" %}
                         </span>
                         <span style="color:#aaa;font-size:11px;">{{ det.created_at }}</span>
                     </div>
                     {% endfor %}
                     {% else %}
-                    <p class="text-muted" style="font-size:13px;">Henüz tespit kaydı yok.</p>
+                    <p class="text-muted" style="font-size:13px;">{% trans "Henüz tespit kaydı yok." %}</p>
                     {% endif %}
                 </div>
             </div>
 
             <div class="col-xl-8 col-12">
                 <div class="dash-card">
-                    <h5><i class="fa fa-bar-chart"></i> Günlük Tespit Geçmişi (Son 60 Gün)</h5>
+                    <h5><i class="fa fa-bar-chart"></i> {% trans "Günlük Tespit Geçmişi (Son 60 Gün)" %}</h5>
                     {% if recent_detections %}
                     <div class="chart-box">
                         <canvas id="detHistChart"></canvas>
                     </div>
                     {% else %}
-                    <p class="text-muted" style="font-size:13px;">Bu dönemde tespit verisi yok.</p>
+                    <p class="text-muted" style="font-size:13px;">{% trans "Bu dönemde tespit verisi yok." %}</p>
                     {% endif %}
                 </div>
             </div>
 
             <div class="col-12">
                 <div class="dash-card">
-                    <h5><i class="fa fa-table"></i> Tarla Sağlık Durumu</h5>
+                    <h5><i class="fa fa-table"></i> {% trans "Tarla Sağlık Durumu" %}</h5>
                     {% if field_rows %}
                     <div class="table-responsive">
                         <table class="table table-hover" style="margin-bottom:0;">
                             <thead>
                                 <tr>
-                                    <th>Çiftlik</th>
-                                    <th>Tarla</th>
-                                    <th>Başlık</th>
-                                    <th>Son NDVI</th>
-                                    <th>Trend</th>
-                                    <th>NDVI Okuma</th>
-                                    <th>ODM Durumu</th>
+                                    <th>{% trans "Çiftlik" %}</th>
+                                    <th>{% trans "Tarla" %}</th>
+                                    <th>{% trans "Başlık" %}</th>
+                                    <th>{% trans "Son NDVI" %}</th>
+                                    <th>{% trans "Trend" %}</th>
+                                    <th>{% trans "NDVI Okuma" %}</th>
+                                    <th>{% trans "ODM Durumu" %}</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -247,11 +247,11 @@
                                 </td>
                                 <td>
                                     {% if row.trend == 'up' %}
-                                        <span class="trend-up"><i class="fa fa-arrow-up"></i> Artıyor</span>
+                                        <span class="trend-up"><i class="fa fa-arrow-up"></i> {% trans "Artıyor" %}</span>
                                     {% elif row.trend == 'down' %}
-                                        <span class="trend-down"><i class="fa fa-arrow-down"></i> Azalıyor</span>
+                                        <span class="trend-down"><i class="fa fa-arrow-down"></i> {% trans "Azalıyor" %}</span>
                                     {% elif row.trend == 'stable' %}
-                                        <span class="trend-stable"><i class="fa fa-minus"></i> Stabil</span>
+                                        <span class="trend-stable"><i class="fa fa-minus"></i> {% trans "Stabil" %}</span>
                                     {% else %}
                                         <span class="text-muted">—</span>
                                     {% endif %}
@@ -259,18 +259,18 @@
                                 <td>{{ row.ndvi_count }}</td>
                                 <td>
                                     {% if row.project.odm_status == 'completed' %}
-                                        <span class="badge badge-success">Tamamlandı</span>
+                                        <span class="badge badge-success">{% trans "Tamamlandı" %}</span>
                                     {% elif row.project.odm_status == 'processing' %}
-                                        <span class="badge badge-warning">İşleniyor</span>
+                                        <span class="badge badge-warning">{% trans "İşleniyor" %}</span>
                                     {% elif row.project.odm_status == 'failed' %}
-                                        <span class="badge badge-danger">Başarısız</span>
+                                        <span class="badge badge-danger">{% trans "Başarısız" %}</span>
                                     {% else %}
                                         <span class="badge badge-secondary">{{ row.project.odm_status }}</span>
                                     {% endif %}
                                 </td>
                                 <td>
                                     <a href="{% url 'dron_map:map' id=row.project.id %}" class="btn btn-xs btn-default">
-                                        <i class="fa fa-map"></i> Harita
+                                        <i class="fa fa-map"></i> {% trans "Harita" %}
                                     </a>
                                 </td>
                             </tr>
@@ -280,7 +280,7 @@
                     </div>
                     {% else %}
                     <p class="text-muted" style="font-size:13px;">
-                        Henüz proje yok. <a href="{% url 'dron_map:add_projects' slug='add' %}">Proje ekle</a>
+                        {% trans "Henüz proje yok." %} <a href="{% url 'dron_map:add_projects' slug='add' %}">{% trans "Proje ekle" %}</a>
                     </p>
                     {% endif %}
                 </div>

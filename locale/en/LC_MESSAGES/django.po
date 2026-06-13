@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-12 23:56-0400\n"
+"POT-Creation-Date: 2026-06-13 13:32-0400\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,7 +65,9 @@ msgstr "Page not found"
 msgid ""
 "Aradığınız sayfa taşınmış, silinmiş veya hiç var olmamış olabilir. URL'yi "
 "kontrol edin ya da anasayfaya dönün."
-msgstr "The page you're looking for may have moved, been deleted, or never existed. Check the URL or return to the homepage."
+msgstr ""
+"The page you're looking for may have moved, been deleted, or never existed. "
+"Check the URL or return to the homepage."
 
 msgid "Anasayfaya Dön"
 msgstr "Back to Home"
@@ -84,12 +86,16 @@ msgstr "Something went wrong"
 msgid ""
 "Sunucumuzda beklenmedik bir hata oluştu. Ekibimiz bilgilendirildi, en kısa "
 "sürede düzeltilecek."
-msgstr "An unexpected error occurred on our server. Our team has been notified and will fix it as soon as possible."
+msgstr ""
+"An unexpected error occurred on our server. Our team has been notified and "
+"will fix it as soon as possible."
 
 msgid ""
 "Sorun devam ederse <a "
 "href=\"mailto:info@agrisynthia.com\">info@agrisynthia.com</a> adresine yazın."
-msgstr "If the problem persists, write to <a href=\"mailto:info@agrisynthia.com\">info@agrisynthia.com</a>."
+msgstr ""
+"If the problem persists, write to <a "
+"href=\"mailto:info@agrisynthia.com\">info@agrisynthia.com</a>."
 
 msgid "Yedek Kodlar"
 msgstr "Backup Codes"
@@ -266,6 +272,129 @@ msgstr "Save Preferences"
 msgid "İstatistik Grafiği"
 msgstr "Statistics Chart"
 
+msgid "Hoş geldiniz! Başlamak için 3 adım."
+msgstr "Welcome! 3 steps to get started."
+
+msgid "İlk projenizi oluşturun, görüntü yükleyin ve ilk raporunuzu alın."
+msgstr "Create your first project, upload imagery, and get your first report."
+
+#, fuzzy
+#| msgid "Hesap Oluştur"
+msgid "Proje Oluştur"
+msgstr "Sign Up"
+
+#, fuzzy
+#| msgid "Görüntü yükleyin"
+msgid "Görüntü Yükle"
+msgstr "Upload imagery"
+
+#, fuzzy
+#| msgid "Raporlar"
+msgid "Rapor Al"
+msgstr "Reports"
+
+msgid "Kapat"
+msgstr "Close"
+
+msgid "Toplam Proje"
+msgstr "Total Projects"
+
+msgid "Toplam Tespit"
+msgstr "Total Detections"
+
+msgid "Ort. NDVI (tüm tarlalar)"
+msgstr "Avg. NDVI (all fields)"
+
+#, fuzzy
+#| msgid "Sağlıklı Alan"
+msgid "Sağlıklı / Stresli Tarla"
+msgstr "Healthy Area"
+
+msgid "Sentinel-2 NDVI Trendleri"
+msgstr "Sentinel-2 NDVI Trends"
+
+msgid ""
+"Veri kaynağı: Sentinel-2 L2A (Element84 Earth Search) · Her tarla için ayrı "
+"çizgi"
+msgstr ""
+
+msgid "Henüz proje yok."
+msgstr "No projects yet."
+
+#, fuzzy
+#| msgid "Hesap oluşturun"
+msgid "İlk projeyi oluşturun."
+msgstr "Create your account"
+
+msgid "Son Tespitler"
+msgstr "Recent Detections"
+
+msgid "adet"
+msgstr "items"
+
+msgid "Henüz tespit kaydı yok."
+msgstr "No detections recorded yet."
+
+msgid "Günlük Tespit Geçmişi (Son 60 Gün)"
+msgstr "Daily Detection History (Last 60 Days)"
+
+msgid "Bu dönemde tespit verisi yok."
+msgstr "No detection data for this period."
+
+msgid "Tarla Sağlık Durumu"
+msgstr "Field Health Status"
+
+msgid "Çiftlik"
+msgstr "Farm"
+
+#, fuzzy
+#| msgid "Ayarlar"
+msgid "Tarla"
+msgstr "Settings"
+
+#, fuzzy
+#| msgid "Başlayın"
+msgid "Başlık"
+msgstr "Get Started"
+
+msgid "Son NDVI"
+msgstr "Latest NDVI"
+
+msgid "Trend"
+msgstr "Trend"
+
+msgid "NDVI Okuma"
+msgstr "NDVI Reading"
+
+msgid "ODM Durumu"
+msgstr "ODM Status"
+
+msgid "Artıyor"
+msgstr "Rising"
+
+msgid "Azalıyor"
+msgstr "Falling"
+
+msgid "Stabil"
+msgstr "Stable"
+
+msgid "Tamamlandı"
+msgstr "Completed"
+
+msgid "İşleniyor"
+msgstr "Processing"
+
+msgid "Başarısız"
+msgstr "Failed"
+
+#, fuzzy
+#| msgid "Alan Haritası"
+msgid "Harita"
+msgstr "Field Map"
+
+msgid "Proje ekle"
+msgstr "Add project"
+
 msgid "Toplam Meyve Sayısı"
 msgstr "Total Fruit Count"
 
@@ -282,6 +411,119 @@ msgstr "Total Weight (Trees × kg)"
 #| msgid "YZ Meyve Tespiti"
 msgid "Meyve Tespiti"
 msgstr "AI Fruit Detection"
+
+msgid "Meyve Grubu"
+msgstr "Fruit Type"
+
+msgid "Meyve Grubu Seçin"
+msgstr "Select Fruit Type"
+
+msgid "Mandalina"
+msgstr "Mandarin"
+
+msgid "Elma"
+msgstr "Apple"
+
+msgid "Armut"
+msgstr "Pear"
+
+msgid "Şeftali"
+msgstr "Peach"
+
+msgid "Nar"
+msgstr "Pomegranate"
+
+msgid "Ağaç"
+msgstr "Tree"
+
+#, fuzzy
+#| msgid "Toplam Meyve Sayısı"
+msgid "Toplam Ağaç Sayısı"
+msgstr "Total Fruit Count"
+
+msgid "Ağaç Sayısı"
+msgstr "Tree Count"
+
+#, fuzzy
+#| msgid "Ağaç başına tahmini"
+msgid "Ağaç Yaşı"
+msgstr "Per tree estimate"
+
+msgid "Ekim Sırası (örn: 3-5)"
+msgstr "Planting Row (e.g. 3-5)"
+
+msgid "Ekim sırası formatı: 3-5"
+msgstr "Planting row format: 3-5"
+
+msgid "Ekim Sırası"
+msgstr "Planting Row"
+
+#, fuzzy
+#| msgid "Fotoğraf Seç"
+msgid "Meyve Fotoğrafı Seç"
+msgstr "Choose Photo"
+
+#, fuzzy
+#| msgid "Fotoğraf Seç"
+msgid "Fotoğraf seç veya çek"
+msgstr "Choose Photo"
+
+msgid "JPEG · PNG · TIFF — maks. 10 MB"
+msgstr "JPEG · PNG · TIFF — max 10 MB"
+
+msgid "Önizleme"
+msgstr "Preview"
+
+msgid "Tespit Başlat"
+msgstr "Start Detection"
+
+msgid "İşleniyor..."
+msgstr "Processing..."
+
+#, fuzzy
+#| msgid "Tespit Doğruluğu"
+msgid "Tespit Sonuçları"
+msgstr "Detection Accuracy"
+
+#, fuzzy
+#| msgid "Görüntü yükleyin"
+msgid "Tespit Görüntüsü"
+msgstr "Upload imagery"
+
+#, fuzzy
+#| msgid "Değerlerimiz"
+msgid "Giriş Değerleri"
+msgstr "Our Values"
+
+#, fuzzy
+#| msgid "Fotoğraf Seç"
+msgid "Meyve Fotoğraflarını Seç"
+msgstr "Choose Photo"
+
+#, fuzzy
+#| msgid "Fotoğraf Seç"
+msgid "Meyve Fotoğrafları Seç"
+msgstr "Choose Photo"
+
+#, fuzzy
+#| msgid "Analiz Edilen Görüntü"
+msgid "Önizleme Görüntüsü"
+msgstr "Images Analyzed"
+
+msgid "Gönder"
+msgstr "Send"
+
+msgid "İndir"
+msgstr "Download"
+
+msgid "Hata!"
+msgstr "Error!"
+
+msgid "Rapor İşlemleri"
+msgstr "Report Actions"
+
+msgid "Rapor Oluştur (PDF & Excel)"
+msgstr "Generate Report (PDF & Excel)"
 
 msgid "Ana Panel"
 msgstr "Dashboard"
@@ -494,11 +736,6 @@ msgstr ""
 msgid "2024'ten bu yana"
 msgstr "Since 2024"
 
-#, fuzzy
-#| msgid "Ayarlar"
-msgid "Tarla"
-msgstr "Settings"
-
 msgid "Kooperatif"
 msgstr "Cooperative"
 
@@ -597,7 +834,9 @@ msgstr ""
 
 msgid "Uydu NDVI analizi, drone görüntü işleme ve yapay zeka meyve tespiti."
 msgstr "Satellite NDVI analysis, drone image processing, and AI fruit detection."
-"Satellite NDVI analysis, drone image processing, and AI fruit detection."
+"Satellite NDVI analysis, drone image processing, and AI fruit "
+"detection.Satellite NDVI analysis, drone image processing, and AI fruit "
+"detection."
 
 msgid "Akıllı Tarım Platformu"
 msgstr "Smart Agriculture Platform"
@@ -657,9 +896,6 @@ msgstr "From seed to harvest, from data to decisions."
 msgid "Agrisynthia Asistan"
 msgstr "Agrisynthia Assistant"
 
-msgid "Kapat"
-msgstr "Close"
-
 msgid ""
 "Sizi daha iyi tanımak ve destek verebilmek için lütfen bilgilerinizi "
 "paylaşın."
@@ -679,9 +915,6 @@ msgstr "Get Started"
 
 msgid "Mesajınızı yazın..."
 msgstr "Type your message..."
-
-msgid "Gönder"
-msgstr "Send"
 
 msgid "Asistan"
 msgstr "Assistant"
@@ -801,7 +1034,8 @@ msgstr "Email Sent"
 
 msgid "Mesajınız iletildi. En kısa sürede size dönüş yapacağız."
 msgstr "Your message has been sent. We will get back to you as soon as possible."
-"Your message has been sent. We will get back to you as soon as possible."
+"Your message has been sent. We will get back to you as soon as possible.Your "
+"message has been sent. We will get back to you as soon as possible."
 
 msgid "Firma / Kooperatif"
 msgstr "Company / Cooperative"
@@ -934,7 +1168,8 @@ msgstr "Agricultural intelligence, one platform"
 msgid "Drone'dan uyduya, tespetten tahmine — tüm süreç otomatik."
 msgstr "From drone to satellite, from detection to prediction — the whole pipeline automated."
 "From drone to satellite, from detection to prediction — the whole pipeline "
-"automated."
+"automated.From drone to satellite, from detection to prediction — the whole "
+"pipeline automated."
 
 msgid "Uydu NDVI İzleme"
 msgstr "Satellite NDVI Monitoring"
@@ -1514,9 +1749,6 @@ msgstr "Total tonnage estimate"
 
 msgid "PDF raporu hazır"
 msgstr "PDF report ready"
-
-msgid "İndir"
-msgstr "Download"
 
 #, fuzzy
 #| msgid "Sık Sorulan Sorular"

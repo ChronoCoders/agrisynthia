@@ -1,6 +1,6 @@
 {% extends 'header.html' %}
 {% block body %}
-      {% load static %}
+      {% load static i18n %}
       {% include 'menu.html' %}
       {% include 'navbar.html' with picture=userss.picture %}
 
@@ -10,8 +10,8 @@
       <div class="main-content">
             {% if error %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                  <strong>Hata!</strong> {{ error }}
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Kapat">
+                  <strong>{% trans "Hata!" %}</strong> {{ error }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="{% trans 'Kapat' %}">
                         <span aria-hidden="true">&times;</span>
                   </button>
             </div>
@@ -30,9 +30,9 @@
 {% if response.detection_id %}
 <div class="col-lg-12 col-xs-12">
     <div class="box-content">
-        <h4 class="box-title">Rapor İşlemleri</h4>
+        <h4 class="box-title">{% trans "Rapor İşlemleri" %}</h4>
         <button type="button" class="btn btn-primary waves-effect waves-light" onclick="requestDetectionReport({{ response.detection_id }}, ['pdf', 'xlsx'])">
-            <i class="fa fa-file-text-o"></i> Rapor Oluştur (PDF & Excel)
+            <i class="fa fa-file-text-o"></i> {% trans "Rapor Oluştur (PDF & Excel)" %}
         </button>
     </div>
 </div>
