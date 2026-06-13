@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Tests for analysis_logger.service.
-
-Uses tmp_path (pytest) so the real project log file is never touched.
-"""
+"""Tests for analysis_logger.service. Uses tmp_path so the real project log file is never touched."""
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -14,10 +9,6 @@ import pytest
 import analysis_logger.service as svc
 
 
-# ---------------------------------------------------------------------------
-# Fixtures: redirect LOG_FILE to a temp directory for every test
-# ---------------------------------------------------------------------------
-
 @pytest.fixture(autouse=True)
 def isolated_log(tmp_path, monkeypatch):
     """Point the module's LOG_FILE and LOGS_DIR at a temp directory."""
@@ -27,10 +18,6 @@ def isolated_log(tmp_path, monkeypatch):
     monkeypatch.setattr(svc, "LOG_FILE", tmp_file)
     return tmp_file
 
-
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
 
 _T0 = datetime(2026, 1, 1, 12, 0, 0, tzinfo=timezone.utc)
 _T1 = datetime(2026, 1, 1, 12, 0, 5, tzinfo=timezone.utc)
@@ -51,10 +38,6 @@ def _write_entry(project_id=1, **extra):
         **extra,
     )
 
-
-# ---------------------------------------------------------------------------
-# log_full_analysis
-# ---------------------------------------------------------------------------
 
 def test_log_creates_file(isolated_log):
     _write_entry()
@@ -110,10 +93,6 @@ def test_log_failure_entry_stores_error(isolated_log):
     assert entry["error_message"] == "Something broke"
 
 
-# ---------------------------------------------------------------------------
-# get_latest_analysis_data
-# ---------------------------------------------------------------------------
-
 def test_get_latest_returns_empty_when_no_file(isolated_log):
     result = svc.get_latest_analysis_data(project_id=1)
     assert result == {}
@@ -162,18 +141,12 @@ def test_get_latest_ignores_unknown_project(isolated_log):
 
 
 def test_get_latest_skips_invalid_json_lines(isolated_log):
-    # Write one valid and one garbage line
     _write_entry(project_id=7)
     with isolated_log.open("a", encoding="utf-8") as f:
         f.write("NOT JSON\n")
-    # Should not raise
     result = svc.get_latest_analysis_data(project_id=7)
     assert result["project_id"] == 7
 
-
-# ---------------------------------------------------------------------------
-# _rotate_if_needed
-# ---------------------------------------------------------------------------
 
 def test_rotate_creates_dot1_file(isolated_log, monkeypatch):
     monkeypatch.setattr(svc, "LOG_MAX_BYTES", 5)  # trigger rotation at 5 bytes
