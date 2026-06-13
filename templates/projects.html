@@ -1,6 +1,6 @@
 {% extends 'header.html' %}
 {% block body %}
-{% load static %}
+{% load static i18n %}
 {% include 'menu.html' %}
 {% include 'navbar.html' with picture=userss.picture %}
 
@@ -67,8 +67,8 @@
 	<div class="main-content">
 		{% if error %}
 		<div class="alert alert-danger alert-dismissible fade show" role="alert">
-			<strong>Hata!</strong> {{ error }}
-			<button type="button" class="close" data-dismiss="alert" aria-label="Kapat">
+			<strong>{% trans "Hata!" %}</strong> {{ error }}
+			<button type="button" class="close" data-dismiss="alert" aria-label="{% trans 'Kapat' %}">
 				<span aria-hidden="true">&times;</span>
 			</button>
 		</div>
@@ -77,23 +77,23 @@
 			<div class="col-12">
 				<div class="box-content">
 					<div class="d-flex justify-content-between align-items-center mb-3">
-						<h4 class="box-title mb-0">Drone Projeleri</h4>
+						<h4 class="box-title mb-0">{% trans "Drone Projeleri" %}</h4>
 						<div class="dropdown js__drop_down">
 							<a href="#" class="dropdown-icon fas fa-ellipsis-v js__drop_down_button"></a>
 							<ul class="sub-menu">
-								<li><a href="{% url 'dron_map:add_projects' slug='add' %}">Yeni Proje Ekle</a></li>
+								<li><a href="{% url 'dron_map:add_projects' slug='add' %}">{% trans "Yeni Proje Ekle" %}</a></li>
 							</ul>
 						</div>
 					</div>
 							<table class="table table-striped margin-bottom-10">
 			<thead>
 				<tr>
-					<th>Çiftlik</th>
-					<th>Tarla</th>
-					<th>Başlık</th>
-					<th>Durum</th>
-					<th>ODM</th>
-					<th>Tarih</th>
+					<th>{% trans "Çiftlik" %}</th>
+					<th>{% trans "Tarla" %}</th>
+					<th>{% trans "Başlık" %}</th>
+					<th>{% trans "Durum" %}</th>
+					<th>{% trans "ODM" %}</th>
+					<th>{% trans "Tarih" %}</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -107,21 +107,21 @@
 					<td>{{proj.State}}</td>
 					<td id="odm-status-{{ proj.id }}">
 						{% if proj.odm_status == 'completed' %}
-						<span class="badge badge-success">Tamamlandı</span>
+						<span class="badge badge-success">{% trans "Tamamlandı" %}</span>
 						{% elif proj.odm_status == 'processing' %}
-						<span class="badge badge-warning odm-polling" data-id="{{ proj.id }}">İşleniyor&#8230;</span>
+						<span class="badge badge-warning odm-polling" data-id="{{ proj.id }}">{% trans "İşleniyor" %}&#8230;</span>
 						{% elif proj.odm_status == 'failed' %}
-						<span class="badge badge-danger" title="{{ proj.odm_error }}">Başarısız</span>
+						<span class="badge badge-danger" title="{{ proj.odm_error }}">{% trans "Başarısız" %}</span>
 						{% elif proj.odm_status == 'disabled' %}
-						<span class="badge badge-secondary">Devre Dışı</span>
+						<span class="badge badge-secondary">{% trans "Devre Dışı" %}</span>
 						{% else %}
-						<span class="badge badge-info odm-polling" data-id="{{ proj.id }}">Bekliyor</span>
+						<span class="badge badge-info odm-polling" data-id="{{ proj.id }}">{% trans "Bekliyor" %}</span>
 						{% endif %}
 					</td>
 					<td class="text-success">{{proj.Data_time}}</td>
 					<td>
 						{% if proj.odm_status == 'completed' %}
-						<button class="btn btn-xs btn-primary" onclick="requestDroneReport({{ proj.id }}, ['pdf', 'xlsx'])" title="Rapor Oluştur">
+						<button class="btn btn-xs btn-primary" onclick="requestDroneReport({{ proj.id }}, ['pdf', 'xlsx'])" title="{% trans 'Rapor Oluştur' %}">
 							<i class="fa fa-file-text-o"></i>
 						</button>
 						{% endif %}
