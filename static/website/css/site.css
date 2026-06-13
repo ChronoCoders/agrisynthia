@@ -69,8 +69,17 @@ img { max-width: 100%; display: block; }
 .nav-links li + li { margin-left: 32px; }
 .nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); transition: color .15s; }
 .nav-links a:hover { color: var(--text); }
-.nav-actions { display: flex; align-items: center; }
-.nav-actions a + a { margin-left: 12px; }
+.nav-actions { display: flex; align-items: center; gap: 12px; }
+.lang-toggle { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; background: #fff; }
+.lang-btn {
+  background: none; border: none; cursor: pointer;
+  font-family: inherit; font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
+  padding: 6px 12px; color: var(--muted); transition: background .15s, color .15s;
+}
+.lang-btn:hover { color: var(--text); }
+.lang-btn.active { background: var(--green, #2e7d32); color: #fff; }
+.lang-btn:focus-visible { outline: 2px solid var(--green, #2e7d32); outline-offset: 2px; }
+.nav-drawer-actions .lang-toggle { align-self: flex-start; margin-bottom: 8px; }
 .nav-mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
 .nav-mobile-toggle span {
   display: block; width: 22px; height: 2px;
