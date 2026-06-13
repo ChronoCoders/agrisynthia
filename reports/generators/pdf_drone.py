@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import logging
 from datetime import datetime
 from io import BytesIO
@@ -72,12 +71,10 @@ def generate_drone_pdf(project, analysis_data: dict) -> str:
     styles = _styles()
     story = []
 
-    # Title Section
     story.append(Paragraph("Agrisynthia — Drone Analiz Raporu", styles["title"]))
     story.append(Paragraph(f"Oluşturulma: {datetime.now().strftime('%d.%m.%Y %H:%M')}", styles["subtitle"]))
     story.append(HRFlowable(width="100%", thickness=1, color=COLOR_GREEN, spaceAfter=12))
 
-    # Project Info Table
     story.append(Paragraph("Proje Bilgileri", styles["section"]))
     
     project_data = [
@@ -107,19 +104,16 @@ def generate_drone_pdf(project, analysis_data: dict) -> str:
     
     story.append(PageBreak())
 
-    # Orthophoto
     story.append(Paragraph("Ortofoto Görüntüsü", styles["section"]))
     story.append(_get_image_flowable(analysis_data.get('ortophoto_thumbnail_path')))
     story.append(Paragraph("Şekil 1: Proje sahasının ortofoto görüntüsü", styles["caption"]))
 
     story.append(Spacer(1, 1*cm))
 
-    # Vegetation Index Map
     story.append(Paragraph("Vejetasyon İndeks Haritası", styles["section"]))
     story.append(_get_image_flowable(analysis_data.get('ndvi_map_path')))
     story.append(Paragraph(f"Şekil 2: {analysis_data.get('algorithm', 'NDVI').upper()} Analiz Haritası", styles["caption"]))
 
-    # Vegetation Stats Table
     veg_stats = analysis_data.get('vegetation_stats', {})
     if veg_stats:
         story.append(Paragraph("Vejetasyon İstatistikleri", styles["subsection"]))
@@ -137,12 +131,10 @@ def generate_drone_pdf(project, analysis_data: dict) -> str:
 
     story.append(PageBreak())
 
-    # Stress Zone Map
     story.append(Paragraph("Stres Zonu Haritası", styles["section"]))
     story.append(_get_image_flowable(analysis_data.get('stress_zone_map_path')))
     story.append(Paragraph("Şekil 3: Tespit edilen stres bölgeleri", styles["caption"]))
 
-    # Stress Zones Table
     stress_zones = analysis_data.get('stress_zones', [])
     if stress_zones:
         story.append(Paragraph("Stres Zonu Detayları", styles["subsection"]))
@@ -166,7 +158,6 @@ def generate_drone_pdf(project, analysis_data: dict) -> str:
 
     story.append(Spacer(1, 0.5*cm))
 
-    # Yield Prediction
     yield_pred = analysis_data.get('yield_prediction', {})
     if yield_pred:
         story.append(Paragraph("Verim Tahmini", styles["section"]))
@@ -183,13 +174,11 @@ def generate_drone_pdf(project, analysis_data: dict) -> str:
 
     story.append(Spacer(1, 0.5*cm))
 
-    # Recommendations
     recommendations = analysis_data.get('recommendations', [])
     if recommendations:
         story.append(Paragraph("Öneriler ve Aksiyon Planı", styles["section"]))
         rec_data = [["Önem Derecesi", "Aksiyon"]]
         
-        # Color coding for severity
         row_colors = []
         for rec in recommendations:
             severity = rec.get('severity', '').lower()
@@ -214,9 +203,6 @@ def generate_drone_pdf(project, analysis_data: dict) -> str:
             ("VALIGN", (0, 0), (-1, -1), "TOP"),
         ]
         
-        # Apply row background colors based on severity
-        # Note: ReportLab TableStyle applies to ranges. 
-        # We need to iterate and apply background color for the first column of each row
         for i, color in enumerate(row_colors):
             row_idx = i + 1
             if color != colors.white:
@@ -227,7 +213,6 @@ def generate_drone_pdf(project, analysis_data: dict) -> str:
         t_rec.setStyle(TableStyle(ts))
         story.append(t_rec)
 
-    # Footer
     story.append(Spacer(1, 1*cm))
     story.append(HRFlowable(width="100%", thickness=0.5, color=COLOR_GREY))
     story.append(Paragraph(

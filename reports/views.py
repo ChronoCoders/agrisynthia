@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import json
 import logging
 import os
@@ -36,10 +35,6 @@ def report_list(request):
 @login_required
 @require_POST
 def request_detection_report(request):
-    """
-    JSON body: {"detection_result_id": int, "formats": ["pdf", "xlsx"]}
-    generate_detection_report.delay(...) çağır, task_id ile 202 döndür.
-    """
     try:
         data = json.loads(request.body)
         detection_result_id = data.get("detection_result_id")
@@ -64,11 +59,6 @@ def request_detection_report(request):
 @login_required
 @require_POST
 def request_drone_report(request):
-    """
-    JSON body: {"project_id": int, "formats": ["pdf", "xlsx"]}
-    analysis_logger.service.get_latest_analysis_data(project_id) ile analiz verisini çek,
-    generate_drone_report.delay(...) çağır.
-    """
     try:
         data = json.loads(request.body)
         project_id = data.get("project_id")
@@ -100,10 +90,6 @@ def request_drone_report(request):
 @login_required
 @require_GET
 def download_report(request, report_id):
-    """
-    Kullanıcıya ait GeneratedReport'u bul, status="ready" değilse 404 döndür.
-    Path traversal kontrolü yap. FileResponse ile sun.
-    """
     report = get_object_or_404(GeneratedReport, pk=report_id, created_by=request.user)
 
     if report.status != "ready" or not report.file_path:
