@@ -4,12 +4,30 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-13 14:35-0400\n"
+"POT-Creation-Date: 2026-06-13 14:41-0400\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, fuzzy
+#| msgid "E-posta adresiniz başarıyla doğrulandı."
+msgid "Agrisynthia — E-posta adresinizi doğrulayın"
+msgstr "Your email address has been verified."
+
+#, python-format
+msgid ""
+"Merhaba %(name)s,\n"
+"\n"
+"E-posta adresinizi doğrulamak için aşağıdaki bağlantıya tıklayın:\n"
+"\n"
+"%(url)s\n"
+"\n"
+"Bu bağlantıyı siz istemediyseniz bu e-postayı dikkate almayın.\n"
+"\n"
+"Agrisynthia Ekibi"
+msgstr "Hello %(name)s,\n\nTo verify your email address, click the link below:\n\n%(url)s\n\nIf you didn't request this, please ignore this email.\n\nThe Agrisynthia Team"
 
 msgid "E-posta adresiniz değiştirildi. Doğrulama e-postası gönderildi."
 msgstr "Your email address changed. Verification email sent."
@@ -1023,6 +1041,60 @@ msgstr "Email on its way!"
 msgid "← Giriş sayfasına dön"
 msgstr "← Back to login"
 
+#, fuzzy
+#| msgid "Şifre Sıfırla"
+msgid "Şifre Sıfırlama"
+msgstr "Reset Password"
+
+#, fuzzy
+#| msgid "Şifre Sıfırla"
+msgid "Şifre Sıfırlama İsteği"
+msgstr "Reset Password"
+
+#, python-format
+msgid "Merhaba <strong>%(username)s</strong>,"
+msgstr "Hello <strong>%(username)s</strong>,"
+
+msgid ""
+"Agrisynthia hesabınız için şifre sıfırlama talebinde bulunuldu. Aşağıdaki "
+"butona tıklayarak yeni şifrenizi belirleyebilirsiniz."
+msgstr ""
+
+#, fuzzy
+#| msgid "Şifre Sıfırla"
+msgid "Şifremi Sıfırla"
+msgstr "Reset Password"
+
+msgid ""
+"<strong>&#9888; Önemli:</strong> Bu bağlantı <strong>24 saat</strong> "
+"geçerlidir. Eğer bu talebi siz yapmadıysanız bu e-postayı güvenle "
+"silebilirsiniz — hesabınıza hiçbir değişiklik yapılmamıştır."
+msgstr "<strong>&#9888; Important:</strong> This link is valid for <strong>24 hours</strong>. If you didn't request this, you can safely delete this email — no changes have been made to your account."
+
+msgid "Buton çalışmıyorsa aşağıdaki bağlantıyı tarayıcınıza kopyalayın:"
+msgstr "If the button doesn't work, copy the link below into your browser:"
+
+msgid "Bu e-posta Agrisynthia tarafından gönderilmiştir."
+msgstr "This email was sent by Agrisynthia."
+
+#, fuzzy
+#| msgid ""
+#| "Sorun devam ederse <a "
+#| "href=\"mailto:info@agrisynthia.com\">info@agrisynthia.com</a> adresine "
+#| "yazın."
+msgid ""
+"Sorularınız için <a href=\"mailto:info@agrisynthia.com\" "
+"style=\"color:#2E7D32;text-decoration:none;\">info@agrisynthia.com</a> "
+"adresine yazabilirsiniz."
+msgstr ""
+"If the problem persists, write to <a "
+"href=\"mailto:info@agrisynthia.com\">info@agrisynthia.com</a>."
+
+#, fuzzy
+#| msgid "© 2026 Agrisynthia. Tüm hakları saklıdır."
+msgid "Tüm hakları saklıdır."
+msgstr "© 2026 Agrisynthia. All rights reserved."
+
 msgid "Şifre Sıfırla"
 msgstr "Reset Password"
 
@@ -1037,6 +1109,11 @@ msgstr "Email Address"
 
 msgid "Sıfırlama Bağlantısı Gönder"
 msgstr "Send Reset Link"
+
+#, fuzzy
+#| msgid "Şifre Sıfırla"
+msgid "Agrisynthia - Şifre Sıfırlama"
+msgstr "Reset Password"
 
 msgid "Hesap Oluştur"
 msgstr "Sign Up"
@@ -1461,6 +1538,7 @@ msgstr "Satellite NDVI analysis, drone image processing, and AI fruit detection.
 "detection.Satellite NDVI analysis, drone image processing, and AI fruit "
 "detection.Satellite NDVI analysis, drone image processing, and AI fruit "
 "detection.Satellite NDVI analysis, drone image processing, and AI fruit "
+"detection.Satellite NDVI analysis, drone image processing, and AI fruit "
 "detection."
 
 msgid "Akıllı Tarım Platformu"
@@ -1663,6 +1741,7 @@ msgstr "Your message has been sent. We will get back to you as soon as possible.
 "message has been sent. We will get back to you as soon as possible.Your "
 "message has been sent. We will get back to you as soon as possible.Your "
 "message has been sent. We will get back to you as soon as possible.Your "
+"message has been sent. We will get back to you as soon as possible.Your "
 "message has been sent. We will get back to you as soon as possible."
 
 msgid "Firma / Kooperatif"
@@ -1800,7 +1879,8 @@ msgstr "From drone to satellite, from detection to prediction — the whole pipe
 "pipeline automated.From drone to satellite, from detection to prediction — "
 "the whole pipeline automated.From drone to satellite, from detection to "
 "prediction — the whole pipeline automated.From drone to satellite, from "
-"detection to prediction — the whole pipeline automated."
+"detection to prediction — the whole pipeline automated.From drone to "
+"satellite, from detection to prediction — the whole pipeline automated."
 
 msgid "Uydu NDVI İzleme"
 msgstr "Satellite NDVI Monitoring"
