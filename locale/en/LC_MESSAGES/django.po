@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-13 16:16-0400\n"
+"POT-Creation-Date: 2026-06-13 16:59-0400\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1212,6 +1212,7 @@ msgid "Hasadın kaybedildiği andan doğdu"
 msgstr "Born from the moment a harvest was lost"
 
 #
+#, python-format
 msgid ""
 "2024 yılında Antalya'da bir mandalina bahçesinde yaptığımız saha ziyaretinde "
 "gördük: üretici, NDVI grafiğinde haftalarca gerileyen bir tarlanın farkında "
@@ -1243,6 +1244,7 @@ msgstr "Since 2024"
 msgid "Kooperatif"
 msgstr "Cooperative"
 
+#, python-format
 msgid "%%23"
 msgstr "23%%"
 
@@ -1632,12 +1634,14 @@ msgstr "Satellite NDVI Map — Antalya, Mandarin Orchard"
 msgid "Ort. NDVI"
 msgstr "Avg. NDVI"
 
+#, python-format
 msgid "%%87"
 msgstr "87%%"
 
 msgid "Sağlıklı Alan"
 msgstr "Healthy Area"
 
+#, python-format
 msgid "+%%14"
 msgstr "+14%%"
 
@@ -1688,6 +1692,7 @@ msgid "Yapay Zeka Meyve Sayımı"
 msgstr "AI Fruit Counting"
 
 #
+#, python-format
 msgid ""
 "Birkaç fotoğraftan bahçenizdeki toplam meyveyi %%94+ doğrulukla sayar, "
 "tonajı tahmin eder."
@@ -1696,6 +1701,7 @@ msgstr ""
 "accuracy and estimates tonnage."
 
 #
+#, python-format
 msgid ""
 "Tespit verileri ve NDVI'yı birleştiren agronomi modelimiz hasadı ±%%25 "
 "hassasiyetle öngörür."
@@ -1779,6 +1785,7 @@ msgstr ""
 "That season his losses halved and he priced confidently to buyers."
 
 #
+#, python-format
 msgid "%%31 daha az hasat kaybı"
 msgstr "31%% less harvest loss"
 
@@ -1792,6 +1799,7 @@ msgid "120 üyenin arazisi, tek ekran"
 msgstr "120 members' land, one screen"
 
 #
+#, python-format
 msgid ""
 "Fatma Hanım, tüm üyelerin tarlalarını tek panelden takip ediyor. Haftalık "
 "raporlar otomatik geliyor. Sahaya çıkma sıklığı %%40 azaldı, doğru yere "
@@ -1802,6 +1810,7 @@ msgstr ""
 "place."
 
 #
+#, python-format
 msgid "%%40 daha az gereksiz saha ziyareti"
 msgstr "40%% fewer unnecessary field visits"
 
@@ -1838,6 +1847,7 @@ msgid "Mandalina Üreticisi, Antalya"
 msgstr "Mandarin Farmer, Antalya"
 
 #
+#, python-format
 msgid ""
 "Kooperatifimizin 120 üyesinin tarlalarını tek panelden takip ediyoruz. "
 "Raporları otomatik alıyoruz, sahaya çıkma sıklığımız %%40 azaldı."
@@ -1877,6 +1887,7 @@ msgid "Yıllık"
 msgstr "Annual"
 
 #
+#, python-format
 msgid "(%%20 indirim)"
 msgstr "(20%% off)"
 
@@ -2000,12 +2011,13 @@ msgid "Yıllık faturalama nasıl işliyor?"
 msgstr "How does annual billing work?"
 
 #
+#, python-format
 msgid ""
 "Yıllık planı seçtiğinizde 12 aylık tutar tek seferinde faturalanır ve %%20 "
 "indirim uygulanır. Dilediğiniz zaman aylık plana geçebilirsiniz."
 msgstr ""
-"If you pick annual, you're billed for 12 months at once with a 20%% discount. "
-"You can switch to monthly anytime."
+"If you pick annual, you're billed for 12 months at once with a 20%% "
+"discount. You can switch to monthly anytime."
 
 msgid "Plan değiştirmek mümkün mü?"
 msgstr "Can I change plans?"
@@ -2062,6 +2074,7 @@ msgstr "Satellite Monitoring"
 msgid "Bitki sağlığını haftadan haftaya takip edin"
 msgstr "Track plant health week by week"
 
+#, python-format
 msgid "%%31"
 msgstr "31%%"
 
@@ -2171,6 +2184,7 @@ msgstr "AI Fruit Detection"
 msgid "Hasattan önce meyvenizi sayın"
 msgstr "Count your fruit before harvest"
 
+#, python-format
 msgid "%%94+"
 msgstr "94%%+"
 
@@ -2205,6 +2219,7 @@ msgstr "Mandarin Orchard — 4.2 ha"
 msgid "Analiz tamamlandı · Az önce"
 msgstr "Analysis complete · Just now"
 
+#, python-format
 msgid "%%94 güven"
 msgstr "94%% confidence"
 
@@ -2248,6 +2263,7 @@ msgid "Uydu verileri ne sıklıkla güncelleniyor?"
 msgstr "How often is satellite data updated?"
 
 #
+#, python-format
 msgid ""
 "Sentinel-2 her 5 günde bir aynı konumu tekrar çeker. Bulut örtüsü %%30'un "
 "altındaki geçişler otomatik işlenerek NDVI tablonuza eklenir."
@@ -2336,6 +2352,7 @@ msgid "Güven aralığı:"
 msgstr "Confidence interval:"
 
 #
+#, python-format
 msgid "(±25%% payda)"
 msgstr "(±25%% spread)"
 
@@ -2391,6 +2408,92 @@ msgid ""
 "Sistemde kayıtlı tespitleriniz ve uydu NDVI verileriniz otomatik olarak "
 "kullanılır."
 msgstr "Your stored detections and satellite NDVI data are used automatically."
+
+msgid "SSL güvenlik"
+msgstr "SSL security"
+
+msgid "KVKK uyumlu veri saklama"
+msgstr "KVKK-compliant data storage"
+
+msgid "Türkçe destek"
+msgstr "Turkish support"
+
+msgid "İstediğiniz zaman iptal"
+msgstr "Cancel anytime"
+
+#, fuzzy
+#| msgid "Görüntü Yükle"
+msgid "Uydu Görüntüleme"
+msgstr "Upload imagery"
+
+msgid "Her 5 günde güncellenen uydu verileriyle tarlanızı sürekli takip edin."
+msgstr "Continuous field monitoring with satellite data refreshed every 5 days."
+
+#, fuzzy
+#| msgid "YZ Meyve Tespiti"
+msgid "Yapay Zeka Tespiti"
+msgstr "AI Fruit Detection"
+
+msgid "Görüntülerden meyve ve mahsulü %94+ doğrulukla otomatik sayar."
+msgstr "Automatically counts fruit and crops from imagery with 94%+ accuracy."
+
+msgid "Drone Haritalama"
+msgstr "Drone Mapping"
+
+#, fuzzy
+#| msgid ""
+#| "Drone fotoğraflarınızı yükleyin, sistem tarlanızın detaylı sağlık "
+#| "haritasını otomatik oluşturur."
+msgid ""
+"Drone görüntülerinizi yükleyin, platformumuz detaylı alan haritasını "
+"oluşturur."
+msgstr ""
+"Upload your drone photos — the system automatically generates a detailed "
+"health map of your field."
+
+#, fuzzy
+#| msgid "Alan İzleme"
+msgid "Anlık İşleme"
+msgstr "Field Monitoring"
+
+msgid ""
+"Yüklediğiniz veriler arka planda işlenir; sonuçlar hazır olunca sizi "
+"bildirir."
+msgstr ""
+
+#, fuzzy
+#| msgid "Drone Analizi"
+msgid "NDVI Analizi"
+msgstr "Drone Analysis"
+
+msgid ""
+"Bitkilerinizin sağlığını renkli haritalarla görün, sorunlu alanları anında "
+"fark edin."
+msgstr ""
+
+msgid "Etkileşimli Harita"
+msgstr "Interactive Map"
+
+msgid "Tüm tarlalarınızı tek ekranda izleyin, alanlara tıklayarak detay görün."
+msgstr "Monitor all your fields from one screen; click areas for detail."
+
+#, fuzzy
+#| msgid "Güvenlik"
+msgid "Güvenli Depolama"
+msgstr "Security"
+
+msgid ""
+"Verileriniz Türkiye'de güvenli sunucularda saklanır, başkasıyla paylaşılmaz."
+msgstr ""
+
+#, fuzzy
+#| msgid "Otomatik Raporlama"
+msgid "Otomatik Raporlar"
+msgstr "Automated Reporting"
+
+msgid ""
+"PDF ve Excel raporları belirlediğiniz sıklıkta e-posta kutunuza iletilir."
+msgstr ""
 
 msgid "Tüm alanlar zorunludur."
 msgstr "All fields are required."
