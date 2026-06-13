@@ -1,19 +1,19 @@
 {% extends 'website/base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Fiyatlandırma{% endblock %}
-{% block meta_desc %}Agrisynthia fiyat planları — Bireysel üretici, kooperatif ve kurumsal. 14 gün ücretsiz deneme.{% endblock %}
+{% block title %}{% trans "Fiyatlandırma" %}{% endblock %}
+{% block meta_desc %}{% trans "Agrisynthia fiyat planları — Bireysel üretici, kooperatif ve kurumsal. 14 gün ücretsiz deneme." %}{% endblock %}
 
 {% block content %}
 
 <section style="padding:140px 0 64px;background:linear-gradient(160deg,#f0f7f0,var(--bg));border-bottom:1px solid var(--border);text-align:center;">
   <div class="container">
-    <div class="section-tag">Fiyatlandırma</div>
-    <h1 class="section-title">Tarlanız için doğru plan</h1>
-    <p class="section-sub" style="margin:0 auto 40px;">14 gün ücretsiz. Kredi kartı gerekmez. İstediğiniz zaman iptal edin.</p>
+    <div class="section-tag">{% trans "Fiyatlandırma" %}</div>
+    <h1 class="section-title">{% trans "Tarlanız için doğru plan" %}</h1>
+    <p class="section-sub" style="margin:0 auto 40px;">{% trans "14 gün ücretsiz. Kredi kartı gerekmez. İstediğiniz zaman iptal edin." %}</p>
     <div style="display:inline-flex;background:#fff;border:1px solid var(--border);border-radius:8px;padding:4px;gap:4px;">
-      <button id="btnMonthly" onclick="setPeriod('monthly')" style="padding:8px 20px;border-radius:6px;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;background:var(--green);color:#fff;">Aylık</button>
-      <button id="btnAnnual" onclick="setPeriod('annual')" style="padding:8px 20px;border-radius:6px;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;background:transparent;color:var(--muted);">Yıllık <span style="color:var(--green);font-size:11px;">(%20 indirim)</span></button>
+      <button id="btnMonthly" onclick="setPeriod('monthly')" style="padding:8px 20px;border-radius:6px;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;background:var(--green);color:#fff;">{% trans "Aylık" %}</button>
+      <button id="btnAnnual" onclick="setPeriod('annual')" style="padding:8px 20px;border-radius:6px;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;background:transparent;color:var(--muted);">{% trans "Yıllık" %} <span style="color:var(--green);font-size:11px;">{% trans "(%20 indirim)" %}</span></button>
     </div>
   </div>
 </section>
@@ -23,77 +23,77 @@
     <div class="pricing-grid">
 
       <div class="pricing-card">
-        <div class="pricing-tier">Bireysel</div>
+        <div class="pricing-tier">{% trans "Bireysel" %}</div>
         <div class="pricing-price">
           <span class="currency">₺</span>
           <span class="amount" id="price-basic" data-monthly="890" data-annual="712">890</span>
-          <span class="period">/ay</span>
+          <span class="period">{% trans "/ay" %}</span>
         </div>
-        <p class="pricing-desc">Küçük aile işletmeleri ve bireysel üreticiler için.</p>
-        <a href="{% url 'login' %}" class="btn btn-outline" style="width:100%;justify-content:center;">Ücretsiz Başlayın</a>
+        <p class="pricing-desc">{% trans "Küçük aile işletmeleri ve bireysel üreticiler için." %}</p>
+        <a href="{% url 'login' %}" class="btn btn-outline" style="width:100%;justify-content:center;">{% trans "Ücretsiz Başlayın" %}</a>
         <hr class="pricing-divider">
         <ul class="pricing-features">
-          <li><span class="ico">✓</span> 3 tarla / proje</li>
-          <li><span class="ico">✓</span> Haftalık NDVI güncelleme</li>
-          <li><span class="ico">✓</span> Meyve tespiti (aylık 50 görüntü)</li>
-          <li><span class="ico">✓</span> Drone analizi (aylık 1 proje)</li>
-          <li><span class="ico">✓</span> PDF rapor indirme</li>
-          <li><span class="ico">✓</span> E-posta uyarıları</li>
-          <li class="disabled"><span class="ico">✗</span> Otomatik rapor gönderimi</li>
-          <li class="disabled"><span class="ico">✗</span> API erişimi</li>
-          <li class="disabled"><span class="ico">✗</span> Öncelikli destek</li>
+          <li><span class="ico">✓</span> {% trans "3 tarla / proje" %}</li>
+          <li><span class="ico">✓</span> {% trans "Haftalık NDVI güncelleme" %}</li>
+          <li><span class="ico">✓</span> {% trans "Meyve tespiti (aylık 50 görüntü)" %}</li>
+          <li><span class="ico">✓</span> {% trans "Drone analizi (aylık 1 proje)" %}</li>
+          <li><span class="ico">✓</span> {% trans "PDF rapor indirme" %}</li>
+          <li><span class="ico">✓</span> {% trans "E-posta uyarıları" %}</li>
+          <li class="disabled"><span class="ico">✗</span> {% trans "Otomatik rapor gönderimi" %}</li>
+          <li class="disabled"><span class="ico">✗</span> {% trans "API erişimi" %}</li>
+          <li class="disabled"><span class="ico">✗</span> {% trans "Öncelikli destek" %}</li>
         </ul>
       </div>
 
       <div class="pricing-card featured">
-        <div class="pricing-badge">En Popüler</div>
-        <div class="pricing-tier">Kooperatif</div>
+        <div class="pricing-badge">{% trans "En Popüler" %}</div>
+        <div class="pricing-tier">{% trans "Kooperatif" %}</div>
         <div class="pricing-price">
           <span class="currency">₺</span>
           <span class="amount" id="price-coop" data-monthly="2490" data-annual="1992">2.490</span>
-          <span class="period">/ay</span>
+          <span class="period">{% trans "/ay" %}</span>
         </div>
-        <p class="pricing-desc">Kooperatifler ve çok tarla yöneten işletmeler için.</p>
-        <a href="{% url 'login' %}" class="btn btn-primary" style="width:100%;justify-content:center;">Ücretsiz Başlayın</a>
+        <p class="pricing-desc">{% trans "Kooperatifler ve çok tarla yöneten işletmeler için." %}</p>
+        <a href="{% url 'login' %}" class="btn btn-primary" style="width:100%;justify-content:center;">{% trans "Ücretsiz Başlayın" %}</a>
         <hr class="pricing-divider">
         <ul class="pricing-features">
-          <li><span class="ico">✓</span> 25 tarla / proje</li>
-          <li><span class="ico">✓</span> Günlük NDVI güncelleme</li>
-          <li><span class="ico">✓</span> Meyve tespiti (sınırsız görüntü)</li>
-          <li><span class="ico">✓</span> Drone analizi (sınırsız proje)</li>
-          <li><span class="ico">✓</span> PDF + Excel rapor</li>
-          <li><span class="ico">✓</span> E-posta uyarıları</li>
-          <li><span class="ico">✓</span> Otomatik rapor gönderimi</li>
-          <li><span class="ico">✓</span> Alan Haritası görünümü</li>
-          <li class="disabled"><span class="ico">✗</span> API erişimi</li>
+          <li><span class="ico">✓</span> {% trans "25 tarla / proje" %}</li>
+          <li><span class="ico">✓</span> {% trans "Günlük NDVI güncelleme" %}</li>
+          <li><span class="ico">✓</span> {% trans "Meyve tespiti (sınırsız görüntü)" %}</li>
+          <li><span class="ico">✓</span> {% trans "Drone analizi (sınırsız proje)" %}</li>
+          <li><span class="ico">✓</span> {% trans "PDF + Excel rapor" %}</li>
+          <li><span class="ico">✓</span> {% trans "E-posta uyarıları" %}</li>
+          <li><span class="ico">✓</span> {% trans "Otomatik rapor gönderimi" %}</li>
+          <li><span class="ico">✓</span> {% trans "Alan Haritası görünümü" %}</li>
+          <li class="disabled"><span class="ico">✗</span> {% trans "API erişimi" %}</li>
         </ul>
       </div>
 
       <div class="pricing-card">
-        <div class="pricing-tier">Kurumsal</div>
+        <div class="pricing-tier">{% trans "Kurumsal" %}</div>
         <div class="pricing-price" style="min-height:60px;align-items:center;">
-          <span class="amount" style="font-size:32px;">Teklif Alın</span>
+          <span class="amount" style="font-size:32px;">{% trans "Teklif Alın" %}</span>
         </div>
-        <p class="pricing-desc">Büyük kooperatifler, tarım şirketleri ve kamu kurumları.</p>
-        <a href="mailto:info@agrisynthia.com" class="btn btn-outline" style="width:100%;justify-content:center;">İletişime Geçin</a>
+        <p class="pricing-desc">{% trans "Büyük kooperatifler, tarım şirketleri ve kamu kurumları." %}</p>
+        <a href="mailto:info@agrisynthia.com" class="btn btn-outline" style="width:100%;justify-content:center;">{% trans "İletişime Geçin" %}</a>
         <hr class="pricing-divider">
         <ul class="pricing-features">
-          <li><span class="ico">✓</span> Sınırsız tarla / proje</li>
-          <li><span class="ico">✓</span> Gerçek zamanlı NDVI</li>
-          <li><span class="ico">✓</span> Meyve tespiti (sınırsız)</li>
-          <li><span class="ico">✓</span> Drone analizi (sınırsız)</li>
-          <li><span class="ico">✓</span> Tüm rapor formatları</li>
-          <li><span class="ico">✓</span> Tüm uyarı türleri</li>
-          <li><span class="ico">✓</span> Otomatik rapor gönderimi</li>
-          <li><span class="ico">✓</span> REST API erişimi</li>
-          <li><span class="ico">✓</span> Öncelikli destek + SLA</li>
+          <li><span class="ico">✓</span> {% trans "Sınırsız tarla / proje" %}</li>
+          <li><span class="ico">✓</span> {% trans "Gerçek zamanlı NDVI" %}</li>
+          <li><span class="ico">✓</span> {% trans "Meyve tespiti (sınırsız)" %}</li>
+          <li><span class="ico">✓</span> {% trans "Drone analizi (sınırsız)" %}</li>
+          <li><span class="ico">✓</span> {% trans "Tüm rapor formatları" %}</li>
+          <li><span class="ico">✓</span> {% trans "Tüm uyarı türleri" %}</li>
+          <li><span class="ico">✓</span> {% trans "Otomatik rapor gönderimi" %}</li>
+          <li><span class="ico">✓</span> {% trans "REST API erişimi" %}</li>
+          <li><span class="ico">✓</span> {% trans "Öncelikli destek + SLA" %}</li>
         </ul>
       </div>
 
     </div>
 
     <div style="text-align:center;margin-top:56px;">
-      <p style="font-size:14px;color:var(--muted);margin-bottom:20px;font-weight:600;">Tüm planlarda dahil:</p>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:20px;font-weight:600;">{% trans "Tüm planlarda dahil:" %}</p>
       <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:16px;">
         {% for item in included_items %}
         <span style="background:var(--green-light);color:var(--green);font-size:13px;font-weight:600;padding:6px 14px;border-radius:100px;"><i class="fas fa-check" style="margin-right:6px;"></i>{{ item }}</span>
@@ -106,25 +106,25 @@
 <section class="section-sm" style="background:#fff;border-top:1px solid var(--border);">
   <div class="container">
     <div class="section-header centered">
-      <div class="section-tag">SSS</div>
-      <h2 class="section-title">Fiyatlandırma Soruları</h2>
+      <div class="section-tag">{% trans "SSS" %}</div>
+      <h2 class="section-title">{% trans "Fiyatlandırma Soruları" %}</h2>
     </div>
     <div class="faq-list">
       <div class="faq-item">
-        <button class="faq-question">Ücretsiz deneme nasıl çalışır? <span class="icon">+</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Kaydolduğunuzda Kooperatif planının tüm özelliklerine 14 gün boyunca erişebilirsiniz. Süre sonunda istediğiniz plana geçebilir veya hesabınızı silebilirsiniz.</div></div>
+        <button class="faq-question">{% trans "Ücretsiz deneme nasıl çalışır?" %} <span class="icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">{% trans "Kaydolduğunuzda Kooperatif planının tüm özelliklerine 14 gün boyunca erişebilirsiniz. Süre sonunda istediğiniz plana geçebilir veya hesabınızı silebilirsiniz." %}</div></div>
       </div>
       <div class="faq-item">
-        <button class="faq-question">Yıllık faturalama nasıl işliyor? <span class="icon">+</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Yıllık planı seçtiğinizde 12 aylık tutar tek seferinde faturalanır ve %20 indirim uygulanır. Dilediğiniz zaman aylık plana geçebilirsiniz.</div></div>
+        <button class="faq-question">{% trans "Yıllık faturalama nasıl işliyor?" %} <span class="icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">{% trans "Yıllık planı seçtiğinizde 12 aylık tutar tek seferinde faturalanır ve %20 indirim uygulanır. Dilediğiniz zaman aylık plana geçebilirsiniz." %}</div></div>
       </div>
       <div class="faq-item">
-        <button class="faq-question">Plan değiştirmek mümkün mü? <span class="icon">+</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Evet. Hesap ayarlarınızdan istediğiniz zaman planınızı yükseltebilir veya düşürebilirsiniz. Ücret farkı günlük olarak hesaplanır.</div></div>
+        <button class="faq-question">{% trans "Plan değiştirmek mümkün mü?" %} <span class="icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">{% trans "Evet. Hesap ayarlarınızdan istediğiniz zaman planınızı yükseltebilir veya düşürebilirsiniz. Ücret farkı günlük olarak hesaplanır." %}</div></div>
       </div>
       <div class="faq-item">
-        <button class="faq-question">Fatura/e-fatura alabilir miyim? <span class="icon">+</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Evet, tüm ödemeler için yasal e-fatura düzenlenmektedir. Kurumsal fatura için destek ekibimizle iletişime geçin.</div></div>
+        <button class="faq-question">{% trans "Fatura/e-fatura alabilir miyim?" %} <span class="icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">{% trans "Evet, tüm ödemeler için yasal e-fatura düzenlenmektedir. Kurumsal fatura için destek ekibimizle iletişime geçin." %}</div></div>
       </div>
     </div>
   </div>
@@ -132,11 +132,11 @@
 
 <div class="cta-band">
   <div class="container">
-    <h2>Hâlâ kararsız mısınız?</h2>
-    <p>Bir uzmanımız tarlanızın ihtiyaçlarına göre en uygun planı belirlesin.</p>
+    <h2>{% trans "Hâlâ kararsız mısınız?" %}</h2>
+    <p>{% trans "Bir uzmanımız tarlanızın ihtiyaçlarına göre en uygun planı belirlesin." %}</p>
     <div class="btn-row">
-      <a href="mailto:info@agrisynthia.com" class="btn btn-white btn-lg">Demo İsteyin</a>
-      <a href="{% url 'login' %}" class="btn btn-lg" style="background:rgba(255,255,255,0.15);color:#fff;border:1.5px solid rgba(255,255,255,0.4);">Hemen Başlayın</a>
+      <a href="mailto:info@agrisynthia.com" class="btn btn-white btn-lg">{% trans "Demo İsteyin" %}</a>
+      <a href="{% url 'login' %}" class="btn btn-lg" style="background:rgba(255,255,255,0.15);color:#fff;border:1.5px solid rgba(255,255,255,0.4);">{% trans "Hemen Başlayın" %}</a>
     </div>
   </div>
 </div>
