@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
+from django.utils.translation import gettext_lazy as _
 
 BLOG_POSTS = [
     {
@@ -268,7 +269,7 @@ def chat_lead(request):
     email = (data.get("email") or "").strip()
     phone = (data.get("phone") or "").strip()
     if not (full_name and email and phone):
-        return JsonResponse({"ok": False, "error": "Tüm alanlar zorunludur."}, status=400)
+        return JsonResponse({"ok": False, "error": _("Tüm alanlar zorunludur.")}, status=400)
     ChatLead.objects.create(full_name=full_name, email=email, phone=phone)
     return JsonResponse({"ok": True})
 
@@ -380,7 +381,7 @@ def chatbot_chat(request):
 
     if limited:
         return JsonResponse(
-            {"ok": False, "error": "Çok fazla istek. Lütfen bir dakika bekleyin."},
+            {"ok": False, "error": _("Çok fazla istek. Lütfen bir dakika bekleyin.")},
             status=429,
         )
 
