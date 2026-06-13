@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Recompile .po → .mo for any staged .po files, then stage the resulting .mo.
+# Setup once after clone:  git config core.hooksPath hooks
+set -euo pipefail
+
+staged_po=$(git diff --cached --name-only --diff-filter=ACM | grep -E '^locale/.+\.po$' || true)
+if [ -z "$staged_po" ]; then
+    exit 0
+fi
+
+if ! command -v msgfmt >/dev/null 2>&1; then
+    echo "pre-commit: msgfmt not on PATH — install GNU gettext (Windows: 'choco install gettext', Linux: 'apt install gettext')." >&2
+    exit 1
+fi
+
+if ! command -v python >/dev/null 2>&1; then
+    echo "pre-commit: python not on PATH." >&2
+    exit 1
+fi
+
+locales=$(echo "$staged_po" | sed -E 's|^locale/([^/]+)/LC_MESSAGES/.+|\1|' | sort -u)
+echo "pre-commit: recompiling locales: $locales"
+
+for lang in $locales; do
+    python manage.py compilemessages -l "$lang" >/dev/null
+    mo="locale/$lang/LC_MESSAGES/django.mo"
+    if [ -f "$mo" ]; then
+        git add "$mo"
+        echo "  staged $mo"
+    fi
+done
