@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import base64
 import hashlib
 import io
@@ -33,9 +32,6 @@ _SESSION_2FA_USER = "_2fa_pending_user_id"
 _SESSION_2FA_BACKEND = "_2fa_pending_backend"
 _SESSION_2FA_NEXT = "_2fa_pending_next"
 
-# ---------------------------------------------------------------------------
-# Forms
-# ---------------------------------------------------------------------------
 
 class ProfileForm(forms.ModelForm):
     class Meta:
@@ -73,10 +69,6 @@ class NotificationForm(forms.ModelForm):
         }
 
 
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
-
 def _get_or_create_profile(user: User) -> UserProfile:
     profile, _ = UserProfile.objects.get_or_create(user=user)
     return profile
@@ -106,7 +98,6 @@ def _send_verification_email(user: User) -> None:
 
 
 def _resize_avatar(image_file) -> InMemoryUploadedFile:
-    """Validate MIME, resize to ≤400×400, return InMemoryUploadedFile (JPEG)."""
     import magic as libmagic
 
     raw = image_file.read(2048)
@@ -135,13 +126,7 @@ def _resize_avatar(image_file) -> InMemoryUploadedFile:
     )
 
 
-# ---------------------------------------------------------------------------
-# Auth views
-# ---------------------------------------------------------------------------
-
 class TwoFactorLoginView(LoginView):
-    """Django's LoginView extended to intercept when 2FA is enabled."""
-
     def form_valid(self, form):
         user = form.get_user()
         try:
@@ -179,13 +164,8 @@ def register(request):
 
 
 def profile(request):
-    """Legacy profile URL — redirect to the new settings page."""
     return redirect("account_settings")
 
-
-# ---------------------------------------------------------------------------
-# Settings (master view — Profil / Güvenlik / Bildirimler tabs)
-# ---------------------------------------------------------------------------
 
 @login_required
 def settings_view(request):
@@ -201,7 +181,6 @@ def settings_view(request):
     if request.method == "POST":
         action = request.POST.get("_action", "")
 
-        # ── Profil update ──────────────────────────────────────────────────
         if action == "update_profile":
             old_email = user.email
             profile_form = ProfileForm(request.POST, instance=user)
@@ -230,7 +209,6 @@ def settings_view(request):
                 return response
             active_tab = "profil"
 
-        # ── Avatar upload ──────────────────────────────────────────────────
         elif action == "upload_avatar":
             avatar_file = request.FILES.get("avatar")
             if not avatar_file:
@@ -251,7 +229,6 @@ def settings_view(request):
                     messages.error(request, str(e))
             return redirect("/accounts/settings/?tab=profil")
 
-        # ── Password change ────────────────────────────────────────────────
         elif action == "change_password":
             password_form = PasswordChangeForm(user=user, data=request.POST)
             if password_form.is_valid():
@@ -261,7 +238,6 @@ def settings_view(request):
                 return redirect("/accounts/settings/?tab=guvenlik")
             active_tab = "guvenlik"
 
-        # ── Disable 2FA ────────────────────────────────────────────────────
         elif action == "disable_2fa":
             current_password = request.POST.get("current_password_2fa", "")
             if not user.check_password(current_password):
@@ -274,7 +250,6 @@ def settings_view(request):
                 messages.success(request, "İki faktörlü kimlik doğrulama devre dışı bırakıldı.")
             return redirect("/accounts/settings/?tab=guvenlik")
 
-        # ── Notification settings ──────────────────────────────────────────
         elif action == "update_notifications":
             notification_form = NotificationForm(request.POST, instance=account_profile)
             if notification_form.is_valid():
@@ -293,10 +268,6 @@ def settings_view(request):
     }
     return render(request, "accounts/settings.html", context)
 
-
-# ---------------------------------------------------------------------------
-# Email verification
-# ---------------------------------------------------------------------------
 
 @login_required
 @require_http_methods(["POST"])
@@ -327,10 +298,6 @@ def verify_email(request, token: str):
     return redirect("login")
 
 
-# ---------------------------------------------------------------------------
-# 2FA — setup
-# ---------------------------------------------------------------------------
-
 @login_required
 def setup_2fa(request):
     user = request.user
@@ -356,7 +323,6 @@ def setup_2fa(request):
             })
         else:
             messages.error(request, "Geçersiz doğrulama kodu. Lütfen tekrar deneyin.")
-            # Re-render with same secret so user doesn't have to scan again
 
     secret = pyotp.random_base32()
     totp_uri = pyotp.TOTP(secret).provisioning_uri(
@@ -378,10 +344,6 @@ def setup_2fa(request):
         "account_profile": account_profile,
     })
 
-
-# ---------------------------------------------------------------------------
-# 2FA — verify at login
-# ---------------------------------------------------------------------------
 
 def verify_2fa(request):
     pending_user_id = request.session.get(_SESSION_2FA_USER)
@@ -406,13 +368,11 @@ def verify_2fa(request):
 
         verified = False
 
-        # Try TOTP first
         if account_profile and account_profile.totp_secret:
             totp = pyotp.TOTP(account_profile.totp_secret)
             if totp.verify(code, valid_window=1):
                 verified = True
 
-        # Try backup code
         if not verified:
             verified = BackupCode.verify(user, code)
 
