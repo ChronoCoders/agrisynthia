@@ -20,8 +20,10 @@ from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.decorators import method_decorator
 from django.utils.translation import activate
 from django.views.decorators.http import require_http_methods
+from django_ratelimit.decorators import ratelimit
 from PIL import Image
 
 from .models import BackupCode, UserProfile
@@ -126,6 +128,7 @@ def _resize_avatar(image_file) -> InMemoryUploadedFile:
     )
 
 
+@method_decorator(ratelimit(key="ip", rate="5/m", method="POST", block=True), name="post")
 class TwoFactorLoginView(LoginView):
     def form_valid(self, form):
         user = form.get_user()
@@ -143,6 +146,7 @@ class TwoFactorLoginView(LoginView):
         return super().form_valid(form)
 
 
+@ratelimit(key="ip", rate="5/m", method="POST", block=True)
 def register(request):
     if request.user.is_authenticated:
         return redirect("account_settings")
@@ -271,6 +275,7 @@ def settings_view(request):
 
 @login_required
 @require_http_methods(["POST"])
+@ratelimit(key="user", rate="3/m", method="POST", block=True)
 def send_verification_email_view(request):
     if not request.user.email:
         messages.error(request, "Hesabınızda kayıtlı bir e-posta adresi yok.")
@@ -345,6 +350,7 @@ def setup_2fa(request):
     })
 
 
+@ratelimit(key="ip", rate="10/m", method="POST", block=True)
 def verify_2fa(request):
     pending_user_id = request.session.get(_SESSION_2FA_USER)
     pending_backend = request.session.get(_SESSION_2FA_BACKEND)

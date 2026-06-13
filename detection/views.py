@@ -15,6 +15,7 @@ from django.core.files.uploadedfile import UploadedFile
 from django.http import FileResponse, HttpRequest, HttpResponse, JsonResponse, StreamingHttpResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
+from django_ratelimit.decorators import ratelimit
 
 from detection.cache_utils import (
     calculate_image_hash,
@@ -140,6 +141,7 @@ def serve_media_file(request: HttpRequest, file_path: str) -> HttpResponse:
 
 
 @login_required
+@ratelimit(key="user", rate="30/m", method="POST", block=True)
 def index(request: HttpRequest) -> HttpResponse:
     response: Dict[str, Any] = {}
 
@@ -382,6 +384,7 @@ def index(request: HttpRequest) -> HttpResponse:
 
 
 @login_required
+@ratelimit(key="user", rate="10/m", method="POST", block=True)
 def multi_detection_image(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
         try:
@@ -653,6 +656,7 @@ def system_monitoring(request: HttpRequest) -> HttpResponse:
 
 @login_required
 @require_http_methods(["POST"])
+@ratelimit(key="user", rate="30/m", method="POST", block=True)
 def async_detection(request: HttpRequest) -> JsonResponse:
     try:
         meyve_grubu = request.POST.get("meyve_grubu")
