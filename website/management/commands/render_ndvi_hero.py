@@ -87,7 +87,6 @@ class Command(BaseCommand):
         bbox = options["bbox"]
         max_cloud = options["max_cloud"]
 
-        # Resolve output path
         if options["output"]:
             out_path = options["output"]
         else:
@@ -102,7 +101,6 @@ class Command(BaseCommand):
         client = Client.open(STAC_URL)
 
         from datetime import datetime, timedelta
-        # Search last 90 days to find a clear scene
         date_end = datetime.utcnow()
         date_start = date_end - timedelta(days=90)
         datetime_range = f"{date_start.strftime('%Y-%m-%dT%H:%M:%SZ')}/{date_end.strftime('%Y-%m-%dT%H:%M:%SZ')}"
@@ -132,7 +130,6 @@ class Command(BaseCommand):
         cloud = item.properties.get("eo:cloud_cover", "?")
         self.stdout.write(f"Using scene: {item.id}  date={date_str}  cloud={cloud}%")
 
-        # Get B04 (Red) and B08 (NIR) asset URLs
         assets = item.assets
         red_href = assets.get("red", assets.get("B04", assets.get("b04"))).href
         nir_href = assets.get("nir", assets.get("B08", assets.get("b08"))).href
@@ -160,7 +157,6 @@ class Command(BaseCommand):
         rgba = _apply_colormap(uint8, lut)
 
         img = Image.fromarray(rgba, mode="RGBA")
-        # Resize to 800×500 for web
         img = img.resize((800, 500), Image.LANCZOS)
         img.save(out_path, "PNG", optimize=True)
 
@@ -171,7 +167,6 @@ class Command(BaseCommand):
             f"Scene date  : {date_str}\n"
         ))
 
-        # Print the values to plug into home.html
         self.stdout.write(self.style.WARNING(
             f"Update home.html hero stats:\n"
             f"  Ort. NDVI  → {median_ndvi:.2f}\n"
@@ -187,7 +182,6 @@ class Command(BaseCommand):
         from pyproj import Transformer
 
         with rasterio.open(href) as src:
-            # Transform bbox from WGS84 to raster CRS
             transformer = Transformer.from_crs("EPSG:4326", src.crs, always_xy=True)
             xmin, ymin = transformer.transform(bbox[0], bbox[1])
             xmax, ymax = transformer.transform(bbox[2], bbox[3])
