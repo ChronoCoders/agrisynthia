@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import hashlib
 import secrets
 
@@ -51,7 +50,6 @@ class BackupCode(models.Model):
 
     @classmethod
     def generate_for_user(cls, user, count: int = 8):
-        """Generate `count` plaintext backup codes, store hashed. Returns plaintext list."""
         cls.objects.filter(user=user).delete()
         codes = []
         for _ in range(count):
@@ -63,7 +61,6 @@ class BackupCode(models.Model):
 
     @classmethod
     def verify(cls, user, submitted_code: str) -> bool:
-        """Verify and consume a backup code. Returns True if valid."""
         code_hash = hashlib.sha256(submitted_code.encode()).hexdigest()
         bc = cls.objects.filter(user=user, code_hash=code_hash, used=False).first()
         if bc:
