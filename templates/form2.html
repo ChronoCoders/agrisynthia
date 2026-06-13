@@ -1,56 +1,57 @@
+{% load i18n %}
 <div class="col-lg-6 col-12">
 	<div class="box-content card white">
-		<h4 class="box-title">Giriş Değerleri</h4>
+		<h4 class="box-title">{% trans "Giriş Değerleri" %}</h4>
 		<div class="card-content">
 			<form action="{% url 'detection:multi_detection_image' %}" method="post" enctype="multipart/form-data" onsubmit="handleFormSubmit2(event)">
 				{% csrf_token %}
 				<div class="form-group margin-bottom-20">
-					<select name="meyve_grubu" class="form-control" required aria-label="Meyve Grubu Seçin">
-						<option value="">Meyve Grubu</option>
-						<option value="mandalina">Mandalina</option>
-						<option value="elma">Elma</option>
-						<option value="armut">Armut</option>
-						<option value="seftale">Şeftali</option>
-						<option value="nar">Nar</option>
-						<option value="agac">Ağaç</option>
+					<select name="meyve_grubu" class="form-control" required aria-label="{% trans 'Meyve Grubu Seçin' %}">
+						<option value="">{% trans "Meyve Grubu" %}</option>
+						<option value="mandalina">{% trans "Mandalina" %}</option>
+						<option value="elma">{% trans "Elma" %}</option>
+						<option value="armut">{% trans "Armut" %}</option>
+						<option value="seftale">{% trans "Şeftali" %}</option>
+						<option value="nar">{% trans "Nar" %}</option>
+						<option value="agac">{% trans "Ağaç" %}</option>
 					</select>
 				</div>
 
 				<div class="form-group margin-bottom-20">
-					<input type="number" name="agac_sayisi" class="form-control" placeholder="Ağaç Sayısı" min="1" max="100000">
+					<input type="number" name="agac_sayisi" class="form-control" placeholder="{% trans 'Ağaç Sayısı' %}" min="1" max="100000">
 				</div>
 				<div class="form-group margin-bottom-20">
-					<input type="number" name="agac_yasi" class="form-control" placeholder="Ağaç Yaşı" min="0" max="150">
+					<input type="number" name="agac_yasi" class="form-control" placeholder="{% trans 'Ağaç Yaşı' %}" min="0" max="150">
 				</div>
 
 				<div class="input-group margin-bottom-20">
 					<div class="input-group-btn">
-						<label for="ekim_sirasi_multi" class="btn btn-default" aria-label="Ekim Sırası">
+						<label for="ekim_sirasi_multi" class="btn btn-default" aria-label="{% trans 'Ekim Sırası' %}">
 							<i class="fa-solid fa-tree" aria-hidden="true"></i>
 						</label>
 					</div>
-					<input id="ekim_sirasi_multi" type="text" name="ekim_sirasi" class="form-control" placeholder="Ekim Sırası (örn: 3-5)" required pattern="[0-9]+-[0-9]+" title="Ekim sırası formatı: 3-5" aria-label="Ekim Sırası (örn: 3-5)">
+					<input id="ekim_sirasi_multi" type="text" name="ekim_sirasi" class="form-control" placeholder="{% trans 'Ekim Sırası (örn: 3-5)' %}" required pattern="[0-9]+-[0-9]+" title="{% trans 'Ekim sırası formatı: 3-5' %}" aria-label="{% trans 'Ekim Sırası (örn: 3-5)' %}">
 				</div>
 
 				<div class="form-group">
-					<label for="exampleInputFile" class="btn btn-default">Meyve Fotoğraflarını Seç <i class="ico fa-solid fa-image" aria-hidden="true"></i></label>
-					<input id="exampleInputFile" style="display: none" type="file" name="file" accept="image/jpeg,image/png,image/tiff" onchange="loadFile(event)" multiple required aria-label="Meyve Fotoğrafları Seç">
+					<label for="exampleInputFile" class="btn btn-default">{% trans "Meyve Fotoğraflarını Seç" %} <i class="ico fa-solid fa-image" aria-hidden="true"></i></label>
+					<input id="exampleInputFile" style="display: none" type="file" name="file" accept="image/jpeg,image/png,image/tiff" onchange="loadFile(event)" multiple required aria-label="{% trans 'Meyve Fotoğrafları Seç' %}">
 					{% load static %}
 					<div class="col-lg-3 col-6">
 						<a href="#" class="thumbnail">
-							<img id="output" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='14' fill='%23999'%3E%C3%96nizleme%3C/text%3E%3C/svg%3E" alt="Önizleme Görüntüsü" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+							<img id="output" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='14' fill='%23999'%3E%C3%96nizleme%3C/text%3E%3C/svg%3E" alt="{% trans 'Önizleme Görüntüsü' %}" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
 						</a>
 					</div>
 				</div>
 
-				<button id="submitBtn2" type="submit" name="success" value="{{csrf_token}}" class="btn btn-primary btn-sm waves-effect waves-light">Gönder</button>
+				<button id="submitBtn2" type="submit" name="success" value="{{csrf_token}}" class="btn btn-primary btn-sm waves-effect waves-light">{% trans "Gönder" %}</button>
 			</form>
 		</div>
 	</div>
 
 	<div class="col-lg-12">
 		{% if response != None %}
-		<a href="{% url 'detection:download_image' response %}" class="btn btn-fill wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.4s">İndir <i class="fa fa-download"></i></a>
+		<a href="{% url 'detection:download_image' response %}" class="btn btn-fill wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.4s">{% trans "İndir" %} <i class="fa fa-download"></i></a>
 		{% endif %}
 	</div>
 </div>
