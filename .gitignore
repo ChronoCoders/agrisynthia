@@ -22,6 +22,10 @@ locale/*/LC_MESSAGES/*.mo
 celerybeat-schedule
 celerybeat-schedule.*
 
+# Locust sample upload + result CSVs
+scripts/_sample.jpg
+reports/load*
+
 # IDE
 .vscode/
 .idea/

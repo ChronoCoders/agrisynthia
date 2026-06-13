@@ -101,3 +101,6 @@ sentry-sdk[django]==2.29.1
 django-storages[s3]==1.14.4
 pyotp==2.9.0
 qrcode[pil]==7.4.2
+
+# Load testing (dev/staging only — do not run against prod without throttling)
+locust==2.32.0
