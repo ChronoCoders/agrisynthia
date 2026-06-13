@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-13 19:08-0400\n"
+"POT-Creation-Date: 2026-06-13 19:34-0400\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1151,7 +1151,7 @@ msgid "Agrisynthia, Türk tarımını dijital geleceğe taşıyan yapay zeka pla
 msgstr "Agrisynthia: the AI platform helping Turkish agriculture go digital. Our story, mission, and values."
 
 msgid ""
-"Türkiye'nin <span class=\"accent\">her tarlasının</span> uydu gözü ve yapay zeka aklıyla izlenmesi gerektiğine inanıyoruz.\n"
+"Türkiye'nin <span class=\"accent\">her tarlasının</span> uydu ve yapay zeka ile izlenmesi gerektiğine inanıyoruz.\n"
 "      Agrisynthia, üreticilerin veri temelli kararlar almasını <span class=\"accent\">mümkün kılmak</span> için kuruldu."
 msgstr ""
 "We believe <span class=\"accent\">every field in Turkey</span> deserves to be watched by satellite and AI.\n"
@@ -1266,6 +1266,11 @@ msgstr "Blog"
 
 msgid "İletişim"
 msgstr "Contact"
+
+#, fuzzy
+#| msgid "Dil Tercihi"
+msgid "Dil seçimi"
+msgstr "Language"
 
 msgid "Ücretsiz Deneyin"
 msgstr "Try Free"
