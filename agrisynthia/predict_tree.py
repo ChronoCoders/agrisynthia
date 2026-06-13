@@ -1,4 +1,5 @@
 import glob
+import hashlib
 import logging
 import sys
 import threading
@@ -6,6 +7,8 @@ import uuid
 import zipfile
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
+
+from django.conf import settings
 
 import cv2
 import numpy as np
@@ -53,6 +56,14 @@ def evict_model_cache(fruit_type: str) -> None:
             logger.info("Model cache evicted: %s", k)
 
 
+def compute_sha256(path: Path) -> str:
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
 def get_model(fruit_type: str) -> Any:
     """Load (or return cached) the active YOLO model for the given fruit_type.
 
@@ -77,6 +88,22 @@ def get_model(fruit_type: str) -> Any:
                     f"Model weights not found for '{fruit_type}' {mv.version} "
                     f"at {model_path}. Run 'python manage.py migrate_model_files' "
                     f"or update ModelVersion.weights_path in the admin."
+                )
+
+            if getattr(settings, "MODEL_CHECKSUM_VERIFY", False) and mv.checksum_sha256:
+                actual = compute_sha256(model_path)
+                if actual != mv.checksum_sha256.lower():
+                    raise RuntimeError(
+                        f"Checksum mismatch for '{fruit_type}' {mv.version}: "
+                        f"expected {mv.checksum_sha256}, got {actual}. "
+                        f"Refusing to load potentially tampered weights."
+                    )
+                logger.info("Checksum OK for %s (%s)", fruit_type, mv.version)
+            elif getattr(settings, "MODEL_CHECKSUM_VERIFY", False) and not mv.checksum_sha256:
+                logger.warning(
+                    "MODEL_CHECKSUM_VERIFY is on but %s %s has no stored checksum. "
+                    "Run 'python manage.py verify_model_checksums --store' to backfill.",
+                    fruit_type, mv.version,
                 )
 
             try:
