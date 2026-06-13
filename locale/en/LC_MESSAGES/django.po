@@ -1,367 +1,361 @@
-# Agrisynthia translations.
+# Agrisynthia translations — English.
 # Copyright (C) 2026 ChronoCoders
 #
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=UTF-8
-"
-"Content-Transfer-Encoding: 8bit
-"
-"Language: en
-"
-"MIME-Version: 1.0
-"
-"Plural-Forms: nplurals=2; plural=(n != 1);
-"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "14 gün ücretsiz. Kredi kartı gerekmez. İstediğiniz zaman iptal edin."
-msgstr ""
+msgstr "14 days free. No credit card. Cancel anytime."
 
 msgid "2FA Etkin"
-msgstr ""
+msgstr "2FA Enabled"
 
 msgid "2FA Kurulumu"
-msgstr ""
+msgstr "2FA Setup"
 
 msgid "2FA Kurulumunu Başlat"
-msgstr ""
+msgstr "Start 2FA Setup"
 
 msgid "2FA başarıyla etkinleştirildi."
-msgstr ""
+msgstr "2FA enabled successfully."
 
 msgid "2FA şu anda etkin. Devre dışı bırakmak için mevcut şifrenizi girin."
-msgstr ""
+msgstr "2FA is currently enabled. Enter your current password to disable it."
 
 msgid "2FA'yı Devre Dışı Bırak"
-msgstr ""
+msgstr "Disable 2FA"
 
 msgid "6 haneli TOTP kodu veya 8 haneli yedek kod"
-msgstr ""
+msgstr "6-digit TOTP code or 8-digit backup code"
 
 msgid "Ad"
-msgstr ""
+msgstr "First Name"
 
 msgid "Alan Haritası"
-msgstr ""
+msgstr "Field Map"
 
 msgid "Alan İzleme"
-msgstr ""
+msgstr "Field Monitoring"
 
 msgid "Ana Panel"
-msgstr ""
+msgstr "Dashboard"
 
 msgid "Avatar güncellendi."
-msgstr ""
+msgstr "Avatar updated."
 
 msgid "Ayarlar"
-msgstr ""
+msgstr "Settings"
 
 msgid "Bildirim tercihleri güncellendi."
-msgstr ""
+msgstr "Notification preferences updated."
 
 msgid "Bildirimler"
-msgstr ""
+msgstr "Notifications"
 
 msgid "Bu bağlantı geçersiz veya süresi dolmuş."
-msgstr ""
+msgstr "This link is invalid or has expired."
 
 msgid "Bu kodlar bir daha gösterilmeyecek. Lütfen hemen kaydedin."
-msgstr ""
+msgstr "These codes will not be shown again. Please save them now."
 
 msgid "Bu kodları güvenli bir yere kaydedin. Her kod yalnızca bir kez kullanılabilir."
-msgstr ""
+msgstr "Save these codes somewhere safe. Each code can only be used once."
 
 msgid "Dil Tercihi"
-msgstr ""
+msgstr "Language"
 
 msgid "Doğrula ve Etkinleştir"
-msgstr ""
+msgstr "Verify and Enable"
 
 msgid "Doğrula ve Giriş Yap"
-msgstr ""
+msgstr "Verify and Log In"
 
 msgid "Doğrulama Kodu"
-msgstr ""
+msgstr "Verification Code"
 
 msgid "Doğrulama Kodu (6 haneli)"
-msgstr ""
+msgstr "Verification Code (6 digits)"
 
 msgid "Doğrulama e-postası gönder"
-msgstr ""
+msgstr "Send verification email"
 
 msgid "Doğrulama e-postası gönderildi."
-msgstr ""
+msgstr "Verification email sent."
 
 msgid "Doğrulandı"
-msgstr ""
+msgstr "Verified"
 
 msgid "Doğrulanmadı"
-msgstr ""
+msgstr "Not verified"
 
 msgid "Drone Projeleri"
-msgstr ""
+msgstr "Drone Projects"
 
 msgid "Düşük NDVI Eşiği (stres uyarısı)"
-msgstr ""
+msgstr "Low NDVI threshold (stress alert)"
 
 msgid "E-posta"
-msgstr ""
+msgstr "Email"
 
 msgid "E-posta Adresi"
-msgstr ""
+msgstr "Email Address"
 
 msgid "E-posta Doğrulama"
-msgstr ""
+msgstr "Email Verification"
 
 msgid "E-posta Gönderildi"
-msgstr ""
+msgstr "Email Sent"
 
 msgid "E-posta adresiniz başarıyla doğrulandı."
-msgstr ""
+msgstr "Your email address has been verified."
 
 msgid "E-posta adresiniz değiştirildi. Doğrulama e-postası gönderildi."
-msgstr ""
+msgstr "Your email address changed. Verification email sent."
 
 msgid "E-posta yolda!"
-msgstr ""
+msgstr "Email on its way!"
 
 msgid "En az 8 karakter, harf ve rakam içermesi önerilir."
-msgstr ""
+msgstr "At least 8 characters, with letters and numbers recommended."
 
 msgid "Farklı hesapla giriş yap"
-msgstr ""
+msgstr "Log in with a different account"
 
 msgid "Fotoğraf Seç"
-msgstr ""
+msgstr "Choose Photo"
 
 msgid "Gelen kutunuzu kontrol edin."
-msgstr ""
+msgstr "Check your inbox."
 
 msgid "Geçersiz doğrulama kodu. Lütfen tekrar deneyin."
-msgstr ""
+msgstr "Invalid verification code. Please try again."
 
 msgid "Geçersiz istek."
-msgstr ""
+msgstr "Invalid request."
 
 msgid "Geçersiz veya süresi dolmuş doğrulama bağlantısı."
-msgstr ""
+msgstr "Invalid or expired verification link."
 
 msgid "Giriş Yap"
-msgstr ""
+msgstr "Log In"
 
 msgid "Giriş yapın"
-msgstr ""
+msgstr "Log in"
 
 msgid "Gün Ücretsiz"
-msgstr ""
+msgstr "Days Free"
 
 msgid "Güvenlik"
-msgstr ""
+msgstr "Security"
 
 msgid "Güçlü bir şifre belirleyin ve hesabınıza geri dönün."
-msgstr ""
+msgstr "Set a strong password and get back into your account."
 
 msgid "Hesabınız güvende."
-msgstr ""
+msgstr "Your account is secure."
 
 msgid "Hesabınıza giriş yapın."
-msgstr ""
+msgstr "Log in to your account."
 
 msgid "Hesabınızda kayıtlı bir e-posta adresi yok."
-msgstr ""
+msgstr "No email address on file for your account."
 
 msgid "Hesabınızı kimlik doğrulayıcı uygulama (Google Authenticator, Authy vb.) ile koruyun."
-msgstr ""
+msgstr "Protect your account with an authenticator app (Google Authenticator, Authy, etc)."
 
 msgid "Hesap Ayarları"
-msgstr ""
+msgstr "Account Settings"
 
 msgid "Hesap Oluştur"
-msgstr ""
+msgstr "Sign Up"
 
 msgid "Hesap oluştur"
-msgstr ""
+msgstr "Sign up"
 
 msgid "Hesap oluşturun"
-msgstr ""
+msgstr "Create your account"
 
 msgid "JPEG veya PNG — maks. 5 MB — 400×400 piksele yeniden boyutlandırılır"
-msgstr ""
+msgstr "JPEG or PNG — max 5 MB — resized to 400×400 pixels"
 
 msgid "Kaydet"
-msgstr ""
+msgstr "Save"
 
 msgid "Kayıtlı e-posta adresinizi girin, sıfırlama bağlantısı gönderelim."
-msgstr ""
+msgstr "Enter your registered email and we'll send a reset link."
 
 msgid "Kimlik Doğrulama"
-msgstr ""
+msgstr "Verify Identity"
 
 msgid "Kimlik doğrulayıcı uygulamanızdaki 6 haneli kodu veya bir yedek kodu girin."
-msgstr ""
+msgstr "Enter the 6-digit code from your authenticator app or a backup code."
 
 msgid "Kimlik doğrulayıcı uygulamanızla (Google Authenticator, Authy) QR kodu tarayın."
-msgstr ""
+msgstr "Scan the QR code with your authenticator app (Google Authenticator, Authy)."
 
 msgid "Kişisel Bilgiler"
-msgstr ""
+msgstr "Personal Information"
 
 msgid "Kodları Kaydettim, Devam Et"
-msgstr ""
+msgstr "I Saved the Codes, Continue"
 
 msgid "Kullanıcı Adı"
-msgstr ""
+msgstr "Username"
 
 msgid "Kullanıcı adı veya şifre hatalı. Lütfen tekrar deneyin."
-msgstr ""
+msgstr "Incorrect username or password. Please try again."
 
 msgid "Kurulum Süresi"
-msgstr ""
+msgstr "Setup Time"
 
 msgid "Lütfen bir görsel seçin."
-msgstr ""
+msgstr "Please choose an image."
 
 msgid "Manuel giriş anahtarı:"
-msgstr ""
+msgstr "Manual entry key:"
 
 msgid "Mevcut Şifre"
-msgstr ""
+msgstr "Current Password"
 
 msgid "Mevcut şifreniz hatalı."
-msgstr ""
+msgstr "Your current password is incorrect."
 
 msgid "NDVI Uyarıları"
-msgstr ""
+msgstr "NDVI Alerts"
 
 msgid "NDVI stres uyarılarını etkinleştir"
-msgstr ""
+msgstr "Enable NDVI stress alerts"
 
 msgid "Profil"
-msgstr ""
+msgstr "Profile"
 
 msgid "Profil Fotoğrafı"
-msgstr ""
+msgstr "Profile Photo"
 
 msgid "Profil bilgileri güncellendi."
-msgstr ""
+msgstr "Profile updated."
 
 msgid "QR Kod"
-msgstr ""
+msgstr "QR Code"
 
 msgid "Raporlar"
-msgstr ""
+msgstr "Reports"
 
 msgid "Sistem İzleme"
-msgstr ""
+msgstr "System Monitoring"
 
 msgid "Son bir adım kaldı."
-msgstr ""
+msgstr "One last step."
 
 msgid "Soyad"
-msgstr ""
+msgstr "Last Name"
 
 msgid "Sıfırlama Bağlantısı Gönder"
-msgstr ""
+msgstr "Send Reset Link"
 
 msgid "Tekrar hoş geldiniz"
-msgstr ""
+msgstr "Welcome back"
 
 msgid "Telefon"
-msgstr ""
+msgstr "Phone"
 
 msgid "Tercihleri Kaydet"
-msgstr ""
+msgstr "Save Preferences"
 
 msgid "Tespit Doğruluğu"
-msgstr ""
+msgstr "Detection Accuracy"
 
 msgid "Uyarı:"
-msgstr ""
+msgstr "Warning:"
 
 msgid "Verim Tahmini"
-msgstr ""
+msgstr "Yield Prediction"
 
 msgid "Yedek Kodlar"
-msgstr ""
+msgstr "Backup Codes"
 
 msgid "Yedek Kodlarınız"
-msgstr ""
+msgstr "Your Backup Codes"
 
 msgid "Yeni bağlantı isteyin"
-msgstr ""
+msgstr "Request a new link"
 
 msgid "Yeni Şifre"
-msgstr ""
+msgstr "New Password"
 
 msgid "Yeni Şifre (Tekrar)"
-msgstr ""
+msgstr "New Password (again)"
 
 msgid "Yeni şifre belirleyin"
-msgstr ""
+msgstr "Set a new password"
 
 msgid "Yeni şifreniz başarıyla kaydedildi. Artık hesabınıza giriş yapabilirsiniz."
-msgstr ""
+msgstr "Your new password has been saved. You can now log in."
 
 msgid "Yeni şifrenizle giriş yapabilir ve tarlanızı izlemeye devam edebilirsiniz."
-msgstr ""
+msgstr "Log in with your new password and keep monitoring your fields."
 
 msgid "Yüksek NDVI Eşiği (iyileşme bildirimi)"
-msgstr ""
+msgstr "High NDVI threshold (recovery notification)"
 
 msgid "Zaten hesabınız var mı?"
-msgstr ""
+msgstr "Already have an account?"
 
 msgid "Çoklu Görüntü Sayımı"
-msgstr ""
+msgstr "Multi-Image Counting"
 
 msgid "Ücretsiz Başlayın"
-msgstr ""
+msgstr "Start Free"
 
 msgid "Ücretsiz denemenizi başlatın. Kart bilgisi istenmez."
-msgstr ""
+msgstr "Start your free trial. No card required."
 
 msgid "İki Faktörlü Doğrulama"
-msgstr ""
+msgstr "Two-Factor Authentication"
 
 msgid "İki Faktörlü Kimlik Doğrulama (2FA)"
-msgstr ""
+msgstr "Two-Factor Authentication (2FA)"
 
 msgid "İki faktörlü kimlik doğrulama devre dışı bırakıldı."
-msgstr ""
+msgstr "Two-factor authentication disabled."
 
 msgid "İptal"
-msgstr ""
+msgstr "Cancel"
 
 msgid "Şifre"
-msgstr ""
+msgstr "Password"
 
 msgid "Şifre Değiştir"
-msgstr ""
+msgstr "Change Password"
 
 msgid "Şifre Güncellendi"
-msgstr ""
+msgstr "Password Updated"
 
 msgid "Şifre Sıfırla"
-msgstr ""
+msgstr "Reset Password"
 
 msgid "Şifre başarıyla değiştirildi."
-msgstr ""
+msgstr "Password changed successfully."
 
 msgid "Şifremi unuttum"
-msgstr ""
+msgstr "Forgot password"
 
 msgid "Şifreniz güncellendi!"
-msgstr ""
+msgstr "Your password has been updated!"
 
 msgid "Şifrenizi sıfırlayın"
-msgstr ""
+msgstr "Reset your password"
 
 msgid "Şifreyi Güncelle"
-msgstr ""
+msgstr "Update Password"
 
 msgid "Şifreyi Kaydet"
-msgstr ""
+msgstr "Save Password"
 
 msgid "← Giriş sayfasına dön"
-msgstr ""
-
+msgstr "← Back to login"
