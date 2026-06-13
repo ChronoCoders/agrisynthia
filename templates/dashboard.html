@@ -147,7 +147,7 @@
             </div>
             <div class="col-xl-3 col-md-6 col-12">
                 <div class="stat-box{% if avg_ndvi and avg_ndvi >= 0.5 %}{% elif avg_ndvi and avg_ndvi < 0.3 %} danger{% else %} warn{% endif %}">
-                    <div class="val">{% if avg_ndvi %}{{ avg_ndvi }}{% else %}—{% endif %}</div>
+                    <div class="val">{% if avg_ndvi %}{{ avg_ndvi }}{% else %}-{% endif %}</div>
                     <div class="lbl">{% trans "Ort. NDVI (tüm tarlalar)" %}</div>
                 </div>
             </div>
@@ -242,7 +242,7 @@
                                             <span class="ndvi-badge ndvi-stressed">{{ row.latest_ndvi }}</span>
                                         {% endif %}
                                     {% else %}
-                                        <span class="ndvi-badge ndvi-none">—</span>
+                                        <span class="ndvi-badge ndvi-none">-</span>
                                     {% endif %}
                                 </td>
                                 <td>
@@ -253,7 +253,7 @@
                                     {% elif row.trend == 'stable' %}
                                         <span class="trend-stable"><i class="fa fa-minus"></i> {% trans "Stabil" %}</span>
                                     {% else %}
-                                        <span class="text-muted">—</span>
+                                        <span class="text-muted">-</span>
                                     {% endif %}
                                 </td>
                                 <td>{{ row.ndvi_count }}</td>

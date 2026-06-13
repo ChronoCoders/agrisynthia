@@ -2,7 +2,7 @@
 {% load static i18n %}
 
 {% block title %}{% trans "Ürün" %}{% endblock %}
-{% block meta_desc %}{% trans "Agrisynthia ürün özellikleri — Sentinel-2 NDVI, drone analizi, YZ meyve tespiti ve verim tahmini." %}{% endblock %}
+{% block meta_desc %}{% trans "Agrisynthia ürün özellikleri: Sentinel-2 NDVI, drone analizi, YZ meyve tespiti ve verim tahmini." %}{% endblock %}
 
 {% block content %}
 
@@ -10,7 +10,7 @@
   <div class="container" style="text-align:center;">
     <div class="section-tag">{% trans "Platform" %}</div>
     <h1 class="section-title" style="max-width:640px;margin:0 auto 20px;">{% trans "Tarımsal verinin tüm gücü, tek çatı altında" %}</h1>
-    <p class="section-sub" style="margin:0 auto 40px;">{% trans "Uydudan drone'a, sahadan ofise — Agrisynthia her veri kaynağını birleştirerek size eyleme geçilebilir tahminler sunar." %}</p>
+    <p class="section-sub" style="margin:0 auto 40px;">{% trans "Uydudan drone'a, sahadan ofise. Agrisynthia her veri kaynağını birleştirerek size eyleme geçilebilir tahminler sunar." %}</p>
     <a href="{% url 'website:pricing' %}" class="btn btn-primary btn-lg">{% trans "Ücretsiz Deneyin" %}</a>
   </div>
 </section>
@@ -25,7 +25,7 @@
           <div class="num">{% trans "%31" %}</div>
           <div class="desc">{% blocktrans %}Ortalama stres tespitinde<br>önceden müdahale oranı{% endblocktrans %}</div>
         </div>
-        <p>{% trans "Tarlanız her 5 günde bir uydu tarafından görüntülenir. Agrisynthia bu görüntüleri otomatik işler ve size renkli bir sağlık haritası sunar. Kuraklık, hastalık veya gübre eksikliğini renk değişimi olarak görürsünüz — hasat kaybı yaşamadan önce müdahale edersiniz." %}</p>
+        <p>{% trans "Tarlanız her 5 günde bir uydu tarafından görüntülenir. Agrisynthia bu görüntüleri otomatik işler ve size renkli bir sağlık haritası sunar. Kuraklık, hastalık veya gübre eksikliğini renk değişimi olarak görürsünüz. Hasat kaybı yaşamadan önce müdahale edersiniz." %}</p>
         <ul class="check-list">
           <li>{% trans "Haftada bir otomatik güncelleme, siz hiçbir şey yapmadan" %}</li>
           <li>{% trans "Aylık ve mevsimlik karşılaştırma grafikleri" %}</li>
@@ -35,7 +35,7 @@
       </div>
       <div class="pillar-visual">
         <div style="background:linear-gradient(135deg,#1B5E20 0%,#2E7D32 20%,#43A047 35%,#F9A825 55%,#EF6C00 70%,#C62828 100%);height:240px;display:flex;align-items:center;justify-content:center;">
-          <span style="background:rgba(0,0,0,0.5);color:#fff;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;backdrop-filter:blur(4px);">{% trans "NDVI: 0.62 — Sağlıklı" %}</span>
+          <span style="background:rgba(0,0,0,0.5);color:#fff;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;backdrop-filter:blur(4px);">{% trans "NDVI: 0.62 (Sağlıklı)" %}</span>
         </div>
         <div class="pillar-visual-inner">
           <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:8px;color:var(--muted);">
@@ -135,7 +135,7 @@
           <div class="num">{% trans "%94+" %}</div>
           <div class="desc">{% blocktrans %}YOLOv7 tespit<br>doğruluğu{% endblocktrans %}</div>
         </div>
-        <p>{% trans "Bahçenizden birkaç fotoğraf çekin, yapay zekamız meyveleri otomatik sayar. Ağaç başına düşen meyve sayısını, tahmini ağırlığı ve toplam tonajı saniyeler içinde görebilirsiniz — hasattan önce ne beklediğinizi önceden bilirsiniz." %}</p>
+        <p>{% trans "Bahçenizden birkaç fotoğraf çekin, yapay zekamız meyveleri otomatik sayar. Ağaç başına düşen meyve sayısını, tahmini ağırlığı ve toplam tonajı saniyeler içinde görebilirsiniz. Hasattan önce ne beklediğinizi önceden bilirsiniz." %}</p>
         <ul class="check-list">
           <li>{% trans "Mandalina, elma, armut, şeftali, nar desteği" %}</li>
           <li>{% trans "Ağaç sayısı ve yaşa göre otomatik hesaplama" %}</li>
@@ -150,7 +150,7 @@
               <i class="fas fa-seedling" style="color:#81C784;font-size:18px;"></i>
             </div>
             <div>
-              <div style="font-size:13px;font-weight:700;color:#fff;">{% trans "Mandalina Bahçesi — 4.2 ha" %}</div>
+              <div style="font-size:13px;font-weight:700;color:#fff;">{% trans "Mandalina Bahçesi, 4.2 ha" %}</div>
               <div style="font-size:12px;color:#9E9E9E;">{% trans "Analiz tamamlandı · Az önce" %}</div>
             </div>
             <div style="margin-left:auto;background:rgba(46,125,50,0.3);color:#81C784;font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;">{% trans "%94 güven" %}</div>
@@ -171,7 +171,7 @@
           </div>
           <div style="display:flex;align-items:center;gap:8px;background:rgba(249,168,37,0.1);border-radius:8px;padding:10px 14px;">
             <i class="fas fa-file-alt" style="color:var(--gold);font-size:13px;flex-shrink:0;"></i>
-            <span style="font-size:12px;color:#FFCC80;">{% trans "PDF raporu hazır" %} — <strong>{% trans "İndir" %}</strong></span>
+            <span style="font-size:12px;color:#FFCC80;">{% trans "PDF raporu hazır." %} <strong>{% trans "İndir" %}</strong></span>
           </div>
         </div>
       </div>
