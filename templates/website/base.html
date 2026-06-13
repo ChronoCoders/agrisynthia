@@ -111,13 +111,11 @@
   toggle.addEventListener('click', () => drawer.classList.add('open'));
   function closeDrawer() { drawer.classList.remove('open'); }
 
-  // Active nav link
   const path = window.location.pathname;
   document.querySelectorAll('.nav-links a, .nav-drawer ul a').forEach(a => {
     if (a.getAttribute('href') === path) a.style.color = 'var(--green)';
   });
 
-  // FAQ accordion
   document.querySelectorAll('.faq-question').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = btn.closest('.faq-item');
@@ -214,7 +212,6 @@
   toggle.addEventListener('click', () => win.classList.toggle('open'));
   closeBtn.addEventListener('click', () => win.classList.remove('open'));
 
-  // Lead form submit
   leadSubmit.addEventListener('click', async () => {
     const name = document.getElementById('lead-name').value.trim();
     const email = document.getElementById('lead-email').value.trim();

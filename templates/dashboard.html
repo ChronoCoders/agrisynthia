@@ -292,7 +292,6 @@
 {% block scripts %}
 <script>
 (function() {
-    // ── NDVI multi-line time-series chart ──────────────────────────────────
     var ndviData = {{ ndvi_chart_json|safe }};
     if (ndviData.datasets && ndviData.datasets.length > 0) {
         new Chart(document.getElementById('ndviTrendChart'), {
@@ -336,7 +335,6 @@
         if (c) c.parentElement.innerHTML = '<p style="color:#aaa;font-size:13px;padding:20px 0;">Tarla sınırı tanımlanmış proje olmadığı için NDVI verisi yok.</p>';
     }
 
-    // ── Detection history stacked bar chart ───────────────────────────────
     var detLabels   = {{ det_labels_json|safe }};
     var detDatasets = {{ det_datasets_json|safe }};
     if (detDatasets.length > 0 && document.getElementById('detHistChart')) {
