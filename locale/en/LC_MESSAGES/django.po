@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-13 19:34-0400\n"
+"POT-Creation-Date: 2026-06-13 19:52-0400\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2123,6 +2123,33 @@ msgstr "Fill out the form and click <strong>Predict</strong>."
 
 msgid "Sistemde kayıtlı tespitleriniz ve uydu NDVI verileriniz otomatik olarak kullanılır."
 msgstr "Your stored detections and satellite NDVI data are used automatically."
+
+msgid "urun/"
+msgstr "product/"
+
+msgid "fiyatlandirma/"
+msgstr "pricing/"
+
+msgid "hakkimizda/"
+msgstr "about/"
+
+msgid "blog/"
+msgstr "blog/"
+
+msgid "blog/<slug:slug>/"
+msgstr "blog/<slug:slug>/"
+
+msgid "iletisim/"
+msgstr "contact/"
+
+msgid "gizlilik-politikasi/"
+msgstr "privacy/"
+
+msgid "kullanim-kosullari/"
+msgstr "terms/"
+
+msgid "kvkk/"
+msgstr "kvkk/"
 
 msgid "NDVI Nedir ve Tarla Sağlığını Nasıl Anlatır?"
 msgstr "What Is NDVI and How Does It Reflect Field Health?"
