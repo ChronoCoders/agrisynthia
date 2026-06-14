@@ -71,6 +71,7 @@ img { max-width: 100%; display: block; }
 .nav-links a:hover { color: var(--text); }
 .nav-actions { display: flex; align-items: center; gap: 12px; }
 .lang-toggle { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; background: #fff; }
+.lang-toggle form { display: inline-flex; margin: 0; }
 .lang-btn {
   background: none; border: none; cursor: pointer;
   font-family: inherit; font-size: 12px; font-weight: 600; letter-spacing: 0.04em;

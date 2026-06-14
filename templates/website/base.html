@@ -17,6 +17,12 @@
   <title>{% block title %}Agrisynthia{% endblock %} | {% trans "Akıllı Tarım Platformu" %}</title>
   <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}">
   <link rel="canonical" href="https://agrisynthia.com{% block canonical_url %}{% endblock %}">
+  {% load i18n_extra %}
+  {% get_available_languages as LANGUAGES %}
+  {% for lang_code, lang_name in LANGUAGES %}
+  <link rel="alternate" hreflang="{{ lang_code }}" href="https://agrisynthia.com{% alt_url lang_code %}">
+  {% endfor %}
+  <link rel="alternate" hreflang="x-default" href="https://agrisynthia.com{% alt_url 'tr' %}">
   <link rel="stylesheet" href="{% static 'website/css/site.css' %}">
   <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet">
   <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet">
@@ -38,12 +44,20 @@
       <li><a href="{% url 'website:contact' %}" class="{% block nav_contact %}{% endblock %}">{% trans "İletişim" %}</a></li>
     </ul>
     <div class="nav-actions">
-      <form action="{% url 'set_language' %}" method="post" class="lang-toggle" aria-label="{% trans 'Dil seçimi' %}">
-        {% csrf_token %}
-        <input name="next" type="hidden" value="{{ request.get_full_path }}">
-        <button type="submit" name="language" value="tr" class="lang-btn{% if LANGUAGE_CODE == 'tr' %} active{% endif %}" aria-label="Türkçe">TR</button>
-        <button type="submit" name="language" value="en" class="lang-btn{% if LANGUAGE_CODE == 'en' %} active{% endif %}" aria-label="English">EN</button>
-      </form>
+      <div class="lang-toggle" aria-label="{% trans 'Dil seçimi' %}">
+        <form action="{% url 'set_language' %}" method="post">
+          {% csrf_token %}
+          <input name="next" type="hidden" value="{% alt_url 'tr' %}">
+          <input name="language" type="hidden" value="tr">
+          <button type="submit" class="lang-btn{% if LANGUAGE_CODE == 'tr' %} active{% endif %}" aria-label="Türkçe">TR</button>
+        </form>
+        <form action="{% url 'set_language' %}" method="post">
+          {% csrf_token %}
+          <input name="next" type="hidden" value="{% alt_url 'en' %}">
+          <input name="language" type="hidden" value="en">
+          <button type="submit" class="lang-btn{% if LANGUAGE_CODE == 'en' %} active{% endif %}" aria-label="English">EN</button>
+        </form>
+      </div>
       <a href="{% url 'login' %}" class="btn btn-outline btn-sm">{% trans "Giriş Yap" %}</a>
       <a href="{% url 'website:pricing' %}" class="btn btn-primary btn-sm">{% trans "Ücretsiz Deneyin" %}</a>
     </div>
@@ -66,12 +80,20 @@
     <li><a href="{% url 'website:contact' %}" onclick="closeDrawer()">{% trans "İletişim" %}</a></li>
   </ul>
   <div class="nav-drawer-actions">
-    <form action="{% url 'set_language' %}" method="post" class="lang-toggle" aria-label="{% trans 'Dil seçimi' %}">
-      {% csrf_token %}
-      <input name="next" type="hidden" value="{{ request.get_full_path }}">
-      <button type="submit" name="language" value="tr" class="lang-btn{% if LANGUAGE_CODE == 'tr' %} active{% endif %}">TR</button>
-      <button type="submit" name="language" value="en" class="lang-btn{% if LANGUAGE_CODE == 'en' %} active{% endif %}">EN</button>
-    </form>
+    <div class="lang-toggle" aria-label="{% trans 'Dil seçimi' %}">
+      <form action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{% alt_url 'tr' %}">
+        <input name="language" type="hidden" value="tr">
+        <button type="submit" class="lang-btn{% if LANGUAGE_CODE == 'tr' %} active{% endif %}">TR</button>
+      </form>
+      <form action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{% alt_url 'en' %}">
+        <input name="language" type="hidden" value="en">
+        <button type="submit" class="lang-btn{% if LANGUAGE_CODE == 'en' %} active{% endif %}">EN</button>
+      </form>
+    </div>
     <a href="{% url 'login' %}" class="btn btn-outline">{% trans "Giriş Yap" %}</a>
     <a href="{% url 'website:pricing' %}" class="btn btn-primary">{% trans "Ücretsiz Deneyin" %}</a>
   </div>
