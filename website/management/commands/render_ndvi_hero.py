@@ -19,7 +19,7 @@ from django.core.management.base import BaseCommand
 from PIL import Image
 
 
-# Finike, Antalya — prime mandarin orchard area
+# Finike, Antalya, prime mandarin orchard area
 DEFAULT_BBOX = [30.05, 36.18, 30.28, 36.38]
 
 STAC_URL = "https://earth-search.aws.element84.com/v1"
@@ -148,7 +148,7 @@ class Command(BaseCommand):
         median_ndvi = float(np.nanmedian(ndvi))
         healthy_pct = int(np.sum(ndvi >= 0.5) / ndvi.size * 100)
         self.stdout.write(
-            f"NDVI stats — median={median_ndvi:.3f}  healthy={healthy_pct}%"
+            f"NDVI stats: median={median_ndvi:.3f}  healthy={healthy_pct}%"
         )
 
         self.stdout.write("Applying colormap and saving PNG...")
