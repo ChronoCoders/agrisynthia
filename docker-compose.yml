@@ -245,7 +245,7 @@ services:
     depends_on:
       - redis
 
-  # Nginx Reverse Proxy (Optional — activate with: docker compose --profile with-nginx up)
+  # Nginx Reverse Proxy (Optional, activate with: docker compose --profile with-nginx up)
   nginx:
     image: nginx:alpine
     container_name: agrisynthia_nginx
