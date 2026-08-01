@@ -52,7 +52,7 @@ def _check_env(environment, **kw):
 
 
 class AuthenticatedUser(HttpUser):
-    """Base class — performs login + CSRF handling once per simulated user."""
+    """Base class: performs login + CSRF handling once per simulated user."""
     abstract = True
     wait_time = between(2, 6)
 
@@ -149,7 +149,7 @@ class DetectionUploadUser(AuthenticatedUser):
 
 
 class ApiPollingUser(AuthenticatedUser):
-    """Hits read-mostly REST endpoints — proxies the kind of traffic a mobile or
+    """Hits read-mostly REST endpoints: proxies the kind of traffic a mobile or
     dashboard client makes."""
     weight = 3
 
