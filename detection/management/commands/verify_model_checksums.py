@@ -61,12 +61,12 @@ class Command(BaseCommand):
                     mv.save(update_fields=["checksum_sha256"])
                     self.stdout.write(self.style.SUCCESS(f"  stored on ModelVersion"))
                 else:
-                    self.stdout.write(self.style.WARNING(f"  (no stored checksum — run with --store to backfill)"))
+                    self.stdout.write(self.style.WARNING(f"  (no stored checksum, run with --store to backfill)"))
             elif stored == actual:
                 self.stdout.write(self.style.SUCCESS(f"  OK"))
             else:
                 self.stdout.write(self.style.ERROR(
-                    f"  MISMATCH — stored {stored} != actual {actual}"
+                    f"  MISMATCH: stored {stored} != actual {actual}"
                 ))
                 problems += 1
                 if opts["store"] and opts["force"]:
