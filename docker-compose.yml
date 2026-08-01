@@ -57,7 +57,9 @@ services:
              gunicorn agrisynthia.wsgi:application --config gunicorn_config.py"
     volumes:
       - .:/app
-      - static_volume:/app/static
+      # Must be STATIC_ROOT (/app/staticfiles), not the source dir. collectstatic
+      # writes here, and nginx mounts the same volume to serve it.
+      - static_volume:/app/staticfiles
       - media_volume:/app/media
       - logs_volume:/app/logs
       - models_volume:/app/models
@@ -257,7 +259,7 @@ services:
     container_name: agrisynthia_nginx
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - static_volume:/app/static:ro
+      - static_volume:/app/staticfiles:ro
       - media_volume:/app/media:ro
       - ./ssl:/etc/nginx/ssl:ro
     ports:

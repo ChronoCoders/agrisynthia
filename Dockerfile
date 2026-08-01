@@ -42,7 +42,7 @@ RUN python -c "import torch; assert torch.cuda.is_available(), 'CUDA not availab
 COPY . .
 
 # Create runtime directories
-RUN mkdir -p /app/media /app/static /app/logs /app/results
+RUN mkdir -p /app/media /app/static /app/staticfiles /app/logs /app/results
 
 # Collect static files
 RUN python manage.py collectstatic --noinput || true
