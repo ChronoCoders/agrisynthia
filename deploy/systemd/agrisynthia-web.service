@@ -1,0 +1,45 @@
+[Unit]
+Description=Agrisynthia web (Gunicorn)
+Documentation=https://github.com/ChronoCoders/agrisynthia
+After=network-online.target postgresql.service redis-server.service
+Wants=network-online.target
+
+[Service]
+Type=notify
+User=agrisynthia
+Group=agrisynthia
+WorkingDirectory=/opt/agrisynthia
+
+# settings.py loads /opt/agrisynthia/.env itself via load_dotenv(), so no
+# EnvironmentFile= here. Adding one would make systemd parse the same file
+# under stricter quoting rules and mangle values containing spaces.
+
+# gunicorn_config.py binds 0.0.0.0:8000, which is correct inside Docker but
+# wrong on a host where nginx proxies locally. Override to loopback so the
+# app is not reachable except through nginx.
+ExecStart=/opt/agrisynthia/venv/bin/gunicorn \
+    --config /opt/agrisynthia/gunicorn_config.py \
+    --bind 127.0.0.1:8000 \
+    agrisynthia.wsgi:application
+
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=30
+Restart=always
+RestartSec=5
+
+# gunicorn_config.py logs to stdout/stderr, which lands in the journal.
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=agrisynthia-web
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/agrisynthia/logs /opt/agrisynthia/media /opt/agrisynthia/staticfiles
+# worker_tmp_dir = /dev/shm in gunicorn_config.py
+PrivateDevices=false
+
+[Install]
+WantedBy=multi-user.target

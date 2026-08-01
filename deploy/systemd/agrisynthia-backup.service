@@ -1,0 +1,30 @@
+[Unit]
+Description=Agrisynthia Postgres backup to R2
+Documentation=https://github.com/ChronoCoders/agrisynthia
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=agrisynthia
+Group=agrisynthia
+WorkingDirectory=/opt/agrisynthia
+
+# Dumps, gzips, and uploads to the R2 "backups/postgres/" prefix, then drops
+# anything older than the retention window. Needs pg_dump on PATH and R2
+# credentials with object read/write in /opt/agrisynthia/.env.
+ExecStart=/opt/agrisynthia/venv/bin/python scripts/backup_postgres.py backup
+ExecStart=/opt/agrisynthia/venv/bin/python scripts/backup_postgres.py prune --days 30
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=agrisynthia-backup
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/agrisynthia/logs
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,51 @@
+[Unit]
+Description=Agrisynthia Celery worker
+Documentation=https://github.com/ChronoCoders/agrisynthia
+After=network-online.target postgresql.service redis-server.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=agrisynthia
+Group=agrisynthia
+WorkingDirectory=/opt/agrisynthia
+
+# -Q IS REQUIRED. settings.CELERY_TASK_ROUTES sends detection.tasks.* to the
+# "detection" queue and dron_map.tasks.* to "mapping", while reports.tasks.*
+# and website.tasks.* fall through to the default "celery" queue. A worker
+# started without -Q consumes ONLY "celery", so every detection and drone task
+# would sit in Redis unconsumed: async detection never leaves PENDING, the SSE
+# stream hangs, and the ODM watchdog never runs. All three names must be listed.
+#
+# Concurrency is deliberately low: inference holds a YOLO model in GPU memory,
+# and settings sets prefetch_multiplier=1 with max_tasks_per_child=10. Raise
+# only if the GPU has headroom for parallel inference.
+ExecStart=/opt/agrisynthia/venv/bin/celery -A agrisynthia worker \
+    --queues detection,mapping,celery \
+    --concurrency 2 \
+    --loglevel info \
+    --hostname worker@%%h
+
+Restart=always
+RestartSec=10
+
+# Give a running inference or ODM job time to finish before SIGKILL.
+# CELERY_TASK_TIME_LIMIT is 30 min; this stops short of that on purpose so
+# deploys are not blocked for half an hour. Raise to 1800 to never interrupt.
+KillSignal=SIGTERM
+TimeoutStopSec=300
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=agrisynthia-worker
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/agrisynthia/logs /opt/agrisynthia/media /opt/agrisynthia/static
+# Needs the NVIDIA device nodes for CUDA inference.
+PrivateDevices=false
+
+[Install]
+WantedBy=multi-user.target
