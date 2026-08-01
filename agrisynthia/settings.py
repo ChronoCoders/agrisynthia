@@ -191,7 +191,7 @@ else:
         }
     }
 
-# GeoDjango — Windows requires explicit DLL paths.
+# GeoDjango: Windows requires explicit DLL paths.
 # Set GDAL_LIBRARY_PATH and GEOS_LIBRARY_PATH in .env if using Windows.
 # Linux/Docker: leave unset; GeoDjango finds system-installed libraries automatically.
 _GDAL_LIBRARY_PATH = os.environ.get("GDAL_LIBRARY_PATH", "")
@@ -479,7 +479,7 @@ DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "Agrisynthia <noreply@
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 if IS_DEVELOPMENT:
-    # Print emails to console in development — no SMTP needed
+    # Print emails to console in development, no SMTP needed
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 else:
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -494,7 +494,7 @@ else:
     if not EMAIL_HOST_USER or not EMAIL_HOST_PASSWORD:
         import warnings
         warnings.warn(
-            "EMAIL_HOST_USER or EMAIL_HOST_PASSWORD is unset — transactional emails "
+            "EMAIL_HOST_USER or EMAIL_HOST_PASSWORD is unset, transactional emails "
             "(verification, password reset, 2FA) will fail silently.",
             RuntimeWarning,
         )
@@ -617,7 +617,7 @@ CELERY_BEAT_SCHEDULE = {
     },
     "scheduled-reports-hourly": {
         "task": "reports.tasks.send_scheduled_reports",
-        "schedule": 3600.0,  # Every hour — catches daily/weekly/monthly schedules
+        "schedule": 3600.0,  # Every hour, catches daily/weekly/monthly schedules
     },
     "ndvi-hero-monthly": {
         "task": "website.tasks.refresh_ndvi_hero",
