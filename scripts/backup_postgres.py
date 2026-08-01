@@ -73,7 +73,7 @@ def _pg_env(db: dict) -> dict:
 
 def cmd_backup(args: argparse.Namespace) -> int:
     if not shutil.which("pg_dump"):
-        sys.exit("pg_dump not on PATH — install PostgreSQL client tools first.")
+        sys.exit("pg_dump not on PATH, install PostgreSQL client tools first.")
 
     db = _db_config()
     client, bucket = r2_client_and_bucket()
@@ -136,14 +136,14 @@ def _latest_key(client, bucket: str) -> str:
 
 def cmd_restore(args: argparse.Namespace) -> int:
     if not shutil.which("psql"):
-        sys.exit("psql not on PATH — install PostgreSQL client tools first.")
+        sys.exit("psql not on PATH, install PostgreSQL client tools first.")
 
     db = _db_config()
     client, bucket = r2_client_and_bucket()
     key = args.key or _latest_key(client, bucket)
 
     if not args.yes:
-        print(f"About to restore {key} into {db['name']}@{db['host']} — existing data will be dropped.")
+        print(f"About to restore {key} into {db['name']}@{db['host']}, existing data will be dropped.")
         if input("Type 'yes' to continue: ").strip() != "yes":
             return 1
 

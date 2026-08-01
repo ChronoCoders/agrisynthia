@@ -9,7 +9,7 @@ if [ -z "$staged_po" ]; then
 fi
 
 if ! command -v msgfmt >/dev/null 2>&1; then
-    echo "pre-commit: msgfmt not on PATH — install GNU gettext (Windows: 'choco install gettext', Linux: 'apt install gettext')." >&2
+    echo "pre-commit: msgfmt not on PATH, install GNU gettext (Windows: 'choco install gettext', Linux: 'apt install gettext')." >&2
     exit 1
 fi
 
