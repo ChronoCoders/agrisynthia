@@ -107,22 +107,22 @@ All variables are read from `.env` in the project root. See `.env.example` for t
 
 | Variable | Required | Default | Description |
 |---|---|---|---|
-| `DJANGO_SECRET_KEY` | Yes | — | Django secret key. Generate with `get_random_secret_key()`. |
+| `DJANGO_SECRET_KEY` | Yes | n/a | Django secret key. Generate with `get_random_secret_key()`. |
 | `DJANGO_ENVIRONMENT` | Yes | `production` | `production` or `development` |
 | `DJANGO_DEBUG` | No | `False` | Set `True` only in development. |
 | `DJANGO_ALLOWED_HOSTS` | Yes | `localhost` | Comma-separated list of allowed hostnames. |
 | `DATABASE_NAME` | No | `agrisynthia` | PostgreSQL database name. |
 | `DATABASE_USER` | No | `agrisynthia_user` | PostgreSQL username. |
-| `DATABASE_PASSWORD` | Yes | — | PostgreSQL password. |
+| `DATABASE_PASSWORD` | Yes | n/a | PostgreSQL password. |
 | `DATABASE_HOST` | No | `db` | Database host (Docker service name). |
 | `DATABASE_PORT` | No | `5432` | Database port. |
 | `CELERY_BROKER_URL` | No | `redis://redis:6379/0` | Celery broker URL. |
 | `CELERY_RESULT_BACKEND` | No | `redis://redis:6379/0` | Celery result backend URL. |
 | `REDIS_CACHE_URL` | No | `redis://redis:6379/1` | Redis cache URL (separate DB from broker). |
-| `REDIS_PASSWORD` | No | — | Redis password. Leave empty if Redis has no auth. |
-| `CORS_ALLOWED_ORIGINS` | No | — | Comma-separated CORS origins, e.g. `https://app.example.com` |
-| `ALERT_WEBHOOK_URL` | No | — | Slack/Teams/Discord webhook for model degradation alerts. |
-| `ALERT_EMAIL_RECIPIENTS` | No | — | Comma-separated email addresses for degradation alerts. |
+| `REDIS_PASSWORD` | No | n/a | Redis password. Leave empty if Redis has no auth. |
+| `CORS_ALLOWED_ORIGINS` | No | n/a | Comma-separated CORS origins, e.g. `https://app.example.com` |
+| `ALERT_WEBHOOK_URL` | No | n/a | Slack/Teams/Discord webhook for model degradation alerts. |
+| `ALERT_EMAIL_RECIPIENTS` | No | n/a | Comma-separated email addresses for degradation alerts. |
 | `ALERT_COOLDOWN_SECONDS` | No | `3600` | Minimum time between duplicate alerts. |
 
 ## Services
@@ -132,8 +132,8 @@ All variables are read from `.env` in the project root. See `.env.example` for t
 | `web` | 8000 | Django + Gunicorn |
 | `db` | 5432 (localhost only) | PostgreSQL 15 with PostGIS |
 | `redis` | 6379 (localhost only) | Redis 7 (broker + cache) |
-| `celery_worker` | — | Celery task worker |
-| `celery_beat` | — | Celery periodic task scheduler |
+| `celery_worker` | n/a | Celery task worker |
+| `celery_beat` | n/a | Celery periodic task scheduler |
 | `nginx` | 80, 443 | Reverse proxy (profile: `with-nginx`) |
 
 ## YOLO Models
@@ -287,7 +287,7 @@ docker compose exec web python manage.py migrate
 - `DATABASE_PASSWORD` and `REDIS_PASSWORD` are required in production
 - SSL must be enabled in production (see nginx.conf)
 - The `/detection/cache/invalidate/` endpoint requires Django staff (`is_staff=True`) privileges
-- Media files are served through authenticated proxy — direct `/media/` access requires login
+- Media files are served through authenticated proxy; direct `/media/` access requires login
 - Rate limiting is enforced at nginx level (10 req/s for API, 100 req/s general)
 
 ## Backups
@@ -313,7 +313,7 @@ Requires `pg_dump`/`psql` on PATH, and R2 credentials in `.env` with object R/W 
 
 ## Translations
 
-Turkish is the default (msgids are Turkish, so no `.po` compilation needed for `tr`). English translations live at `locale/en/LC_MESSAGES/django.po` — `msgstr ""` entries need to be filled, then compiled to `.mo`.
+Turkish is the default (msgids are Turkish, so no `.po` compilation needed for `tr`). English translations live at `locale/en/LC_MESSAGES/django.po`. The `msgstr ""` entries need to be filled, then compiled to `.mo`.
 
 ```
 python manage.py makemessages -l en        # refresh .po after template/view changes
@@ -323,7 +323,7 @@ python manage.py compilemessages           # build .mo files Django actually rea
 
 Both commands need GNU gettext on PATH. On Windows: `choco install gettext`. On Linux: `apt install gettext` / `dnf install gettext`.
 
-Compiled `.mo` files **are committed** so prod hosts don't need gettext at deploy time. A pre-commit hook recompiles `.mo` whenever a `.po` is staged — activate it once per clone:
+Compiled `.mo` files **are committed** so prod hosts don't need gettext at deploy time. A pre-commit hook recompiles `.mo` whenever a `.po` is staged. Activate it once per clone:
 
 ```
 git config core.hooksPath hooks
@@ -333,7 +333,7 @@ After that, `git commit` on a touched `.po` automatically runs `compilemessages`
 
 ## Load testing
 
-Locust profile in `scripts/locustfile.py`. Three user classes — browsing the dashboard, uploading detections + watching the SSE stream, polling the REST API — at weights `6 / 2 / 3`.
+Locust profile in `scripts/locustfile.py`. Three user classes (browsing the dashboard, uploading detections + watching the SSE stream, polling the REST API) at weights `6 / 2 / 3`.
 
 ```
 pip install locust
@@ -348,7 +348,7 @@ locust -f scripts/locustfile.py --host https://staging.example.com \
     --users 50 --spawn-rate 5 --run-time 5m --headless --csv reports/load
 ```
 
-Never point at production — the script enqueues Celery work on every iteration and holds SSE connections open. Drop any small JPEG at `scripts/_sample.jpg` (git-ignored) before running.
+Never point at production. The script enqueues Celery work on every iteration and holds SSE connections open. Drop any small JPEG at `scripts/_sample.jpg` (git-ignored) before running.
 
 ## License
 
