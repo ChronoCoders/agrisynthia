@@ -42,7 +42,7 @@ class GeneratedReport(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"{self.get_report_type_display()} — {self.get_format_display()} — {self.status}"
+        return f"{self.get_report_type_display()}, {self.get_format_display()}, {self.status}"
 
 
 class ScheduledReport(models.Model):
@@ -72,4 +72,4 @@ class ScheduledReport(models.Model):
         ordering = ["next_run"]
 
     def __str__(self):
-        return f"{self.user} — {self.get_report_type_display()} {self.get_frequency_display()}"
+        return f"{self.user}, {self.get_report_type_display()} {self.get_frequency_display()}"
