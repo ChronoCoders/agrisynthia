@@ -1,0 +1,44 @@
+[Unit]
+Description=Agrisynthia Celery beat scheduler
+Documentation=https://github.com/ChronoCoders/agrisynthia
+After=network-online.target redis-server.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=agrisynthia
+Group=agrisynthia
+WorkingDirectory=/opt/agrisynthia
+
+# Run EXACTLY ONE beat instance across the whole fleet. Two schedulers means
+# every periodic task fires twice: duplicate NDVI alert emails, double report
+# generation, two cleanup passes.
+#
+# The schedule DB lives outside the checkout so a deploy that replaces the
+# working tree does not lose or corrupt it. Beat only enqueues; the worker
+# unit consumes, so no -Q is needed here.
+ExecStart=/opt/agrisynthia/venv/bin/celery -A agrisynthia beat \
+    --loglevel info \
+    --schedule /var/lib/agrisynthia/celerybeat-schedule \
+    --pidfile /run/agrisynthia/beat.pid
+
+RuntimeDirectory=agrisynthia
+StateDirectory=agrisynthia
+
+Restart=always
+RestartSec=10
+KillSignal=SIGTERM
+TimeoutStopSec=30
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=agrisynthia-beat
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/agrisynthia/logs /var/lib/agrisynthia
+
+[Install]
+WantedBy=multi-user.target

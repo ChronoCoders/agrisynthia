@@ -1,0 +1,16 @@
+[Unit]
+Description=Daily Agrisynthia Postgres backup to R2
+Documentation=https://github.com/ChronoCoders/agrisynthia
+
+[Timer]
+# 03:00 UTC daily, matching the cron entry documented in README.md.
+# Use the timer OR the cron entry, never both.
+OnCalendar=*-*-* 03:00:00
+# Run on next boot if the machine was down at the scheduled time.
+Persistent=true
+# Spread load if other timers share the slot.
+RandomizedDelaySec=300
+Unit=agrisynthia-backup.service
+
+[Install]
+WantedBy=timers.target
