@@ -44,8 +44,14 @@ COPY . .
 # Create runtime directories
 RUN mkdir -p /app/media /app/static /app/staticfiles /app/logs /app/results
 
-# Collect static files
-RUN python manage.py collectstatic --noinput || true
+# Collect static files.
+# .dockerignore keeps .env out of the image, so settings.py has no secret key
+# to load here. These two values exist only to let settings import during the
+# build; the real ones come from .env at runtime. No `|| true`: a failure here
+# means the image ships without admin and DRF assets, which should fail loudly.
+RUN DJANGO_SECRET_KEY=build-time-only-never-used-at-runtime \
+    DJANGO_ALLOWED_HOSTS=localhost \
+    python manage.py collectstatic --noinput
 
 # Non-root user
 RUN useradd -m -u 1000 farmvision && \
@@ -58,4 +64,4 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
     CMD curl -f http://localhost:8000/health/ || exit 1
 
-CMD ["gunicorn", "yolowebapp2.wsgi:application", "--config", "gunicorn_config.py"]
+CMD ["gunicorn", "agrisynthia.wsgi:application", "--config", "gunicorn_config.py"]
