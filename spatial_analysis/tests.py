@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Tests for spatial_analysis.density — pure math, no real raster required.
+Tests for spatial_analysis.density: pure math, no real raster required.
 """
 import pytest
 
@@ -53,7 +53,7 @@ def test_tree_count_sums_to_total_input():
 
 
 def test_points_far_apart_land_in_different_cells():
-    # 2 km apart — should produce two cells at 100 m grid
+    # 2 km apart, should produce two cells at 100 m grid
     points = [(28.9784, 41.0082), (29.0000, 41.0082)]
     result = generate_density_grid(points, grid_size_meters=100.0)
     assert len(result["features"]) >= 2

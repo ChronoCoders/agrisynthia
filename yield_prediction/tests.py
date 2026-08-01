@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Tests for yield_prediction.service — pure function, no DB required.
+Tests for yield_prediction.service: pure function, no DB required.
 """
 import pytest
 
