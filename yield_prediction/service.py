@@ -97,8 +97,8 @@ def predict_yield(
 
     return {
         "tahmini_verim_kg": round(max(raw_yield_kg, 0.0), 2),
-        # Renamed from guven_skoru to kalite_skoru — this is not a calibrated
-        # probability; it is a rule-derived quality indicator (0–100).
+        # Renamed from guven_skoru to kalite_skoru; this is not a calibrated
+        # probability; it is a rule-derived quality indicator (0-100).
         "kalite_skoru": round(confidence * 100.0, 1),
         **_meta,
     }

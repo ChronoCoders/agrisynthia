@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Tests for decision_engine.service — pure function, no DB required.
+Tests for decision_engine.service: pure function, no DB required.
 """
 from decision_engine.service import generate_recommendations
 
