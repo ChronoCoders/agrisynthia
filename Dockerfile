@@ -8,7 +8,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 # Install system dependencies
-# GDAL version matches what Ubuntu 22.04 ships — no version mismatch
+# GDAL version matches what Ubuntu 22.04 ships, so no version mismatch
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     g++ \
@@ -35,8 +35,8 @@ RUN pip install --no-cache-dir GDAL==$(gdal-config --version)
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Verify CUDA is available — fail build immediately if not
-RUN python -c "import torch; assert torch.cuda.is_available(), 'CUDA not available — check base image or driver'; print('CUDA OK:', torch.version.cuda)"
+# Verify CUDA is available; fail build immediately if not
+RUN python -c "import torch; assert torch.cuda.is_available(), 'CUDA not available, check base image or driver'; print('CUDA OK:', torch.version.cuda)"
 
 # Copy project
 COPY . .
