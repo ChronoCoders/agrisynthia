@@ -1,0 +1,52 @@
+# Keep secrets, local state, and bulk out of the build context.
+#
+# Without this file, `COPY . .` bakes .env (Django secret key, R2 credentials,
+# Anthropic API key) into an image layer, where it survives any later deletion
+# and is readable by anyone who can pull the image.
+#
+# Runtime still gets .env: compose bind-mounts the project at /app, and the
+# systemd deploy reads /opt/agrisynthia/.env directly.
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# VCS and tooling
+.git
+.gitignore
+.dockerignore
+.pytest_cache/
+CLAUDE.md
+
+# Python bytecode and virtualenvs.
+# Docker patterns are not implicitly recursive the way .gitignore is, so these
+# need explicit ** to match at any depth.
+**/__pycache__
+**/*.py[cod]
+venv/
+.venv/
+env/
+
+# Local runtime state, all provided by volumes at runtime
+db.sqlite3
+logs/
+media/
+staticfiles/
+celerybeat-schedule
+celerybeat-schedule.*
+
+# Model weights are large and mounted via models_volume at runtime.
+# Root-only on purpose: a bare "models/" in Docker matches only the top-level
+# directory, so the vendored detection/yolo/models package is NOT excluded.
+# It must stay, since predict_tree.py imports models.experimental from it.
+/models
+**/*.pt
+
+# Not needed inside the image
+deploy/
+docs/
+ssl/
+monitoring/
+reports/load*
+scripts/_sample.jpg
