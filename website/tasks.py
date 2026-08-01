@@ -30,7 +30,7 @@ def refresh_ndvi_hero(self):
         from pyproj import Transformer
 
         out_path = _resolve_output_path()
-        logger.info("refresh_ndvi_hero: starting — output=%s", out_path)
+        logger.info("refresh_ndvi_hero: starting: output=%s", out_path)
 
         client = Client.open(STAC_URL)
         item = _find_best_scene(client)
@@ -65,13 +65,13 @@ def refresh_ndvi_hero(self):
         median_ndvi = float(np.nanmedian(ndvi))
         healthy_pct = int(np.sum(ndvi >= 0.5) / ndvi.size * 100)
         logger.info(
-            "refresh_ndvi_hero: saved — median_ndvi=%.3f healthy=%d%% date=%s",
+            "refresh_ndvi_hero: saved: median_ndvi=%.3f healthy=%d%% date=%s",
             median_ndvi, healthy_pct, date_str,
         )
         return {"status": "ok", "scene": item.id, "date": date_str, "median_ndvi": median_ndvi}
 
     except Exception as exc:
-        logger.exception("refresh_ndvi_hero: failed — %s", exc)
+        logger.exception("refresh_ndvi_hero: failed: %s", exc)
         raise self.retry(exc=exc, countdown=3600)
 
 
