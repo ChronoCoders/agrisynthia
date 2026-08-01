@@ -1,4 +1,4 @@
-"""DEPRECATED — superseded by detection.models.ModelVersion. Kept for the
+"""DEPRECATED: superseded by detection.models.ModelVersion. Kept for the
 system monitoring view; delegates to the DB."""
 import logging
 import os

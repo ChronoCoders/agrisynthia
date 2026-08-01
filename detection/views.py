@@ -71,12 +71,12 @@ def validate_image_file(file: UploadedFile) -> bool:
         file.seek(0)
         mime = magic.from_buffer(file_header, mime=True)
     except Exception as e:
-        logger.error("Magic bytes okunamadı — %s: %s", file.name, e)
+        logger.error("Magic bytes okunamadı: %s: %s", file.name, e)
         raise ValidationError("Dosya tipi belirlenemedi")
 
     if mime not in DETECTION_ALLOWED_MIME_TYPES:
         logger.warning(
-            "MIME tipi uyuşmazlığı: beklenen resim, alınan %s — dosya: %s",
+            "MIME tipi uyuşmazlığı: beklenen resim, alınan %s, dosya: %s",
             mime,
             file.name,
         )

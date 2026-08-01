@@ -233,7 +233,7 @@ class ImageValidationTests(TestCase):
         from django.core.files.uploadedfile import InMemoryUploadedFile
         buf = self._make_image_file()
         uploaded = InMemoryUploadedFile(buf, "file", "test.jpg", "image/jpeg", buf.getbuffer().nbytes, None)
-        uploaded.size = 11 * 1024 * 1024  # 11MB — over limit
+        uploaded.size = 11 * 1024 * 1024  # 11MB, over limit
         with self.assertRaises(ValidationError):
             validate_image_file(uploaded)
 
