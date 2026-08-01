@@ -138,7 +138,7 @@ def delete_report(request, report_id):
             try:
                 os.remove(full_path)
             except OSError as e:
-                logger.error("Rapor dosyası silinirken hata: %s — %s", full_path, e)
+                logger.error("Rapor dosyası silinirken hata: %s, %s", full_path, e)
 
     report.delete()
     return JsonResponse({"message": "Rapor başarıyla silindi."}, status=200)

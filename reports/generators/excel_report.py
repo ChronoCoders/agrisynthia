@@ -159,8 +159,8 @@ def generate_drone_excel(project, analysis_data: dict) -> str:
     ws1.append(["Çiftlik", project.Farm])
     ws1.append(["Tarla", project.Field])
     ws1.append(["Durum", project.State])
-    ws1.append(["Algoritma", analysis_data.get('algorithm', '—')])
-    ws1.append(["Analiz Tarihi", analysis_data.get('analysis_date', '—')])
+    ws1.append(["Algoritma", analysis_data.get('algorithm', '-')])
+    ws1.append(["Analiz Tarihi", analysis_data.get('analysis_date', '-')])
 
     _apply_header_style(ws1)
     _apply_borders(ws1)

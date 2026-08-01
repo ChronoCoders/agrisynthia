@@ -212,7 +212,7 @@ def _email_report(schedule: ScheduledReport, file_path: str, settings) -> None:
 
     freq_label = schedule.get_frequency_display()
     type_label = schedule.get_report_type_display()
-    subject = f"Agrisynthia — {freq_label} {type_label}"
+    subject = f"Agrisynthia: {freq_label} {type_label}"
     body = (
         f"Merhaba {schedule.user.get_full_name() or schedule.user.username},\n\n"
         f"{freq_label} {type_label} raporunuz ekte sunulmaktadır.\n\n"

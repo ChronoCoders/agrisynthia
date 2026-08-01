@@ -71,7 +71,7 @@ def generate_drone_pdf(project, analysis_data: dict) -> str:
     styles = _styles()
     story = []
 
-    story.append(Paragraph("Agrisynthia — Drone Analiz Raporu", styles["title"]))
+    story.append(Paragraph("Agrisynthia: Drone Analiz Raporu", styles["title"]))
     story.append(Paragraph(f"Oluşturulma: {datetime.now().strftime('%d.%m.%Y %H:%M')}", styles["subtitle"]))
     story.append(HRFlowable(width="100%", thickness=1, color=COLOR_GREEN, spaceAfter=12))
 
@@ -80,11 +80,11 @@ def generate_drone_pdf(project, analysis_data: dict) -> str:
     project_data = [
         ["Alan", "Değer"],
         ["Proje Adı", project.name],
-        ["Çiftlik", project.farm_name or "—"],
-        ["Tarla", project.field_name or "—"],
+        ["Çiftlik", project.farm_name or "-"],
+        ["Tarla", project.field_name or "-"],
         ["Durum", project.get_status_display()],
         ["Analiz Algoritması", analysis_data.get('algorithm', 'Bilinmiyor').upper()],
-        ["Analiz Tarihi", analysis_data.get('analysis_date', '—')],
+        ["Analiz Tarihi", analysis_data.get('analysis_date', '-')],
     ]
 
     table = Table(project_data, colWidths=[6*cm, 10*cm])

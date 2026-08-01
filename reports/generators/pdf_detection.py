@@ -73,8 +73,8 @@ def generate_detection_pdf(detection_result) -> str:
         ["Ağaç Yaşı", f"{detection_result.tree_age} yıl"],
         ["Tek Ağaç Ağırlığı", f"{detection_result.weight:.2f} kg"],
         ["Toplam Ağırlık (Tahmini)", f"{detection_result.total_weight:.2f} kg"],
-        ["Güven Skoru", f"{detection_result.confidence_score:.1%}" if detection_result.confidence_score else "—"],
-        ["Model Versiyonu", detection_result.model_version or "—"],
+        ["Güven Skoru", f"{detection_result.confidence_score:.1%}" if detection_result.confidence_score else "-"],
+        ["Model Versiyonu", detection_result.model_version or "-"],
         ["İşlem Süresi", f"{detection_result.processing_time:.2f} sn"],
         ["Tespit Tarihi", detection_result.created_at.strftime("%d.%m.%Y %H:%M")],
     ]
