@@ -106,7 +106,13 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: agrisynthia_celery_worker
-    command: celery -A agrisynthia worker -l info
+    # -Q is required. CELERY_TASK_ROUTES sends detection.tasks.* to the
+    # "detection" queue and dron_map.tasks.* to "mapping"; reports.tasks.* and
+    # website.tasks.* fall through to the default "celery" queue. Without -Q a
+    # worker consumes ONLY "celery", so async detection and every drone task
+    # queue up unconsumed: task-status never leaves PENDING, the SSE stream
+    # hangs, and the ODM watchdog never runs.
+    command: celery -A agrisynthia worker -l info -Q detection,mapping,celery
     volumes:
       - .:/app
       - media_volume:/app/media
