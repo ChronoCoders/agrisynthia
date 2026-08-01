@@ -11,7 +11,7 @@ from django.db import migrations
 
 _GEODJANGO_ENABLED = os.environ.get("GEODJANGO_ENABLED", "True") == "True"
 
-# Guard the GDAL-dependent import — loading this module must not crash on systems
+# Guard the GDAL-dependent import, since loading this module must not crash on systems
 # where GDAL is not installed.
 if _GEODJANGO_ENABLED:
     try:
@@ -93,6 +93,6 @@ class Migration(migrations.Migration):
             ),
         ]
     else:
-        # No-op on systems without GDAL — keeps migration history consistent.
+        # No-op on systems without GDAL, keeps migration history consistent.
         # On first PostGIS deploy, ensure this runs against a DB at migration 0007.
         operations = []

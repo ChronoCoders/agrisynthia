@@ -116,4 +116,4 @@ class SatelliteNDVI(models.Model):
         ordering = ["date"]
 
     def __str__(self):
-        return f"{self.project} – {self.date} NDVI={self.mean_ndvi:.3f}"
+        return f"{self.project}, {self.date} NDVI={self.mean_ndvi:.3f}"

@@ -136,7 +136,7 @@ def process_odm_task(self, project_id: int) -> dict:
             raise ValueError(f"Klasörde desteklenen görüntü bulunamadı: {image_dir}")
 
         logger.info(
-            "ODM task başlatılıyor — proje %s, %d görüntü, host=%s:%s",
+            "ODM task başlatılıyor: proje %s, %d görüntü, host=%s:%s",
             project_id, len(images), settings.ODM_HOST, settings.ODM_PORT,
         )
 
@@ -238,7 +238,7 @@ def fetch_sentinel2_ndvi(project_id: int, days_back: int = 90) -> dict:
     cloud_max = getattr(settings, "SENTINEL2_CLOUD_MAX", 30)
 
     logger.info(
-        "Sentinel-2 NDVI fetch — proje %s, bbox=%s, %s→%s, cloud<%s%%",
+        "Sentinel-2 NDVI fetch: proje %s, bbox=%s, %s→%s, cloud<%s%%",
         project_id, bbox, start_date, end_date, cloud_max,
     )
 
@@ -287,7 +287,7 @@ def fetch_sentinel2_ndvi(project_id: int, days_back: int = 90) -> dict:
             skipped += 1
 
     logger.info(
-        "fetch_sentinel2_ndvi tamamlandı — proje %s: %d sahne, %d kaydedildi, %d atlandı",
+        "fetch_sentinel2_ndvi tamamlandı: proje %s: %d sahne, %d kaydedildi, %d atlandı",
         project_id, len(scenes), saved, skipped,
     )
     return {"project_id": project_id, "scenes": len(scenes), "saved": saved, "skipped": skipped}
@@ -381,17 +381,17 @@ def send_ndvi_stress_alerts() -> dict:
             lines.append("🔴 STRESLİ TARLALAR (NDVI < {:.1f}):".format(stress_threshold))
             for f in stressed:
                 lines.append(f"  • {f['farm']} / {f['field']} ({f['title']})"
-                              f" — NDVI: {f['ndvi']}  [{f['date']}]")
+                              f", NDVI: {f['ndvi']}  [{f['date']}]")
 
         if warning:
-            lines.append("\n🟡 UYARI (NDVI {:.1f}–{:.1f}):".format(stress_threshold, warn_threshold))
+            lines.append("\n🟡 UYARI (NDVI {:.1f}-{:.1f}):".format(stress_threshold, warn_threshold))
             for f in warning:
                 lines.append(f"  • {f['farm']} / {f['field']} ({f['title']})"
-                              f" — NDVI: {f['ndvi']}  [{f['date']}]")
+                              f", NDVI: {f['ndvi']}  [{f['date']}]")
 
         lines += [
             "\nDaha fazla bilgi için Agrisynthia kontrol panelini ziyaret edin.",
-            "\n— Agrisynthia Otomatik İzleme Sistemi",
+            "\n- Agrisynthia Otomatik İzleme Sistemi",
         ]
 
         subject = (

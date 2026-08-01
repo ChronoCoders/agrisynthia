@@ -599,7 +599,7 @@ def maping(request: HttpRequest, id: int) -> HttpResponse:
 def field_overview(request: HttpRequest) -> HttpResponse:
     """
     Full-screen map showing all of the user's fields as colored polygons.
-    Color indicates NDVI health: green ≥ 0.5, yellow 0.3–0.5, red < 0.3, grey = no data.
+    Color indicates NDVI health: green ≥ 0.5, yellow 0.3-0.5, red < 0.3, grey = no data.
     """
     import json as _json
 
@@ -667,7 +667,7 @@ def field_overview(request: HttpRequest) -> HttpResponse:
 @login_required
 def dashboard(request: HttpRequest) -> HttpResponse:
     """
-    Field monitoring dashboard — aggregates NDVI trends and detection history
+    Field monitoring dashboard, aggregates NDVI trends and detection history
     for the current user's projects.
     """
     import json as _json
