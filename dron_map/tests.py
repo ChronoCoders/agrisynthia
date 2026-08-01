@@ -271,7 +271,7 @@ class ProjectDensityActionTests(APITestCase):
 
 
 class ProjectDecisionsActionTests(APITestCase):
-    """Tests for the /decisions/ action — uses _run_analysis mock."""
+    """Tests for the /decisions/ action, uses _run_analysis mock."""
 
     def setUp(self):
         self.user = User.objects.create_user(username="dec_user", password="pass")
@@ -321,7 +321,7 @@ class ProjectDecisionsActionTests(APITestCase):
 
 
 class ProjectYieldActionTests(APITestCase):
-    """Tests for the /yield/ action — uses _run_analysis mock."""
+    """Tests for the /yield/ action, uses _run_analysis mock."""
 
     def setUp(self):
         self.user = User.objects.create_user(username="yield_user", password="pass")

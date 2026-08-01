@@ -115,7 +115,7 @@ class YieldEstimate:
             )
         else:
             self.ndvi_factor = 0.85  # unknown → assume slight stress
-            self.explanation.append("NDVI verisi yok — varsayılan faktör 0.85 uygulandı")
+            self.explanation.append("NDVI verisi yok, varsayılan faktör 0.85 uygulandı")
 
         full_age = params["full_bearing_age"]
         if self.tree_age <= 0:
