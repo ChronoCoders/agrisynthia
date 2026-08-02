@@ -18,6 +18,11 @@
 .dockerignore
 .pytest_cache/
 
+# Root-level docs. Nothing at runtime reads them, and Docker patterns are not
+# recursive, so this matches only the context root and leaves app-level
+# markdown alone.
+*.md
+
 # Python bytecode and virtualenvs.
 # Docker patterns are not implicitly recursive the way .gitignore is, so these
 # need explicit ** to match at any depth.
