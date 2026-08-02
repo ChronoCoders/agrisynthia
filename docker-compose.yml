@@ -51,8 +51,11 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: agrisynthia_web
+    # check_gpu is advisory and exits 0 without a device, so a CPU-only host
+    # still boots. Add --require to make the container refuse to start instead.
     command: >
-      sh -c "python manage.py migrate &&
+      sh -c "python manage.py check_gpu &&
+             python manage.py migrate &&
              python manage.py collectstatic --noinput &&
              gunicorn agrisynthia.wsgi:application --config gunicorn_config.py"
     volumes:
@@ -114,7 +117,11 @@ services:
     # worker consumes ONLY "celery", so async detection and every drone task
     # queue up unconsumed: task-status never leaves PENDING, the SSE stream
     # hangs, and the ODM watchdog never runs.
-    command: celery -A agrisynthia worker -l info -Q detection,mapping,celery
+    # check_gpu is advisory here too. Use --require on a deployment where the
+    # worker should refuse to start rather than run inference on CPU.
+    command: >
+      sh -c "python manage.py check_gpu &&
+             celery -A agrisynthia worker -l info -Q detection,mapping,celery"
     volumes:
       - .:/app
       - media_volume:/app/media
