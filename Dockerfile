@@ -36,8 +36,10 @@ RUN pip install --no-cache-dir GDAL==$(gdal-config --version)
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Verify CUDA is available; fail build immediately if not
-RUN python -c "import torch; assert torch.cuda.is_available(), 'CUDA not available, check base image or driver'; print('CUDA OK:', torch.version.cuda)"
+# No CUDA check here. docker build has no GPU access, so a build-time assert on
+# torch.cuda.is_available() can only pass by accident of daemon configuration.
+# The web and worker entrypoints run `manage.py check_gpu` instead, which
+# reports what actually matters: whether the running container sees a device.
 
 # Copy project
 COPY . .

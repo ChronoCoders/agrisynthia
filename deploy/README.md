@@ -20,6 +20,13 @@ do not mix the two on one host.
 ## First install
 
 ```bash
+# System libraries. python-magic needs libmagic1, GeoDjango needs GDAL and GEOS,
+# and rasterio and pyproj build against them. Postgres client tools are needed by
+# scripts/backup_postgres.py.
+sudo apt-get install -y \
+    libmagic1 libgdal-dev gdal-bin libproj-dev libgeos-dev libspatialindex-dev \
+    postgresql-client python3.10-venv
+
 sudo useradd --system --home /opt/agrisynthia --shell /usr/sbin/nologin agrisynthia
 sudo install -d -o agrisynthia -g agrisynthia /opt/agrisynthia /var/lib/agrisynthia
 
@@ -27,6 +34,15 @@ sudo install -d -o agrisynthia -g agrisynthia /opt/agrisynthia /var/lib/agrisynt
 sudo -u agrisynthia git clone https://github.com/ChronoCoders/agrisynthia.git /opt/agrisynthia
 sudo -u agrisynthia python3.10 -m venv /opt/agrisynthia/venv
 sudo -u agrisynthia /opt/agrisynthia/venv/bin/pip install -r /opt/agrisynthia/requirements.txt
+
+# torch and torchvision are NOT in requirements.txt; the Docker image gets them
+# from its base image. A bare-metal host needs them installed explicitly, matched
+# to the host CUDA version. Without them there is no inference.
+sudo -u agrisynthia /opt/agrisynthia/venv/bin/pip install \
+    torch==2.1.0 torchvision==0.16.0 --index-url https://download.pytorch.org/whl/cu118
+
+# Confirm the venv can see a GPU before going further.
+sudo -u agrisynthia /opt/agrisynthia/venv/bin/python /opt/agrisynthia/manage.py check_gpu
 
 # environment
 sudo install -o agrisynthia -g agrisynthia -m 600 \
