@@ -100,10 +100,18 @@ def get_model(fruit_type: str) -> Any:
                     )
                 logger.info("Checksum OK for %s (%s)", fruit_type, mv.version)
             elif getattr(settings, "MODEL_CHECKSUM_VERIFY", False) and not mv.checksum_sha256:
-                logger.warning(
-                    "MODEL_CHECKSUM_VERIFY is on but %s %s has no stored checksum. "
-                    "Run 'python manage.py verify_model_checksums --store' to backfill.",
-                    fruit_type, mv.version,
+                # Fail closed. 0012_seed_model_versions leaves checksum_sha256
+                # empty whenever the weights were not on disk at migrate time,
+                # which is the normal case for a fresh install. Warning and
+                # loading anyway meant MODEL_CHECKSUM_VERIFY could be on and
+                # verifying nothing, which reads as protection while providing
+                # none.
+                raise RuntimeError(
+                    f"MODEL_CHECKSUM_VERIFY is on but '{fruit_type}' {mv.version} has no "
+                    f"stored checksum, so the weights cannot be verified. Run "
+                    f"'python manage.py verify_model_checksums --store' to record the "
+                    f"checksum of the file currently on disk, or set "
+                    f"MODEL_CHECKSUM_VERIFY=False to load without verification."
                 )
 
             try:
