@@ -284,7 +284,7 @@ The last four Python packages are not Django apps and are not in `INSTALLED_APPS
 ## Testing
 
 ```bash
-pytest                                    # 159 tests
+pytest                                    # 165 tests
 pytest detection/tests.py                 # one file
 pytest -k "stress_zones"                  # by name
 python manage.py test detection dron_map  # Django runner, 58 tests
