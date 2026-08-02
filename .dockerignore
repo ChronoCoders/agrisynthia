@@ -1,8 +1,8 @@
-# Keep secrets, local state, and bulk out of the build context.
+# Keep configuration, local state, and bulk out of the build context.
 #
-# Without this file, `COPY . .` bakes .env (Django secret key, R2 credentials,
-# Anthropic API key) into an image layer, where it survives any later deletion
-# and is readable by anyone who can pull the image.
+# Configuration belongs to the environment, not the image. `COPY . .` would
+# otherwise copy .env into an image layer, where it persists even if a later
+# step removes it, so the image would be tied to one environment's settings.
 #
 # Runtime still gets .env: compose bind-mounts the project at /app, and the
 # systemd deploy reads /opt/agrisynthia/.env directly.
