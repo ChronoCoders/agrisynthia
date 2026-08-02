@@ -192,6 +192,7 @@ services:
 
   prometheus:
     image: prom/prometheus:v2.51.0
+    profiles: [monitoring]
     container_name: agrisynthia_prometheus
     volumes:
       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
@@ -208,6 +209,7 @@ services:
 
   grafana:
     image: grafana/grafana:10.4.0
+    profiles: [monitoring]
     container_name: agrisynthia_grafana
     ports:
       - "127.0.0.1:3000:3000"
@@ -216,7 +218,7 @@ services:
       - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
       - ./monitoring/grafana/dashboards:/etc/grafana/dashboards:ro
     environment:
-      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?GRAFANA_ADMIN_PASSWORD is required}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-agrisynthia}
       GF_USERS_ALLOW_SIGN_UP: "false"
       GF_SERVER_ROOT_URL: "http://localhost:3000"
     networks:
@@ -227,6 +229,7 @@ services:
 
   redis_exporter:
     image: oliver006/redis_exporter:v1.58.0
+    profiles: [monitoring]
     container_name: agrisynthia_redis_exporter
     environment:
       REDIS_ADDR: redis://redis:6379
@@ -239,6 +242,7 @@ services:
 
   postgres_exporter:
     image: prometheuscommunity/postgres-exporter:v0.15.0
+    profiles: [monitoring]
     container_name: agrisynthia_postgres_exporter
     environment:
       DATA_SOURCE_NAME: "postgresql://${DATABASE_USER:-agrisynthia_user}:${DATABASE_PASSWORD}@db:5432/${DATABASE_NAME:-agrisynthia}?sslmode=disable"
@@ -251,6 +255,7 @@ services:
 
   celery_exporter:
     image: danihodovic/celery-exporter:0.10.4
+    profiles: [monitoring]
     container_name: agrisynthia_celery_exporter
     environment:
       CE_BROKER_URL: ${CELERY_BROKER_URL:-redis://redis:6379/0}
