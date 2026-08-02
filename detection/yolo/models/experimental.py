@@ -316,7 +316,19 @@ def attempt_load(weights, map_location=None):
     model = Ensemble()
     for w in weights if isinstance(weights, list) else [weights]:
         attempt_download(w)
-        ckpt = torch.load(w, map_location=map_location)  # load
+        # weights_only is explicit because torch 2.6 flipped the default to True.
+        # These checkpoints pickle the whole Model object graph, not a state_dict:
+        # line 321 calls .float().fuse().eval() on the unpickled instance, which
+        # only works if the class was reconstructed. weights_only=True cannot load
+        # them without allowlisting the entire vendored model class tree, and would
+        # break again on the next unlisted global.
+        #
+        # Trust comes from MODEL_CHECKSUM_VERIFY instead: predict_tree.get_model
+        # compares the file's SHA-256 against ModelVersion.checksum_sha256 and
+        # refuses to load on mismatch. Without this kwarg the load works on the
+        # pinned torch 2.1.0 base image and breaks at first inference on any
+        # newer one.
+        ckpt = torch.load(w, map_location=map_location, weights_only=False)  # load
         model.append(
             ckpt["ema" if ckpt.get("ema") else "model"].float().fuse().eval()
         )  # FP32 model
