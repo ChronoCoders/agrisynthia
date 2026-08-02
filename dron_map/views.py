@@ -443,7 +443,7 @@ def maping(request: HttpRequest, id: int) -> HttpResponse:
         if health_color == "detect":
             try:
                 detec, unique_id, _ = predict_tree.predict(
-                    path_to_weights="agac.pt",
+                    fruit_type="agac",
                     path_to_source=f'{BASE_DIR}/static/{orthophoto["odm_orthophoto"]}',
                 )
                 convert(

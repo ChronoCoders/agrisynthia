@@ -250,7 +250,7 @@ class ProjectDensityActionTests(APITestCase):
     def test_density_returns_feature_collection_on_success(self):
         with patch("dron_map.api_views.ProjectViewSet._get_orthophoto_path",
                    return_value=MagicMock()), \
-             patch("dron_map.api_views.predict_tree.predict",
+             patch("dron_map.api_views.predict_tree.predict", autospec=True,
                    return_value=(5, "uid", 0.9, [{"x": 100, "y": 200}])), \
              patch("dron_map.api_views.pixel_to_geo",
                    return_value=[{"lon": 28.97, "lat": 41.00}]), \
@@ -263,7 +263,7 @@ class ProjectDensityActionTests(APITestCase):
     def test_density_returns_500_when_yolo_fails(self):
         with patch("dron_map.api_views.ProjectViewSet._get_orthophoto_path",
                    return_value=MagicMock()), \
-             patch("dron_map.api_views.predict_tree.predict",
+             patch("dron_map.api_views.predict_tree.predict", autospec=True,
                    side_effect=RuntimeError("GPU OOM")):
             response = self.client.get(self._url())
         self.assertEqual(response.status_code, 500)
