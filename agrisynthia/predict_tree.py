@@ -164,7 +164,7 @@ def predict(
                 for i, det in enumerate(pred):
                     im0 = im0s.copy()
 
-                    if det:
+                    if len(det):
                         det[:, :4] = scale_coords(
                             img.shape[2:], det[:, :4], im0.shape
                         ).round()
@@ -281,7 +281,7 @@ def multi_predictor(
                     for i, det in enumerate(pred):
                         im0 = im0s.copy()
 
-                        if det:
+                        if len(det):
                             det[:, :4] = scale_coords(
                                 img.shape[2:], det[:, :4], im0.shape
                             ).round()
