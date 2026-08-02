@@ -284,7 +284,7 @@ The last four Python packages are not Django apps and are not in `INSTALLED_APPS
 ## Testing
 
 ```bash
-pytest                                    # 152 tests
+pytest                                    # 159 tests
 pytest detection/tests.py                 # one file
 pytest -k "stress_zones"                  # by name
 python manage.py test detection dron_map  # Django runner, 58 tests
@@ -294,7 +294,7 @@ Use pytest for full coverage. `spatial_analysis`, `decision_engine`, `yield_pred
 
 Tests use `agrisynthia.test_settings`, which mocks Redis and runs Celery eagerly. They do not need a running broker. They do inherit the database configuration, so with `GEODJANGO_ENABLED=True` and no PostGIS available, set `GEODJANGO_ENABLED=False` first.
 
-Note that nothing currently exercises the inference path end to end; the detection tests stop at the authentication and validation layers.
+`detection/test_inference.py` runs real inference against real weights. Those tests skip when `models/mandalina/v1/weights.pt` is absent, so a checkout without weights stays green while a machine that can run inference still catches regressions.
 
 ## Translations
 
