@@ -105,7 +105,7 @@ def test_predict_returns_detections(active_model, tmp_path, output_cleanup, sett
 
     image = _write_image(tmp_path / "orchard.jpg", blobs=25)
     count, uid, confidence, boxes = predict_tree.predict(
-        "mandalina", image, return_boxes=True
+        fruit_type="mandalina", path_to_source=image, return_boxes=True
     )
     output_cleanup.append(uid)
 
@@ -130,7 +130,7 @@ def test_predict_handles_zero_detections(active_model, tmp_path, output_cleanup,
 
     image = _write_image(tmp_path / "bare.jpg", blobs=0)
     count, uid, confidence, boxes = predict_tree.predict(
-        "mandalina", image, return_boxes=True
+        fruit_type="mandalina", path_to_source=image, return_boxes=True
     )
     output_cleanup.append(uid)
 
@@ -147,7 +147,7 @@ def test_predict_without_boxes_returns_three_tuple(active_model, tmp_path, outpu
     from agrisynthia import predict_tree
 
     image = _write_image(tmp_path / "orchard.jpg", blobs=25)
-    result = predict_tree.predict("mandalina", image)
+    result = predict_tree.predict(fruit_type="mandalina", path_to_source=image)
     assert len(result) == 3
     count, uid, confidence = result
     output_cleanup.append(uid)
@@ -161,8 +161,8 @@ def test_get_model_is_cached(active_model, settings):
     settings.MODEL_CHECKSUM_VERIFY = False
     from agrisynthia import predict_tree
 
-    first = predict_tree.get_model("mandalina")
-    second = predict_tree.get_model("mandalina")
+    first = predict_tree.get_model(fruit_type="mandalina")
+    second = predict_tree.get_model(fruit_type="mandalina")
     assert first is second
 
 
@@ -194,7 +194,7 @@ def test_get_model_refuses_when_checksum_missing(settings):
         pytest.skip("armut weights absent; FileNotFoundError would mask the checksum guard")
 
     with pytest.raises(RuntimeError, match="no stored checksum"):
-        predict_tree.get_model("armut")
+        predict_tree.get_model(fruit_type="armut")
 
     predict_tree.evict_model_cache("armut")
 
@@ -216,7 +216,7 @@ def test_get_model_reports_missing_weights_clearly():
     predict_tree.evict_model_cache("nar")
 
     with pytest.raises(FileNotFoundError, match="migrate_model_files"):
-        predict_tree.get_model("nar")
+        predict_tree.get_model(fruit_type="nar")
 
     predict_tree.evict_model_cache("nar")
 
@@ -227,4 +227,32 @@ def test_get_model_without_active_version_raises_lookup():
 
     predict_tree.evict_model_cache("seftale")
     with pytest.raises(LookupError, match="No active ModelVersion"):
-        predict_tree.get_model("seftale")
+        predict_tree.get_model(fruit_type="seftale")
+
+
+@pytest.mark.parametrize(
+    "call",
+    [
+        lambda m: m.predict("agac.pt", "/nonexistent.jpg"),
+        lambda m: m.multi_predictor("agac.pt", "/nonexistent", "1-1", "hash"),
+        lambda m: m.get_model("agac.pt"),
+    ],
+    ids=["predict", "multi_predictor", "get_model"],
+)
+def test_entry_points_reject_positional_arguments(call):
+    """The star in these signatures is load-bearing. Do not delete it.
+
+    Without keyword-only parameters, predict("agac.pt", src) binds the
+    weights filename to fruit_type and fails much later inside
+    get_active, as a LookupError three frames from the mistake. That is
+    how the dron_map call sites drifted after 16c0d0f renamed
+    path_to_weights to fruit_type.
+
+    This test exists so removing the star fails here rather than being
+    discovered by a user. No weights or database needed: the TypeError is
+    raised at binding time, before the body runs.
+    """
+    from agrisynthia import predict_tree
+
+    with pytest.raises(TypeError, match="positional argument"):
+        call(predict_tree)

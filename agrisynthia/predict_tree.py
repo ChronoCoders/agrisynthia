@@ -64,8 +64,12 @@ def compute_sha256(path: Path) -> str:
     return h.hexdigest()
 
 
-def get_model(fruit_type: str) -> Any:
+def get_model(*, fruit_type: str) -> Any:
     """Load (or return cached) the active YOLO model for the given fruit_type.
+
+    Keyword-only. See the note on predict() for why the star is here; keep it
+    even though this takes a single argument, so the guarantee still holds if a
+    second parameter is ever added.
 
     Cache key is '<fruit_type>:<version>' so activating a new ModelVersion
     naturally invalidates the previous entry.
@@ -133,12 +137,18 @@ def get_model(fruit_type: str) -> Any:
 
 
 def predict(
-    fruit_type: str, path_to_source: str, return_boxes: bool = False
+    # Keyword-only on purpose. Do not remove the star. fruit_type was renamed
+    # from path_to_weights in 16c0d0f, and four dron_map call sites kept passing
+    # the old keyword for months. Positionally, "agac.pt" would have bound to
+    # fruit_type silently and surfaced as a LookupError inside get_active, three
+    # frames from the mistake. The star makes a positional call fail here, with
+    # a message that names the actual error.
+    *, fruit_type: str, path_to_source: str, return_boxes: bool = False
 ) -> Tuple[bytes, str, float] | Tuple[bytes, str, float, List[Dict[str, int]]]:
     unique_id = str(uuid.uuid4())
 
     try:
-        model = get_model(fruit_type)
+        model = get_model(fruit_type=fruit_type)
         device = get_device()
 
         img_size = 640
@@ -232,7 +242,8 @@ def predict(
 
 
 def multi_predictor(
-    fruit_type: str, path_to_source: str, ekim_sirasi: str, hashing: str
+    # Keyword-only on purpose. Do not remove the star. See predict().
+    *, fruit_type: str, path_to_source: str, ekim_sirasi: str, hashing: str
 ) -> str:
     try:
         try:
@@ -252,7 +263,7 @@ def multi_predictor(
             logger.error("Görüntü listesi oluşturma hatası: %s", e)
             raise
 
-        model = get_model(fruit_type)
+        model = get_model(fruit_type=fruit_type)
         device = get_device()
 
         img_size = 640
