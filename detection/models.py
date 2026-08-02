@@ -63,6 +63,19 @@ class ModelVersion(models.Model):
 
     @classmethod
     def get_active(cls, fruit_type: str) -> "ModelVersion":
+        # Two different failures, deliberately two different exceptions.
+        # An unknown fruit_type is a caller bug: a typo, a stale constant, or a
+        # value bound to the wrong parameter. Without this check it fell through
+        # to the query, missed, and reported "no active ModelVersion", which
+        # reads as "the database needs seeding" and sends people to fix the
+        # wrong thing. ValueError matches how detection/tasks.py already signals
+        # an invalid fruit group, and names the value it actually received.
+        if fruit_type not in FRUIT_TYPES:
+            raise ValueError(
+                f"Unknown fruit_type {fruit_type!r}. Valid values are: "
+                f"{', '.join(FRUIT_TYPES)}."
+            )
+
         try:
             return cls.objects.get(fruit_type=fruit_type, is_active=True)
         except cls.DoesNotExist:

@@ -407,6 +407,61 @@ class ModelChecksumTests(TestCase):
             os.unlink(tmp)
 
 
+class ModelVersionGetActiveTests(TestCase):
+    """get_active distinguishes a bad argument from missing data."""
+
+    def test_unknown_fruit_type_raises_value_error_naming_the_value(self):
+        from detection.models import FRUIT_TYPES, ModelVersion
+
+        with self.assertRaises(ValueError) as ctx:
+            ModelVersion.get_active("mandalin")  # typo for mandalina
+
+        message = str(ctx.exception)
+        self.assertIn("mandalin", message, "the rejected value must appear")
+        for fruit_type in FRUIT_TYPES:
+            self.assertIn(fruit_type, message, "the valid set must appear")
+
+    def test_unknown_fruit_type_is_not_a_lookup_error(self):
+        """The two failures must stay distinguishable.
+
+        Callers that fall back to a degraded label catch LookupError only.
+        A typo is a caller bug and should not be quietly absorbed by that
+        path, so it must not be a LookupError.
+        """
+        from detection.models import ModelVersion
+
+        with self.assertRaises(ValueError):
+            ModelVersion.get_active("not-a-fruit")
+        self.assertFalse(issubclass(ValueError, LookupError))
+
+    def test_empty_and_pathlike_values_are_rejected_visibly(self):
+        """`!r` in the message so blank and .pt-style values are legible."""
+        from detection.models import ModelVersion
+
+        for bad in ("", "   ", "agac.pt", "models/agac/v1/weights.pt"):
+            with self.assertRaises(ValueError) as ctx:
+                ModelVersion.get_active(bad)
+            self.assertIn(repr(bad), str(ctx.exception))
+
+    def test_valid_fruit_type_without_a_row_still_raises_lookup_error(self):
+        """Known fruit, nothing seeded: a data problem, not a caller bug."""
+        from detection.models import ModelVersion
+
+        with self.assertRaises(LookupError):
+            ModelVersion.get_active("mandalina")
+
+    def test_valid_fruit_type_with_an_active_row_returns_it(self):
+        from detection.models import ModelVersion
+
+        mv = ModelVersion.objects.create(
+            fruit_type="elma",
+            version="v1",
+            weights_path="models/elma/v1/weights.pt",
+            is_active=True,
+        )
+        self.assertEqual(ModelVersion.get_active("elma").pk, mv.pk)
+
+
 class CacheInvalidatePermissionTests(TestCase):
     """Test that cache invalidation requires admin."""
 
