@@ -17,6 +17,13 @@ db.sqlite3
 media/
 staticfiles/
 
+# Runtime output written under static/. These are generated per request or
+# per task, not source: annotated detection frames (pruned by the
+# cleanup_files command), NodeODM results, and uploaded drone imagery.
+static/detected/
+static/results/
+static/images_ortho/
+
 # Celery beat runtime state
 celerybeat-schedule
 celerybeat-schedule.*
