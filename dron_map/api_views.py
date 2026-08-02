@@ -241,7 +241,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
                 _confidence,
                 bbox_centers,
             ) = predict_tree.predict(
-                path_to_weights="agac.pt",
+                fruit_type="agac",
                 path_to_source=str(raster_path),
                 return_boxes=True,
             )
@@ -354,7 +354,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
                 _confidence,
                 bbox_centers,
             ) = predict_tree.predict(
-                path_to_weights="agac.pt",
+                fruit_type="agac",
                 path_to_source=str(raster_path),
                 return_boxes=True,
             )
@@ -657,7 +657,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
                     _confidence,
                     bbox_centers,
                 ) = predict_tree.predict(
-                    path_to_weights="agac.pt",
+                    fruit_type="agac",
                     path_to_source=str(raster_path),
                     return_boxes=True,
                 )
