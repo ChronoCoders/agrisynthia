@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libproj-dev \
     libgeos-dev \
     libspatialindex-dev \
+    libmagic1 \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
