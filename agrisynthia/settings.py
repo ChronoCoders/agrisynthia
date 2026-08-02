@@ -379,6 +379,13 @@ SPECTACULAR_SETTINGS = {
     "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAuthenticated"],
 }
 
+# The file handlers below cannot create their own directory, and logs/ is
+# gitignored, so a fresh clone has none. Logging is configured during
+# django.setup(), which means every entry point (manage.py, wsgi, celery,
+# pytest) died with "Unable to configure handler 'error_file'" before it ran.
+# Creating it here covers all of them, since settings always load first.
+os.makedirs(os.path.join(BASE_DIR, "logs"), exist_ok=True)
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
