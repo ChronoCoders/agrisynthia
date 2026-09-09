@@ -162,6 +162,33 @@ DB_PASSWORD = os.environ.get("DATABASE_PASSWORD")
 DB_HOST = os.environ.get("DATABASE_HOST")
 DB_PORT = os.environ.get("DATABASE_PORT")
 
+# Only these two fall back to SQLite. Any other value, a misspelled one
+# included, is treated as production so a typo cannot buy a silent fallback.
+_DB_EXEMPT_ENVIRONMENTS = ("development", "test")
+_DB_REQUIRED = ("DATABASE_NAME", "DATABASE_USER", "DATABASE_PASSWORD", "DATABASE_HOST")
+
+if ENVIRONMENT not in _DB_EXEMPT_ENVIRONMENTS and not all(
+    [DB_NAME, DB_USER, DB_PASSWORD, DB_HOST]
+):
+    from django.core.exceptions import ImproperlyConfigured
+
+    # Absent and blank are separate sets. Calling DATABASE_PASSWORD="" missing
+    # misleads an operator who can see the line in their .env.
+    _absent = [n for n in _DB_REQUIRED if os.environ.get(n) is None]
+    _blank = [n for n in _DB_REQUIRED if os.environ.get(n) == ""]
+    _detail = []
+    if _absent:
+        _detail.append("not set: " + ", ".join(_absent))
+    if _blank:
+        _detail.append("defined but empty: " + ", ".join(_blank))
+
+    raise ImproperlyConfigured(
+        "DJANGO_ENVIRONMENT=%r requires a complete PostgreSQL configuration "
+        "(%s). DATABASE_PORT is optional and defaults to 5432. Only the "
+        "'development' and 'test' environments fall back to SQLite."
+        % (ENVIRONMENT, "; ".join(_detail))
+    )
+
 if all([DB_NAME, DB_USER, DB_PASSWORD, DB_HOST]):
     _pg_engine = (
         "django.contrib.gis.db.backends.postgis"
