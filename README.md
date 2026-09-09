@@ -224,8 +224,6 @@ Full schema at `/docs/` (Swagger) and `/redoc/`. **Every API endpoint requires a
 | `GET` | `/api/detections/<id>/` | Retrieve |
 | `GET` | `/api/detections/statistics/` | Aggregates |
 | `GET` | `/api/detections/recent/` | Last 10 |
-| `GET` | `/api/batches/` | Batch detections |
-| `GET` | `/api/batches/<id>/summary/` | Batch summary |
 
 **Projects and analysis** `/api/projects/`
 
