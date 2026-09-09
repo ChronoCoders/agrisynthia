@@ -601,6 +601,13 @@ def download_image(request: HttpRequest, slug: str) -> FileResponse | HttpRespon
         if not str(file_path).startswith(str(media_dir)):
             return HttpResponse("Geçersiz dosya yolu", status=400)
 
+        # The archive belongs to whoever owns the detection it came from. The row
+        # is written with a trailing slash, so an exact match without one finds
+        # nothing. An archive with no row is refused rather than served, because
+        # the row create is inside a try/except that swallows database errors.
+        if not _caller_owns_media("detected/%s/" % safe_slug, request.user):
+            return HttpResponse("Dosya bulunamadı", status=404)
+
         if not file_path.exists():
             return HttpResponse("Dosya bulunamadı", status=404)
 

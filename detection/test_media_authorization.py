@@ -91,3 +91,75 @@ class MediaAuthorizationTests(TestCase):
         missing = self.client.get(self._url("detected/alice-dir/ghost.jpg"))
         self.assertEqual(missing.status_code, existing.status_code)
         self.assertEqual(existing.status_code, 404)
+
+
+class ArchiveDownloadAuthorizationTests(TestCase):
+    def setUp(self):
+        post_save.disconnect(auto_generate_detection_report, sender=DetectionResult)
+
+        self.tmp = Path(tempfile.mkdtemp())
+        patcher = patch("detection.views.BASE_DIR", self.tmp)
+        patcher.start()
+        self.addCleanup(patcher.stop)
+        self.addCleanup(shutil.rmtree, self.tmp, True)
+        (self.tmp / "media").mkdir(parents=True, exist_ok=True)
+
+        self.alice = User.objects.create_user(username="alice", password="password")
+        self.bob = User.objects.create_user(username="bob", password="password")
+
+        self.alice_slug = self._make_archive(self.alice, "a1b2c3d4", on_disk=True)
+        self.bob_slug = self._make_archive(self.bob, "b5e6f7a8", on_disk=True)
+        self.alice_missing_slug = self._make_archive(self.alice, "c9d0e1f2", on_disk=False)
+
+        self.orphan_slug = "0badc0de"
+        self._write_archive(self.orphan_slug)
+
+    def tearDown(self):
+        post_save.connect(auto_generate_detection_report, sender=DetectionResult)
+
+    def _write_archive(self, slug):
+        (self.tmp / "media" / ("%s_result.zip" % slug)).write_bytes(b"archive-bytes")
+
+    def _make_archive(self, owner, slug, on_disk):
+        if on_disk:
+            self._write_archive(slug)
+        DetectionResult.objects.create(
+            fruit_type="elma",
+            tree_count=1,
+            tree_age=1,
+            detected_count=1,
+            weight=1.0,
+            total_weight=1.0,
+            processing_time=0.0,
+            image_path="detected/%s/" % slug,
+            created_by=owner,
+        )
+        return slug
+
+    def _url(self, slug):
+        return reverse("detection:download_image", args=[slug])
+
+    def test_owner_can_download_own_archive(self):
+        self.client.force_login(self.alice)
+        response = self.client.get(self._url(self.alice_slug))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("%s_result.zip" % self.alice_slug, response["Content-Disposition"])
+
+    def test_foreign_owner_is_refused(self):
+        self.client.force_login(self.bob)
+        response = self.client.get(self._url(self.alice_slug))
+        self.assertEqual(response.status_code, 404)
+        self.assertNotIn("Content-Disposition", response)
+
+    def test_archive_without_owning_row_is_refused(self):
+        self.client.force_login(self.bob)
+        response = self.client.get(self._url(self.orphan_slug))
+        self.assertEqual(response.status_code, 404)
+        self.assertNotIn("Content-Disposition", response)
+
+    def test_authorization_is_decided_before_existence(self):
+        self.client.force_login(self.bob)
+        existing = self.client.get(self._url(self.alice_slug))
+        missing = self.client.get(self._url(self.alice_missing_slug))
+        self.assertEqual(missing.status_code, existing.status_code)
+        self.assertEqual(existing.status_code, 404)
