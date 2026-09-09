@@ -172,21 +172,3 @@ class DetectionResult(models.Model):
             "period_days": days,
             "threshold": threshold,
         }
-
-
-class MultiDetectionBatch(models.Model):
-    fruit_type: models.CharField = models.CharField(max_length=50, db_index=True)
-    batch_hash: models.CharField = models.CharField(
-        max_length=100, unique=True, db_index=True
-    )
-    image_count: models.IntegerField = models.IntegerField()
-    created_at: models.DateTimeField = models.DateTimeField(
-        auto_now_add=True, db_index=True
-    )
-
-    class Meta:
-        db_table = "multi_detection_batches"
-        ordering = ["-created_at"]
-
-    def __str__(self):
-        return f"{self.fruit_type} - {self.batch_hash}"

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from detection.models import DetectionResult, ModelVersion, MultiDetectionBatch
+from detection.models import DetectionResult, ModelVersion
 
 
 @admin.register(DetectionResult)
@@ -9,14 +9,6 @@ class DetectionResultAdmin(admin.ModelAdmin):
     list_display = ["fruit_type", "detected_count", "confidence_score", "model_version", "created_at"]
     list_filter = ["fruit_type", "created_at"]
     search_fields = ["fruit_type", "model_version", "task_id"]
-    readonly_fields = ["created_at"]
-    ordering = ["-created_at"]
-
-
-@admin.register(MultiDetectionBatch)
-class MultiDetectionBatchAdmin(admin.ModelAdmin):
-    list_display = ["fruit_type", "batch_hash", "image_count", "created_at"]
-    list_filter = ["fruit_type", "created_at"]
     readonly_fields = ["created_at"]
     ordering = ["-created_at"]
 
