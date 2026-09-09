@@ -62,12 +62,13 @@ class BackupCode(models.Model):
     @classmethod
     def verify(cls, user, submitted_code: str) -> bool:
         code_hash = hashlib.sha256(submitted_code.encode()).hexdigest()
-        bc = cls.objects.filter(user=user, code_hash=code_hash, used=False).first()
-        if bc:
-            bc.used = True
-            bc.save(update_fields=["used"])
-            return True
-        return False
+        # One conditional update, so the used=False test and the write are the
+        # same statement. Reading the row and saving it afterwards let two
+        # callers both see an unused code and both succeed.
+        claimed = cls.objects.filter(
+            user=user, code_hash=code_hash, used=False
+        ).update(used=True)
+        return claimed == 1
 
 
 @receiver(post_save, sender=User)
