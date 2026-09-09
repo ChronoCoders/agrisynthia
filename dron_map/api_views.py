@@ -279,7 +279,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         from itertools import groupby
         from operator import attrgetter
 
-        all_projects = Projects.objects.all().order_by("Farm")
+        all_projects = self.get_queryset().order_by("Farm")
 
         result = []
         for farm_name, projects in groupby(all_projects, key=attrgetter("Farm")):
@@ -300,7 +300,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
         from django.db.models import Count
 
         states = (
-            Projects.objects.values("State")
+            self.get_queryset()
+            .values("State")
             .annotate(project_count=Count("id"))
             .order_by("State")
         )
@@ -327,12 +328,14 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def statistics(self, request):
         from django.db.models import Count
 
+        queryset = self.get_queryset()
+
         stats = {
-            "total_projects": Projects.objects.count(),
-            "total_farms": Projects.objects.values("Farm").distinct().count(),
-            "total_fields": Projects.objects.values("Field").distinct().count(),
+            "total_projects": queryset.count(),
+            "total_farms": queryset.values("Farm").distinct().count(),
+            "total_fields": queryset.values("Field").distinct().count(),
             "projects_by_state": list(
-                Projects.objects.values("State").annotate(count=Count("id"))
+                queryset.values("State").annotate(count=Count("id"))
             ),
         }
 
