@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.views.decorators.http import require_POST, require_GET
 from django.conf import settings
 
+from detection.models import DetectionResult
 from dron_map.models import Projects
 from .models import GeneratedReport, ScheduledReport
 from .tasks import generate_detection_report, generate_drone_report
@@ -44,6 +45,14 @@ def request_detection_report(request):
         if not detection_result_id:
             return JsonResponse({"error": "detection_result_id zorunludur"}, status=400)
 
+        # Scoped lookup rather than get_object_or_404: the except Exception below
+        # catches Http404 and would answer 500 instead of 404.
+        owns_result = DetectionResult.objects.filter(
+            pk=detection_result_id, created_by=request.user
+        ).exists()
+        if not owns_result:
+            return JsonResponse({"error": _("Tespit sonucu bulunamadı")}, status=404)
+
         task = generate_detection_report.delay(
             detection_result_id, formats=formats, user_id=request.user.pk
         )
@@ -67,6 +76,12 @@ def request_drone_report(request):
 
         if not project_id:
             return JsonResponse({"error": "project_id zorunludur"}, status=400)
+
+        owns_project = Projects.objects.filter(
+            pk=project_id, created_by=request.user
+        ).exists()
+        if not owns_project:
+            return JsonResponse({"error": _("Proje bulunamadı")}, status=404)
 
         analysis_data = get_latest_analysis_data(project_id)
         if not analysis_data:
