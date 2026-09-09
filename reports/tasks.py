@@ -24,13 +24,24 @@ def generate_detection_report(
     detection_result_id: int,
     formats: List[str],
     user_id: Optional[int] = None,
-) -> dict:
+) -> Optional[dict]:
     results = {}
     try:
         detection_result = DetectionResult.objects.get(pk=detection_result_id)
     except DetectionResult.DoesNotExist:
         logger.error("DetectionResult %s bulunamadı.", detection_result_id)
         return results
+
+    # A mismatch is an authorization failure, not a transient one, so it is not
+    # raised and not retried. A caller that passes no user_id is internal:
+    # reports/signals.py and the beat schedule own no requester.
+    if user_id is not None and detection_result.created_by_id != user_id:
+        logger.warning(
+            "Kullanıcı %s, sahibi olmadığı DetectionResult %s için rapor istedi.",
+            user_id,
+            detection_result_id,
+        )
+        return None
 
     user = None
     if user_id is not None:
@@ -83,13 +94,21 @@ def generate_drone_report(
     analysis_data: dict,
     formats: List[str],
     user_id: Optional[int] = None,
-) -> dict:
+) -> Optional[dict]:
     results = {}
     try:
         project = Projects.objects.get(pk=project_id)
     except Projects.DoesNotExist:
         logger.error("Proje %s bulunamadı.", project_id)
         return results
+
+    if user_id is not None and project.created_by_id != user_id:
+        logger.warning(
+            "Kullanıcı %s, sahibi olmadığı proje %s için rapor istedi.",
+            user_id,
+            project_id,
+        )
+        return None
 
     user = None
     if user_id is not None:
