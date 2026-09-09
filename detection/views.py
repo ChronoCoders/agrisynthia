@@ -112,6 +112,39 @@ def sanitize_filename(filename: str) -> str:
     return f"{uuid.uuid4().hex}_{safe_name[:50]}{ext.lower()}"
 
 
+def _caller_owns_media(clean_path: str, user) -> bool:
+    from accounts.models import UserProfile
+    from dron_map.models import Projects
+    from reports.models import GeneratedReport
+
+    from detection.models import DetectionResult
+
+    if clean_path.startswith("detected/"):
+        # image_path is stored as detected/<id>/<name> by the async task and as
+        # detected/<id>/ by the multi image path, so ownership is matched on the
+        # <id> directory rather than the leaf name.
+        parts = clean_path.split("/")
+        if len(parts) < 3:
+            return False
+        return DetectionResult.objects.filter(
+            image_path__startswith="%s/%s/" % (parts[0], parts[1]),
+            created_by=user,
+        ).exists()
+
+    if clean_path.startswith("avatars/"):
+        return UserProfile.objects.filter(avatar=clean_path, user=user).exists()
+
+    if clean_path.startswith("assets/images/"):
+        return Projects.objects.filter(picture=clean_path, created_by=user).exists()
+
+    if clean_path.startswith("reports/"):
+        return GeneratedReport.objects.filter(
+            file_path=clean_path, created_by=user
+        ).exists()
+
+    return False
+
+
 @login_required
 @require_http_methods(["GET"])
 def serve_media_file(request: HttpRequest, file_path: str) -> HttpResponse:
@@ -120,6 +153,11 @@ def serve_media_file(request: HttpRequest, file_path: str) -> HttpResponse:
     clean_path = os.path.normpath(file_path).lstrip("/").replace("\\", "/")
     if ".." in clean_path:
         return HttpResponse("Geçersiz dosya yolu", status=400)
+
+    # Same body and status as a missing file, so the response cannot be used to
+    # tell an existing path owned by someone else from one that is not there.
+    if not _caller_owns_media(clean_path, request.user):
+        return HttpResponse("Dosya bulunamadı", status=404)
 
     if getattr(django_settings, "USE_R2", False):
         from django.core.files.storage import default_storage
