@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from .models import GeneratedReport
 from detection.models import DetectionResult
+from dron_map.models import Projects
 from reports.signals import auto_generate_detection_report
 from unittest.mock import patch
 import os
@@ -14,6 +15,7 @@ class ReportTests(TestCase):
 
         self.client = Client()
         self.user = User.objects.create_user(username='testuser', password='password')
+        self.other = User.objects.create_user(username='otheruser', password='password')
         self.client.login(username='testuser', password='password')
         
         self.detection = DetectionResult.objects.create(
@@ -24,7 +26,28 @@ class ReportTests(TestCase):
             weight=10.5,
             total_weight=105.0,
             processing_time=1.2,
-            image_path="test.jpg"
+            image_path="test.jpg",
+            created_by=self.user,
+        )
+
+        self.other_detection = DetectionResult.objects.create(
+            fruit_type="apple",
+            tree_count=10,
+            tree_age=5,
+            detected_count=100,
+            weight=10.5,
+            total_weight=105.0,
+            processing_time=1.2,
+            image_path="other.jpg",
+            created_by=self.other,
+        )
+
+        self.other_project = Projects.objects.create(
+            Farm="Other Farm",
+            Field="Other Field",
+            Title="Other Project",
+            State="Active",
+            created_by=self.other,
         )
         
         self.report = GeneratedReport.objects.create(
@@ -76,3 +99,35 @@ class ReportTests(TestCase):
         response = self.client.post(reverse('reports:delete', args=[report_id]))
         self.assertEqual(response.status_code, 200)
         self.assertFalse(GeneratedReport.objects.filter(id=report_id).exists())
+
+    @patch('reports.tasks.generate_detection_report.delay')
+    def test_request_detection_report_rejects_foreign_result(self, mock_task):
+        mock_task.return_value.id = '456-task-id'
+        data = {
+            'detection_result_id': self.other_detection.id,
+            'formats': ['pdf']
+        }
+        response = self.client.post(
+            reverse('reports:request-detection'),
+            data,
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 404)
+        self.assertFalse(mock_task.called)
+
+    @patch('reports.views.get_latest_analysis_data')
+    @patch('reports.tasks.generate_drone_report.delay')
+    def test_request_drone_report_rejects_foreign_project(self, mock_task, mock_analysis):
+        mock_task.return_value.id = '789-task-id'
+        mock_analysis.return_value = {'project_id': self.other_project.id, 'stress_zones': []}
+        data = {
+            'project_id': self.other_project.id,
+            'formats': ['pdf']
+        }
+        response = self.client.post(
+            reverse('reports:request-drone'),
+            data,
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 404)
+        self.assertFalse(mock_task.called)
