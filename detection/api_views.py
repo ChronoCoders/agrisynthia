@@ -36,14 +36,16 @@ class DetectionResultViewSet(viewsets.ModelViewSet):
     def statistics(self, request):
         from django.db.models import Avg, Count, Sum
 
-        stats = DetectionResult.objects.aggregate(
+        queryset = self.get_queryset()
+
+        stats = queryset.aggregate(
             total_detections=Count("id"),
             total_fruits_detected=Sum("detected_count"),
             total_weight=Sum("total_weight"),
             avg_processing_time=Avg("processing_time"),
         )
 
-        fruit_stats = DetectionResult.objects.values("fruit_type").annotate(
+        fruit_stats = queryset.values("fruit_type").annotate(
             count=Count("id"),
             total_detected=Sum("detected_count"),
             total_weight=Sum("total_weight"),
@@ -58,7 +60,7 @@ class DetectionResultViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["get"])
     def recent(self, request):
-        recent_results = self.queryset.order_by("-created_at")[:10]
+        recent_results = self.get_queryset().order_by("-created_at")[:10]
         serializer = self.get_serializer(recent_results, many=True)
         return Response(serializer.data)
 
