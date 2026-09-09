@@ -24,7 +24,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from .cache_utils import calculate_image_hash
-from .models import DetectionResult, MultiDetectionBatch
+from .models import DetectionResult
 
 
 class DetectionResultModelTests(TestCase):
@@ -60,24 +60,6 @@ class DetectionResultModelTests(TestCase):
         """Test model degradation check method."""
         result = self.detection.check_model_degradation()
         self.assertIsInstance(result, dict)
-
-
-class MultiDetectionBatchTests(TestCase):
-    """Test cases for MultiDetectionBatch model."""
-
-    def setUp(self):
-        """Set up test data."""
-        self.batch = MultiDetectionBatch.objects.create(
-            fruit_type="elma",
-            batch_hash="abc123def456",
-            image_count=10,
-        )
-
-    def test_batch_creation(self):
-        """Test batch creation."""
-        self.assertEqual(self.batch.fruit_type, "elma")
-        self.assertEqual(self.batch.image_count, 10)
-        self.assertEqual(self.batch.batch_hash, "abc123def456")
 
 
 class DetectionAPITests(APITestCase):

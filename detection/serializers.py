@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import DetectionResult, MultiDetectionBatch
+from .models import DetectionResult
 
 
 class DetectionResultSerializer(serializers.ModelSerializer):
@@ -32,22 +32,4 @@ class DetectionResultSerializer(serializers.ModelSerializer):
     def validate_detected_count(self, value):
         if value < 0:
             raise serializers.ValidationError("Detected count cannot be negative")
-        return value
-
-
-class MultiDetectionBatchSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MultiDetectionBatch
-        fields = [
-            "id",
-            "fruit_type",
-            "batch_hash",
-            "image_count",
-            "created_at",
-        ]
-        read_only_fields = ["id", "created_at", "batch_hash"]
-
-    def validate_image_count(self, value):
-        if value < 1:
-            raise serializers.ValidationError("Image count must be at least 1")
         return value

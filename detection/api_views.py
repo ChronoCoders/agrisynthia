@@ -4,8 +4,8 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .models import DetectionResult, MultiDetectionBatch
-from .serializers import DetectionResultSerializer, MultiDetectionBatchSerializer
+from .models import DetectionResult
+from .serializers import DetectionResultSerializer
 
 
 class DetectionResultViewSet(viewsets.ModelViewSet):
@@ -63,30 +63,3 @@ class DetectionResultViewSet(viewsets.ModelViewSet):
         recent_results = self.get_queryset().order_by("-created_at")[:10]
         serializer = self.get_serializer(recent_results, many=True)
         return Response(serializer.data)
-
-
-class MultiDetectionBatchViewSet(viewsets.ModelViewSet):
-    queryset = MultiDetectionBatch.objects.all()
-    serializer_class = MultiDetectionBatchSerializer
-    permission_classes = [IsAuthenticated]
-    filter_backends = [
-        DjangoFilterBackend,
-        filters.SearchFilter,
-        filters.OrderingFilter,
-    ]
-    filterset_fields = ["fruit_type"]
-    search_fields = ["fruit_type", "batch_hash"]
-    ordering_fields = ["created_at", "image_count"]
-    ordering = ["-created_at"]
-
-    @action(detail=True, methods=["get"])
-    def summary(self, request, pk=None):
-        batch = self.get_object()
-        return Response(
-            {
-                "batch_hash": batch.batch_hash,
-                "fruit_type": batch.fruit_type,
-                "image_count": batch.image_count,
-                "created_at": batch.created_at,
-            }
-        )
