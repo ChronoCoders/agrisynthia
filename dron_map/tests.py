@@ -73,8 +73,8 @@ class ProjectAPITests(APITestCase):
         response = self.client.get("/api/projects/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_get_project_statistics(self):
-        """Test getting project statistics."""
+    def test_get_project_statistics_smoke(self):
+        """Contract only. Tenant isolation is proved in dron_map/test_tenant_isolation.py."""
         response = self.client.get("/api/projects/statistics/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("total_projects", response.data)
