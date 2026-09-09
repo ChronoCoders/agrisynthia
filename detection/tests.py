@@ -94,14 +94,14 @@ class DetectionAPITests(APITestCase):
         response = self.client.get("/api/detections/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_get_detection_statistics(self):
-        """Test getting detection statistics."""
+    def test_get_detection_statistics_smoke(self):
+        """Contract only. Tenant isolation is proved in detection/test_tenant_isolation.py."""
         response = self.client.get("/api/detections/statistics/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("overall", response.data)
 
-    def test_get_recent_detections(self):
-        """Test getting recent detections."""
+    def test_get_recent_detections_smoke(self):
+        """Contract only. Tenant isolation is proved in detection/test_tenant_isolation.py."""
         response = self.client.get("/api/detections/recent/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
