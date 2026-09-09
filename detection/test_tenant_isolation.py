@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django.urls import Resolver404, resolve
 from rest_framework.test import APITestCase
 
 from detection.models import DetectionResult
@@ -82,3 +83,19 @@ class DetectionActionTenantIsolationTests(APITestCase):
         self.assertIsNone(overall["total_weight"])
         self.assertIsNone(overall["avg_processing_time"])
         self.assertEqual(list(response.data["by_fruit_type"]), [])
+
+
+class WithdrawnBatchApiTests(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="batchuser", password="password")
+        self.client.force_authenticate(user=self.user)
+
+    def test_batch_list_route_is_withdrawn(self):
+        self.assertEqual(self.client.get("/api/batches/").status_code, 404)
+        with self.assertRaises(Resolver404):
+            resolve("/api/batches/")
+
+    def test_batch_summary_route_is_withdrawn(self):
+        self.assertEqual(self.client.get("/api/batches/1/summary/").status_code, 404)
+        with self.assertRaises(Resolver404):
+            resolve("/api/batches/1/summary/")
