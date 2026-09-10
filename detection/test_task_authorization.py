@@ -1,12 +1,16 @@
+from datetime import timedelta
 from unittest.mock import patch
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db.models.signals import post_save
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
 
-from detection.models import DetectionResult, ModelVersion
+from detection.models import DetectionResult, DetectionTask, ModelVersion
+from detection.tasks import cleanup_old_results
 from reports.signals import auto_generate_detection_report
 
 # Smallest byte string python-magic reports as image/jpeg, so the upload
@@ -80,3 +84,26 @@ class TaskObservationAuthorizationTests(TestCase):
         self.assertEqual(
             self.client.get(self._status_url(UNKNOWN_TASK)).status_code, 404
         )
+
+
+class TaskBindingRetentionTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="owner", password="password")
+
+    def _binding(self, task_id, age_seconds):
+        row = DetectionTask.objects.create(task_id=task_id, user=self.user)
+        DetectionTask.objects.filter(pk=row.pk).update(
+            created_at=timezone.now() - timedelta(seconds=age_seconds)
+        )
+        return row
+
+    def test_bindings_past_the_result_lifetime_are_pruned(self):
+        expiry = settings.CELERY_RESULT_EXPIRES
+        stale = self._binding("stale-task", expiry + 3600)
+        live = self._binding("live-task", expiry // 2)
+
+        result = cleanup_old_results.apply().get()
+
+        self.assertFalse(DetectionTask.objects.filter(pk=stale.pk).exists())
+        self.assertTrue(DetectionTask.objects.filter(pk=live.pk).exists())
+        self.assertEqual(result["deleted_task_count"], 1)

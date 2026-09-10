@@ -6,7 +6,7 @@ from typing import Any, Dict
 
 from celery import shared_task
 
-from detection.models import DetectionResult, ModelVersion
+from detection.models import DetectionResult, DetectionTask, ModelVersion
 from agrisynthia import predict_tree
 
 from detection.constants import (
@@ -340,11 +340,22 @@ def cleanup_old_results(self, days_old: int = 30) -> Dict[str, Any]:
             failed_file_count,
         )
 
+        # The binding only authorizes observation of a task whose Celery result
+        # still exists, so it is retained for exactly that long and no longer.
+        # Deriving the window from the setting keeps the two from drifting apart.
+        task_cutoff = timezone.now() - timedelta(
+            seconds=getattr(settings, "CELERY_RESULT_EXPIRES", 86400)
+        )
+        deleted_task_count, _ = DetectionTask.objects.filter(
+            created_at__lt=task_cutoff
+        ).delete()
+
         return {
             "status": "SUCCESS",
             "deleted_db_count": int(deleted_db_count),
             "deleted_file_count": int(deleted_file_count),
             "failed_file_count": int(failed_file_count),
+            "deleted_task_count": int(deleted_task_count),
             "cutoff_date": cutoff_date.isoformat(),
         }
 
