@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from django.test import TestCase
+from django.urls import reverse
 from rest_framework.test import APITestCase
 
 from dron_map.models import Projects
@@ -73,3 +75,49 @@ class ProjectAggregateTenantIsolationTests(APITestCase):
         self.assertEqual(stats["total_farms"], 0)
         self.assertEqual(stats["total_fields"], 0)
         self.assertEqual(list(stats["projects_by_state"]), [])
+
+
+class ProjectPageTenantIsolationTests(TestCase):
+    def setUp(self):
+        self.alice = User.objects.create_user(username="alice", password="password")
+        self.bob = User.objects.create_user(username="bob", password="password")
+
+        self.alice_project = Projects.objects.create(
+            Farm="Kuzey Bahce",
+            Field="Parsel A",
+            Title="Alice Project",
+            State="Hasat",
+            created_by=self.alice,
+        )
+        self.bob_project = Projects.objects.create(
+            Farm="Guney Bahce",
+            Field="Parsel B",
+            Title="Bob Project",
+            State="Sulama",
+            created_by=self.bob,
+        )
+        self.client.force_login(self.bob)
+
+    def test_project_list_page_shows_only_own_projects(self):
+        body = self.client.get(reverse("dron_map:projects")).content.decode("utf-8")
+        self.assertIn("Guney Bahce", body)
+        self.assertNotIn("Kuzey Bahce", body)
+        self.assertNotIn("Alice Project", body)
+
+    def test_map_page_refuses_another_tenants_project(self):
+        response = self.client.get(
+            reverse("dron_map:map", args=[self.alice_project.id])
+        )
+        self.assertEqual(response.status_code, 404)
+        self.assertNotIn("Kuzey Bahce", response.content.decode("utf-8"))
+
+    def test_map_page_still_serves_own_project(self):
+        response = self.client.get(
+            reverse("dron_map:map", args=[self.bob_project.id])
+        )
+        self.assertEqual(response.status_code, 200)
+        # map.html never prints the Farm name, but it does emit the project id.
+        self.assertIn(
+            "var projectId = %d" % self.bob_project.id,
+            response.content.decode("utf-8"),
+        )
