@@ -195,7 +195,9 @@ def index(request: HttpRequest) -> HttpResponse:
 
     six_months_ago = timezone.now() - timedelta(days=180)
     monthly_stats = (
-        DetectionResult.objects.filter(created_at__gte=six_months_ago)
+        DetectionResult.objects.filter(
+            created_at__gte=six_months_ago, created_by=request.user
+        )
         .annotate(month=TruncMonth("created_at"))
         .values("month")
         .annotate(avg_count=Avg("detected_count"))
