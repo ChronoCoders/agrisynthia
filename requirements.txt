@@ -17,14 +17,14 @@ click-repl==0.3.0
 color-operations==0.2.0
 contourpy==1.3.2
 cycler==0.12.1
-Django==4.2.17
-django-cors-headers==4.3.1
+Django==5.2.16
+django-cors-headers==4.7.0
 django-csp==4.0
 django-filter==25.1
 django-guardian==3.2.0
-django-redis==5.4.0
+django-redis==6.0.0
 djangorestframework==3.16.1
-drf-spectacular==0.28.0
+drf-spectacular==0.30.0
 drf-spectacular-sidecar==2025.10.1
 et_xmlfile==2.0.0
 fonttools==4.60.1
@@ -99,7 +99,7 @@ zope.event==6.0
 zope.interface==8.0.1
 reportlab==4.1.0
 chardet<6.0.0
-django-prometheus==2.3.1
+django-prometheus==2.5.0
 django-ratelimit==4.1.0
 sentry-sdk[django]==2.29.1
 django-storages[s3]==1.14.4
