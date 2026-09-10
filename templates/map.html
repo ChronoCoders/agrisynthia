@@ -195,7 +195,7 @@
                             </div>
                             <div id="ndvi-no-polygon" style="display:none;font-size:12px;color:#999;margin-bottom:8px;">
                                 {% trans "Tarla sınırı tanımlanmamış." %}
-                                <a href="{% url 'dron_map:add_projects' slug='update' project_id=projes.id %}" style="color:#2E7D32;">{% trans "Düzenle" %}</a>
+                                <a href="{% url 'dron_map:edit_project' slug='update' project_id=projes.id %}" style="color:#2E7D32;">{% trans "Düzenle" %}</a>
                             </div>
                             <div id="ndvi-no-data" style="display:none;font-size:12px;color:#999;margin-bottom:8px;">
                                 {% trans "Henüz NDVI verisi yok. İlk okuma arka planda işleniyor." %}
