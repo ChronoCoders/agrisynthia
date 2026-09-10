@@ -125,8 +125,8 @@
 							<i class="fa fa-file-text-o"></i>
 						</button>
 						{% endif %}
-						<a href="{% url 'dron_map:add_projects' slug='update' id=proj.id %}"><i class="fa-solid fa-pen-to-square"></i></a>
-						<a href="{% url 'dron_map:add_projects' slug='delete' id=proj.id %}"><i class="fa-solid fa-eraser"></i></a>
+						<a href="{% url 'dron_map:edit_project' slug='update' project_id=proj.id %}"><i class="fa-solid fa-pen-to-square"></i></a>
+						<a href="{% url 'dron_map:edit_project' slug='delete' project_id=proj.id %}"><i class="fa-solid fa-eraser"></i></a>
 					</td>
 				</tr>
 				{% endfor %}
