@@ -87,6 +87,26 @@ class ModelVersion(models.Model):
             return cls.objects.filter(fruit_type=fruit_type, is_active=True).latest("created_at")
 
 
+class DetectionTask(models.Model):
+    # Written when the task is queued. A DetectionResult row does not exist
+    # until the task succeeds, and polling happens before that, so ownership of
+    # an in flight task cannot be resolved through the result table.
+    task_id: models.CharField = models.CharField(
+        max_length=255, unique=True, db_index=True
+    )
+    user: models.ForeignKey = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="detection_tasks"
+    )
+    created_at: models.DateTimeField = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "detection_tasks"
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.task_id} ({self.user})"
+
+
 class DetectionResult(models.Model):
     fruit_type: models.CharField = models.CharField(max_length=50, db_index=True)
     tree_count: models.IntegerField = models.IntegerField()

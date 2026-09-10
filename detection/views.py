@@ -33,7 +33,7 @@ from detection.constants import (
     FRUIT_WEIGHTS,
     MAX_DETECTION_FILE_SIZE,
 )
-from detection.models import ModelVersion
+from detection.models import DetectionTask, ModelVersion
 from detection.tasks import process_image_detection
 from agrisynthia import hashing, predict_tree
 from django.utils.translation import gettext_lazy as _
@@ -801,6 +801,8 @@ def async_detection(request: HttpRequest) -> JsonResponse:
             user_id=request.user.pk,
         )
 
+        DetectionTask.objects.create(task_id=task.id, user=request.user)
+
         logger.info("Async detection task queued: %s for %s", task.id, meyve_grubu)
 
         return JsonResponse(
@@ -821,9 +823,16 @@ def async_detection(request: HttpRequest) -> JsonResponse:
         return JsonResponse({"error": _("Bir hata oluştu")}, status=500)
 
 
+def _caller_owns_task(task_id: str, user) -> bool:
+    return DetectionTask.objects.filter(task_id=task_id, user=user).exists()
+
+
 @login_required
 @require_http_methods(["GET"])
 def task_status(request: HttpRequest, task_id: str) -> JsonResponse:
+    if not _caller_owns_task(task_id, request.user):
+        return JsonResponse({"error": _("Görev bulunamadı")}, status=404)
+
     try:
         result = AsyncResult(task_id)
 
@@ -873,7 +882,12 @@ def task_status(request: HttpRequest, task_id: str) -> JsonResponse:
 
 @login_required
 @require_http_methods(["GET"])
-def detection_task_stream(request: HttpRequest, task_id: str) -> StreamingHttpResponse:
+def detection_task_stream(
+    request: HttpRequest, task_id: str
+) -> StreamingHttpResponse | JsonResponse:
+    if not _caller_owns_task(task_id, request.user):
+        return JsonResponse({"error": _("Görev bulunamadı")}, status=404)
+
     import json
 
     def _event_stream():
