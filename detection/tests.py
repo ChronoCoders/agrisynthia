@@ -24,7 +24,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from .cache_utils import calculate_image_hash
-from .models import DetectionResult
+from .models import DetectionResult, DetectionTask
 
 
 class DetectionResultModelTests(TestCase):
@@ -311,6 +311,9 @@ class TaskStatusViewTests(TestCase):
         self.client = Client()
         self.user = User.objects.create_user(username="taskuser", password="pass123")
         self.client.login(username="taskuser", password="pass123")
+        # The endpoint now authorizes through the dispatch time binding, so a
+        # task the caller never queued is refused before AsyncResult is touched.
+        DetectionTask.objects.create(task_id="fake-task-id", user=self.user)
 
     @patch("detection.views.AsyncResult")
     def test_pending_task_status(self, mock_async_result):
@@ -347,6 +350,7 @@ class DetectionTaskStreamTests(TestCase):
         self.client = Client()
         self.user = User.objects.create_user(username="streamer", password="pass123")
         self.client.login(username="streamer", password="pass123")
+        DetectionTask.objects.create(task_id="abc", user=self.user)
 
     def test_requires_login(self):
         Client().get("/detection/task-stream/abc/").status_code  # warm up
