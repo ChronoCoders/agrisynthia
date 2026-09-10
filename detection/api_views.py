@@ -8,7 +8,7 @@ from .models import DetectionResult
 from .serializers import DetectionResultSerializer
 
 
-class DetectionResultViewSet(viewsets.ModelViewSet):
+class DetectionResultViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = DetectionResult.objects.all()
     serializer_class = DetectionResultSerializer
     permission_classes = [IsAuthenticated]
