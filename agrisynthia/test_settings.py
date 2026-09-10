@@ -8,7 +8,12 @@ from .settings import *
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.dummy.DummyCache",
-    }
+    },
+    # The alias must exist or every rate limited view raises here. Dummy keeps
+    # the suite's existing behaviour; tests that need a live limiter override it.
+    "ratelimit": {
+        "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+    },
 }
 
 # DISABLE CELERY FOR TESTS

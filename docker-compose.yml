@@ -30,8 +30,12 @@ services:
       - redis_data:/data
     ports:
       - "127.0.0.1:6379:6379"
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?REDIS_PASSWORD is required}
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      # Must authenticate, or an auth enabled Redis never reports healthy
+      # and every depends_on waiting for it stalls.
+      test: ["CMD-SHELL", "redis-cli -a \"$$REDIS_PASSWORD\" ping | grep -q PONG"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -42,7 +46,7 @@ services:
       --appendonly yes
       --maxmemory 512mb
       --maxmemory-policy allkeys-lru
-      --requirepass ${REDIS_PASSWORD:-}
+      --requirepass ${REDIS_PASSWORD:?REDIS_PASSWORD is required}
     restart: unless-stopped
 
   # Django Web Application
@@ -80,9 +84,7 @@ services:
       DATABASE_PORT: 5432
       REDIS_HOST: redis
       REDIS_PORT: 6379
-      REDIS_DB: 0
-      CELERY_BROKER_URL: redis://redis:6379/0
-      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?REDIS_PASSWORD is required}
     depends_on:
       db:
         condition: service_healthy
@@ -137,8 +139,7 @@ services:
       DATABASE_PORT: 5432
       REDIS_HOST: redis
       REDIS_PORT: 6379
-      CELERY_BROKER_URL: redis://redis:6379/0
-      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?REDIS_PASSWORD is required}
     depends_on:
       db:
         condition: service_healthy
@@ -175,8 +176,7 @@ services:
       DATABASE_PORT: 5432
       REDIS_HOST: redis
       REDIS_PORT: 6379
-      CELERY_BROKER_URL: redis://redis:6379/0
-      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?REDIS_PASSWORD is required}
     depends_on:
       db:
         condition: service_healthy
@@ -233,7 +233,7 @@ services:
     container_name: agrisynthia_redis_exporter
     environment:
       REDIS_ADDR: redis://redis:6379
-      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?REDIS_PASSWORD is required}
     networks:
       - agrisynthia_network
     restart: unless-stopped
@@ -258,7 +258,11 @@ services:
     profiles: [monitoring]
     container_name: agrisynthia_celery_exporter
     environment:
-      CE_BROKER_URL: ${CELERY_BROKER_URL:-redis://redis:6379/0}
+      # celery-exporter takes a broker URI and exposes no separate password
+      # setting, so this is the one place a password still enters a URL. A
+      # secret containing @ : / # or % will need encoding here by hand.
+      # Monitoring profile only. Verify against the image documentation.
+      CE_BROKER_URL: redis://:${REDIS_PASSWORD:?REDIS_PASSWORD is required}@redis:6379/0
     networks:
       - agrisynthia_network
     restart: unless-stopped

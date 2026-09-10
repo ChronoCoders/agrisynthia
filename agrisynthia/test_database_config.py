@@ -56,6 +56,9 @@ def load_settings(environment, **database_vars):
     # Both are demanded by validate_environment before DATABASES is reached.
     env["DJANGO_SECRET_KEY"] = "not-a-real-key-only-for-this-subprocess"
     env["DJANGO_ALLOWED_HOSTS"] = "localhost,127.0.0.1"
+    # The Redis guard added alongside this one also fires outside development,
+    # so a case must clear it to reach the database contract under test.
+    env["REDIS_PASSWORD"] = "not-a-real-password-only-for-this-subprocess"
     env.update(database_vars)
 
     work_dir = Path(tempfile.mkdtemp())

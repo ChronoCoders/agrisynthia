@@ -162,12 +162,13 @@ DB_PASSWORD = os.environ.get("DATABASE_PASSWORD")
 DB_HOST = os.environ.get("DATABASE_HOST")
 DB_PORT = os.environ.get("DATABASE_PORT")
 
-# Only these two fall back to SQLite. Any other value, a misspelled one
-# included, is treated as production so a typo cannot buy a silent fallback.
-_DB_EXEMPT_ENVIRONMENTS = ("development", "test")
+# Only these two fall back to a local default. Any other value, a misspelled
+# one included, is treated as production so a typo cannot buy a silent
+# fallback. Shared by the database and Redis guards.
+_EXEMPT_ENVIRONMENTS = ("development", "test")
 _DB_REQUIRED = ("DATABASE_NAME", "DATABASE_USER", "DATABASE_PASSWORD", "DATABASE_HOST")
 
-if ENVIRONMENT not in _DB_EXEMPT_ENVIRONMENTS and not all(
+if ENVIRONMENT not in _EXEMPT_ENVIRONMENTS and not all(
     [DB_NAME, DB_USER, DB_PASSWORD, DB_HOST]
 ):
     from django.core.exceptions import ImproperlyConfigured
@@ -217,6 +218,46 @@ else:
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
+
+# ==============================================================================
+# REDIS
+# ==============================================================================
+# These primitives are the source of truth. Every Redis URL in the project is
+# constructed here, once, with the password percent encoded, so a generated
+# secret containing @ : / # or % cannot make a connection string ambiguous.
+# Compose supplies these three values and assembles no URLs of its own.
+REDIS_HOST = os.environ.get("REDIS_HOST", "localhost")
+REDIS_PORT = os.environ.get("REDIS_PORT", "6379")
+REDIS_PASSWORD = os.environ.get("REDIS_PASSWORD", "")
+
+# Three logical databases on one server, so flushing the prediction cache
+# cannot discard queued work or rate limit counters. The numbers are resolved
+# here rather than carried as environment variables, because each applies to
+# exactly one consumer.
+_REDIS_DB_BROKER = "0"
+_REDIS_DB_CACHE = "1"
+_REDIS_DB_RATELIMIT = "2"
+
+if ENVIRONMENT not in _EXEMPT_ENVIRONMENTS and not REDIS_PASSWORD:
+    from django.core.exceptions import ImproperlyConfigured
+
+    raise ImproperlyConfigured(
+        "DJANGO_ENVIRONMENT=%r requires REDIS_PASSWORD. An empty value runs "
+        "Redis unauthenticated on a network the application shares. Only the "
+        "'development' and 'test' environments may omit it." % ENVIRONMENT
+    )
+
+
+def _redis_url(db: str) -> str:
+    from urllib.parse import quote
+
+    auth = ":%s@" % quote(REDIS_PASSWORD, safe="") if REDIS_PASSWORD else ""
+    return "redis://%s%s:%s/%s" % (auth, REDIS_HOST, REDIS_PORT, db)
+
+
+REDIS_CACHE_URL = _redis_url(_REDIS_DB_CACHE)
+REDIS_RATELIMIT_URL = _redis_url(_REDIS_DB_RATELIMIT)
+
 
 # GeoDjango: Windows requires explicit DLL paths.
 # Set GDAL_LIBRARY_PATH and GEOS_LIBRARY_PATH in .env if using Windows.
@@ -591,13 +632,9 @@ CORS_ALLOW_HEADERS = [
 # CELERY CONFIGURATION
 # ==============================================================================
 
-# Celery broker URL (Redis)
-CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "redis://localhost:6379/0")
-
-# Celery result backend (Redis)
-CELERY_RESULT_BACKEND = os.environ.get(
-    "CELERY_RESULT_BACKEND", "redis://localhost:6379/0"
-)
+# Broker and result backend, built from the Redis primitives above.
+CELERY_BROKER_URL = _redis_url(_REDIS_DB_BROKER)
+CELERY_RESULT_BACKEND = _redis_url(_REDIS_DB_BROKER)
 
 # Celery task serializer
 CELERY_TASK_SERIALIZER = "json"
@@ -681,12 +718,18 @@ CELERY_RESULT_EXTENDED = True
 # REDIS CACHE CONFIGURATION
 # ==============================================================================
 
-# Redis cache backend for detection result caching
-# If Redis is not available, it will fall back gracefully due to IGNORE_EXCEPTIONS
+# Two aliases with deliberately different failure policies.
+#
+# default: prediction and page caching. IGNORE_EXCEPTIONS is kept, because
+# degrading to uncached inference during a Redis blip is acceptable.
+#
+# ratelimit: security throttling state. IGNORE_EXCEPTIONS is deliberately
+# absent, so a dead Redis rejects throttled requests rather than silently
+# stopping the counters and waving every attempt through.
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": os.environ.get("REDIS_CACHE_URL", "redis://localhost:6379/1"),
+        "LOCATION": REDIS_CACHE_URL,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "SOCKET_CONNECT_TIMEOUT": 5,
@@ -700,8 +743,21 @@ CACHES = {
         "KEY_PREFIX": "agrisynthia:v1",  # Version prefix for cache invalidation
         "VERSION": 1,  # Cache version number
         "TIMEOUT": 86400,  # Default cache timeout: 24 hours
-    }
+    },
+    "ratelimit": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": REDIS_RATELIMIT_URL,
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "SOCKET_CONNECT_TIMEOUT": 5,
+            "SOCKET_TIMEOUT": 5,
+        },
+        "KEY_PREFIX": "agrisynthia:ratelimit",
+    },
 }
+
+# django_ratelimit counts through this alias, not the fail-open default one.
+RATELIMIT_USE_CACHE = "ratelimit"
 
 
 # Cache key format for predictions
