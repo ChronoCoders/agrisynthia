@@ -225,6 +225,11 @@ def test_get_model_reports_missing_weights_clearly():
 def test_get_model_without_active_version_raises_lookup():
     from agrisynthia import predict_tree
 
+    from detection.models import ModelVersion
+
+    # Migration 0012 seeds seftale, so the missing row this test is about has
+    # to be created rather than inherited from --nomigrations.
+    ModelVersion.objects.filter(fruit_type="seftale").delete()
     predict_tree.evict_model_cache("seftale")
     with pytest.raises(LookupError, match="No active ModelVersion"):
         predict_tree.get_model(fruit_type="seftale")

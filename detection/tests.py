@@ -433,17 +433,23 @@ class ModelVersionGetActiveTests(TestCase):
         """Known fruit, nothing seeded: a data problem, not a caller bug."""
         from detection.models import ModelVersion
 
+        # Migration 0012 seeds every fruit type, so the absence this test is
+        # about has to be created rather than inherited from --nomigrations.
+        ModelVersion.objects.filter(fruit_type="mandalina").delete()
+
         with self.assertRaises(LookupError):
             ModelVersion.get_active("mandalina")
 
     def test_valid_fruit_type_with_an_active_row_returns_it(self):
         from detection.models import ModelVersion
 
-        mv = ModelVersion.objects.create(
+        mv, _ = ModelVersion.objects.update_or_create(
             fruit_type="elma",
             version="v1",
-            weights_path="models/elma/v1/weights.pt",
-            is_active=True,
+            defaults={
+                "weights_path": "models/elma/v1/weights.pt",
+                "is_active": True,
+            },
         )
         self.assertEqual(ModelVersion.get_active("elma").pk, mv.pk)
 
