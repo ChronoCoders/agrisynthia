@@ -798,7 +798,7 @@ def async_detection(request: HttpRequest) -> JsonResponse:
             fruit_type=meyve_grubu,
             tree_count=agac_sayisi_int,
             tree_age=agac_yasi_int,
-            user_id=request.user.pk if request.user.is_authenticated else None,
+            user_id=request.user.pk,
         )
 
         logger.info("Async detection task queued: %s for %s", task.id, meyve_grubu)
