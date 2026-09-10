@@ -376,8 +376,20 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
+# Django 4.2 replaced DEFAULT_FILE_STORAGE and STATICFILES_STORAGE with STORAGES
+# and 5.1 removed both. These are Django's own defaults; the conditional
+# overrides below and in the USE_R2 block each replace only the entry they own.
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"
+    },
+}
+
 if not DEBUG and not IS_DEVELOPMENT:
-    STATICFILES_STORAGE = "agrisynthia.storage.IgnoreDuplicatesStaticFilesStorage"
+    STORAGES["staticfiles"] = {
+        "BACKEND": "agrisynthia.storage.IgnoreDuplicatesStaticFilesStorage"
+    }
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -404,7 +416,7 @@ if USE_R2:
     AWS_QUERYSTRING_AUTH = True     # Generate presigned URLs
     AWS_QUERYSTRING_EXPIRE = 3600   # Presigned URL TTL: 1 hour
 
-    DEFAULT_FILE_STORAGE = "agrisynthia.storage.R2MediaStorage"
+    STORAGES["default"] = {"BACKEND": "agrisynthia.storage.R2MediaStorage"}
 
     if _r2_custom_domain:
         MEDIA_URL = f"https://{_r2_custom_domain}/"
