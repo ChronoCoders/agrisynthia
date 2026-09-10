@@ -153,7 +153,7 @@ def get_statistics(task_id: str, stat_type: str) -> Dict[str, Any]:
 
 @login_required
 def projects(request: HttpRequest) -> HttpResponse:
-    projes = Projects.objects.all()
+    projes = Projects.objects.filter(created_by=request.user)
     return render(request, "projects.html", {"projes": projes, "userss": request.user})
 
 
@@ -407,7 +407,7 @@ def convert(input_path: str, output_path: str) -> None:
 
 @login_required
 def maping(request: HttpRequest, id: int) -> HttpResponse:
-    projes = get_object_or_404(Projects, id=id)
+    projes = get_object_or_404(Projects, id=id, created_by=request.user)
     algo = options.algorithm
     colors = options.colormaps
 
