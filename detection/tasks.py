@@ -2,7 +2,7 @@ import logging
 import os
 import time
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 from celery import shared_task
 
@@ -94,7 +94,7 @@ def process_image_detection(
     fruit_type: str,
     tree_count: int,
     tree_age: int,
-    user_id: Optional[int] = None,
+    user_id: int,
 ) -> Dict[str, Any]:
     try:
         self.update_state(
@@ -175,6 +175,7 @@ def process_image_detection(
             image_path=f"detected/{unique_id}/{Path(image_path).name}",
             task_id=self.request.id,
             bbox_coordinates=bbox_centers,
+            created_by_id=user_id,
         )
 
         logger.info(
