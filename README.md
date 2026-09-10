@@ -220,7 +220,7 @@ Full schema at `/docs/` (Swagger) and `/redoc/`. **Every API endpoint requires a
 
 | Method | Path | Description |
 |---|---|---|
-| `GET` `POST` | `/api/detections/` | List and create |
+| `GET` | `/api/detections/` | List |
 | `GET` | `/api/detections/<id>/` | Retrieve |
 | `GET` | `/api/detections/statistics/` | Aggregates |
 | `GET` | `/api/detections/recent/` | Last 10 |
