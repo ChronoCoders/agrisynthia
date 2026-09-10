@@ -65,6 +65,19 @@ class _Ancestor:
         return _Ancestor(self._root, self._remaining - 1)
 
 
+@pytest.fixture(autouse=True)
+def _empty_model_versions(db):
+    """Start every test in this module from an empty ModelVersion table.
+
+    seed_model_versions uses get_or_create, so with migrations enabled the rows
+    0012 already wrote would make the first call a no op and the assertions would
+    describe the migrated database rather than the function. Clearing once per
+    test states that precondition without changing what a second call inside one
+    test observes, which is what test_rerun_does_not_duplicate_or_overwrite is for.
+    """
+    ModelVersion.objects.all().delete()
+
+
 @pytest.fixture
 def seed(monkeypatch):
     """Run seed_model_versions with the project root pointed at tmp_path."""

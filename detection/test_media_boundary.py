@@ -32,11 +32,17 @@ class MediaBoundarySystemTests(TestCase):
 
         self.alice = User.objects.create_user(username="alice", password="password")
         self.bob = User.objects.create_user(username="bob", password="password")
-        ModelVersion.objects.create(
+        # Migration 0012 seeds one active v1 per fruit type, so this row
+        # already exists when the suite runs with migrations enabled.
+        # update_or_create states the precondition the test needs without
+        # assuming which mode built the database.
+        ModelVersion.objects.update_or_create(
             fruit_type="elma",
             version="v1",
-            weights_path="models/elma/v1/weights.pt",
-            is_active=True,
+            defaults={
+                "weights_path": "models/elma/v1/weights.pt",
+                "is_active": True,
+            },
         )
 
         self.alice_sync = self._sync_detection(self.alice, ALICE_SLUG, "alice.jpg")
