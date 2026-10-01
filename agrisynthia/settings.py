@@ -782,14 +782,21 @@ if _SENTRY_DSN:
     )
 
 # Model identifier for the marketing-site chatbot. Kept out of the repository, so
-# it has no default and must come from the environment.
+# it has no default and must come from the environment. Only the development and
+# test environments may omit it. DJANGO_ENVIRONMENT is read raw here instead of
+# through ENVIRONMENT, because ENVIRONMENT defaults an absent name to development
+# while an absent or unrecognised name has to count as production.
 ANTHROPIC_MODEL = os.environ.get("ANTHROPIC_MODEL")
 
-if not ANTHROPIC_MODEL:
+if (
+    os.environ.get("DJANGO_ENVIRONMENT") not in _EXEMPT_ENVIRONMENTS
+    and not ANTHROPIC_MODEL
+):
     from django.core.exceptions import ImproperlyConfigured
 
     raise ImproperlyConfigured(
         "ANTHROPIC_MODEL is not set. The chatbot sends it as the model "
-        "identifier, there is no default, and an unset value would surface "
-        "as a failed request rather than a failed start."
+        "identifier and there is no default. Only the 'development' and "
+        "'test' environments may omit it, and an absent or unrecognised "
+        "DJANGO_ENVIRONMENT counts as production."
     )
