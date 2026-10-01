@@ -792,3 +792,16 @@ if _SENTRY_DSN:
         environment=ENVIRONMENT,
         send_default_pii=False,
     )
+
+# Model identifier for the marketing-site chatbot. Kept out of the repository, so
+# it has no default and must come from the environment.
+ANTHROPIC_MODEL = os.environ.get("ANTHROPIC_MODEL")
+
+if not ANTHROPIC_MODEL:
+    from django.core.exceptions import ImproperlyConfigured
+
+    raise ImproperlyConfigured(
+        "ANTHROPIC_MODEL is not set. The chatbot sends it as the model "
+        "identifier, there is no default, and an unset value would surface "
+        "as a failed request rather than a failed start."
+    )
