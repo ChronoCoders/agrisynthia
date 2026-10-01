@@ -358,6 +358,7 @@ def chatbot_chat(request):
     import json
     import os
     import anthropic
+    from django.conf import settings
     from django_ratelimit.core import is_ratelimited
 
     if request.user.is_authenticated:
@@ -407,7 +408,7 @@ def chatbot_chat(request):
     try:
         client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
         response = client.messages.create(
-            model="${ANTHROPIC_MODEL}",
+            model=settings.ANTHROPIC_MODEL,
             max_tokens=512,
             system=_CHATBOT_SYSTEM,
             messages=messages,
