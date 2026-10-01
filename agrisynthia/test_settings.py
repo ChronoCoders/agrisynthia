@@ -2,7 +2,13 @@
 Test-specific Django settings.
 Overrides production settings for testing.
 """
-from .settings import *
+import os
+
+# settings.py treats an absent DJANGO_ENVIRONMENT as production, so the test
+# settings name the environment before importing them.
+os.environ.setdefault("DJANGO_ENVIRONMENT", "test")
+
+from .settings import *  # noqa: E402
 
 # OVERRIDE CACHE TO USE DUMMY BACKEND
 CACHES = {
