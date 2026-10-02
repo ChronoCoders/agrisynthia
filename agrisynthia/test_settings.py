@@ -4,9 +4,13 @@ Overrides production settings for testing.
 """
 import os
 
-# settings.py treats an absent DJANGO_ENVIRONMENT as production, so the test
-# settings name the environment before importing them.
-os.environ.setdefault("DJANGO_ENVIRONMENT", "test")
+# ANTHROPIC_MODEL is required unless DJANGO_ENVIRONMENT names development or
+# test, and an absent name counts as production. Naming the environment here
+# instead would push validate_environment into its production branch and demand
+# DJANGO_SECRET_KEY, so the suite supplies a placeholder identifier and leaves
+# the environment alone. The suite never calls the chatbot, and
+# test_chatbot_model_config.py exercises the guard itself in subprocesses.
+os.environ.setdefault("ANTHROPIC_MODEL", "placeholder-for-tests")
 
 from .settings import *  # noqa: E402
 
