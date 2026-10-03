@@ -3,6 +3,13 @@
 # Setup once after clone:  git config core.hooksPath hooks
 set -euo pipefail
 
+# The naming rule, from the one shared library, so this hook and any gate
+# cannot drift apart. Runs before the translation work below.
+root=$(git rev-parse --show-toplevel)
+. "$root/scripts/lib/naming.sh"
+naming_self_test
+naming_staged
+
 staged_po=$(git diff --cached --name-only --diff-filter=ACM | grep -E '^locale/.+\.po$' || true)
 if [ -z "$staged_po" ]; then
     exit 0
