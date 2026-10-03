@@ -20,8 +20,12 @@ if ! command -v msgfmt >/dev/null 2>&1; then
     exit 1
 fi
 
-if ! command -v python >/dev/null 2>&1; then
-    echo "pre-commit: python not on PATH." >&2
+if command -v python3 >/dev/null 2>&1; then
+    PY=python3
+elif command -v python >/dev/null 2>&1; then
+    PY=python
+else
+    echo "pre-commit: neither python3 nor python is on PATH." >&2
     exit 1
 fi
 
@@ -29,7 +33,7 @@ locales=$(echo "$staged_po" | sed -E 's|^locale/([^/]+)/LC_MESSAGES/.+|\1|' | so
 echo "pre-commit: recompiling locales: $locales"
 
 for lang in $locales; do
-    python manage.py compilemessages -l "$lang" >/dev/null
+    "$PY" manage.py compilemessages -l "$lang" >/dev/null
     mo="locale/$lang/LC_MESSAGES/django.mo"
     if [ -f "$mo" ]; then
         git add "$mo"
