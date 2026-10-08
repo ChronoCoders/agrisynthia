@@ -16,6 +16,17 @@ import sys
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "agrisynthia.settings")
 
+# The child must see only the environment the harness built, so an absent
+# variable stays absent. settings.py calls load_dotenv, which fills in any
+# key missing from os.environ, and would hand back the very keys the harness
+# popped. These tests cover the guard, not dotenv, so the loader is a no-op
+# here. settings.py binds the name with "from dotenv import load_dotenv" at
+# its own import time, which is inside django.setup() below, so replacing the
+# module attribute first is what the import then picks up.
+import dotenv
+
+dotenv.load_dotenv = lambda *args, **kwargs: False
+
 try:
     import django
 
@@ -111,6 +122,7 @@ class ChatbotModelConfigTests(TestCase):
     def test_development_environment_without_the_model_starts(self):
         result = load_settings("development", None)
         self.assertIsNone(result.get("error"), result.get("message"))
+        self.assertIsNone(result["model"])
 
     def test_production_with_the_model_starts_and_carries_the_value(self):
         # Without this the suite would also pass if the guard always raised.
