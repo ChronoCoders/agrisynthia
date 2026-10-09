@@ -261,3 +261,80 @@ def test_entry_points_reject_positional_arguments(call):
 
     with pytest.raises(TypeError, match="positional argument"):
         call(predict_tree)
+
+
+# ---------------------------------------------------------------------------
+# Every fruit model, not just mandalina.
+#
+# The five tests above all load mandalina. The other five checkpoints had never
+# been loaded by any test, which matters most for agac, the model the drone tree
+# count depends on, and for nar, whose checkpoint is a different YOLOv7 variant:
+# 112 backbone layers against 51, IAuxDetect instead of IDetect, four anchor
+# sets and stride 64, 164.9 M parameters against 37.2 M. IAuxDetect has a
+# different forward signature, and predict_tree had only ever been exercised
+# against the IDetect path.
+#
+# The fruit types come from detection.constants, so a model added there is
+# covered without editing this file.
+#
+# What this proves and what it does not: _write_image draws orange circles on a
+# flat green canvas, built to trigger the mandarin detector. It is not a drone
+# capture of any of these fruits, and for agac, which counts trees in an
+# orthophoto, it resembles nothing in its training set. A count of zero is
+# therefore the expected outcome for most models here. These assertions cover
+# loading and a well formed prediction, which is the `if det:` regression class.
+# They are not an accuracy measurement and must not be read as one.
+
+from detection.constants import FRUIT_WEIGHTS  # noqa: E402
+
+ALL_FRUIT_TYPES = sorted(FRUIT_WEIGHTS)
+
+
+def _weights_for(fruit_type):
+    return os.path.join(BASE_DIR, "models", fruit_type, "v1", "weights.pt")
+
+
+@requires_deps
+@pytest.mark.parametrize("fruit_type", ALL_FRUIT_TYPES)
+def test_every_model_loads_and_predicts(
+    fruit_type, tmp_path, output_cleanup, settings, django_db_blocker
+):
+    """Each checkpoint loads through predict_tree and returns a usable tuple."""
+    weights = _weights_for(fruit_type)
+    if not os.path.exists(weights):
+        pytest.skip(f"weights absent for {fruit_type} at {weights}")
+
+    settings.MODEL_CHECKSUM_VERIFY = False
+    from detection.models import ModelVersion
+    from agrisynthia import predict_tree
+
+    version = f"test-{fruit_type}-{uuid.uuid4().hex[:8]}"
+    with django_db_blocker.unblock():
+        ModelVersion.objects.filter(fruit_type=fruit_type).update(is_active=False)
+        mv = ModelVersion.objects.create(
+            fruit_type=fruit_type,
+            version=version,
+            weights_path=f"models/{fruit_type}/v1/weights.pt",
+            is_active=True,
+            checksum_sha256="",
+        )
+    try:
+        image = _write_image(tmp_path / f"{fruit_type}.jpg", blobs=25)
+        count, uid, confidence, boxes = predict_tree.predict(
+            fruit_type=fruit_type, path_to_source=image, return_boxes=True
+        )
+        output_cleanup.append(uid)
+
+        detected = int(count.decode())
+        assert detected >= 0
+        assert len(boxes) == detected, "box count must match the reported count"
+        assert 0.0 <= confidence <= 1.0
+        assert all({"x", "y"} == set(b) for b in boxes)
+        assert all(0 <= b["x"] <= 640 and 0 <= b["y"] <= 640 for b in boxes)
+
+        written = os.path.join(BASE_DIR, "static", "detected", uid)
+        assert os.path.isdir(written), "annotated output directory not written"
+    finally:
+        with django_db_blocker.unblock():
+            mv.delete()
+        predict_tree.evict_model_cache(fruit_type)
