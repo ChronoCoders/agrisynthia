@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+# The project gate. Runs every check, keeps going after a failure, prints one
+# PASS or FAIL line per step, exits non-zero if any step failed.
+#
+#   scripts/gate
+#
+# Every step is blocking. None is advisory or allowlisted. The gate is red
+# until the work behind each step is done, and that is the honest state.
+#
+# Each step's full output goes to .gate-logs/<nn>-<name>.log, which is
+# gitignored. Nothing is discarded, so a FAIL can always be read back.
+
+set -uo pipefail
+
+ROOT=$(git rev-parse --show-toplevel 2>/dev/null) || {
+	echo "gate: not inside a git repository" >&2
+	exit 1
+}
+cd "$ROOT"
+
+# The gate runs the project interpreter, never whatever python is on PATH, so a
+# result cannot depend on the caller's shell. requirements-dev.txt builds it.
+if [ -x ".venv/Scripts/python.exe" ]; then
+	PY="$ROOT/.venv/Scripts/python.exe"
+	RUFF="$ROOT/.venv/Scripts/ruff.exe"
+elif [ -x ".venv/bin/python" ]; then
+	PY="$ROOT/.venv/bin/python"
+	RUFF="$ROOT/.venv/bin/ruff"
+else
+	echo "gate: .venv is missing. Create it first:" >&2
+	echo "  python -m venv .venv" >&2
+	echo "  .venv/Scripts/python -m pip install -r requirements-dev.txt" >&2
+	exit 1
+fi
+
+LOGDIR="$ROOT/.gate-logs"
+rm -rf "$LOGDIR"
+mkdir -p "$LOGDIR"
+
+rc=0
+n=0
+
+step() { # step <name> <command...>
+	n=$((n + 1))
+	local name="$1"
+	shift
+	local slug log
+	slug=$(printf '%s' "$name" | tr ' /' '--' | tr -cd 'A-Za-z0-9-')
+	log=$(printf '%s/%02d-%s.log' "$LOGDIR" "$n" "$slug")
+	if "$@" >"$log" 2>&1; then
+		printf 'PASS  %s\n' "$name"
+	else
+		printf 'FAIL  %s  (%s)\n' "$name" "${log#"$ROOT"/}"
+		rc=1
+	fi
+}
+
+# A fresh 64 character key per run. Shorter than 50 trips security.W009 and
+# would make the deploy step permanently red for a reason that is not a defect.
+deploy_check() {
+	local key
+	key=$("$PY" -c "import secrets; print(secrets.token_urlsafe(96)[:64])") || return 1
+	env \
+		DJANGO_ENVIRONMENT=production \
+		DJANGO_SECRET_KEY="$key" \
+		DJANGO_ALLOWED_HOSTS=gate.invalid \
+		DATABASE_NAME=gate DATABASE_USER=gate DATABASE_PASSWORD=gate \
+		DATABASE_HOST=gate.invalid DATABASE_PORT=5432 \
+		REDIS_PASSWORD=gate \
+		ANTHROPIC_MODEL=gate-placeholder-model \
+		EMAIL_HOST_USER=gate EMAIL_HOST_PASSWORD=gate \
+		GEODJANGO_ENABLED=False \
+		DJANGO_DEBUG=False \
+		"$PY" manage.py check --deploy
+}
+
+banned_name() {
+	# shellcheck source=scripts/lib/naming.sh
+	. "$ROOT/scripts/lib/naming.sh"
+	naming_self_test || return 1
+	naming_tracked
+}
+
+step "ruff check"          "$RUFF" check .
+step "ruff format"         "$RUFF" format --check .
+step "mypy strict"         "$PY" -m mypy --strict --exclude 'detection/yolo/' .
+step "pip-audit"           "$PY" -m pip_audit -r requirements.txt
+step "pytest"              "$PY" -m pytest -q
+step "pytest migrations"   "$PY" -m pytest -c pytest-migrations.ini -q
+step "migrations check"    "$PY" manage.py makemigrations --check --dry-run
+step "deploy check"        deploy_check
+step "weights present"     "$PY" scripts/gate-checks/weights-present.py
+step "inference"           "$PY" -m pytest detection/test_inference.py -q
+step "dash sweep"          "$PY" scripts/gate-checks/dashes.py
+step "instruction leak"    bash scripts/gate-checks/no-instruction-files.sh
+step "banned name"         banned_name
+
+echo
+if [ $rc -eq 0 ]; then
+	echo "gate: all $n steps passed"
+else
+	echo "gate: FAILED. Logs in ${LOGDIR#"$ROOT"/}"
+fi
+exit $rc

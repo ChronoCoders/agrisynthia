@@ -1,0 +1,15 @@
+# Gate and test tooling. Not installed in the production image.
+#
+#   python -m venv .venv
+#   .venv/Scripts/python -m pip install -r requirements-dev.txt    # Windows
+#   .venv/bin/python -m pip install -r requirements-dev.txt        # Linux
+#
+# pytest and pytest-django live here rather than in requirements.txt, so the
+# test runner does not ship to production. scripts/gate needs every pin below.
+-r requirements.txt
+
+pytest==8.0.2
+pytest-django==4.8.0
+ruff==0.16.10
+mypy==1.19.1
+pip-audit==2.10.0

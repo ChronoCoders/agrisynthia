@@ -1,0 +1,30 @@
+# Lint and format configuration for the project gate.
+#
+# detection/yolo is a vendored YOLOv7 tree that predict_tree.py puts on
+# sys.path and imports as top level `models` and `utils`. It is third party
+# source this project does not own, so linting it would measure upstream.
+# Migrations are generated, so they are excluded too.
+
+target-version = "py310"
+line-length = 100
+extend-exclude = ["detection/yolo", "*/migrations/*"]
+
+[lint]
+# E, W  pycodestyle base. E722 is the bare-except prohibition.
+# F     pyflakes. Unused imports, and the undefined-name rules that catch a
+#       NameError before it reaches a request.
+# I     import ordering, so the unused-import rule has a tidy surface.
+# B     bugbear. B904 is error context, B012 and B018 catch silent failures.
+# S     bandit. S101 assert, S102 exec, S307 eval, S602-S604 shell, S301 pickle.
+# T20   T201 print, so runtime logging goes through the structured logger.
+select = ["E", "W", "F", "I", "B", "S", "T20"]
+
+[lint.per-file-ignores]
+# assert is banned for runtime checks, not inside tests.
+"*/tests.py" = ["S101"]
+"*/test_*.py" = ["S101"]
+"*/conftest.py" = ["S101"]
+"scripts/locustfile.py" = ["S101"]
+
+[format]
+quote-style = "double"

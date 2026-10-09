@@ -52,3 +52,6 @@ models/
 
 *.pyc
 __pycache__/
+
+# scripts/gate writes one log per step here.
+.gate-logs/
