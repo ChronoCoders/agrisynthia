@@ -187,6 +187,26 @@ product page also states that TIFF output is supported.
   fruit type validity at `detection/views.py:265`, `:474` and `:733`. A reader
   reasonably assumes the paths are usable.
 
+## Open: the vendored loader can fetch weights over the network
+
+`attempt_download` at `detection/yolo/utils/google_utils.py:26-48` is called by
+`attempt_load` for every weights path. When the file is absent it requests
+`https://api.github.com/repos/WongKinYiu/yolov7/releases/latest` and falls back
+to a hardcoded list of upstream release assets.
+
+Nothing in that function prevents the request. The only reason it never fires is
+call order: `agrisynthia/predict_tree.py:90` checks `model_path.exists()` and
+raises `FileNotFoundError` before `attempt_load` is reached at
+`predict_tree.py:124`.
+
+That is a guard by accident of sequence, not by design. Any future caller that
+reaches `attempt_load` directly, or any reordering of those checks, opens a path
+where a missing project model is silently replaced by a generic upstream one,
+and the first symptom would be wrong counts rather than an error. An offline or
+air-gapped installation must never reach the network for weights at all, so the
+download path needs a guard of its own rather than relying on an earlier caller
+to have checked.
+
 ## Open: the checksum command reports problems and exits zero
 
 `detection/management/commands/verify_model_checksums.py:77-82` prints the
